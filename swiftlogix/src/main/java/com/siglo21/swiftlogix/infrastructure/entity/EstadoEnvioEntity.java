@@ -14,6 +14,7 @@ import java.util.List;
 public class EstadoEnvioEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_estado")
     private Long id;
 
     @Column(name = "nombre")
@@ -21,5 +22,4 @@ public class EstadoEnvioEntity {
 
     @OneToMany(mappedBy = "estado", cascade = CascadeType.ALL)
     private List<CambioEstadoEntity> cambios;
-
 }

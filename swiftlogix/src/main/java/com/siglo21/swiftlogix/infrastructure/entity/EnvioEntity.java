@@ -12,34 +12,35 @@ import java.util.List;
 public class EnvioEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "envio_id")
-    private Long id;
-
-    private String nroFactura;
+    @Column(name = "numero_factura")
+    private String numeroFactura;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id")
+    @JoinColumn(name = "id_cliente")
     private ClienteEntity cliente;
 
     @ManyToOne
-    @JoinColumn(name = "camion_id")
+    @JoinColumn(name = "patente")
     private CamionEntity camion;
 
     @ManyToOne
-    @JoinColumn(name = "zona_id")
+    @JoinColumn(name = "id_zona")
     private ZonaEntity zona;
+
+    @OneToMany(mappedBy = "envio")
+    private List<DetalleEnvioEntity> detalleEnvio;
 
     @Column(name = "direccion_envio")
     private String direccionEnvio;
 
-    @OneToMany(mappedBy = "envio", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "envio")
     private List<CambioEstadoEntity> cambiosEstado;
 
+
     @OneToOne
-    @JoinColumn(name = "estado_actual_id")
+    @JoinColumn(name = "id_estado")
     private EstadoEnvioEntity estadoActual;
 
-    private int ultimosDigitosTarjeta;
+    private String ultimosDigitosTarjeta;
 }
 

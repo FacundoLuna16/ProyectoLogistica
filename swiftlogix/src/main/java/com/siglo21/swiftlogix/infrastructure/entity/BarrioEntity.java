@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 public class BarrioEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer idBarrio;
 
@@ -19,8 +20,5 @@ public class BarrioEntity {
     @Column(name = "Descripcion")
     private String descripcion;
 
-    @ManyToOne
-    @JoinColumn(name = "zona_id")
-    private ZonaEntity zona;
 
 }

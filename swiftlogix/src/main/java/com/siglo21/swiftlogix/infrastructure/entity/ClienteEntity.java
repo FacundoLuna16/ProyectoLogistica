@@ -9,11 +9,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ClienteEntity {
 
-    //
     @Id
-    @Column(name = "ID_CLIENTE")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_cliente")
     private Integer idCliente;
-
 
     //relacion a tipoDocumento
     @ManyToOne
@@ -41,6 +40,4 @@ public class ClienteEntity {
 
     @Column(name = "email")
     private String email;
-
-
 }

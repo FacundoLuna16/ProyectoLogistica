@@ -1,6 +1,5 @@
 package com.siglo21.swiftlogix.infrastructure.entity;
 
-import com.siglo21.swiftlogix.domain.Model.HojaDelDia;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +24,11 @@ public class HojaDelDiaEntity {
     @JoinColumn(name = "patente_camion")
     private CamionEntity camion;
 
-    @OneToMany(mappedBy = "hojaDelDia")
+    @OneToMany
     private List<EnvioEntity> envios;
+
+    @OneToMany
+    private List<RepartidoresEntity> repartidores;
 
     @OneToOne
     private EstadoHojaEntity estadoHojaDelDia;

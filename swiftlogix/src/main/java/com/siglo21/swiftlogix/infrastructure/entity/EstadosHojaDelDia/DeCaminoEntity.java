@@ -5,7 +5,7 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("PENDIENTE")
-public class PendienteEntity extends EstadoHojaEntity {
+@DiscriminatorValue("DeCamino")
+public class DeCaminoEntity extends EstadoHojaEntity {
 
 }

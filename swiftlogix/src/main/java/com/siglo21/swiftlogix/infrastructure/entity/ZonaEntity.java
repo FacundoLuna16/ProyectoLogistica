@@ -12,13 +12,13 @@ import java.util.List;
 public class ZonaEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_zona")
     private Integer idZona;
 
     @Column(name = "dia")
     private String dia;
 
-    @OneToMany(mappedBy = "zona", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY)
     private List<BarrioEntity> barrios;
-
 }

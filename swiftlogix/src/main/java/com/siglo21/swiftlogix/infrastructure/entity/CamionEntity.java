@@ -11,7 +11,6 @@ import java.util.List;
 @Data
 @RequiredArgsConstructor
 public class CamionEntity {
-
     @Id
     @Column(name = "patente")
     private String patente;
@@ -24,8 +23,5 @@ public class CamionEntity {
 
     @Column(name = "descripcion")
     private String descripcion;
-
-    @OneToMany(mappedBy = "camion")
-    private List<HojaDelDiaEntity> hojasDelDia;
 }
 

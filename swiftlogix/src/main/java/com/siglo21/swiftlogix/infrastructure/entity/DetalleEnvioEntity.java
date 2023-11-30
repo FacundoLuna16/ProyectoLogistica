@@ -7,16 +7,16 @@ import lombok.RequiredArgsConstructor;
 @Entity
 @Data
 @RequiredArgsConstructor
-public class RepartidoresEntity {
-
+public class DetalleEnvioEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_repartidor")
-    private Integer idRepartidor;
+    @Column(name = "id_detalle_envio")
+    private Integer id;
 
     @Column(name = "nombre")
     private String nombre;
 
-    @Column(name = "apellido")
-    private String apellido;
+    @ManyToOne
+    @JoinColumn(name = "id_envio")
+    private EnvioEntity envio;
 }
