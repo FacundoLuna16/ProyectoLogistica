@@ -13,7 +13,6 @@ import java.util.List;
 @Setter
 @Getter
 @RequiredArgsConstructor
-@NoArgsConstructor
 public class Zona {
 
     private Integer idZona;

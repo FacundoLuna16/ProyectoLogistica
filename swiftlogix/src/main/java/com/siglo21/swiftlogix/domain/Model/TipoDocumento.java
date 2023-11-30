@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 @Getter
 @Setter
 @RequiredArgsConstructor
-@NoArgsConstructor
 public class TipoDocumento {
     private Integer idTipoDocumento;
     private String descripcion;

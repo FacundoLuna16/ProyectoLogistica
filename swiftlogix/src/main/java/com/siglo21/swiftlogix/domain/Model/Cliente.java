@@ -11,7 +11,6 @@ import lombok.Setter;
 @Setter
 @Getter
 @RequiredArgsConstructor
-@NoArgsConstructor
 public class Cliente {
 
     private Integer idCliente;

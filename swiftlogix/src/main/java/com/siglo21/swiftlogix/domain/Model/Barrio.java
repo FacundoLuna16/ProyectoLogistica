@@ -10,7 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @RequiredArgsConstructor
-@NoArgsConstructor
 public class Barrio {
 
     private Integer idBarrio;
@@ -18,6 +17,8 @@ public class Barrio {
     private String nombre;
 
     private String descripcion;
+
+
 
     public BarrioEntity toEntity() {
         BarrioEntity entity = new BarrioEntity();

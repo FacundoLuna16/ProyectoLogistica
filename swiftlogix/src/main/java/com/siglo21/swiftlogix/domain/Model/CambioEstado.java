@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @RequiredArgsConstructor
-@NoArgsConstructor
 public class CambioEstado {
     private Long idCambio;
     private LocalDateTime fechaHoraInicio;

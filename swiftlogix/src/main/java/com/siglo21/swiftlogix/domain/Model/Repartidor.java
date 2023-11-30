@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 @Getter
 @RequiredArgsConstructor
-@NoArgsConstructor
 public class Repartidor {
     private Integer idRepartidor;
     private String nombre;
