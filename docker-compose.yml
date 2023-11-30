@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  swiftlogix:
+    container_name: swiftlogix
+    build: ./SwiftLogix
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+
+  mysql:
+    container_name: mysqlContainer
+    image: mysql:lastest
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=andes2020
+      - MYSQL_DATABASE=swiftlogix
+      - MYSQL_USER=dev
+      - MYSQL_PASSWORD=andes2020
+    volumes:
+      - ./db/mysql_data:/var/lib/mysql
