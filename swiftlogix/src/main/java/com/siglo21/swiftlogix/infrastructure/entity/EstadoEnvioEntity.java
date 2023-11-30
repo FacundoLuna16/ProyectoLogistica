@@ -10,6 +10,7 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "estado_type")
 @Data
+@Table(name = "EstadosEnvio")
 @RequiredArgsConstructor
 public class EstadoEnvioEntity {
     @Id

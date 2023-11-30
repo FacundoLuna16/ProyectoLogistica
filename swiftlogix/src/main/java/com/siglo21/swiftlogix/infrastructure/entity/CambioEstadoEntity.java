@@ -1,5 +1,6 @@
 package com.siglo21.swiftlogix.infrastructure.entity;
 
+import com.siglo21.swiftlogix.domain.Model.CambioEstado;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Table(name = "CambiosEstado")
 @RequiredArgsConstructor
 public class CambioEstadoEntity {
     @Id
@@ -31,5 +33,15 @@ public class CambioEstadoEntity {
     @ManyToOne
     @JoinColumn(name = "estado_id")
     private EstadoEnvioEntity estado;
+
+    public CambioEstado toDomain() {
+        CambioEstado cambioEstado = new CambioEstado();
+        cambioEstado.setIdCambio(this.idCambio);
+        cambioEstado.setFechaHoraInicio(this.fechaHoraInicio);
+        cambioEstado.setFechaHoraFin(this.fechaHoraFin);
+        cambioEstado.setEnvio(this.envio);
+        cambioEstado.setEstado(this.estado);
+        return cambioEstado;
+    }
 
 }

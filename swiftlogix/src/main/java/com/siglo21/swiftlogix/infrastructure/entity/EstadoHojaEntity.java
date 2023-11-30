@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "estado_type")
 @Data
+@Table(name = "EstadosHoja")
 @RequiredArgsConstructor
 public class EstadoHojaEntity {
     @Id

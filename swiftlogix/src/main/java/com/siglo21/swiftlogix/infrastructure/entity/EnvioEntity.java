@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Table(name = "Envios")
 @RequiredArgsConstructor
 public class EnvioEntity {
 
@@ -32,6 +33,9 @@ public class EnvioEntity {
 
     @Column(name = "direccion_envio")
     private String direccionEnvio;
+
+    @Column(name = "entre_Calles")
+    private String entreCalles;
 
     @OneToMany(mappedBy = "envio")
     private List<CambioEstadoEntity> cambiosEstado;

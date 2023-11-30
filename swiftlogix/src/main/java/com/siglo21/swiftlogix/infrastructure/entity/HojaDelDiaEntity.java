@@ -9,6 +9,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Table(name = "HojasDelDia")
 @RequiredArgsConstructor
 public class HojaDelDiaEntity {
 
@@ -28,7 +29,7 @@ public class HojaDelDiaEntity {
     private List<EnvioEntity> envios;
 
     @OneToMany
-    private List<RepartidoresEntity> repartidores;
+    private List<RepartidorEntity> repartidores;
 
     @OneToOne
     private EstadoHojaEntity estadoHojaDelDia;

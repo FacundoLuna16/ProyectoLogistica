@@ -1,11 +1,13 @@
 package com.siglo21.swiftlogix.infrastructure.entity;
 
+import com.siglo21.swiftlogix.domain.Model.Cliente;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Entity
 @Data
+@Table(name = "Clientes")
 @RequiredArgsConstructor
 public class ClienteEntity {
 
@@ -40,4 +42,18 @@ public class ClienteEntity {
 
     @Column(name = "email")
     private String email;
+
+    public Cliente toModel() {
+        Cliente model = new Cliente();
+        model.setIdCliente(idCliente);
+        model.setTipoDocumento(tipoDocumento.toDomain());
+        model.setNumeroDocumento(numeroDocumento);
+        model.setNombre(nombre);
+        model.setApellido(apellido);
+        model.setDireccion(direccion);
+        model.setNumeroTelefono(numeroTelefono);
+        model.setNumeroTelefonoAlternativo(numeroTelefonoAlternativo);
+        model.setEmail(email);
+        return model;
+    }
 }
