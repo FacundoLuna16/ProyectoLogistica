@@ -13,5 +13,4 @@ public interface EnvioRepository {
 
     Optional<Envio> save(Envio envio);
 
-    Optional<Envio> update(Envio envio);
 }

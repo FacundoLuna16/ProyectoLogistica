@@ -13,5 +13,4 @@ public interface CambioEstadoRepository {
 
     Optional<CambioEstado> save(CambioEstado cambioEstado);
 
-    Optional<CambioEstado> update(CambioEstado cambioEstado);
 }

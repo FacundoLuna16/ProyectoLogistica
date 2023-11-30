@@ -12,5 +12,4 @@ public interface HojaDelDiaRepository {
 
     Optional<HojaDelDia> save(HojaDelDia hojaDelDia);
 
-    Optional<HojaDelDia> update(HojaDelDia hojaDelDia);
 }

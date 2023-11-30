@@ -13,5 +13,4 @@ public interface CamionRepository {
 
     Optional<Camion> save(Camion camion);
 
-    Optional<Camion> update(Camion camion);
 }

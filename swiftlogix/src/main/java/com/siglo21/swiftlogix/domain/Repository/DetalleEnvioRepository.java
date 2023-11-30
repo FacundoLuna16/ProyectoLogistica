@@ -12,5 +12,4 @@ public interface DetalleEnvioRepository {
 
     Optional<DetalleEnvio> save(DetalleEnvio detalleEnvio);
 
-    Optional<DetalleEnvio> update(DetalleEnvio detalleEnvio);
 }

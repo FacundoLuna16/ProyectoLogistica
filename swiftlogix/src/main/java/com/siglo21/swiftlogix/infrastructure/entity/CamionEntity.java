@@ -26,7 +26,7 @@ public class CamionEntity {
     @Column(name = "descripcion")
     private String descripcion;
 
-    public Camion toModel() {
+    public Camion toDomain() {
         Camion model = new Camion();
         model.setPatente(this.patente);
         model.setModelo(this.modelo);
