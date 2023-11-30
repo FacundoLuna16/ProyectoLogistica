@@ -1,6 +1,6 @@
 git ./swiftlogix/target/*
 
-./db
+./db/
 ### IntelliJ IDEA ###
 .idea
 *.iws
