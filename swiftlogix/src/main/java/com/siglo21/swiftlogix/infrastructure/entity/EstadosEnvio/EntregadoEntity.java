@@ -6,5 +6,5 @@ import jakarta.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("ENTREGADO")
-public class Entregado extends EstadoEnvioEntity {
+public class EntregadoEntity extends EstadoEnvioEntity {
 }

@@ -1,24 +1,21 @@
-package com.siglo21.swiftlogix.infrastructure.entity.EstadosEnvio;
+package com.siglo21.swiftlogix.domain.Model.EstadosEnvio;
 
 import com.siglo21.swiftlogix.domain.Model.EstadoEnvio;
-import com.siglo21.swiftlogix.domain.Model.EstadosEnvio.EnCamino;
 import com.siglo21.swiftlogix.infrastructure.entity.EstadoEnvioEntity;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import lombok.Getter;
-import lombok.Setter;
+import com.siglo21.swiftlogix.infrastructure.entity.EstadosEnvio.EnCaminoEntity;
 
-@Entity
-@DiscriminatorValue("EN_CAMINO")
-public class EnCaminoEntity extends EstadoEnvioEntity {
+
+
+public class EnCamino extends EstadoEnvio{
 
     @Override
-    public EstadoEnvio toDomain() {
-        EnCamino estado = new EnCamino();
+    public EstadoEnvioEntity toEntity() {
+        EnCaminoEntity estado = new EnCaminoEntity();
         estado.setId(this.id);
         estado.setNombre(this.nombre);
         return estado;
     }
+
 
     public void setId(Long id) {
         this.id = id;
@@ -26,7 +23,4 @@ public class EnCaminoEntity extends EstadoEnvioEntity {
     public void setNombre(String nombre) {this.nombre = nombre;}
     public Long getId() {return this.id;}
     public String getNombre() {return this.nombre;}
-
-
-
 }

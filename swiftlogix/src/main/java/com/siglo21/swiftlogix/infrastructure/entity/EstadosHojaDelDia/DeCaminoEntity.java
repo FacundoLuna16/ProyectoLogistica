@@ -1,5 +1,7 @@
 package com.siglo21.swiftlogix.infrastructure.entity.EstadosHojaDelDia;
 
+import com.siglo21.swiftlogix.domain.Model.EstadoHoja;
+import com.siglo21.swiftlogix.domain.Model.EstadoHojaDelDia.DeCamino;
 import com.siglo21.swiftlogix.infrastructure.entity.EstadoHojaEntity;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -8,4 +10,11 @@ import jakarta.persistence.Entity;
 @DiscriminatorValue("DeCamino")
 public class DeCaminoEntity extends EstadoHojaEntity {
 
+    @Override
+    public EstadoHoja toModel() {
+        DeCamino estadoHoja = new DeCamino();
+        estadoHoja.setId(this.getId());
+        estadoHoja.setNombre(this.getNombre());
+        return estadoHoja;
+    }
 }

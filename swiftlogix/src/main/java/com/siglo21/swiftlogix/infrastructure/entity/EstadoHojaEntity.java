@@ -1,5 +1,6 @@
 package com.siglo21.swiftlogix.infrastructure.entity;
 
+import com.siglo21.swiftlogix.domain.Model.EstadoHoja;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -10,11 +11,10 @@ import lombok.RequiredArgsConstructor;
 @Data
 @Table(name = "EstadosHoja")
 @RequiredArgsConstructor
-public class EstadoHojaEntity {
+public abstract class EstadoHojaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String ambito;
-    private String nombre;
+    protected Long id;
+    protected String nombre;
+    public abstract EstadoHoja toModel();
 }
