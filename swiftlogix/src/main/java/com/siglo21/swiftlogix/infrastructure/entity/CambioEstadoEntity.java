@@ -27,10 +27,6 @@ public class CambioEstadoEntity {
     private LocalDateTime fechaHoraFin;
 
     @ManyToOne
-    @JoinColumn(name = "envio_numero_factura")
-    private EnvioEntity envio;
-
-    @ManyToOne
     @JoinColumn(name = "estado_id")
     private EstadoEnvioEntity estado;
 
@@ -39,7 +35,6 @@ public class CambioEstadoEntity {
         cambioEstado.setIdCambio(this.idCambio);
         cambioEstado.setFechaHoraInicio(this.fechaHoraInicio);
         cambioEstado.setFechaHoraFin(this.fechaHoraFin);
-        cambioEstado.setEnvio(this.envio);
         cambioEstado.setEstado(this.estado);
         return cambioEstado;
     }

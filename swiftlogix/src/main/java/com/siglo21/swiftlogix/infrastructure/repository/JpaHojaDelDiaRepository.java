@@ -13,33 +13,25 @@ import java.util.Optional;
 public class JpaHojaDelDiaRepository implements HojaDelDiaRepository {
 
     //TODO implementar
-    private final JpaHojaDelDiaDao hojaDelDiaDao;
+    private final JpaHojaDelDiaDao jpaHojaDelDiaDao;
 
-    public JpaHojaDelDiaRepository(JpaHojaDelDiaDao hojaDelDiaDao) {
-        this.hojaDelDiaDao = hojaDelDiaDao;
+    public JpaHojaDelDiaRepository(JpaHojaDelDiaDao jpaHojaDelDiaDao) {
+        this.jpaHojaDelDiaDao = jpaHojaDelDiaDao;
     }
 
     @Override
     public List<HojaDelDia> getAll() {
-
-        List<HojaDelDiaEntity> hojaDelDias = hojaDelDiaDao.findAll();
-
-        return null;//hojaDelDias.stream().map(HojaDelDiaEntity::toHojaDelDia).toList();
+        return jpaHojaDelDiaDao.findAll().stream().map(HojaDelDiaEntity::toDomain).toList();
     }
 
     @Override
     public Optional<HojaDelDia> getById(int hojaDelDiaId) {
-        return null;
-        //return Optional.of(hojaDelDiaDao.findById(hojaDelDiaId).get().toDomain());
+        return jpaHojaDelDiaDao.findById(hojaDelDiaId).map(HojaDelDiaEntity::toDomain);
     }
 
     @Override
     public Optional<HojaDelDia> save(HojaDelDia hojaDelDia) {
-        return Optional.empty();
+        return Optional.of(jpaHojaDelDiaDao.save(hojaDelDia.toEntity())).map(HojaDelDiaEntity::toDomain);
     }
 
-    @Override
-    public Optional<HojaDelDia> update(HojaDelDia hojaDelDia) {
-        return Optional.empty();
-    }
 }

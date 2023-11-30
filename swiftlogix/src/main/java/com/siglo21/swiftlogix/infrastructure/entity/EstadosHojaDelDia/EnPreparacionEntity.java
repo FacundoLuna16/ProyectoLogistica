@@ -11,7 +11,7 @@ import jakarta.persistence.Entity;
 public class EnPreparacionEntity extends EstadoHojaEntity {
 
     @Override
-    public EstadoHoja toModel() {
+    public EstadoHoja toDomain() {
         EnPreparacion estadoHoja = new EnPreparacion();
         estadoHoja.setId(this.getId());
         estadoHoja.setNombre(this.getNombre());

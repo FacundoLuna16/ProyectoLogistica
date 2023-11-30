@@ -12,7 +12,11 @@ import java.util.Optional;
 @Component
 public class JpaRepartidorRepository implements RepartidorRepository {
 
-    public JpaRepartidoresDao jpaRepartidoresDao;
+    public final JpaRepartidoresDao jpaRepartidoresDao;
+
+    public JpaRepartidorRepository(JpaRepartidoresDao jpaRepartidoresDao) {
+        this.jpaRepartidoresDao = jpaRepartidoresDao;
+    }
 
     @Override
     public List<Repartidor> getAll() {

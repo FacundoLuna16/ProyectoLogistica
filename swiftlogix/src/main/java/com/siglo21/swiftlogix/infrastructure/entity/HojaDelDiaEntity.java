@@ -1,5 +1,6 @@
 package com.siglo21.swiftlogix.infrastructure.entity;
 
+import com.siglo21.swiftlogix.domain.Model.HojaDelDia;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -28,13 +29,22 @@ public class HojaDelDiaEntity {
     @OneToMany
     private List<EnvioEntity> envios;
 
-    @OneToMany
-    private List<RepartidorEntity> repartidores;
+    @ManyToOne
+    private RepartidorEntity repartidor;
 
     @OneToOne
     private EstadoHojaEntity estadoHojaDelDia;
 
-
+    public HojaDelDia toDomain() {
+        HojaDelDia hojaDelDia = new HojaDelDia();
+        hojaDelDia.setIdHojaDelDia(idHojaDelDia);
+        hojaDelDia.setFecha(fecha);
+        hojaDelDia.setCamion(camion.toDomain());
+        hojaDelDia.setEnvios(envios.stream().map(EnvioEntity::toDomain).toList());
+        hojaDelDia.setRepartidor(repartidor.toDomain());
+        hojaDelDia.setEstadoHojaDelDia(estadoHojaDelDia.toDomain());
+        return hojaDelDia;
+    }
 
 
 }

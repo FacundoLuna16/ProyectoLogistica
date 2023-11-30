@@ -10,7 +10,7 @@ import jakarta.persistence.Entity;
 @DiscriminatorValue("REALIZADO")
 public class RealizadoEntity extends EstadoHojaEntity {
     @Override
-    public EstadoHoja toModel() {
+    public EstadoHoja toDomain() {
         Realizado model = new Realizado();
         model.setId(this.getId());
         model.setNombre(this.getNombre());

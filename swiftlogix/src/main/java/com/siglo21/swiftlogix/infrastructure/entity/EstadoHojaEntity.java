@@ -16,5 +16,5 @@ public abstract class EstadoHojaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
     protected String nombre;
-    public abstract EstadoHoja toModel();
+    public abstract EstadoHoja toDomain();
 }

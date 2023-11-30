@@ -1,5 +1,6 @@
 package com.siglo21.swiftlogix.domain.Model;
 
+import com.siglo21.swiftlogix.application.request.ClienteRequestDto;
 import com.siglo21.swiftlogix.infrastructure.entity.ClienteEntity;
 import com.siglo21.swiftlogix.infrastructure.entity.TipoDocumentoEntity;
 import jakarta.persistence.*;
@@ -22,6 +23,17 @@ public class Cliente {
     private String numeroTelefono;
     private String numeroTelefonoAlternativo;
     private String email;
+
+    public Cliente(TipoDocumento tipoDocumento, ClienteRequestDto clienteRequestDto) {
+        this.tipoDocumento = tipoDocumento;
+        this.numeroDocumento = clienteRequestDto.getNumeroDocumento();
+        this.nombre = clienteRequestDto.getNombre();
+        this.apellido = clienteRequestDto.getApellido();
+        this.direccion = clienteRequestDto.getDireccion();
+        this.numeroTelefono = clienteRequestDto.getNumeroTelefono();
+        this.numeroTelefonoAlternativo = clienteRequestDto.getNumeroTelefonoAlternativo();
+        this.email = clienteRequestDto.getEmail();
+    }
 
     public ClienteEntity toEntity() {
         ClienteEntity entity = new ClienteEntity();

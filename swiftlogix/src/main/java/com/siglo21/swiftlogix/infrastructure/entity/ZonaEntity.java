@@ -21,7 +21,8 @@ public class ZonaEntity {
     @Column(name = "dia")
     private String dia;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany
+    @JoinColumn
     private List<BarrioEntity> barrios;
 
     public Zona toDomain() {

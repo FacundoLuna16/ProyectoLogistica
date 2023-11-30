@@ -12,7 +12,7 @@ import java.util.Optional;
 @Component
 public class JpaZonaRepository implements ZonaRepository {
 
-    public JpaZonaDao jpaZonaDao;
+    public final JpaZonaDao jpaZonaDao;
 
     public JpaZonaRepository(JpaZonaDao jpaZonaDao){
         this.jpaZonaDao=jpaZonaDao;

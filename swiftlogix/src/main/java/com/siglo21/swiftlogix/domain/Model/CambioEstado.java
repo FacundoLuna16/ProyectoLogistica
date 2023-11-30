@@ -17,7 +17,6 @@ public class CambioEstado {
     private Integer idCambio;
     private LocalDateTime fechaHoraInicio;
     private LocalDateTime fechaHoraFin;
-    private EnvioEntity envio;
     private EstadoEnvioEntity estado;
 
     public CambioEstadoEntity toEntity() {
@@ -25,7 +24,6 @@ public class CambioEstado {
         entity.setIdCambio(idCambio);
         entity.setFechaHoraInicio(fechaHoraInicio);
         entity.setFechaHoraFin(fechaHoraFin);
-        entity.setEnvio(envio);
         entity.setEstado(estado);
         return entity;
     }
