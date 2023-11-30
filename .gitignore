@@ -1,3 +1,8 @@
-./swiftlogix/target/*
+git ./swiftlogix/target/*
 
-./.idea/*
+./db
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
