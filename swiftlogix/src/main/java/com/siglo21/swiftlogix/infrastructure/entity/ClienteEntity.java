@@ -43,7 +43,7 @@ public class ClienteEntity {
     @Column(name = "email")
     private String email;
 
-    public Cliente toModel() {
+    public Cliente toDomain() {
         Cliente model = new Cliente();
         model.setIdCliente(idCliente);
         model.setTipoDocumento(tipoDocumento.toDomain());

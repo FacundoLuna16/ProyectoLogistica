@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 public abstract class EstadoHojaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
+    protected Integer id;
     protected String nombre;
     public abstract EstadoHoja toModel();
 }

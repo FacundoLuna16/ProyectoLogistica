@@ -17,7 +17,7 @@ public class CambioEstadoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_cambio_estado")
-    private Long idCambio;
+    private Integer idCambio;
 
 
     @Column(name = "fecha_hora_inicio")

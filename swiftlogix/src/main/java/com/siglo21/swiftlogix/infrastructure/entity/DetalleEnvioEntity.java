@@ -18,15 +18,10 @@ public class DetalleEnvioEntity {
     @Column(name = "nombre")
     private String nombre;
 
-    @ManyToOne
-    @JoinColumn(name = "id_envio")
-    private EnvioEntity envio;
-
     public DetalleEnvio toDomain() {
         DetalleEnvio domain = new DetalleEnvio();
         domain.setId(this.id);
         domain.setNombre(this.nombre);
-        domain.setEnvio(this.envio);
         return domain;
     }
 }

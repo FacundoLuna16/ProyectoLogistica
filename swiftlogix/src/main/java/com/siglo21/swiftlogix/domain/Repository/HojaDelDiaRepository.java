@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface HojaDelDiaRepository {
-    List<HojaDelDia> findAll();
+    List<HojaDelDia> getAll();
 
     Optional<HojaDelDia> getById(int hojaDelDiaId);
 

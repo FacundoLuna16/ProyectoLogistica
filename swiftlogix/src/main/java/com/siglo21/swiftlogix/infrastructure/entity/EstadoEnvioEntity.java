@@ -20,7 +20,7 @@ public abstract class EstadoEnvioEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_estado")
-    protected Long id;
+    protected Integer id;
 
     @Column(name = "nombre")
     protected String nombre;

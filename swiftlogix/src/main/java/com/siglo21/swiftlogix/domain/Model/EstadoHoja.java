@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @RequiredArgsConstructor
 public abstract class EstadoHoja {
-    protected Long id;
+    protected Integer id;
     protected String nombre;
 
     public abstract EstadoHojaEntity toEntity();

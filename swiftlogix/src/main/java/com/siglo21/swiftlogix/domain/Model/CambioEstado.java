@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Getter
 @RequiredArgsConstructor
 public class CambioEstado {
-    private Long idCambio;
+    private Integer idCambio;
     private LocalDateTime fechaHoraInicio;
     private LocalDateTime fechaHoraFin;
     private EnvioEntity envio;

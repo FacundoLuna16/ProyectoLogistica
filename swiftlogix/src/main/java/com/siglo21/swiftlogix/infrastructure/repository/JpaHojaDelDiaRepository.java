@@ -19,7 +19,7 @@ public class JpaHojaDelDiaRepository implements HojaDelDiaRepository {
     }
 
     @Override
-    public List<HojaDelDia> findAll() {
+    public List<HojaDelDia> getAll() {
 
         List<HojaDelDiaEntity> hojaDelDias = hojaDelDiaDao.findAll();
 
@@ -28,7 +28,8 @@ public class JpaHojaDelDiaRepository implements HojaDelDiaRepository {
 
     @Override
     public Optional<HojaDelDia> getById(int hojaDelDiaId) {
-        return Optional.empty();
+        return null;
+        //return Optional.of(hojaDelDiaDao.findById(hojaDelDiaId).get().toDomain());
     }
 
     @Override
