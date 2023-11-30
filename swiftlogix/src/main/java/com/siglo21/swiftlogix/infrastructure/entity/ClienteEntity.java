@@ -1,9 +1,6 @@
 package com.siglo21.swiftlogix.infrastructure.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -14,27 +11,35 @@ public class ClienteEntity {
 
     //
     @Id
-    @Column(name = "ID")
-    private String ID;
+    @Column(name = "ID_CLIENTE")
+    private Integer idCliente;
 
-    
 
-    @Column(name = "NOMBRE")
+    //relacion a tipoDocumento
+    @ManyToOne
+    @JoinColumn(name = "id_tipo_documento")
+    private TipoDocumentoEntity tipoDocumento;
+
+    @Column(name = "numero_documento")
+    private String numeroDocumento;
+
+
+    @Column(name = "nombre")
     private String nombre;
 
-    @Column(name = "APELLIDO")
+    @Column(name = "apellido")
     private String apellido;
 
-    @Column(name = "DIRECCION")
+    @Column(name = "direccion")
     private String direccion;
 
-    @Column(name = "NUMERO_TELEFONO")
+    @Column(name = "numero_telefono")
     private String numeroTelefono;
 
-    @Column(name = "NUMERO_TELEFONO_ALTERNATIVO")
+    @Column(name = "numero_telefono_alternativo")
     private String numeroTelefonoAlternativo;
 
-    @Column(name = "EMAIL")
+    @Column(name = "email")
     private String email;
 
 

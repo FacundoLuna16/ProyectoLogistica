@@ -14,7 +14,7 @@ services:
 
   mysql:
     container_name: mysqlContainer
-    image: mysql:lastest
+    image: mysql:latest
     ports:
       - "3306:3306"
     environment:
