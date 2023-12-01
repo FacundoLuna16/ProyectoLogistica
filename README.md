@@ -69,3 +69,12 @@ rm .\dump.sql
 mv .\db\mysql_data\dump.sql ./
 
 ```
+
+## Como correr e instlar el front es facilito
+
+```
+cd frontEnd
+npm install
+npm run dev
+corta wacho
+```
