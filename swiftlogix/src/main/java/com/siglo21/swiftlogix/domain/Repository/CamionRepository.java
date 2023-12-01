@@ -9,7 +9,7 @@ public interface CamionRepository {
 
     List<Camion> getAll();
 
-    Optional<Camion> getById(int camionId);
+    Optional<Camion> getById(String patenteCamion);
 
     Optional<Camion> save(Camion camion);
 

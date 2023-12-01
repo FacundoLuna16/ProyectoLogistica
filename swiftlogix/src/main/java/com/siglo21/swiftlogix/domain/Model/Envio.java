@@ -1,7 +1,6 @@
 package com.siglo21.swiftlogix.domain.Model;
 
 import com.siglo21.swiftlogix.infrastructure.entity.*;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -23,17 +22,18 @@ public class Envio {
     private EstadoEnvio estadoActual;
     private String ultimosDigitosTarjeta;
 
+
     public EnvioEntity toEntity() {
         EnvioEntity envioEntity = new EnvioEntity();
         envioEntity.setNumeroFactura(this.numeroFactura);
-        envioEntity.setCliente(this.cliente.toEntity());
-        envioEntity.setCamion(this.camion.toEntity());
-        envioEntity.setZona(this.zona.toEntity());
+        envioEntity.setCliente(this.cliente != null ? this.cliente.toEntity() : null);
+        envioEntity.setCamion(this.camion != null ? this.camion.toEntity() : null);
+        envioEntity.setZona(this.zona != null ? this.zona.toEntity() : null);
         envioEntity.setDetalleEnvio(this.detalleEnvio.stream().map(DetalleEnvio::toEntity).toList());
         envioEntity.setDireccionEnvio(this.direccionEnvio);
         envioEntity.setEntreCalles(this.entreCalles);
-        envioEntity.setCambiosEstado(this.cambiosEstado.stream().map(CambioEstado::toEntity).toList());
-        envioEntity.setEstadoActual(this.estadoActual.toEntity());
+        envioEntity.setCambiosEstado(this.cambiosEstado != null ? this.cambiosEstado.stream().map(CambioEstado::toEntity).toList() : null);
+        envioEntity.setEstadoActual(this.estadoActual != null ? this.estadoActual.toEntity() : null);
         envioEntity.setUltimosDigitosTarjeta(this.ultimosDigitosTarjeta);
         return envioEntity;
     }

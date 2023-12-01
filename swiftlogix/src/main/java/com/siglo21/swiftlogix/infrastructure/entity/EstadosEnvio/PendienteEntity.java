@@ -11,10 +11,7 @@ import jakarta.persistence.Entity;
 public class PendienteEntity extends EstadoEnvioEntity {
     @Override
     public EstadoEnvio toDomain() {
-        Pendiente estado = new Pendiente();
-        estado.setId(this.id);
-        estado.setNombre(this.nombre);
-        return estado;
+        return new Pendiente();
     }
 }
 

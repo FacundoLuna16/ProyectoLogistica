@@ -31,6 +31,7 @@ public class JpaEnvioRepository implements EnvioRepository {
 
     @Override
     public Optional<Envio> save(Envio envio) {
-        return Optional.empty();
+        //TODO problemas con el mapeo, guarda bien en la base de datos pero no devuelve el objeto correctamente
+        return Optional.of(jpaEnvioDao.save(envio.toEntity())).map(EnvioEntity::toDomain);
     }
 }

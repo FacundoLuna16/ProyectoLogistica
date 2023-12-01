@@ -9,8 +9,11 @@ import lombok.Setter;
 
 @Setter
 @Getter
-@RequiredArgsConstructor
 public class Pendiente extends EstadoEnvio {
+    public Pendiente() {
+        this.id = 1;
+        this.nombre = "PENDIENTE";
+    }
 
     @Override
     public EstadoEnvioEntity toEntity() {

@@ -54,14 +54,14 @@ public class EnvioEntity {
     public Envio toDomain() {
         Envio envio = new Envio();
         envio.setNumeroFactura(this.numeroFactura);
-        envio.setCliente(this.cliente.toDomain());
-        envio.setCamion(this.camion.toDomain());
-        envio.setZona(this.zona.toDomain());
-        envio.setDetalleEnvio(this.detalleEnvio.stream().map(DetalleEnvioEntity::toDomain).toList());
+        envio.setCliente(this.cliente != null ? this.cliente.toDomain() : null);
+        envio.setCamion(this.camion != null ? this.camion.toDomain() : null);
+        envio.setZona(this.zona != null ? this.zona.toDomain() : null);
+        envio.setDetalleEnvio(this.detalleEnvio != null ? this.detalleEnvio.stream().map(DetalleEnvioEntity::toDomain).toList() : null);
         envio.setDireccionEnvio(this.direccionEnvio);
         envio.setEntreCalles(this.entreCalles);
-        envio.setCambiosEstado(this.cambiosEstado.stream().map(CambioEstadoEntity::toDomain).toList());
-        envio.setEstadoActual(this.estadoActual.toDomain());
+        envio.setCambiosEstado(this.cambiosEstado != null ? this.cambiosEstado.stream().map(CambioEstadoEntity::toDomain).toList() : null);
+        envio.setEstadoActual(this.estadoActual != null ? this.estadoActual.toDomain() : null);
         envio.setUltimosDigitosTarjeta(this.ultimosDigitosTarjeta);
         return envio;
     }

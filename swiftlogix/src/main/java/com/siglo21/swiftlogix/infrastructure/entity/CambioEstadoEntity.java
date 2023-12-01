@@ -35,7 +35,7 @@ public class CambioEstadoEntity {
         cambioEstado.setIdCambio(this.idCambio);
         cambioEstado.setFechaHoraInicio(this.fechaHoraInicio);
         cambioEstado.setFechaHoraFin(this.fechaHoraFin);
-        cambioEstado.setEstado(this.estado);
+        cambioEstado.setEstado(this.estado.toDomain());
         return cambioEstado;
     }
 

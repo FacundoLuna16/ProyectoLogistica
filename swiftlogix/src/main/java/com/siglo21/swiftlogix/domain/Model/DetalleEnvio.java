@@ -13,6 +13,9 @@ public class DetalleEnvio {
     private Integer id;
     private String nombre;
 
+    public DetalleEnvio(String nombre){
+        this.nombre = nombre;
+    }
 
     public DetalleEnvioEntity toEntity() {
         DetalleEnvioEntity entity = new DetalleEnvioEntity();
