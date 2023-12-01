@@ -8,3 +8,8 @@ db/mysql_data/*
 *.iws
 *.iml
 *.ipr
+
+### FrontEnd ###
+/FrontEnd/node_modules
+/FrontEnd/.pnp
+/FrontEnd/.pnp.js
