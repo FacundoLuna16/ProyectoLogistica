@@ -11,7 +11,6 @@ import java.util.List;
 public class EnvioResponse {
     private String numeroFactura;
     private Cliente cliente;
-    private Camion camion;
     private Zona zona;
     private List<DetalleEnvio> detalleEnvio;
     private String direccionEnvio;
@@ -23,7 +22,6 @@ public class EnvioResponse {
     public EnvioResponse(Envio envio) {
         this.numeroFactura = envio.getNumeroFactura();
         this.cliente = envio.getCliente();
-        this.camion = envio.getCamion();
         this.zona = envio.getZona();
         this.detalleEnvio = envio.getDetalleEnvio();
         this.direccionEnvio = envio.getDireccionEnvio();

@@ -22,14 +22,10 @@ public class EnvioEntity {
     private ClienteEntity cliente;
 
     @ManyToOne
-    @JoinColumn(name = "patente")
-    private CamionEntity camion;
-
-    @ManyToOne
     @JoinColumn(name = "id_zona")
     private ZonaEntity zona;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "numero_factura")
     private List<DetalleEnvioEntity> detalleEnvio;
 
@@ -39,7 +35,7 @@ public class EnvioEntity {
     @Column(name = "entre_Calles")
     private String entreCalles;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "numero_factura")
     private List<CambioEstadoEntity> cambiosEstado;
 
@@ -55,7 +51,6 @@ public class EnvioEntity {
         Envio envio = new Envio();
         envio.setNumeroFactura(this.numeroFactura);
         envio.setCliente(this.cliente != null ? this.cliente.toDomain() : null);
-        envio.setCamion(this.camion != null ? this.camion.toDomain() : null);
         envio.setZona(this.zona != null ? this.zona.toDomain() : null);
         envio.setDetalleEnvio(this.detalleEnvio != null ? this.detalleEnvio.stream().map(DetalleEnvioEntity::toDomain).toList() : null);
         envio.setDireccionEnvio(this.direccionEnvio);

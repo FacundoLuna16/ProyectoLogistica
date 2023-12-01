@@ -18,6 +18,8 @@ public class DetalleEnvioEntity {
     @Column(name = "nombre")
     private String nombre;
 
+
+
     public DetalleEnvio toDomain() {
         DetalleEnvio domain = new DetalleEnvio();
         domain.setId(this.id);
