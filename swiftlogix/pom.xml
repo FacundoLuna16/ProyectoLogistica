@@ -60,6 +60,8 @@
 	<build>
 		<plugins>
 			<!-- Otros plugins aquí -->
+
+			<!-- Plugin de Spring Boot -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -72,21 +74,24 @@
 					</excludes>
 				</configuration>
 			</plugin>
-			<!-- Configuración del plugin de recursos -->
+
+			<!-- Plugin de Recursos -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>3.3.1</version>
 				<configuration>
+					<encoding>UTF-8</encoding> <!-- O la codificación correcta del archivo -->
 					<nonFilteredFileExtensions>
 						<nonFilteredFileExtension>properties</nonFilteredFileExtension>
-						<!-- Agrega otras extensiones de archivos que no necesitan filtración -->
 					</nonFilteredFileExtensions>
 				</configuration>
 			</plugin>
+
 			<!-- Otros plugins aquí -->
 		</plugins>
 	</build>
+
 
 
 </project>
