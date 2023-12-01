@@ -1,6 +1,8 @@
 git ./swiftlogix/target/*
 
-./db/
+### Ignorar todos los archivos de db/mysql_data salvo la carpeta db/mysql_data/swiftlogix ###
+db/mysql_data/*
+!db/mysql_data/dump.sql
 ### IntelliJ IDEA ###
 .idea
 *.iws
