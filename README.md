@@ -57,5 +57,15 @@ rm /var/lib/mysql/dump.sql
 una ves verificado esto, ejecutamos el siguiente comando:
 
 ```
-mysqldump -u root -p swiftlogix > /val/lib/mysql/dump.sql
+mysqldump -u root -p swiftlogix > dump.sql
+password: andes2020
+
+mv dump.sql /var/lib/mysql/
+
+exit
+
+rm .\dump.sql
+
+mv .\db\mysql_data\dump.sql ./
+
 ```

@@ -1,5 +1,6 @@
 package com.siglo21.swiftlogix.application.controller;
 
+import com.siglo21.swiftlogix.application.Response.ClienteResponse;
 import com.siglo21.swiftlogix.application.request.ClienteRequestDto;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.ClienteService;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class ClienteController {
     @GetMapping
     public ResponseEntity<?> getAll(){
         try {
-            return ResponseEntity.status(200).body(clienteService.getAll());
+            return ResponseEntity.status(200).body(clienteService.getAll().stream().map(ClienteResponse::new));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -29,7 +30,7 @@ public class ClienteController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") int id){
         try {
-            return ResponseEntity.status(200).body(clienteService.getById(id));
+            return ResponseEntity.status(200).body(clienteService.getById(id).map(ClienteResponse::new));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -39,7 +40,7 @@ public class ClienteController {
     @PostMapping
     public ResponseEntity<?> createCliente(@RequestBody ClienteRequestDto clienteRequestDto){
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(clienteRequestDto));
+            return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(clienteRequestDto).map(ClienteResponse::new));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -49,7 +50,7 @@ public class ClienteController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateCliente(@PathVariable("id") int id, @RequestBody ClienteRequestDto clienteRequestDto){
         try {
-            return ResponseEntity.status(200).body(clienteService.update(id, clienteRequestDto));
+            return ResponseEntity.status(200).body(clienteService.update(id, clienteRequestDto).map(ClienteResponse::new));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
