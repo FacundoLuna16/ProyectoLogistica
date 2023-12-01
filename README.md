@@ -14,12 +14,17 @@ Debemos tener instalado Docker, al descargar nuestro proyecto vamos a tener la s
 ingresamos a la carpeta SwiftLogix y validamos que no tenemos ninguna intancia de mysql corriendo:
 
 ```
+cd .\SwiftLogix\
+
 docker-compose down
 ```
 Luego levantamos la base de datos con el siguiente comando:
 
 ```
 docker-compose up mysql -d
+
+cp dump.sql ./db/mysql_data/
+
 ```
 
 
@@ -32,6 +37,8 @@ esto nos hara estar dentro del contendor y podremos ejecutar el siguiente comand
 
 ```
 mysql -u root -p swiftlogix < /var/lib/mysql/dump.sql
+
+password: andes2020
 ```
 
 ## Como Actualizar el dump.sql para que se actualice la base de datos
