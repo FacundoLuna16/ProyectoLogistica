@@ -30,7 +30,7 @@ CREATE TABLE `barrios` (
   PRIMARY KEY (`id`),
   KEY `FK9ulayj5kuu2kpylv836pw4chn` (`barrios_id_zona`),
   CONSTRAINT `FK9ulayj5kuu2kpylv836pw4chn` FOREIGN KEY (`barrios_id_zona`) REFERENCES `zonas` (`id_zona`)
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,6 +105,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `clientes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
+INSERT INTO `clientes` VALUES (1,'strsadng','alguna','algo@algo.com','nombre','23443232','+54 43243242','+11 42342342',2),(2,'string','string','string','string','34242343223','string','string',1),(3,'string','string','string','string','34242343223','string','string',1);
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `clientes` (
   `id_cliente` int NOT NULL AUTO_INCREMENT,
@@ -119,7 +120,7 @@ CREATE TABLE `clientes` (
   PRIMARY KEY (`id_cliente`),
   KEY `FK158uydvsidi86jgv1skdhcms0` (`id_tipo_documento`),
   CONSTRAINT `FK158uydvsidi86jgv1skdhcms0` FOREIGN KEY (`id_tipo_documento`) REFERENCES `tipos_documentos` (`id_tipo_documento`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,7 +129,6 @@ CREATE TABLE `clientes` (
 
 LOCK TABLES `clientes` WRITE;
 /*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
-INSERT INTO `clientes` VALUES (1,'strsadng','alguna','algo@algo.com','nombre','23443232','+54 43243242','+11 42342342',2),(2,'string','string','string','string','34242343223','string','string',1),(3,'string','string','string','string','34242343223','string','string',1);
 /*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -170,19 +170,16 @@ CREATE TABLE `envios` (
   `direccion_envio` varchar(255) DEFAULT NULL,
   `entre_calles` varchar(255) DEFAULT NULL,
   `ultimos_digitos_tarjeta` varchar(255) DEFAULT NULL,
-  `patente` varchar(255) DEFAULT NULL,
   `id_cliente` int DEFAULT NULL,
   `id_estado` int DEFAULT NULL,
   `id_zona` int DEFAULT NULL,
   PRIMARY KEY (`numero_factura`),
   UNIQUE KEY `UK_8uaci42cp3l4dfb06d7v4s7sb` (`id_estado`),
-  KEY `FKhfc4x1n1gy2fuk5ene4h6cgu5` (`patente`),
   KEY `FKe1ag585ivpih4nqoqddp95fsj` (`id_cliente`),
   KEY `FK9cqc2i803wtcip4voinjpg00w` (`id_zona`),
   CONSTRAINT `FK23hl635dxtn2m4pl9fcveh34f` FOREIGN KEY (`id_estado`) REFERENCES `estados_envio` (`id_estado`),
   CONSTRAINT `FK9cqc2i803wtcip4voinjpg00w` FOREIGN KEY (`id_zona`) REFERENCES `zonas` (`id_zona`),
-  CONSTRAINT `FKe1ag585ivpih4nqoqddp95fsj` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`),
-  CONSTRAINT `FKhfc4x1n1gy2fuk5ene4h6cgu5` FOREIGN KEY (`patente`) REFERENCES `camiones` (`patente`)
+  CONSTRAINT `FKe1ag585ivpih4nqoqddp95fsj` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -192,7 +189,6 @@ CREATE TABLE `envios` (
 
 LOCK TABLES `envios` WRITE;
 /*!40000 ALTER TABLE `envios` DISABLE KEYS */;
-INSERT INTO `envios` VALUES ('A-2323-122121321','UNA DIRECCION','ENTRECALLES','2133',NULL,1,1,1);
 /*!40000 ALTER TABLE `envios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -208,7 +204,7 @@ CREATE TABLE `estados_envio` (
   `id_estado` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_estado`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -217,7 +213,7 @@ CREATE TABLE `estados_envio` (
 
 LOCK TABLES `estados_envio` WRITE;
 /*!40000 ALTER TABLE `estados_envio` DISABLE KEYS */;
-INSERT INTO `estados_envio` VALUES ('PENDIENTE',1,'PENDIENTE'),('EN_CAMINO',2,'EN_CAMINO'),('NO_ENTREGADO',3,'NO_ENTREGADO'),('ENTREGADO',4,'ENTREGADO');
+INSERT INTO `estados_hoja` VALUES ('EN_PREPARACION',1,'EN_PREPARACION'),('DE_CAMINO',2,'DE_CAMINO'),('REALIZADO',3,'REALIZADO');
 /*!40000 ALTER TABLE `estados_envio` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -233,7 +229,7 @@ CREATE TABLE `estados_hoja` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -242,7 +238,6 @@ CREATE TABLE `estados_hoja` (
 
 LOCK TABLES `estados_hoja` WRITE;
 /*!40000 ALTER TABLE `estados_hoja` DISABLE KEYS */;
-INSERT INTO `estados_hoja` VALUES ('EN_PREPARACION',1,'EN_PREPARACION'),('DE_CAMINO',2,'DE_CAMINO'),('REALIZADO',3,'REALIZADO');
 /*!40000 ALTER TABLE `estados_hoja` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -316,7 +311,7 @@ CREATE TABLE `repartidores` (
   `apellido` varchar(255) DEFAULT NULL,
   `nombre` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_repartidor`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -340,7 +335,7 @@ CREATE TABLE `tipos_documentos` (
   `id_tipo_documento` int NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_tipo_documento`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -364,7 +359,7 @@ CREATE TABLE `zonas` (
   `id_zona` int NOT NULL AUTO_INCREMENT,
   `dia` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_zona`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -386,4 +381,8 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+<<<<<<< HEAD
 -- Dump completed on 2023-12-01 18:19:03
+=======
+-- Dump completed on 2023-12-01 20:13:39
+>>>>>>> 366d1f6aa800fd5a272f7a3f2a4bc761d8a2cf54

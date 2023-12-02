@@ -25,8 +25,6 @@ public abstract class EstadoEnvioEntity {
     @Column(name = "nombre")
     protected String nombre;
 
-    public EstadoEnvio toDomain() {
-        return null;
-    }
+    public abstract EstadoEnvio toDomain() ;
 
 }

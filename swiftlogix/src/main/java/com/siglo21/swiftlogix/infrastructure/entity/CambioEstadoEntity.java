@@ -19,7 +19,6 @@ public class CambioEstadoEntity {
     @Column(name = "id_cambio_estado")
     private Integer idCambio;
 
-
     @Column(name = "fecha_hora_inicio")
     private LocalDateTime fechaHoraInicio;
 

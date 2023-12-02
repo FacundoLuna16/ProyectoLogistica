@@ -13,7 +13,6 @@ import java.util.List;
 public class Envio {
     private String numeroFactura;
     private Cliente cliente;
-    private Camion camion;
     private Zona zona;
     private List<DetalleEnvio> detalleEnvio;
     private String direccionEnvio;
@@ -27,7 +26,6 @@ public class Envio {
         EnvioEntity envioEntity = new EnvioEntity();
         envioEntity.setNumeroFactura(this.numeroFactura);
         envioEntity.setCliente(this.cliente != null ? this.cliente.toEntity() : null);
-        envioEntity.setCamion(this.camion != null ? this.camion.toEntity() : null);
         envioEntity.setZona(this.zona != null ? this.zona.toEntity() : null);
         envioEntity.setDetalleEnvio(this.detalleEnvio.stream().map(DetalleEnvio::toEntity).toList());
         envioEntity.setDireccionEnvio(this.direccionEnvio);
