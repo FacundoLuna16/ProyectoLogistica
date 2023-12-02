@@ -1,9 +1,6 @@
-import PropTypes from 'prop-types';
-import NextLink from 'next/link';
-import { Box, Typography, Unstable_Grid2 as Grid } from '@mui/material';
-import { Logo } from 'src/components/logo';
-
-// TODO: Change subtitle text
+import PropTypes from "prop-types";
+import NextLink from "next/link";
+import { Box, Typography, Unstable_Grid2 as Grid } from "@mui/material";
 
 export const Layout = (props) => {
   const { children } = props;
@@ -12,22 +9,19 @@ export const Layout = (props) => {
     <Box
       component="main"
       sx={{
-        display: 'flex',
-        flex: '1 1 auto'
+        display: "flex",
+        flex: "1 1 auto",
       }}
     >
-      <Grid
-        container
-        sx={{ flex: '1 1 auto' }}
-      >
+      <Grid container sx={{ flex: "1 1 auto" }}>
         <Grid
           xs={12}
           lg={6}
           sx={{
-            backgroundColor: 'background.paper',
-            display: 'flex',
-            flexDirection: 'column',
-            position: 'relative'
+            backgroundColor: "background.paper",
+            display: "flex",
+            flexDirection: "column",
+            position: "relative",
           }}
         >
           <Box
@@ -35,22 +29,20 @@ export const Layout = (props) => {
             sx={{
               left: 0,
               p: 3,
-              position: 'fixed',
+              position: "fixed",
               top: 0,
-              width: '100%'
+              width: "100%",
             }}
           >
             <Box
               component={NextLink}
               href="/"
               sx={{
-                display: 'inline-flex',
+                display: "inline-flex",
                 height: 32,
-                width: 32
+                width: 32,
               }}
-            >
-              <Logo />
-            </Box>
+            ></Box>
           </Box>
           {children}
         </Grid>
@@ -58,31 +50,22 @@ export const Layout = (props) => {
           xs={12}
           lg={6}
           sx={{
-            alignItems: 'center',
-            background: 'radial-gradient(50% 50% at 50% 50%, #122647 0%, #090E23 100%)',
-            color: 'white',
-            display: 'flex',
-            justifyContent: 'center',
-            '& img': {
-              maxWidth: '100%'
-            }
+            alignItems: "center",
+            background: "radial-gradient(50% 50% at 50% 50%, #122647 0%, #090E23 100%)",
+            color: "white",
+            display: "flex",
+            justifyContent: "center",
+            "& img": {
+              maxWidth: "100%",
+            },
           }}
         >
           <Box sx={{ p: 3 }}>
-          <img
-              alt=""
-              src="/assets/logoSiglo21.png"
-            />
-            <Typography
-              color="inherit"
-              variant="subtitle1"
-            >
+            <img alt="" src="/assets/logo.png" />
+            <Typography color="inherit" variant="subtitle1">
               Bienvenido a
             </Typography>
-            <Typography
-              color="inherit"
-              variant="h4"
-            >
+            <Typography color="inherit" variant="h4">
               Sistema de Gestión de Envios
             </Typography>
           </Box>
@@ -93,5 +76,5 @@ export const Layout = (props) => {
 };
 
 Layout.prototypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };

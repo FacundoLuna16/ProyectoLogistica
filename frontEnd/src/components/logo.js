@@ -1,26 +1,34 @@
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from "@mui/material/styles";
+import { Box } from "@mui/system";
+import logo from "public/assets/logo.jpeg";
 
 export const Logo = () => {
   const theme = useTheme();
   const fillColor = theme.palette.primary.main;
 
   return (
-    <svg
-      fill="none"
-      height="100%"
-      viewBox="0 0 24 24"
-      width="100%"
-      xmlns="http://www.w3.org/2000/svg"
+    <Box
+      display="flex" // Usa flexbox para el contenedor
+      justifyContent="center" // Centra horizontalmente en el contenedor
+      alignItems="center" // Centra verticalmente en el contenedor
+      sx={{
+        height: 100, // Altura del Box, puedes ajustarla si necesitas más espacio
+        marginLeft: 10,
+        width: "50%", // El Box ocupa el ancho total de su contenedor padre
+        borderRadius: "borderRadius", // Redondeo de bordes, usa un valor de tu tema o un número específico
+        p: 3, // Padding dentro del Box, ajusta según tus necesidades
+      }}
     >
-      <path
-        opacity={0.16}
-        d="M7.242 11.083c.449-1.674 2.17-3.394 3.843-3.843l10.434-2.796c1.673-.448 2.666.545 2.218 2.218L20.94 17.096c-.449 1.674-2.17 3.394-3.843 3.843L6.664 23.735c-1.673.448-2.666-.545-2.218-2.218l2.796-10.434Z"
-        fill={fillColor}
+      <Box
+        component="img"
+        src="https://siglo21myh.com.ar/wp-content/uploads/2023/01/logo-ACTUALIZADO.png"
+        alt="logoSiglo21"
+        sx={{
+          height: 70, // Altura de la imagen, ajusta según sea necesario
+          width: 175, // Anchura de la imagen, ajusta según sea necesario
+          // Elimina las propiedades de maxWidth y maxHeight si no son necesarias
+        }}
       />
-      <path
-        d="M3.06 6.9c.448-1.674 2.168-3.394 3.842-3.843L17.336.261c1.673-.448 2.667.545 2.218 2.218l-2.796 10.434c-.449 1.674-2.169 3.394-3.843 3.843L2.481 19.552C.808 20-.185 19.007.263 17.334L3.06 6.9Z"
-        fill={fillColor}
-      />
-    </svg>
+    </Box>
   );
 };

@@ -5,6 +5,7 @@ import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import { TruckIcon } from "@heroicons/react/24/outline";
 import { ChartPieIcon } from "@heroicons/react/24/outline";
 import { BellAlertIcon } from "@heroicons/react/24/outline";
+import { UserIcon } from "@heroicons/react/24/outline";
 
 
 export const items = [
@@ -36,6 +37,15 @@ export const items = [
     ),
   },
   {
+    title: "Clientes",
+    path: "/clientes",
+    icon: (
+      <SvgIcon fontSize="small">
+        <UserIcon className="h-6 w-6 text-gray-500" />
+      </SvgIcon>
+    ),
+  },
+  {
     title: "Reportes y Estadisticas",
     path: "/reportes",
     icon: (
@@ -47,6 +57,15 @@ export const items = [
   {
     title: "Notificaciones al cliente",
     path: "/notificaciones",
+    icon: (
+      <SvgIcon fontSize="small">
+        <BellAlertIcon className="h-6 w-6 text-gray-500" />
+      </SvgIcon>
+    ),
+  },
+  {
+    title: "Envios no realizados",
+    path: "/enviosNoRealizados",
     icon: (
       <SvgIcon fontSize="small">
         <BellAlertIcon className="h-6 w-6 text-gray-500" />
