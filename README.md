@@ -39,6 +39,16 @@ esto nos hara estar dentro del contendor y podremos ejecutar el siguiente comand
 mysql -u root -p swiftlogix < /var/lib/mysql/dump.sql
 
 password: andes2020
+
+exit
+
+cd .\swiftlogix\
+
+mvn clean install
+
+cd ..
+
+docker-compose up swiftlogix keycloak -d
 ```
 
 ## Como Actualizar el dump.sql para que se actualice la base de datos
