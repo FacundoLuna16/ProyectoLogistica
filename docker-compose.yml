@@ -49,3 +49,4 @@ services:
       - DB_PASSWORD=andes2020
     depends_on:
       - mysql
+
