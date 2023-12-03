@@ -1,0 +1,172 @@
+{
+	"info": {
+		"_postman_id": "563c31af-747e-43c1-afd0-fa6b9342f7e6",
+		"name": "siglo21SwiftLogix",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30221653"
+	},
+	"item": [
+		{
+			"name": "peticionAlejoAdministrador",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "siglo21-client-api-rest",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "alejo.dev",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "andes2020",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "DuXMmJE5ClpWLFZvYW0epQydZowD9msw",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8180/auth/realms/siglo21/protocol/openid-connect/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8180",
+					"path": [
+						"auth",
+						"realms",
+						"siglo21",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "VendedorToken",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "siglo21-client-api-rest",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "vendedor.siglo21",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "siglo21",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "DuXMmJE5ClpWLFZvYW0epQydZowD9msw",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8180/auth/realms/siglo21/protocol/openid-connect/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8180",
+					"path": [
+						"auth",
+						"realms",
+						"siglo21",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "repartidorToken",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "siglo21-client-api-rest",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "repartidor.siglo21",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "siglo21",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "DuXMmJE5ClpWLFZvYW0epQydZowD9msw",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8180/auth/realms/siglo21/protocol/openid-connect/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8180",
+					"path": [
+						"auth",
+						"realms",
+						"siglo21",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
