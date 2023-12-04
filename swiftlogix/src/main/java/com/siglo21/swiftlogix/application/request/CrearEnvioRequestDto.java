@@ -1,9 +1,6 @@
 package com.siglo21.swiftlogix.application.request;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,5 +32,6 @@ public class CrearEnvioRequestDto {
 
     private String entreCalles;
 
+    @Size(min = 4, max = 4, message = "Ingrese 4 digitos.")
     private String ultimosDigitosTarjeta;
 }

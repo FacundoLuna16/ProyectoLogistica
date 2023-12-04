@@ -20,8 +20,9 @@ public class JpaEnvioRepository implements EnvioRepository {
 
 
     @Override
-    public List<Envio> getAll() {
-        return jpaEnvioDao.findAll().stream().map(EnvioEntity::toDomain).toList();
+    public List<Envio> getAllFiltrado(Integer idEstado, Integer idZona, Integer idCliente) {
+        return jpaEnvioDao.findAllFiltered(idEstado,idZona,idCliente).stream().map(EnvioEntity::toDomain).toList();
+        // return jpaEnvioDao.findAll().stream().map(EnvioEntity::toDomain).toList();
     }
 
     @Override

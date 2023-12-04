@@ -21,14 +21,20 @@ public class EnvioController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAll(){
+    public ResponseEntity<?> getAll(
+            @RequestParam(name = "idEstado", required = false) Integer idEstado,
+            @RequestParam(name = "idZona", required = false) Integer idZona,
+            @RequestParam(name = "idCliente", required = false) Integer idCliente) {
         try {
-            return ResponseEntity.status(200).body(envioService.getAll().stream().map(EnvioResponse::new));
-        }
-        catch (Exception e) {
+            // Tu lógica para manejar los parámetros opcionales aquí
+            // Puedes verificar los valores de los parámetros y actuar en consecuencia
+
+            return ResponseEntity.status(200).body(envioService.getAllFiltrado(idEstado,idZona,idCliente).stream().map(EnvioResponse::new));
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") String id){
@@ -62,5 +68,7 @@ public class EnvioController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+
 
 }

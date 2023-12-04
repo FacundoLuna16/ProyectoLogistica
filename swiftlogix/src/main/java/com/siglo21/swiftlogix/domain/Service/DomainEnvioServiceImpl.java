@@ -27,8 +27,10 @@ public class DomainEnvioServiceImpl implements EnvioService {
 
 
     @Override
-    public List<Envio> getAll() {
-        return envioRepository.getAll();
+    public List<Envio> getAllFiltrado(Integer idEstado, Integer idZona, Integer idCliente) {
+
+
+        return envioRepository.getAllFiltrado(idEstado, idZona, idCliente);
     }
 
     @Override

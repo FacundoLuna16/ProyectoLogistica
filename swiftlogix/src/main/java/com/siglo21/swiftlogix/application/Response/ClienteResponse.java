@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class ClienteResponse {
+    private Integer idCliente;
     private String tipoDocumento;
     private String numeroDocumento;
     private String nombre;
@@ -17,6 +18,7 @@ public class ClienteResponse {
     private String email;
 
     public ClienteResponse(Cliente cliente){
+        this.idCliente = cliente.getIdCliente();
         this.tipoDocumento = cliente.getTipoDocumento().getDescripcion();
         this.numeroDocumento = cliente.getNumeroDocumento();
         this.nombre = cliente.getNombre();

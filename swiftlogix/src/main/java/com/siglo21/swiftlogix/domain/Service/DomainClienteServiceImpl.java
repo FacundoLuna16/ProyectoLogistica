@@ -26,7 +26,11 @@ public class DomainClienteServiceImpl implements ClienteService {
 
     @Override
     public Optional<Cliente> getById(int clienteId) {
-        return clienteRepository.getById(clienteId);
+        Optional<Cliente> cliente = clienteRepository.getById(clienteId);
+        if (cliente.isEmpty()) {
+            throw new RuntimeException("Cliente no encontrado");
+        }
+        return cliente;
     }
 
     @Override

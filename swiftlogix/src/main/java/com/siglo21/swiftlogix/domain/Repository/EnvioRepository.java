@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface EnvioRepository {
 
-    List<Envio> getAll();
+    List<Envio> getAllFiltrado(Integer idEstado, Integer idZona, Integer idCliente);
 
     Optional<Envio> getById(String envioId);
 

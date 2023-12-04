@@ -53,7 +53,10 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateCliente(@PathVariable("id") int id, @RequestBody ClienteRequestDto clienteRequestDto){
+    public ResponseEntity<?> updateCliente( @PathVariable("id") int id,@Valid @RequestBody ClienteRequestDto clienteRequestDto, BindingResult result){
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(result.getFieldError().getDefaultMessage());
+        }
         try {
             return ResponseEntity.status(200).body(clienteService.update(id, clienteRequestDto).map(ClienteResponse::new));
         }
