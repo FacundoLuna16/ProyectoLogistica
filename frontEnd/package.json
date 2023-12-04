@@ -22,10 +22,16 @@
     "@mui/material": "5.11.10",
     "@mui/system": "5.11.9",
     "@mui/x-date-pickers": "5.0.19",
+    "@react-keycloak/ssr": "^3.3.0",
+    "@react-keycloak/web": "^3.4.0",
     "apexcharts": "3.37.0",
     "axios": "^1.6.2",
     "date-fns": "2.29.3",
     "formik": "2.2.9",
+    "jQuery": "^1.7.4",
+    "jsdom": "^23.0.1",
+    "keycloak-js": "^23.0.1",
+    "keycloak-react-web": "^0.1.19",
     "next": "13.1.6",
     "nprogress": "0.2.0",
     "prop-types": "15.8.1",
@@ -43,6 +49,7 @@
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
     "eslint": "8.34.0",
-    "eslint-config-next": "13.1.6"
+    "eslint-config-next": "13.1.6",
+    "web-vitals": "^3.5.0"
   }
 }
