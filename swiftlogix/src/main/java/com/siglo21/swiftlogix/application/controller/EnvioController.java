@@ -3,8 +3,10 @@ package com.siglo21.swiftlogix.application.controller;
 import com.siglo21.swiftlogix.application.Response.EnvioResponse;
 import com.siglo21.swiftlogix.application.request.CrearEnvioRequestDto;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.EnvioService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -39,7 +41,10 @@ public class EnvioController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createEnvio(@RequestBody CrearEnvioRequestDto crearEnvioRequestDto){
+    public ResponseEntity<?> createEnvio(@Valid @RequestBody CrearEnvioRequestDto crearEnvioRequestDto, BindingResult result){
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(result.getFieldError().getDefaultMessage());
+        }
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(envioService.save(crearEnvioRequestDto).map(EnvioResponse::new));
         }

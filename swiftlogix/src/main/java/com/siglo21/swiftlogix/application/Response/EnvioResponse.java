@@ -10,24 +10,22 @@ import java.util.List;
 @Getter
 public class EnvioResponse {
     private String numeroFactura;
-    private Cliente cliente;
-    private Zona zona;
+    private String cliente;
+    private String zona;
     private List<DetalleEnvio> detalleEnvio;
     private String direccionEnvio;
     private String entreCalles;
-    private List<CambioEstado> cambiosEstado;
-    private EstadoEnvio estadoActual;
+    private String estadoActual;
     private String ultimosDigitosTarjeta;
 
     public EnvioResponse(Envio envio) {
         this.numeroFactura = envio.getNumeroFactura();
-        this.cliente = envio.getCliente();
-        this.zona = envio.getZona();
+        this.cliente = envio.getCliente().getNombre();
+        this.zona = envio.getZona().getIdZona().toString();
         this.detalleEnvio = envio.getDetalleEnvio();
         this.direccionEnvio = envio.getDireccionEnvio();
         this.entreCalles = envio.getEntreCalles();
-        this.cambiosEstado = envio.getCambiosEstado();
-        this.estadoActual = envio.getEstadoActual();
+        this.estadoActual = envio.getEstadoActual().getNombre();
         this.ultimosDigitosTarjeta = envio.getUltimosDigitosTarjeta();
     }
 }
