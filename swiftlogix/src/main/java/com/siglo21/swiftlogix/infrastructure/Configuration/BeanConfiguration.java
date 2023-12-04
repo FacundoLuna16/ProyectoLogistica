@@ -1,9 +1,11 @@
 package com.siglo21.swiftlogix.infrastructure.Configuration;
 
 import com.siglo21.swiftlogix.domain.Repository.*;
+import com.siglo21.swiftlogix.domain.Service.DomainCamionServiceImpl;
 import com.siglo21.swiftlogix.domain.Service.DomainClienteServiceImpl;
 import com.siglo21.swiftlogix.domain.Service.DomainEnvioServiceImpl;
 import com.siglo21.swiftlogix.domain.Service.DomainRepartidorServiceImpl;
+import com.siglo21.swiftlogix.domain.Service.Interfaz.CamionService;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.ClienteService;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.EnvioService;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.RepartidorService;
@@ -42,4 +44,10 @@ public class BeanConfiguration {
     public EnvioService envioService(EnvioRepository envioRepository, ClienteRepository clienteRepository, EstadoEnvioRepository estadoEnvioRepository, ZonaRepository zonaRepository) {
         return new DomainEnvioServiceImpl(envioRepository, clienteRepository,estadoEnvioRepository , zonaRepository);
     }
+
+    @Bean
+    public CamionService camionService(CamionRepository camionRepository) {
+        return new DomainCamionServiceImpl(camionRepository);
+    }
+
 }

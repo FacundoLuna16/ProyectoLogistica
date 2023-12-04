@@ -3,7 +3,9 @@ package com.siglo21.swiftlogix.application.controller;
 import com.siglo21.swiftlogix.application.Response.RepartidorResponse;
 import com.siglo21.swiftlogix.application.request.RepartidorRequestDto;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.RepartidorService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -38,7 +40,7 @@ public class RepartidorController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createRepartidor(@RequestBody RepartidorRequestDto repartidorRequestDto){
+    public ResponseEntity<?> createRepartidor(@Valid @RequestBody RepartidorRequestDto repartidorRequestDto, BindingResult result){
         try {
             return ResponseEntity.status(200).body(repartidorService.save(repartidorRequestDto).map(RepartidorResponse::new));
         }
@@ -48,7 +50,12 @@ public class RepartidorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateRepartidor(@PathVariable("id") int id, @RequestBody RepartidorRequestDto repartidorRequestDto){
+    public ResponseEntity<?> updateRepartidor(@PathVariable("id") int id, @Valid @RequestBody RepartidorRequestDto repartidorRequestDto, BindingResult result){
+        if (result.hasErrors()) {
+            //Valida que los campos sean los que corresponden
+            return ResponseEntity.badRequest().body(result.getFieldError().getDefaultMessage());
+        }
+
         try {
             return ResponseEntity.status(200).body(repartidorService.update(id, repartidorRequestDto).map(RepartidorResponse::new));
         }

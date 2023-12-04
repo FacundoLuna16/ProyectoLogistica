@@ -3,8 +3,10 @@ package com.siglo21.swiftlogix.application.controller;
 import com.siglo21.swiftlogix.application.Response.ClienteResponse;
 import com.siglo21.swiftlogix.application.request.ClienteRequestDto;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.ClienteService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -38,7 +40,10 @@ public class ClienteController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createCliente(@RequestBody ClienteRequestDto clienteRequestDto){
+    public ResponseEntity<?> createCliente(@Valid @RequestBody ClienteRequestDto clienteRequestDto, BindingResult result){
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(result.getFieldError().getDefaultMessage());
+        }
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(clienteRequestDto).map(ClienteResponse::new));
         }
