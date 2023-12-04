@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 
 @Entity
 @Data
-@Table(name = "Clientes")
+@Table(name = "Clientes", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"id_tipo_documento", "numero_documento"})
+})
 @RequiredArgsConstructor
 public class ClienteEntity {
 

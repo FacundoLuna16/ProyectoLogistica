@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 public class EnvioResponse {
     private String numeroFactura;
-    private String cliente;
+    private ClienteDelEnvioDto cliente;
     private String zona;
     private List<DetalleEnvio> detalleEnvio;
     private String direccionEnvio;
@@ -20,7 +20,7 @@ public class EnvioResponse {
 
     public EnvioResponse(Envio envio) {
         this.numeroFactura = envio.getNumeroFactura();
-        this.cliente = envio.getCliente().getNombre();
+        this.cliente = new ClienteDelEnvioDto(envio.getCliente());
         this.zona = envio.getZona().getIdZona().toString();
         this.detalleEnvio = envio.getDetalleEnvio();
         this.direccionEnvio = envio.getDireccionEnvio();
