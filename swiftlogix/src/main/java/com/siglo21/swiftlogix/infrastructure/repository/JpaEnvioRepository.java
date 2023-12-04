@@ -25,13 +25,12 @@ public class JpaEnvioRepository implements EnvioRepository {
     }
 
     @Override
-    public Optional<Envio> getById(int envioId) {
-        return Optional.empty();
+    public Optional<Envio> getById(String envioId) {
+        return jpaEnvioDao.findById(envioId).map(EnvioEntity::toDomain);
     }
 
     @Override
     public Optional<Envio> save(Envio envio) {
-        //TODO problemas con el mapeo, guarda bien en la base de datos pero no devuelve el objeto correctamente
         EnvioEntity prueba = envio.toEntity();
         EnvioEntity envioEntity = jpaEnvioDao.save(prueba);
         Envio envio1 = envioEntity.toDomain();

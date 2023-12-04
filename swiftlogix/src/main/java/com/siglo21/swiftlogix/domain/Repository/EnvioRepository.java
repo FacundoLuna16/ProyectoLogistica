@@ -9,7 +9,7 @@ public interface EnvioRepository {
 
     List<Envio> getAll();
 
-    Optional<Envio> getById(int envioId);
+    Optional<Envio> getById(String envioId);
 
     Optional<Envio> save(Envio envio);
 

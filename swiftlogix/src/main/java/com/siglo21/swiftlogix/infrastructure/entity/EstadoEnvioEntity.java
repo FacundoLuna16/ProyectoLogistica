@@ -21,7 +21,7 @@ import java.util.List;
 public class EstadoEnvioEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_estado")
+    @Column(name = "id")
     protected Integer id;
 
     @Column(name = "nombre")
