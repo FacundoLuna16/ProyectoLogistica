@@ -53,7 +53,7 @@ public class DomainEnvioServiceImpl implements EnvioService {
                 new DetalleEnvio(detalleEnvioRequestDto.getNombre())).toList();
 
         envio.setDetalleEnvio(detallesEnvio);
-        Pendiente pendiente = new Pendiente();
+        Pendiente pendiente = new Pendiente(1, "PENDIENTE");
         CambioEstado cambioEstado = new CambioEstado(pendiente);
         envio.setCambiosEstado(List.of(cambioEstado));
         envio.setEstadoActual(pendiente);

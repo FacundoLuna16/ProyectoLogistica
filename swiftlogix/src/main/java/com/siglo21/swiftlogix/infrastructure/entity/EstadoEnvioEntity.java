@@ -1,6 +1,10 @@
 package com.siglo21.swiftlogix.infrastructure.entity;
 
 import com.siglo21.swiftlogix.domain.Model.EstadoEnvio;
+import com.siglo21.swiftlogix.domain.Model.EstadosEnvio.EnCamino;
+import com.siglo21.swiftlogix.domain.Model.EstadosEnvio.Entregado;
+import com.siglo21.swiftlogix.domain.Model.EstadosEnvio.NoEntregado;
+import com.siglo21.swiftlogix.domain.Model.EstadosEnvio.Pendiente;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -10,13 +14,11 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "estado_type")
 @Getter
 @Setter
 @Table(name = "EstadosEnvio")
 @RequiredArgsConstructor
-public abstract class EstadoEnvioEntity {
+public class EstadoEnvioEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_estado")
@@ -25,6 +27,22 @@ public abstract class EstadoEnvioEntity {
     @Column(name = "nombre")
     protected String nombre;
 
-    public abstract EstadoEnvio toDomain() ;
+    public EstadoEnvioEntity(Integer id, String nombre) {
+        this.id = id;
+        this.nombre = nombre;
+    }
+
+    public EstadoEnvio toDomain(){
+        switch (this.id){
+            case 1:
+                return new Pendiente(this.id, this.nombre);
+            case 2:
+                return new EnCamino(this.id, this.nombre);
+            case 3:
+                return new NoEntregado(this.id, this.nombre);
+            default:
+                return new Entregado(this.id, this.nombre);
+        }
+    }
 
 }

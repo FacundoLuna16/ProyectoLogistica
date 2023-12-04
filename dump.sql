@@ -1028,53 +1028,7 @@ LOCK TABLES `envios` WRITE;
 /*!40000 ALTER TABLE `envios` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `estados_envio`
---
 
-DROP TABLE IF EXISTS `estados_envio`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `estados_envio` (
-  `estado_type` varchar(31) NOT NULL,
-  `id_estado` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id_estado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `estados_envio`
---
-
-LOCK TABLES `estados_envio` WRITE;
-/*!40000 ALTER TABLE `estados_envio` DISABLE KEYS */;
-/*!40000 ALTER TABLE `estados_envio` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `estados_hoja`
---
-
-DROP TABLE IF EXISTS `estados_hoja`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `estados_hoja` (
-  `estado_type` varchar(31) NOT NULL,
-  `id` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `estados_hoja`
---
-
-LOCK TABLES `estados_hoja` WRITE;
-/*!40000 ALTER TABLE `estados_hoja` DISABLE KEYS */;
-/*!40000 ALTER TABLE `estados_hoja` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `EVENT_ENTITY`
