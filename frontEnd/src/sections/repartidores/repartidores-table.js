@@ -69,9 +69,7 @@ export const CustomersTable = (props) => {
             <TableBody>
               {items.map((customer) => {
                 const isSelected = selected.includes(customer.idRepartidor);
-                // La línea de abajo asume que la fecha de creación ya está en milisegundos desde la época
-                // Si no es así, deberás ajustarla.
-                const createdAt = format(new Date(customer.createdAt), 'dd/MM/yyyy');
+
 
                 return (
                   <TableRow
