@@ -11,26 +11,9 @@ import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import clientesService from "src/service/clientesService";
 
-// Funciones para generar datos de Clientes
-const tiposDocumento = ["DNI", "Pasaporte", "Carnet de Extranjería"];
-const generarNroDocumento = () => `${Math.floor(Math.random() * 10000000)}`;
-
-const generarDatosClientes = () => {
-  return Array.from({ length: 10 }, (_, index) => ({
-    idCliente: index + 1, // Simulando un ID secuencial
-    TipoDoc: tiposDocumento[Math.floor(Math.random() * tiposDocumento.length)],
-    NumeroDoc: generarNroDocumento(),
-    Nombre: `Nombre ${index + 1}`,
-    Apellido: `Apellido ${index + 1}`,
-    Direccion: `Calle ${index + 1}`,
-    Telefono: `123456${index}`,
-    TelefonoAlt: `654321${index}`,
-    Email: `cliente${index}@mail.com`,
-  }));
-};
-
-const data = generarDatosClientes();
+const data = clientesService.getAll();
 
 const useClientes = (page, rowsPerPage) => {
   return useMemo(() => {

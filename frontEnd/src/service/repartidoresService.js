@@ -32,15 +32,18 @@ const create = async (repartidor) => {
   }
 };
 
-const update = async (repartidorId, repartidor) => {
+// servicio repartidoresService
+
+const update = async (repartidorId, repartidorData) => {
   try {
-    const response = await axios.put(`${API_URL}/${repartidorId}`, repartidor);
+    const response = await axios.put(`${API_URL}/${repartidorId}`, repartidorData);
     return response.data;
   } catch (error) {
     // Error handling
     throw error;
   }
 };
+
 
 const remove = async (repartidorId) => {
   try {

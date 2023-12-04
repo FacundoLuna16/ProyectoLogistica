@@ -12,36 +12,10 @@ import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-
-// Funciones para generar IDs y nombres aleatorios
-const modelos = ["Volvo", "Mercedes", "Scania", "Ford", "Renault"];
-const colores = ["Blanco", "Negro", "Rojo", "Azul", "Verde"];
-const descripciones = [
-  "Transporte de carga pesada",
-  "Transporte de mercancías",
-  "Transporte de materiales peligrosos",
-  "Transporte refrigerado",
-  "Transporte de larga distancia"
-];
-
-const generarPatente = () => {
-    const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const numeros = "0123456789";
-    return `${letras.charAt(Math.floor(Math.random() * letras.length))}${letras.charAt(Math.floor(Math.random() * letras.length))}-${numeros.charAt(Math.floor(Math.random() * numeros.length))}${numeros.charAt(Math.floor(Math.random() * numeros.length))}${numeros.charAt(Math.floor(Math.random() * numeros.length))}`;
-  };
+import camionesService from "src/service/camionesService";
 
 
-
-  const generarDatosCamiones = () => {
-    return Array.from({ length: 10 }, () => ({
-      patente: generarPatente(),
-      modelo: modelos[Math.floor(Math.random() * modelos.length)],
-      color: colores[Math.floor(Math.random() * colores.length)],
-      descripcion: descripciones[Math.floor(Math.random() * descripciones.length)]
-    }));
-  };
-  
-  const data = generarDatosCamiones();
+const data = camionesService.getAll();
   
 
 const useCustomers = (page, rowsPerPage) => {
