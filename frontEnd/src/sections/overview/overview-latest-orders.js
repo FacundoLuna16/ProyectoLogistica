@@ -39,7 +39,7 @@ const days = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "
 const date = new Date();
 const day = days[date.getDay()];
 
-const zoneInfo = `Hoy es ${day} y corresponde a la ${getZone(day)}.`;
+const zoneInfo = `Hoy es ${day} y corresponde a: ${getZone(day)}.`;
 
 export const OverviewLatestOrders = (props) => {
   const { orders = [], sx } = props;

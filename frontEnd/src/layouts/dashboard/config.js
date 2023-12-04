@@ -6,12 +6,22 @@ import { TruckIcon } from "@heroicons/react/24/outline";
 import { ChartPieIcon } from "@heroicons/react/24/outline";
 import { BellAlertIcon } from "@heroicons/react/24/outline";
 import { UserIcon } from "@heroicons/react/24/outline";
-
+import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { DocumentIcon } from "@heroicons/react/24/outline";
 
 export const items = [
   {
-    title: "Envios",
+    title: "Hoja del dia",
     path: "/",
+    icon: (
+      <SvgIcon fontSize="small">
+        <DocumentIcon className="h-6 w-6 text-gray-500" />
+      </SvgIcon>
+    ),
+  },
+  {
+    title: "Envios",
+    path: "/envios",
     icon: (
       <SvgIcon fontSize="small">
         <PaperAirplaneIcon className="h-6 w-6 text-gray-500" />
@@ -56,7 +66,7 @@ export const items = [
   },
   {
     title: "Notificaciones al cliente",
-    path: "/notificaciones",
+    path: "/notificacionesCliente",
     icon: (
       <SvgIcon fontSize="small">
         <BellAlertIcon className="h-6 w-6 text-gray-500" />
@@ -64,11 +74,11 @@ export const items = [
     ),
   },
   {
-    title: "Envios no realizados",
-    path: "/enviosNoRealizados",
+    title: "Envios no realizados a tiempo",
+    path: "/notificacionesEnvio",
     icon: (
       <SvgIcon fontSize="small">
-        <BellAlertIcon className="h-6 w-6 text-gray-500" />
+        <ExclamationTriangleIcon className="h-6 w-6 text-gray-500" />
       </SvgIcon>
     ),
   },

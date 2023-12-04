@@ -1,73 +1,43 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Head from "next/head";
-import { subDays, subHours } from "date-fns";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { useSelection } from "src/hooks/use-selection";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
 import { CustomersTable } from "src/sections/repartidores/repartidores-table";
 import { applyPagination } from "src/utils/apply-pagination";
-import { TrashIcon } from "@heroicons/react/24/outline";
-import { ArrowPathIcon } from "@heroicons/react/24/outline";
-import { UserCircleIcon } from "@heroicons/react/24/outline";
+import { TrashIcon, ArrowPathIcon, UserCircleIcon } from "@heroicons/react/24/outline";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-
-// Funciones para generar IDs y nombres aleatorios
-const generateId = () => Math.floor(Math.random() * 10000).toString();
-const nombres = [
-  "Marta",
-  "Juan",
-  "Pedro",
-  "Laura",
-  "José",
-  "Ana",
-  "Luis",
-  "Sofía",
-  "Carlos",
-  "Lucía",
-];
-const apellidos = [
-  "García",
-  "Fernández",
-  "González",
-  "Rodríguez",
-  "López",
-  "Martínez",
-  "Sánchez",
-  "Pérez",
-  "Martín",
-  "Gómez",
-];
-
-const data = Array.from({ length: 10 }, () => ({
-  idRepartidor: generateId(),
-  nombre: nombres[Math.floor(Math.random() * nombres.length)],
-  apellido: apellidos[Math.floor(Math.random() * apellidos.length)],
-  createdAt: subDays(
-    subHours(new Date(), Math.floor(Math.random() * 10)),
-    Math.floor(Math.random() * 10)
-  ).getTime(),
-}));
-
-const useCustomers = (page, rowsPerPage) => {
-  return useMemo(() => {
-    return applyPagination(data, page, rowsPerPage);
-  }, [page, rowsPerPage]);
-};
-
-const useCustomerIds = (customers) => {
-  return useMemo(() => {
-    return customers.map((customer) => customer.id);
-  }, [customers]);
-};
+import repartidoresService from "../service/repartidoresService"; // Asegúrate de que la ruta de importación es correcta
 
 const Repartidores = () => {
+  const [repartidores, setRepartidores] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const customers = useCustomers(page, rowsPerPage);
-  const customersIds = useCustomerIds(customers);
-  const customersSelection = useSelection(customersIds);
+
+  useEffect(() => {
+    const fetchRepartidores = async () => {
+      try {
+        const data = await repartidoresService.getAll();
+        setRepartidores(data);
+      } catch (error) {
+        console.error('Error al obtener repartidores:', error);
+      }
+    };
+
+    fetchRepartidores();
+  }, []);
+
+  const paginatedRepartidores = useMemo(() => {
+    return applyPagination(repartidores, page, rowsPerPage);
+  }, [repartidores, page, rowsPerPage]);
+
+  const repartidoresIds = useMemo(() => {
+    return paginatedRepartidores.map((repartidor) => repartidor.idRepartidor);
+  }, [paginatedRepartidores]);
+
+  const repartidoresSelection = useSelection(repartidoresIds);
 
   const handlePageChange = useCallback((event, value) => {
     setPage(value);
@@ -78,7 +48,7 @@ const Repartidores = () => {
   }, []);
 
   const theme = useTheme();
-  const isXSmall = useMediaQuery(theme.breakpoints.down('xs')); // 'xs'
+  const isXSmall = useMediaQuery(theme.breakpoints.down('xs'));
 
   return (
     <>
@@ -106,12 +76,12 @@ const Repartidores = () => {
               <Stack
                 direction={isXSmall ? 'column' : 'row'}
                 spacing={2}
-                color = "success"
                 alignItems="center"
               >
                 <Button
                   startIcon={<PlusIcon />}
                   variant="contained"
+                  color="success"
                   sx={{ mb: isXSmall ? 1 : 0 }}
                 >
                   Agregar
@@ -143,17 +113,17 @@ const Repartidores = () => {
               </Stack>
             </Stack>
             <CustomersTable
-              count={data.length}
-              items={customers}
-              onDeselectAll={customersSelection.handleDeselectAll}
-              onDeselectOne={customersSelection.handleDeselectOne}
+              count={repartidores.length}
+              items={paginatedRepartidores}
+              onDeselectAll={repartidoresSelection.handleDeselectAll}
+              onDeselectOne={repartidoresSelection.handleDeselectOne}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
-              onSelectAll={customersSelection.handleSelectAll}
-              onSelectOne={customersSelection.handleSelectOne}
+              onSelectAll={repartidoresSelection.handleSelectAll}
+              onSelectOne={repartidoresSelection.handleSelectOne}
               page={page}
               rowsPerPage={rowsPerPage}
-              selected={customersSelection.selected}
+              selected={repartidoresSelection.selected}
             />
           </Stack>
         </Container>
