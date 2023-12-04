@@ -29,7 +29,7 @@ public class EnvioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable("id") int id){
+    public ResponseEntity<?> getById(@PathVariable("id") String id){
         try {
             return ResponseEntity.status(200).body(envioService.getById(id).map(EnvioResponse::new));
         }
@@ -49,7 +49,7 @@ public class EnvioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateEnvio(@PathVariable("id") int id, @RequestBody CrearEnvioRequestDto crearEnvioRequestDto){
+    public ResponseEntity<?> updateEnvio(@PathVariable("id") String id, @RequestBody CrearEnvioRequestDto crearEnvioRequestDto){
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(envioService.update(id, crearEnvioRequestDto).map(EnvioResponse::new));
         }

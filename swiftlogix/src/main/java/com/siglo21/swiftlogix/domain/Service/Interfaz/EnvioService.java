@@ -9,9 +9,9 @@ import java.util.Optional;
 public interface EnvioService {
     List<Envio> getAll();
 
-    Optional<Envio> getById(int envioId);
+    Optional<Envio> getById(String envioId);
 
     Optional<Envio> save(CrearEnvioRequestDto envio);
 
-    Optional<Envio> update(int envioId, CrearEnvioRequestDto envio);
+    Optional<Envio> update(String envioId, CrearEnvioRequestDto envio);
 }

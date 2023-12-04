@@ -80,7 +80,7 @@
 						},
 						{
 							"key": "username",
-							"value": "vendedor.siglo21",
+							"value": "vendedor.user",
 							"type": "text"
 						},
 						{
@@ -134,7 +134,7 @@
 						},
 						{
 							"key": "username",
-							"value": "repartidor.siglo21",
+							"value": "repartidor.user",
 							"type": "text"
 						},
 						{

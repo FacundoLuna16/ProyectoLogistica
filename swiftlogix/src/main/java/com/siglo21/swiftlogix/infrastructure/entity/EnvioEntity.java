@@ -40,8 +40,9 @@ public class EnvioEntity {
     private List<CambioEstadoEntity> cambiosEstado;
 
 
-    @OneToOne
-    @JoinColumn(name = "id_estado")
+
+    @ManyToOne
+    @JoinColumn(name = "id_estado", referencedColumnName = "id")
     private EstadoEnvioEntity estadoActual;
 
     private String ultimosDigitosTarjeta;

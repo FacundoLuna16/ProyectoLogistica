@@ -39,7 +39,7 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public EnvioService envioService(EnvioRepository envioRepository, ClienteRepository clienteRepository, CamionRepository camionRepository, ZonaRepository zonaRepository) {
-        return new DomainEnvioServiceImpl(envioRepository, clienteRepository, camionRepository, zonaRepository);
+    public EnvioService envioService(EnvioRepository envioRepository, ClienteRepository clienteRepository, EstadoEnvioRepository estadoEnvioRepository, ZonaRepository zonaRepository) {
+        return new DomainEnvioServiceImpl(envioRepository, clienteRepository,estadoEnvioRepository , zonaRepository);
     }
 }
