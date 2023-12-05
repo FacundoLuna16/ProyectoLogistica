@@ -30,7 +30,11 @@ public class JpaClienteRepository implements ClienteRepository {
 
     @Override
     public Optional<Cliente> save(Cliente cliente) {
-        return Optional.of(jpaClienteDao.save(cliente.toEntity()).toDomain());
+        try {
+            return Optional.of(jpaClienteDao.save(cliente.toEntity()).toDomain());
+        }catch (Exception e){
+            throw new RuntimeException("Error al guardar el cliente");
+        }
     }
 
 }
