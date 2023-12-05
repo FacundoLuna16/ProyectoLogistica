@@ -6,6 +6,7 @@ import com.siglo21.swiftlogix.domain.Service.Interfaz.EnvioService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,14 +22,12 @@ public class EnvioController {
     }
 
     @GetMapping
+//    @PreAuthorize("hasRole('ROLE_administrador') or hasRole('ROLE_repartidor')")
     public ResponseEntity<?> getAll(
             @RequestParam(name = "idEstado", required = false) Integer idEstado,
             @RequestParam(name = "idZona", required = false) Integer idZona,
             @RequestParam(name = "idCliente", required = false) Integer idCliente) {
         try {
-            // Tu lógica para manejar los parámetros opcionales aquí
-            // Puedes verificar los valores de los parámetros y actuar en consecuencia
-
             return ResponseEntity.status(200).body(envioService.getAllFiltrado(idEstado,idZona,idCliente).stream().map(EnvioResponse::new));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
