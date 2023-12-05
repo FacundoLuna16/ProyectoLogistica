@@ -6,8 +6,6 @@ import { OverviewLatestOrders } from 'src/sections/overview/overview-latest-orde
 
 const Page = () => (
   <>
-    
-   
   </>
 );
 

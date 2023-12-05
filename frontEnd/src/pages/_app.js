@@ -4,7 +4,6 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
-import { AuthConsumer, AuthProvider } from "src/contexts/auth-context";
 import { useNProgress } from "src/hooks/use-nprogress";
 import { createTheme } from "src/theme";
 import { createEmotionCache } from "src/utils/create-emotion-cache";
@@ -13,6 +12,7 @@ import { ReactKeycloakProvider } from "@react-keycloak/web";
 import Keycloak from "keycloak-js";
 import { useEffect } from "react";
 import keycloak from "src/contexts/keycloak";
+import { AuthProvider, AuthConsumer } from "src/contexts/auth-context";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -35,9 +35,8 @@ const App = (props) => {
       onLoad: "login-required",
     });
 
-    keycloak.init({ onLoad: "login-required" }).then((authenticated) => {
-      
-
+    keycloak.init({ onLoad: "login-required", checkLoginIframe: false }).then((isAuthenticated) => {
+      console.log(isAuthenticated ? "Authenticated" : "Not authenticated");
     });
   }, []);
 
@@ -49,10 +48,14 @@ const App = (props) => {
           <meta name="viewport" content="initial-scale=1, width=device-width" />
         </Head>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Component {...pageProps} />
-          </ThemeProvider>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <AuthConsumer>
+                {(auth) =>
+                  auth.isLoading ? <SplashScreen /> : getLayout(<Component {...pageProps} />)
+                }
+              </AuthConsumer>
+            </ThemeProvider>
         </LocalizationProvider>
       </CacheProvider>
     </ReactKeycloakProvider>
