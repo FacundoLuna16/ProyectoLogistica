@@ -8,9 +8,11 @@ import com.siglo21.swiftlogix.domain.Repository.HojaDelDiaRepository;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.HojaDelDiaService;
 import org.springframework.scheduling.annotation.Scheduled;
 import com.siglo21.swiftlogix.domain.Model.Envio;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HojaDelDiaServiceImpl implements HojaDelDiaService {
@@ -34,7 +36,8 @@ public class HojaDelDiaServiceImpl implements HojaDelDiaService {
     }
 
     @Override
-    @Scheduled(cron = "0 * * * * MON-THU")
+    @Scheduled(cron = "*/30 * * * * MON-THU")
+    @Transactional
     //@Scheduled(cron = "0 0 16 * MON-THU ?")
     public void generarHojaDelDia() {
 
@@ -43,9 +46,16 @@ public class HojaDelDiaServiceImpl implements HojaDelDiaService {
         Integer idZona = diaDeLaSemana.getValue();
         if (idZona > 0 && idZona < 5) {
 
+            try {
+                envioRepository.getAllFiltrado(1, idZona, null);
+            }
+            catch (Exception e){
+                System.out.println(e.getMessage());
+            }
 
             //Buscar todos los envios pendientes de la zona correspondiente
             List<Envio> enviosPendientesPorZona = envioRepository.getAllFiltrado(1, idZona, null);
+            //List<Envio> enviosPendientesPorZona = envioRepository.getAllFiltrado(1, idZona, null);
 
             //Crear una hoja del dia con los envios pendientes
             //Busco el estado de hoja del dia en preparacion

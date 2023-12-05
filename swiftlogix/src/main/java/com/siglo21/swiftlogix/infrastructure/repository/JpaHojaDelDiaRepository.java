@@ -31,7 +31,10 @@ public class JpaHojaDelDiaRepository implements HojaDelDiaRepository {
 
     @Override
     public Optional<HojaDelDia> save(HojaDelDia hojaDelDia) {
-        return Optional.of(jpaHojaDelDiaDao.save(hojaDelDia.toEntity())).map(HojaDelDiaEntity::toDomain);
+        HojaDelDiaEntity prueba = hojaDelDia.toEntity();
+        HojaDelDiaEntity hojaDelDiaEntity = jpaHojaDelDiaDao.save(prueba);
+        HojaDelDia hojaDelDia1 = hojaDelDiaEntity.toDomain();
+        return Optional.of(hojaDelDia1);
     }
 
 }

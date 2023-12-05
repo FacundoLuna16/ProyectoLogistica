@@ -36,12 +36,13 @@ public class HojaDelDia {
         hojaDelDiaEntity.setIdHojaDelDia(idHojaDelDia);
         hojaDelDiaEntity.setFechaReparto(fechaReparto);
         hojaDelDiaEntity.setFechaCreacion(fechaCreacion);
-        hojaDelDiaEntity.setCamion(camion.toEntity());
+        hojaDelDiaEntity.setCamion(camion != null ? camion.toEntity() : null);
         hojaDelDiaEntity.setEnvios(envios.stream().map(Envio::toEntity).toList());
-        hojaDelDiaEntity.setRepartidor(repartidor.toEntity());
+        hojaDelDiaEntity.setRepartidor(repartidor != null ? repartidor.toEntity() : null);
         hojaDelDiaEntity.setEstadoHojaDelDia(estadoHojaDelDia.toEntity());
         return hojaDelDiaEntity;
     }
+
 
 
 }

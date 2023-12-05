@@ -31,13 +31,13 @@ public class HojaDelDiaEntity {
     @JoinColumn(name = "patente_camion")
     private CamionEntity camion;
 
-    @OneToMany
+    @ManyToMany
     private List<EnvioEntity> envios;
 
     @ManyToOne
     private RepartidorEntity repartidor;
 
-    @OneToOne
+    @ManyToOne
     private EstadoHojaEntity estadoHojaDelDia;
 
     public HojaDelDia toDomain() {
@@ -45,10 +45,12 @@ public class HojaDelDiaEntity {
         hojaDelDia.setIdHojaDelDia(idHojaDelDia);
         hojaDelDia.setFechaReparto(fechaReparto);
         hojaDelDia.setFechaCreacion(fechaCreacion);
-        hojaDelDia.setCamion(camion.toDomain());
+
+        hojaDelDia.setCamion(camion != null ? camion.toDomain() : null);
         hojaDelDia.setEnvios(envios.stream().map(EnvioEntity::toDomain).toList());
-        hojaDelDia.setRepartidor(repartidor.toDomain());
+        hojaDelDia.setRepartidor(repartidor != null ? repartidor.toDomain() : null);
         hojaDelDia.setEstadoHojaDelDia(estadoHojaDelDia.toDomain());
+
         return hojaDelDia;
     }
 
