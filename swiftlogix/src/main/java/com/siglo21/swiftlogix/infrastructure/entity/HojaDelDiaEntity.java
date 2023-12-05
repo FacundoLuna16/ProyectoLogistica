@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -19,8 +20,12 @@ public class HojaDelDiaEntity {
     @Column(name = "id_hoja_del_dia")
     private Integer idHojaDelDia;
 
-    @Column(name = "fecha")
-    private LocalDate fecha;
+    @Column(name = "fecha_reparto")
+    private LocalDate fechaReparto;
+
+
+    @Column(name = "fecha_creacion")
+    private LocalDateTime fechaCreacion;
 
     @ManyToOne
     @JoinColumn(name = "patente_camion")
@@ -38,7 +43,8 @@ public class HojaDelDiaEntity {
     public HojaDelDia toDomain() {
         HojaDelDia hojaDelDia = new HojaDelDia();
         hojaDelDia.setIdHojaDelDia(idHojaDelDia);
-        hojaDelDia.setFecha(fecha);
+        hojaDelDia.setFechaReparto(fechaReparto);
+        hojaDelDia.setFechaCreacion(fechaCreacion);
         hojaDelDia.setCamion(camion.toDomain());
         hojaDelDia.setEnvios(envios.stream().map(EnvioEntity::toDomain).toList());
         hojaDelDia.setRepartidor(repartidor.toDomain());

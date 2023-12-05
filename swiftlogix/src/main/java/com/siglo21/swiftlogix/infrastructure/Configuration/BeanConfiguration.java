@@ -1,14 +1,9 @@
 package com.siglo21.swiftlogix.infrastructure.Configuration;
 
+import com.siglo21.swiftlogix.domain.Model.EstadoHoja;
 import com.siglo21.swiftlogix.domain.Repository.*;
-import com.siglo21.swiftlogix.domain.Service.DomainCamionServiceImpl;
-import com.siglo21.swiftlogix.domain.Service.DomainClienteServiceImpl;
-import com.siglo21.swiftlogix.domain.Service.DomainEnvioServiceImpl;
-import com.siglo21.swiftlogix.domain.Service.DomainRepartidorServiceImpl;
-import com.siglo21.swiftlogix.domain.Service.Interfaz.CamionService;
-import com.siglo21.swiftlogix.domain.Service.Interfaz.ClienteService;
-import com.siglo21.swiftlogix.domain.Service.Interfaz.EnvioService;
-import com.siglo21.swiftlogix.domain.Service.Interfaz.RepartidorService;
+import com.siglo21.swiftlogix.domain.Service.*;
+import com.siglo21.swiftlogix.domain.Service.Interfaz.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -32,22 +27,27 @@ public class BeanConfiguration {
     }
     @Bean
     public ClienteService clienteService(ClienteRepository clienteRepository, TipoDocumentoRepository tipoDocumentoRepository) {
-        return new DomainClienteServiceImpl(clienteRepository, tipoDocumentoRepository);
+        return new ClienteServiceImpl(clienteRepository, tipoDocumentoRepository);
     }
 
     @Bean
     public RepartidorService repartidorService(RepartidorRepository repartidorRepository) {
-        return new DomainRepartidorServiceImpl(repartidorRepository);
+        return new RepartidorServiceImpl(repartidorRepository);
     }
 
     @Bean
     public EnvioService envioService(EnvioRepository envioRepository, ClienteRepository clienteRepository, EstadoEnvioRepository estadoEnvioRepository, ZonaRepository zonaRepository) {
-        return new DomainEnvioServiceImpl(envioRepository, clienteRepository,estadoEnvioRepository , zonaRepository);
+        return new EnvioServiceImpl(envioRepository, clienteRepository,estadoEnvioRepository , zonaRepository);
     }
 
     @Bean
     public CamionService camionService(CamionRepository camionRepository) {
-        return new DomainCamionServiceImpl(camionRepository);
+        return new CamionServiceImpl(camionRepository);
+    }
+
+    @Bean
+    public HojaDelDiaService hojaDelDiaService(EnvioRepository envioRepository, HojaDelDiaRepository hojaDelDiaRepository, EstadoHojaRepository estadoHojaRepository){
+        return new HojaDelDiaServiceImpl(envioRepository,hojaDelDiaRepository,estadoHojaRepository);
     }
 
 }

@@ -8,11 +8,11 @@ import com.siglo21.swiftlogix.domain.Service.Interfaz.RepartidorService;
 import java.util.List;
 import java.util.Optional;
 
-public class DomainRepartidorServiceImpl implements RepartidorService {
+public class RepartidorServiceImpl implements RepartidorService {
 
     private final RepartidorRepository repartidorRepository;
 
-    public DomainRepartidorServiceImpl(RepartidorRepository repartidorRepository) {
+    public RepartidorServiceImpl(RepartidorRepository repartidorRepository) {
         this.repartidorRepository = repartidorRepository;
     }
 

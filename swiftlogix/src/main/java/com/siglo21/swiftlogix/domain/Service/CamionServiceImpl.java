@@ -8,11 +8,11 @@ import com.siglo21.swiftlogix.domain.Service.Interfaz.CamionService;
 import java.util.List;
 import java.util.Optional;
 
-public class DomainCamionServiceImpl implements CamionService {
+public class CamionServiceImpl implements CamionService {
 
     private final CamionRepository camionRepository;
 
-    public DomainCamionServiceImpl(CamionRepository camionRepository) {
+    public CamionServiceImpl(CamionRepository camionRepository) {
         this.camionRepository = camionRepository;
     }
 

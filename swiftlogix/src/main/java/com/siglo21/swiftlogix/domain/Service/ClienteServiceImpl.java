@@ -10,12 +10,12 @@ import com.siglo21.swiftlogix.domain.Service.Interfaz.ClienteService;
 import java.util.List;
 import java.util.Optional;
 
-public class DomainClienteServiceImpl implements ClienteService {
+public class ClienteServiceImpl implements ClienteService {
 
     private final ClienteRepository clienteRepository;
     private final TipoDocumentoRepository tipoDocumentoRepository;
 
-    public DomainClienteServiceImpl(ClienteRepository clienteRepository, TipoDocumentoRepository tipoDocumentoRepository) {
+    public ClienteServiceImpl(ClienteRepository clienteRepository, TipoDocumentoRepository tipoDocumentoRepository) {
         this.clienteRepository = clienteRepository;
         this.tipoDocumentoRepository = tipoDocumentoRepository;
     }

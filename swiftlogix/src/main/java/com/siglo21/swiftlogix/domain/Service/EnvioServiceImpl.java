@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-public class DomainEnvioServiceImpl implements EnvioService {
+public class EnvioServiceImpl implements EnvioService {
 
     private final EnvioRepository envioRepository;
     private final ClienteRepository clienteRepository;
@@ -18,7 +18,7 @@ public class DomainEnvioServiceImpl implements EnvioService {
     private final EstadoEnvioRepository estadoEnvioRepository;
     private final ZonaRepository zonaRepository;
 
-    public DomainEnvioServiceImpl(EnvioRepository envioRepository, ClienteRepository clienteRepository, EstadoEnvioRepository estadoEnvioRepository, ZonaRepository zonaRepository) {
+    public EnvioServiceImpl(EnvioRepository envioRepository, ClienteRepository clienteRepository, EstadoEnvioRepository estadoEnvioRepository, ZonaRepository zonaRepository) {
         this.envioRepository = envioRepository;
         this.clienteRepository = clienteRepository;
         this.estadoEnvioRepository = estadoEnvioRepository;
