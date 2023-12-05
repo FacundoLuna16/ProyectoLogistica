@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
 
-    @Autowired 
+    @Autowired
     private JwtAuthenticationConverter jwtAuthenticationConverter;
 
     @Bean
