@@ -10,7 +10,7 @@ public interface HojaDelDiaService {
 
     public void generarHojaDelDia();
 
-    public void cerrarHojaDelDia(Integer idHojaDelDia, List<Integer> idsEnviosEntregados);
+    public void cerrarHojaDelDia(Integer idHojaDelDia, List<String> idsEnviosEntregados);
 
     public void iniciarEntrega(Integer idHojaDelDia);
 

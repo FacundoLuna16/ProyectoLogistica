@@ -20,4 +20,6 @@ public class Entregado extends EstadoEnvio {
     public EstadoEnvioEntity toEntity() {
         return new EstadoEnvioEntity(this.id, this.nombre);
     }
+
+
 }

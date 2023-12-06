@@ -267,7 +267,7 @@ CREATE TABLE `cambios_estado` (
   KEY `FK8h9x56jl6m7mj7i5qdhjwpj0l` (`numero_factura`),
   CONSTRAINT `FK8h9x56jl6m7mj7i5qdhjwpj0l` FOREIGN KEY (`numero_factura`) REFERENCES `envios` (`numero_factura`),
   CONSTRAINT `FKo1m78rq0x6h37ehdhougr9m9t` FOREIGN KEY (`estado_id`) REFERENCES `estados_envio` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -276,7 +276,7 @@ CREATE TABLE `cambios_estado` (
 
 LOCK TABLES `cambios_estado` WRITE;
 /*!40000 ALTER TABLE `cambios_estado` DISABLE KEYS */;
-INSERT INTO `cambios_estado` VALUES (1,NULL,'2023-12-04 10:08:50.130152',1,'A-2321-21312312');
+INSERT INTO `cambios_estado` VALUES (1,NULL,'2023-12-04 10:08:50.130152',1,'A-2321-21312312'),(2,NULL,'2023-12-06 16:00:23.683040',1,'HOY');
 /*!40000 ALTER TABLE `cambios_estado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -744,6 +744,7 @@ CREATE TABLE `clientes` (
   `numero_telefono_alternativo` varchar(255) DEFAULT NULL,
   `id_tipo_documento` int DEFAULT NULL,
   PRIMARY KEY (`id_cliente`),
+  UNIQUE KEY `UKdunqebmukycxvi902q7ev0a8v` (`id_tipo_documento`,`numero_documento`),
   KEY `FK158uydvsidi86jgv1skdhcms0` (`id_tipo_documento`),
   CONSTRAINT `FK158uydvsidi86jgv1skdhcms0` FOREIGN KEY (`id_tipo_documento`) REFERENCES `tipos_documentos` (`id_tipo_documento`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -983,7 +984,7 @@ CREATE TABLE `detalles_envios` (
   PRIMARY KEY (`id_detalle_envio`),
   KEY `FK316qxh1txvitlpwtp19s13yr3` (`numero_factura`),
   CONSTRAINT `FK316qxh1txvitlpwtp19s13yr3` FOREIGN KEY (`numero_factura`) REFERENCES `envios` (`numero_factura`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -992,7 +993,7 @@ CREATE TABLE `detalles_envios` (
 
 LOCK TABLES `detalles_envios` WRITE;
 /*!40000 ALTER TABLE `detalles_envios` DISABLE KEYS */;
-INSERT INTO `detalles_envios` VALUES (1,'unaHerramienta','A-2321-21312312'),(2,'otra','A-2321-21312312'),(3,'otra x2','A-2321-21312312');
+INSERT INTO `detalles_envios` VALUES (1,'unaHerramienta','A-2321-21312312'),(2,'otra','A-2321-21312312'),(3,'otra x2','A-2321-21312312'),(4,'string','HOY');
 /*!40000 ALTER TABLE `detalles_envios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1027,7 +1028,7 @@ CREATE TABLE `envios` (
 
 LOCK TABLES `envios` WRITE;
 /*!40000 ALTER TABLE `envios` DISABLE KEYS */;
-INSERT INTO `envios` VALUES ('A-2321-21312312','direccion de envio','una calle y otra','2333',1,1,1);
+INSERT INTO `envios` VALUES ('A-2321-21312312','direccion de envio','una calle y otra','2333',1,1,1),('HOY','string','string','stri',1,1,4);
 /*!40000 ALTER TABLE `envios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1066,7 +1067,7 @@ CREATE TABLE `estados_hoja` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1075,6 +1076,7 @@ CREATE TABLE `estados_hoja` (
 
 LOCK TABLES `estados_hoja` WRITE;
 /*!40000 ALTER TABLE `estados_hoja` DISABLE KEYS */;
+INSERT INTO `estados_hoja` VALUES (1,'EnPreparacion'),(2,'DeCamino'),(3,'Realizado');
 /*!40000 ALTER TABLE `estados_hoja` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1424,18 +1426,20 @@ DROP TABLE IF EXISTS `hojas_del_dia`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `hojas_del_dia` (
   `id_hoja_del_dia` int NOT NULL AUTO_INCREMENT,
-  `fecha` date DEFAULT NULL,
+  `fecha_creacion` datetime(6) DEFAULT NULL,
+  `fecha_reparto` date DEFAULT NULL,
   `patente_camion` varchar(255) DEFAULT NULL,
   `estado_hoja_del_dia_id` int DEFAULT NULL,
   `repartidor_id_repartidor` int DEFAULT NULL,
   PRIMARY KEY (`id_hoja_del_dia`),
-  UNIQUE KEY `UK_nhiow9dtnjda15vybgdqn7gpx` (`estado_hoja_del_dia_id`),
+  UNIQUE KEY `UK_c583q4cxg3pysororqabyu0yq` (`fecha_reparto`),
   KEY `FKe6eco77tsnvrw7yx0gf0oau4g` (`patente_camion`),
+  KEY `FKidvjfl3e6fynbwk8hfmukruu5` (`estado_hoja_del_dia_id`),
   KEY `FKjeqvbe4vny1oi9b9h32i8j3l6` (`repartidor_id_repartidor`),
   CONSTRAINT `FKe6eco77tsnvrw7yx0gf0oau4g` FOREIGN KEY (`patente_camion`) REFERENCES `camiones` (`patente`),
   CONSTRAINT `FKidvjfl3e6fynbwk8hfmukruu5` FOREIGN KEY (`estado_hoja_del_dia_id`) REFERENCES `estados_hoja` (`id`),
   CONSTRAINT `FKjeqvbe4vny1oi9b9h32i8j3l6` FOREIGN KEY (`repartidor_id_repartidor`) REFERENCES `repartidores` (`id_repartidor`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1444,6 +1448,7 @@ CREATE TABLE `hojas_del_dia` (
 
 LOCK TABLES `hojas_del_dia` WRITE;
 /*!40000 ALTER TABLE `hojas_del_dia` DISABLE KEYS */;
+INSERT INTO `hojas_del_dia` VALUES (1,'2023-12-06 20:23:30.084204','2023-12-07',NULL,3,NULL);
 /*!40000 ALTER TABLE `hojas_del_dia` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1457,7 +1462,7 @@ DROP TABLE IF EXISTS `hojas_del_dia_envios`;
 CREATE TABLE `hojas_del_dia_envios` (
   `hoja_del_dia_entity_id_hoja_del_dia` int NOT NULL,
   `envios_numero_factura` varchar(255) NOT NULL,
-  UNIQUE KEY `UK_o2c4qydkd90dvr4yo7dfsfl9p` (`envios_numero_factura`),
+  KEY `FKhsgbd96lp45yutcwhvpx91p0y` (`envios_numero_factura`),
   KEY `FK88t4rvi7xg589j6bim8qxd8ph` (`hoja_del_dia_entity_id_hoja_del_dia`),
   CONSTRAINT `FK88t4rvi7xg589j6bim8qxd8ph` FOREIGN KEY (`hoja_del_dia_entity_id_hoja_del_dia`) REFERENCES `hojas_del_dia` (`id_hoja_del_dia`),
   CONSTRAINT `FKhsgbd96lp45yutcwhvpx91p0y` FOREIGN KEY (`envios_numero_factura`) REFERENCES `envios` (`numero_factura`)
@@ -3024,4 +3029,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-04 13:15:43
+-- Dump completed on 2023-12-06 23:38:28

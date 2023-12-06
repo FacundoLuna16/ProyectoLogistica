@@ -35,4 +35,26 @@ public class Envio {
         envioEntity.setUltimosDigitosTarjeta(this.ultimosDigitosTarjeta);
         return envioEntity;
     }
+
+    //Metodo para cambiar el estado del envio, usando patron state debe delegar el cambio de estado a la clase estado actual
+    public void entregado(EstadoEnvio entregado){
+        this.estadoActual.entregado(this,entregado); //Delegacion
+    }
+
+    public void enCamino(EstadoEnvio enCamino){
+        this.estadoActual.enCamino(this,enCamino);
+    }
+
+
+    public void noEntregado(EstadoEnvio noEntregado){
+        this.estadoActual.noEntregado(this,noEntregado);
+    }
+
+    public void pendiente(EstadoEnvio pendiente){
+        this.estadoActual.pendiente(this,pendiente);
+    }
+
+    public void addCambioEstado(CambioEstado cambioEstado) {
+        this.cambiosEstado.add(cambioEstado);
+    }
 }

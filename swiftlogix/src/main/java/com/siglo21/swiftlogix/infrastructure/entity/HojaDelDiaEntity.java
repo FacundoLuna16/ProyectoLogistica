@@ -20,7 +20,7 @@ public class HojaDelDiaEntity {
     @Column(name = "id_hoja_del_dia")
     private Integer idHojaDelDia;
 
-    @Column(name = "fecha_reparto")
+    @Column(name = "fecha_reparto",unique = true)
     private LocalDate fechaReparto;
 
 

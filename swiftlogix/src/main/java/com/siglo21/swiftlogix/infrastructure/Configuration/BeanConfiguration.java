@@ -1,6 +1,5 @@
 package com.siglo21.swiftlogix.infrastructure.Configuration;
 
-import com.siglo21.swiftlogix.domain.Model.EstadoHoja;
 import com.siglo21.swiftlogix.domain.Repository.*;
 import com.siglo21.swiftlogix.domain.Service.*;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.*;
@@ -46,8 +45,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public HojaDelDiaService hojaDelDiaService(EnvioRepository envioRepository, HojaDelDiaRepository hojaDelDiaRepository, EstadoHojaRepository estadoHojaRepository){
-        return new HojaDelDiaServiceImpl(envioRepository,hojaDelDiaRepository,estadoHojaRepository);
+    public HojaDelDiaService hojaDelDiaService(EnvioRepository envioRepository, HojaDelDiaRepository hojaDelDiaRepository, EstadoHojaRepository estadoHojaRepository, EstadoEnvioRepository estadoEnvioRepository){
+        return new HojaDelDiaServiceImpl(envioRepository,hojaDelDiaRepository,estadoHojaRepository, estadoEnvioRepository);
     }
 
 }
