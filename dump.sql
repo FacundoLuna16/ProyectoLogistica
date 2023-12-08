@@ -267,7 +267,7 @@ CREATE TABLE `cambios_estado` (
   KEY `FK8h9x56jl6m7mj7i5qdhjwpj0l` (`numero_factura`),
   CONSTRAINT `FK8h9x56jl6m7mj7i5qdhjwpj0l` FOREIGN KEY (`numero_factura`) REFERENCES `envios` (`numero_factura`),
   CONSTRAINT `FKo1m78rq0x6h37ehdhougr9m9t` FOREIGN KEY (`estado_id`) REFERENCES `estados_envio` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -276,7 +276,7 @@ CREATE TABLE `cambios_estado` (
 
 LOCK TABLES `cambios_estado` WRITE;
 /*!40000 ALTER TABLE `cambios_estado` DISABLE KEYS */;
-INSERT INTO `cambios_estado` VALUES (1,NULL,'2023-12-04 10:08:50.130152',1,'A-2321-21312312'),(2,NULL,'2023-12-06 16:00:23.683040',1,'HOY');
+INSERT INTO `cambios_estado` VALUES (1,NULL,'2023-12-04 10:08:50.130152',1,'A-2321-21312312'),(2,NULL,'2023-12-06 16:00:23.683040',1,'HOY'),(3,NULL,'2023-12-08 11:42:25.756484',1,'FAC123'),(4,NULL,'2023-12-08 11:42:32.964051',1,'FAC456'),(5,NULL,'2023-12-08 11:43:12.678711',1,'FAC789'),(6,NULL,'2023-12-08 11:44:17.930616',1,NULL),(7,NULL,'2023-12-08 11:45:35.981018',1,'FAC987'),(8,NULL,'2023-12-08 11:46:10.827096',1,NULL),(9,NULL,'2023-12-08 11:46:29.524061',1,NULL),(10,NULL,'2023-12-08 11:46:32.093274',1,NULL),(11,NULL,'2023-12-08 11:46:34.923147',1,NULL),(12,NULL,'2023-12-08 11:47:04.557998',1,NULL),(13,NULL,'2023-12-08 11:47:14.041132',1,NULL),(14,NULL,'2023-12-08 11:47:21.005400',1,'FAC321'),(15,NULL,'2023-12-08 11:50:20.618614',1,'FAC111'),(16,NULL,'2023-12-08 11:50:26.291225',1,'FAC222'),(17,NULL,'2023-12-08 11:50:41.721242',1,'FAC333'),(18,NULL,'2023-12-08 11:51:14.284150',1,'FAC444'),(19,NULL,'2023-12-08 11:51:22.326333',1,'FAC555'),(20,NULL,'2023-12-08 11:51:31.907768',1,'FAC666'),(21,NULL,'2023-12-08 11:51:40.406291',1,'FAC777');
 /*!40000 ALTER TABLE `cambios_estado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -302,6 +302,7 @@ CREATE TABLE `camiones` (
 
 LOCK TABLES `camiones` WRITE;
 /*!40000 ALTER TABLE `camiones` DISABLE KEYS */;
+INSERT INTO `camiones` VALUES ('LOG123','Blanco','Furgón de carga para entregas locales.','Furgón'),('LOG456','Rojo','Camión de gran capacidad para transporte de mercancías pesadas.','Camión'),('LOG789','Azul','Furgoneta versátil para entregas rápidas y eficientes.','Furgoneta'),('LOGABC','Gris','Remolque adicional para aumentar la capacidad de carga.','Remolque'),('LOGXYZ','Verde','Minivan para transporte de paquetes pequeños y medianos.','Minivan');
 /*!40000 ALTER TABLE `camiones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -747,7 +748,7 @@ CREATE TABLE `clientes` (
   UNIQUE KEY `UKdunqebmukycxvi902q7ev0a8v` (`id_tipo_documento`,`numero_documento`),
   KEY `FK158uydvsidi86jgv1skdhcms0` (`id_tipo_documento`),
   CONSTRAINT `FK158uydvsidi86jgv1skdhcms0` FOREIGN KEY (`id_tipo_documento`) REFERENCES `tipos_documentos` (`id_tipo_documento`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -756,7 +757,7 @@ CREATE TABLE `clientes` (
 
 LOCK TABLES `clientes` WRITE;
 /*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
-INSERT INTO `clientes` VALUES (1,'cueva','dire 2112','string@gmail.com','jorge','31245332','+54 2132321','+11 213213213',1),(2,'cuenca','dire 2232','string@gmail.com','alberto','20-32133123-3','+54 12355444','',2);
+INSERT INTO `clientes` VALUES (1,'cueva','dire 2112','string@gmail.com','jorge','31245332','+54 2132321','+11 213213213',1),(2,'cuenca','dire 2232','string@gmail.com','alberto','20-32133123-3','+54 12355444','',2),(3,'Perez','Calle Principal 456','juan.perez@example.com','Juan','DOC123','123456789','987654321',3),(4,'Gomez','Avenida Central 789','maria.gomez@example.com','Maria','DOC456','987654321','123456789',3),(6,'Lopez','Plaza Principal 012','carlos.lopez@example.com','Carlos','DOC789','555555555','444444444',3),(7,'Martinez','Calle A 567','ana.martinez@example.com','Ana','DOC012','777777777','888888888',3),(8,'Rodriguez','Avenida X 890','luis.rodriguez@example.com','Luis','DOC345','333333333','222222222',3);
 /*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -984,7 +985,7 @@ CREATE TABLE `detalles_envios` (
   PRIMARY KEY (`id_detalle_envio`),
   KEY `FK316qxh1txvitlpwtp19s13yr3` (`numero_factura`),
   CONSTRAINT `FK316qxh1txvitlpwtp19s13yr3` FOREIGN KEY (`numero_factura`) REFERENCES `envios` (`numero_factura`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -993,7 +994,7 @@ CREATE TABLE `detalles_envios` (
 
 LOCK TABLES `detalles_envios` WRITE;
 /*!40000 ALTER TABLE `detalles_envios` DISABLE KEYS */;
-INSERT INTO `detalles_envios` VALUES (1,'unaHerramienta','A-2321-21312312'),(2,'otra','A-2321-21312312'),(3,'otra x2','A-2321-21312312'),(4,'string','HOY');
+INSERT INTO `detalles_envios` VALUES (1,'unaHerramienta','A-2321-21312312'),(2,'otra','A-2321-21312312'),(3,'otra x2','A-2321-21312312'),(4,'string','HOY'),(5,'Producto A','FAC123'),(6,'Producto B','FAC456'),(7,'Producto C','FAC789'),(9,'Producto F','FAC987'),(16,'Producto D','FAC321'),(17,'Producto G','FAC111'),(18,'Producto H','FAC222'),(19,'Producto I','FAC333'),(20,'Producto J','FAC444'),(21,'Producto K','FAC555'),(22,'Producto L','FAC666'),(23,'Producto M','FAC777');
 /*!40000 ALTER TABLE `detalles_envios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1028,7 +1029,7 @@ CREATE TABLE `envios` (
 
 LOCK TABLES `envios` WRITE;
 /*!40000 ALTER TABLE `envios` DISABLE KEYS */;
-INSERT INTO `envios` VALUES ('A-2321-21312312','direccion de envio','una calle y otra','2333',1,1,1),('HOY','string','string','stri',1,1,4);
+INSERT INTO `envios` VALUES ('A-2321-21312312','direccion de envio','una calle y otra','2333',1,1,1),('FAC111','Avenida Terciaria 111','Avenida U y Avenida V','5678',7,1,3),('FAC123','Calle Principal 123','Calle A y Calle B','1234',1,1,1),('FAC222','Calle Terciaria 222','Calle W y Calle X','9012',8,1,3),('FAC321','Avenida Secundaria 321','Avenida M y Avenida N','3456',4,1,2),('FAC333','Plaza Terciaria 333','Plaza E y Plaza F','2345',2,1,3),('FAC444','Avenida Cuarta 444','Avenida Y y Avenida Z','3456',1,1,4),('FAC456','Avenida Central 456','Avenida X y Avenida Y','5678',2,1,1),('FAC555','Calle Cuarta 555','Calle A y Calle B','7890',2,1,4),('FAC666','Plaza Cuarta 666','Plaza M y Plaza N','1234',3,1,4),('FAC777','Avenida Cuarta 777','Avenida C y Avenida D','5678',4,1,4),('FAC789','Plaza Principal 789','Plaza A y Plaza B','9012',3,1,1),('FAC987','Plaza Secundaria 987','Plaza C y Plaza D','1234',6,1,2),('HOY','string','string','stri',1,1,4);
 /*!40000 ALTER TABLE `envios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2145,7 +2146,7 @@ CREATE TABLE `repartidores` (
   `apellido` varchar(255) DEFAULT NULL,
   `nombre` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_repartidor`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2154,6 +2155,7 @@ CREATE TABLE `repartidores` (
 
 LOCK TABLES `repartidores` WRITE;
 /*!40000 ALTER TABLE `repartidores` DISABLE KEYS */;
+INSERT INTO `repartidores` VALUES (1,'García','Juan'),(2,'Rodríguez','María'),(3,'López','Carlos'),(4,'Martínez','Ana');
 /*!40000 ALTER TABLE `repartidores` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3016,7 +3018,7 @@ CREATE TABLE `zonas` (
 
 LOCK TABLES `zonas` WRITE;
 /*!40000 ALTER TABLE `zonas` DISABLE KEYS */;
-INSERT INTO `zonas` VALUES (1,'Lunes'),(2,'Martes'),(3,'Miercoles'),(4,'Jueves');
+INSERT INTO `zonas` VALUES (1,'Martes'),(2,'Miercoles'),(3,'Jueves'),(4,'Viernes');
 /*!40000 ALTER TABLE `zonas` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -3029,4 +3031,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-06 23:38:28
+-- Dump completed on 2023-12-08 14:57:24

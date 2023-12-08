@@ -41,6 +41,10 @@ public class EnvioServiceImpl implements EnvioService {
     @Override
     @Transactional
     public Optional<Envio> save(CrearEnvioRequestDto crearEnvioRequestDto) {
+        Optional<Envio> envioNoPresent = envioRepository.getById(crearEnvioRequestDto.getNumeroFactura());
+        if (envioNoPresent.isPresent()) {
+            throw new RuntimeException("Envio ya existe");
+        }
         Envio envio = new Envio();
         envio.setNumeroFactura(crearEnvioRequestDto.getNumeroFactura());
         Cliente cliente = clienteRepository.getById(crearEnvioRequestDto.getIdCliente()).get();

@@ -29,6 +29,10 @@ public class CamionServiceImpl implements CamionService {
 
     @Override
     public Optional<Camion> save(CamionRequestDto camion) {
+        Optional<Camion> camionNoPresent = camionRepository.getById(camion.getPatente());
+        if (camionNoPresent.isPresent()) {
+            throw new RuntimeException("Camion ya existe");
+        }
         Camion camionSave = new Camion(camion);
         return camionRepository.save(camionSave);
     }
