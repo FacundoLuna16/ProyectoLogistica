@@ -4,10 +4,9 @@ package com.siglo21.swiftlogix.application.controller;
 import com.siglo21.swiftlogix.application.Response.HojaDelDiaResponse;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.HojaDelDiaService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/hojas")
@@ -41,10 +40,10 @@ public class HojaDelDiaController {
         }
     }
 
-    @GetMapping("/cerrarHojaDelDia")
-    public ResponseEntity<?> cerrarHojaDelDia(@RequestParam Integer idHojaDelDia){
+    @PutMapping("/cerrarHojaDelDia")
+    public ResponseEntity<?> cerrarHojaDelDia(@RequestParam Integer idHojaDelDia,@RequestBody List<String> idsEnviosEntregados){
         try {
-            hojaDelDiaService.cerrarHojaDelDia(idHojaDelDia, null);
+            hojaDelDiaService.cerrarHojaDelDia(idHojaDelDia, idsEnviosEntregados);
             return ResponseEntity.status(200).body(null);
         }
         catch (Exception e) {

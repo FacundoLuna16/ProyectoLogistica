@@ -37,7 +37,6 @@ public abstract class EstadoEnvio {
     public CambioEstado buscarUltimoCambioEstado(List<CambioEstado> cambioEstados){
 
         return cambioEstados.stream().filter(cambioEstado -> cambioEstado.getFechaHoraFin() == null).findFirst().orElse(null);
-
     }
 
 }

@@ -50,8 +50,7 @@ public class HojaDelDiaServiceImpl implements HojaDelDiaService {
 
         DayOfWeek diaDeLaSemana = LocalDateTime.now().getDayOfWeek();
 
-       //Integer idZona = diaDeLaSemana.getValue();
-        Integer idZona= 1;
+       Integer idZona = diaDeLaSemana.getValue();
         if (idZona > 0 && idZona < 5) {
 
             try {
@@ -99,14 +98,13 @@ public class HojaDelDiaServiceImpl implements HojaDelDiaService {
             EstadoEnvio noEntregado = estadoEnvioRepository.getById(3).get();
             EstadoEnvio pendiente = estadoEnvioRepository.getById(1).get();
 
-
-            List<Envio> enviosDeLaHoja = hojaDelDia.getEnvios();
-            for (Envio envio: enviosDeLaHoja) {
+            for (Envio envio : hojaDelDia.getEnvios()) {
                 if (nroDeEnviosEntregados.contains(envio.getNumeroFactura())){
                     envio.entregado(entregado);
                 }else {
                     envio.noEntregado(noEntregado);
                 }
+
                 /*
                 luego de cambiar el estado del envio, enviamos el msg pendiente para que
                  aquellos que allan pasado a noEntregado se pasen a pendiente, esto lo hacemos
@@ -117,11 +115,11 @@ public class HojaDelDiaServiceImpl implements HojaDelDiaService {
                  que tengan como estado actual noEntregado, entonces no hay problema en llamarlo para todos los envios
                  ya que los que esten en pendientes no van a hacer nada.
                 */
-                envio.pendiente(pendiente);
-                //guardar envios uno por uno cada vez que actualiza uno
-                envioRepository.save(envio);
 
+                //TODO CAMBIAR PARA QUE SE HAGA AL FINAL DEL DIA el cambio a pendiente
+                envio.pendiente(pendiente);
             }
+            envioRepository.saveAll(hojaDelDia.getEnvios());
         }catch (Exception e){
             throw new RuntimeException("Problemas con el Envio de la Hoja Del Dia");
         }
@@ -148,14 +146,14 @@ public class HojaDelDiaServiceImpl implements HojaDelDiaService {
             EstadoEnvio enCamino = estadoEnvioRepository.getById(2)
                     .orElseThrow(() -> new EntityNotFoundException("No se encontró el Estado 'En Camino'"));
 
-            List<Envio> enviosDeLaHoja = hojaDelDia.getEnvios();
-            for (Envio envio : enviosDeLaHoja) {
+            //List<Envio> enviosDeLaHoja = hojaDelDia.getEnvios();
+            for (Envio envio : hojaDelDia.getEnvios()) {
                 envio.enCamino(enCamino);
                 //guardar envios uno por uno cada vez que actualiza uno
                 //envioRepository.save(envio);
             }
             //guardar todos los envios juntos
-            envioRepository.saveAll(enviosDeLaHoja);
+            envioRepository.saveAll(hojaDelDia.getEnvios());
         }catch (EntityNotFoundException e) {
             throw new RuntimeException("No se encontró una entidad necesaria.", e);
         } catch (Exception e) {

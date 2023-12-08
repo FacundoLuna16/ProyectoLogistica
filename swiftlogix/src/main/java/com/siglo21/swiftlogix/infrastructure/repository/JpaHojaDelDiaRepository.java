@@ -32,7 +32,7 @@ public class JpaHojaDelDiaRepository implements HojaDelDiaRepository {
     @Override
     public Optional<HojaDelDia> save(HojaDelDia hojaDelDia) {
         HojaDelDiaEntity prueba = hojaDelDia.toEntity();
-        HojaDelDiaEntity hojaDelDiaEntity = jpaHojaDelDiaDao.save(prueba);
+        HojaDelDiaEntity hojaDelDiaEntity = jpaHojaDelDiaDao.saveAndFlush(prueba);
         HojaDelDia hojaDelDia1 = hojaDelDiaEntity.toDomain();
         return Optional.of(hojaDelDia1);
     }
