@@ -1,11 +1,14 @@
 package com.siglo21.swiftlogix.infrastructure.entity;
 
+import com.siglo21.swiftlogix.domain.Model.CambioEstado;
 import com.siglo21.swiftlogix.domain.Model.Envio;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -56,7 +59,7 @@ public class EnvioEntity {
         envio.setDetalleEnvio(this.detalleEnvio != null ? this.detalleEnvio.stream().map(DetalleEnvioEntity::toDomain).toList() : null);
         envio.setDireccionEnvio(this.direccionEnvio);
         envio.setEntreCalles(this.entreCalles);
-        envio.setCambiosEstado(this.cambiosEstado != null ? this.cambiosEstado.stream().map(CambioEstadoEntity::toDomain).toList() : null);
+        envio.setCambiosEstado(this.cambiosEstado != null ? (ArrayList<CambioEstado>) this.cambiosEstado.stream().map(CambioEstadoEntity::toDomain).collect(Collectors.toList()) : null);
         envio.setEstadoActual(this.estadoActual != null ? this.estadoActual.toDomain() : null);
         envio.setUltimosDigitosTarjeta(this.ultimosDigitosTarjeta);
         return envio;

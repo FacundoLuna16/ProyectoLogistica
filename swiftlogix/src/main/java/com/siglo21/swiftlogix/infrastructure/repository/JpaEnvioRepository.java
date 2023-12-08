@@ -37,4 +37,11 @@ public class JpaEnvioRepository implements EnvioRepository {
         Envio envio1 = envioEntity.toDomain();
         return Optional.of(envio1);
     }
+    //METODO SAVEALL PARA GUARDAR UNA LISTA DE ENVIOS
+    @Override
+    public List<Envio> saveAll(List<Envio> envios) {
+        List<EnvioEntity> envioEntities = envios.stream().map(Envio::toEntity).toList();
+        List<EnvioEntity> envioEntities1 = jpaEnvioDao.saveAll(envioEntities);
+        return envioEntities1.stream().map(EnvioEntity::toDomain).toList();
+    }
 }

@@ -1,12 +1,12 @@
 package com.siglo21.swiftlogix.domain.Model;
 
+import com.siglo21.swiftlogix.domain.Model.EstadoHojaDelDia.DeCamino;
 import com.siglo21.swiftlogix.domain.Model.EstadoHojaDelDia.EnPreparacion;
+import com.siglo21.swiftlogix.domain.Model.EstadoHojaDelDia.Realizado;
 import com.siglo21.swiftlogix.infrastructure.entity.*;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -43,6 +43,16 @@ public class HojaDelDia {
         return hojaDelDiaEntity;
     }
 
+    public Boolean estaEnPreparacion() {
+        return estadoHojaDelDia instanceof EnPreparacion;
+    }
+    public Boolean estaEnCamino() {
+        return estadoHojaDelDia instanceof DeCamino;
+    }
+
+    public Boolean estaCerrada() {
+        return estadoHojaDelDia instanceof Realizado;
+    }
 
 
 }

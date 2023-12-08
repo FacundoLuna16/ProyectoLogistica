@@ -13,4 +13,6 @@ public interface EnvioRepository {
 
     Optional<Envio> save(Envio envio);
 
+    List<Envio> saveAll(List<Envio> envios);
+
 }

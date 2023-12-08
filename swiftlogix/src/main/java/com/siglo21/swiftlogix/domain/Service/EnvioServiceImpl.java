@@ -7,6 +7,7 @@ import com.siglo21.swiftlogix.domain.Repository.*;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.EnvioService;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,7 +66,7 @@ public class EnvioServiceImpl implements EnvioService {
         //Buscamos el estado pendiente
         Pendiente pendiente = (Pendiente) estadoEnvioRepository.getById(1).get();
         CambioEstado cambioEstado = new CambioEstado(pendiente);
-        envio.setCambiosEstado(List.of(cambioEstado));
+        envio.setCambiosEstado((ArrayList<CambioEstado>) List.of(cambioEstado));
         envio.setEstadoActual(pendiente);
         envio.setDireccionEnvio(crearEnvioRequestDto.getDireccionEnvio());
         envio.setEntreCalles(crearEnvioRequestDto.getEntreCalles());

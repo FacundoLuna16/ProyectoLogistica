@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Setter
 @Getter
@@ -17,7 +19,7 @@ public class Envio {
     private List<DetalleEnvio> detalleEnvio;
     private String direccionEnvio;
     private String entreCalles;
-    private List<CambioEstado> cambiosEstado;
+    private ArrayList<CambioEstado> cambiosEstado;
     private EstadoEnvio estadoActual;
     private String ultimosDigitosTarjeta;
 
@@ -30,7 +32,7 @@ public class Envio {
         envioEntity.setDetalleEnvio(this.detalleEnvio.stream().map(DetalleEnvio::toEntity).toList());
         envioEntity.setDireccionEnvio(this.direccionEnvio);
         envioEntity.setEntreCalles(this.entreCalles);
-        envioEntity.setCambiosEstado(this.cambiosEstado != null ? this.cambiosEstado.stream().map(CambioEstado::toEntity).toList() : null);
+        envioEntity.setCambiosEstado(this.cambiosEstado != null ? this.cambiosEstado.stream().map(CambioEstado::toEntity).collect(Collectors.toList()) : null);
         envioEntity.setEstadoActual(this.estadoActual != null ? this.estadoActual.toEntity() : null);
         envioEntity.setUltimosDigitosTarjeta(this.ultimosDigitosTarjeta);
         return envioEntity;
