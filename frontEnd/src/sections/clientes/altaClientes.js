@@ -1,10 +1,11 @@
-// ClienteAgregarDialog.jsx
+// AgregarClienteDialog.jsx
 import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogTitle, TextField, DialogActions, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import clientesService from "src/service/clientesService"; // Asegúrate de que esta ruta sea correcta
+import { Dialog, DialogContent, DialogTitle, TextField, DialogActions, Button } from '@mui/material';
+import ClientesService from "src/service/clientesService";
 
-const ClienteAgregarDialog = ({ open, onClose, onClienteAdded }) => {
-  const [cliente, setCliente] = useState({
+const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
+  const [newCliente, setNewCliente] = useState({
+    iDCliente: 0,
     tipoDoc: '',
     nroDoc: '',
     nombre: '',
@@ -12,19 +13,30 @@ const ClienteAgregarDialog = ({ open, onClose, onClienteAdded }) => {
     direccion: '',
     nroTelefono: '',
     nroTelefonoAlternativo: '',
-    mail: ''
+    mail: '',
   });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setCliente(prev => ({ ...prev, [name]: value }));
+    setNewCliente({ ...newCliente, [name]: value });
   };
 
-  const handleAgregarCliente = async () => {
+  const handleAgregar = async () => {
     try {
-      const response = await clientesService.create(cliente);
-      onClienteAdded(response);
-      onClose(); // Cierra el modal después de agregar el cliente
+      const addedCliente = await ClientesService.create(newCliente);
+      onClienteAdded(addedCliente);
+      onClose();
+      setNewCliente({
+        iDCliente: 0,
+        tipoDoc: '',
+        nroDoc: '',
+        nombre: '',
+        apellido: '',
+        direccion: '',
+        nroTelefono: '',
+        nroTelefonoAlternativo: '',
+        mail: '',
+      });
     } catch (error) {
       console.error('Error al agregar cliente:', error);
     }
@@ -34,113 +46,26 @@ const ClienteAgregarDialog = ({ open, onClose, onClienteAdded }) => {
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Agregar Nuevo Cliente</DialogTitle>
       <DialogContent>
-        {/* Tipo de Documento */}
-        <FormControl fullWidth margin="dense">
-          <InputLabel id="tipo-doc-label">Tipo de Documento</InputLabel>
-          <Select
-            labelId="tipo-doc-label"
-            id="tipoDoc"
-            name="tipoDoc"
-            value={cliente.tipoDoc}
-            label="Tipo de Documento"
-            onChange={handleInputChange}
-          >
-            {/* Aquí deberías añadir los MenuItem para cada tipo de documento */}
-            <MenuItem value="DNI">DNI</MenuItem>
-            <MenuItem value="PASAPORTE">Pasaporte</MenuItem>
-            {/* ...otros tipos de documentos */}
-          </Select>
-        </FormControl>
-
-        {/* Número de Documento */}
+        {/* Agrega aquí los campos necesarios para el cliente */}
+        {/* Ejemplo: */}
         <TextField
-          margin="dense"
-          id="nroDoc"
-          name="nroDoc"
-          label="Número de Documento"
-          type="text"
-          fullWidth
-          value={cliente.nroDoc}
-          onChange={handleInputChange}
-        />
-
-        {/* Nombre */}
-        <TextField
+          autoFocus
           margin="dense"
           id="nombre"
+          label="Nombre del Cliente"
+          type="text"
+          fullWidth
           name="nombre"
-          label="Nombre"
-          type="text"
-          fullWidth
-          value={cliente.nombre}
+          value={newCliente.nombre}
           onChange={handleInputChange}
         />
-
-        {/* Apellido */}
-        <TextField
-          margin="dense"
-          id="apellido"
-          name="apellido"
-          label="Apellido"
-          type="text"
-          fullWidth
-          value={cliente.apellido}
-          onChange={handleInputChange}
-        />
-
-        {/* Dirección */}
-        <TextField
-          margin="dense"
-          id="direccion"
-          name="direccion"
-          label="Dirección"
-          type="text"
-          fullWidth
-          value={cliente.direccion}
-          onChange={handleInputChange}
-        />
-
-        {/* Número de Teléfono */}
-        <TextField
-          margin="dense"
-          id="nroTelefono"
-          name="nroTelefono"
-          label="Número de Teléfono"
-          type="text"
-          fullWidth
-          value={cliente.nroTelefono}
-          onChange={handleInputChange}
-        />
-
-        {/* Número de Teléfono Alternativo */}
-        <TextField
-          margin="dense"
-          id="nroTelefonoAlternativo"
-          name="nroTelefonoAlternativo"
-          label="Número de Teléfono Alternativo"
-          type="text"
-          fullWidth
-          value={cliente.nroTelefonoAlternativo}
-          onChange={handleInputChange}
-        />
-
-        {/* Email */}
-        <TextField
-          margin="dense"
-          id="mail"
-          name="mail"
-          label="Correo Electrónico"
-          type="email"
-          fullWidth
-          value={cliente.mail}
-          onChange={handleInputChange}
-        />
+        {/* Agregar más campos según sea necesario */}
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">
           Cancelar
         </Button>
-        <Button onClick={handleAgregarCliente} color="primary">
+        <Button onClick={handleAgregar} color="primary">
           Agregar
         </Button>
       </DialogActions>
@@ -148,4 +73,4 @@ const ClienteAgregarDialog = ({ open, onClose, onClienteAdded }) => {
   );
 };
 
-export default ClienteAgregarDialog;
+export default AgregarClienteDialog;

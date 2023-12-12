@@ -12,7 +12,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import repartidoresService from "../service/repartidoresService";
 import AgregarRepartidorDialog from "src/sections/repartidores/altaRepartidores";
 import ConsultarRepartidorDialog from "src/sections/repartidores/consultarRepartidor";
-import ModificarRepartidorDialog from "src/sections/repartidores/ModificarRepartidor";
+import ModificarRepartidorDialog from "src/sections/repartidores/modificarRepartidor";
 
 const Repartidores = () => {
   const [repartidores, setRepartidores] = useState([]);

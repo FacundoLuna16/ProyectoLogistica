@@ -1,38 +1,47 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Head from "next/head";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { useSelection } from "src/hooks/use-selection";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
-import { CustomersTable } from "src/sections/clientes/clientes-table"; // Asumiendo que existe un componente similar para Clientes
+import { ClientsTable } from "src/sections/clientes/clientes-table";
 import { applyPagination } from "src/utils/apply-pagination";
-import { TrashIcon } from "@heroicons/react/24/outline";
-import { ArrowPathIcon } from "@heroicons/react/24/outline";
-import { UserCircleIcon } from "@heroicons/react/24/outline";
+import { ArrowPathIcon, UserCircleIcon } from "@heroicons/react/24/outline";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import clientesService from "src/service/clientesService";
-
-const data = clientesService.getAll();
-
-const useClientes = (page, rowsPerPage) => {
-  return useMemo(() => {
-    return applyPagination(data, page, rowsPerPage);
-  }, [page, rowsPerPage]);
-};
-
-const useClienteIds = (clientes) => {
-  return useMemo(() => {
-    return clientes.map((cliente) => cliente.idCliente);
-  }, [clientes]);
-};
+import clientesService from "../service/clientesService";
+import AgregarClienteDialog from "src/sections/clientes/altaClientes";
+import ConsultarClienteDialog from "src/sections/clientes/verClientes";
+import ModificarClienteDialog from "src/sections/clientes/modificarCliente";
 
 const Clientes = () => {
+  const [clientes, setClientes] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const clientes = useClientes(page, rowsPerPage);
-  const clienteIds = useClienteIds(clientes);
-  const clienteSelection = useSelection(clienteIds);
+
+  useEffect(() => {
+    const fetchClientes = async () => {
+      try {
+        const data = await clientesService.getAll();
+        console.log(data);
+        setClientes(data);
+      } catch (error) {
+        console.error("Error al obtener clientes:", error);
+      }
+    };
+
+    fetchClientes();
+  }, []);
+
+  const paginatedClientes = useMemo(() => {
+    return applyPagination(clientes, page, rowsPerPage);
+  }, [clientes, page, rowsPerPage]);
+
+  const clientesIds = useMemo(() => {
+    return paginatedClientes.map((cliente) => cliente.iDCliente);
+  }, [paginatedClientes]);
+
+  const clientesSelection = useSelection(clientesIds);
 
   const handlePageChange = useCallback((event, value) => {
     setPage(value);
@@ -44,6 +53,47 @@ const Clientes = () => {
 
   const theme = useTheme();
   const isXSmall = useMediaQuery(theme.breakpoints.down("xs"));
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
+
+  const handleClienteAdded = (cliente) => {
+    setClientes([...clientes, cliente]);
+  };
+
+  const [dialogConsultaOpen, setDialogConsultaOpen] = useState(false);
+  const [clienteSeleccionado, setClienteSeleccionado] = useState({
+    iDCliente: 0,
+    tipoDoc: "",
+    nroDoc: "",
+    nombre: "",
+    apellido: "",
+    direccion: "",
+    nroTelefono: "",
+    nroTelefonoAlternativo: "",
+    mail: "",
+  });
+
+  const handleVerDetalle = (clienteId) => {
+    const clienteDetalle = clientes.find((c) => c.iDCliente === clienteId) || {
+      iDCliente: 0,
+      tipoDoc: "",
+      nroDoc: "",
+      nombre: "",
+      apellido: "",
+      direccion: "",
+      nroTelefono: "",
+      nroTelefonoAlternativo: "",
+      mail: "",
+    };
+    setClienteSeleccionado(clienteDetalle);
+    setDialogConsultaOpen(true);
+  };
+
+  const [dialogModificacionOpen, setDialogModificacionOpen] = useState(false);
 
   return (
     <>
@@ -60,65 +110,69 @@ const Clientes = () => {
         <Container maxWidth="xl">
           <Stack spacing={3}>
             <Stack
-              direction={isXSmall ? 'column' : 'row'}
+              direction={isXSmall ? "column" : "row"}
               justifyContent="space-between"
               spacing={isXSmall ? 2 : 4}
               alignItems="center"
             >
               <Typography variant="h4" sx={{ mb: isXSmall ? 2 : 0 }}>
-              Clientes
+                Clientes
               </Typography>
-              <Stack
-                direction={isXSmall ? 'column' : 'row'}
-                spacing={2}
-                alignItems="center"
-              >
+              <Stack direction={isXSmall ? "column" : "row"} spacing={2} alignItems="center">
                 <Button
                   startIcon={<PlusIcon />}
                   variant="contained"
                   color="success"
-                  sx={{ mb: isXSmall ? 1 : 0 }}
+                  onClick={() => setDialogOpen(true)}
                 >
                   Agregar
                 </Button>
-                <Button
-                  startIcon={<TrashIcon />}
-                  variant="contained"
-                  color="error"
-                  sx={{ mb: isXSmall ? 1 : 0 }}
-                >
-                  Eliminar
-                </Button>
+                <AgregarClienteDialog
+                  open={dialogOpen}
+                  onClose={handleDialogClose}
+                  onClienteAdded={handleClienteAdded}
+                />
                 <Button
                   startIcon={<UserCircleIcon />}
                   variant="contained"
                   color="warning"
                   sx={{ mb: isXSmall ? 1 : 0 }}
+                  onClick={() => setDialogModificacionOpen(true)}
                 >
                   Modificar
                 </Button>
+                <ModificarClienteDialog
+                  open={dialogModificacionOpen}
+                  onClose={() => setDialogModificacionOpen(false)}
+                />
                 <Button
                   startIcon={<ArrowPathIcon />}
                   variant="contained"
                   color="info"
                   sx={{ mb: isXSmall ? 1 : 0 }}
+                  onClick={() => handleVerDetalle(/* id del cliente seleccionado */)}
                 >
                   Ver
                 </Button>
+                <ConsultarClienteDialog
+                  open={dialogConsultaOpen}
+                  onClose={() => setDialogConsultaOpen(false)}
+                  cliente={clienteSeleccionado}
+                />
               </Stack>
             </Stack>
-            <CustomersTable
-              count={data.length}
-              items={clientes}
-              onDeselectAll={clienteSelection.handleDeselectAll}
-              onDeselectOne={clienteSelection.handleDeselectOne}
+            <ClientsTable
+              count={clientes.length}
+              items={paginatedClientes}
+              onDeselectAll={clientesSelection.handleDeselectAll}
+              onDeselectOne={clientesSelection.handleDeselectOne}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
-              onSelectAll={clienteSelection.handleSelectAll}
-              onSelectOne={clienteSelection.handleSelectOne}
+              onSelectAll={clientesSelection.handleSelectAll}
+              onSelectOne={clientesSelection.handleSelectOne}
               page={page}
               rowsPerPage={rowsPerPage}
-              selected={clienteSelection.selected}
+              selected={clientesSelection.selected}
             />
           </Stack>
         </Container>

@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { format } from "date-fns";
 import {
   Box,
   Card,
@@ -10,11 +9,10 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Typography,
 } from "@mui/material";
 import { Scrollbar } from "src/components/scrollbar";
 
-export const CustomersTable = (props) => {
+export const ClientsTable = (props) => {
   const {
     count = 0,
     items = [],
@@ -52,44 +50,42 @@ export const CustomersTable = (props) => {
                     }}
                   />
                 </TableCell>
-                <TableCell>idCliente</TableCell>
                 <TableCell>TipoDoc</TableCell>
-                <TableCell>Numero Documento</TableCell>
+                <TableCell>NumeroDoc</TableCell>
                 <TableCell>Nombre</TableCell>
                 <TableCell>Apellido</TableCell>
-                <TableCell>direccion</TableCell>
+                <TableCell>Direccion</TableCell>
                 <TableCell>Telefono</TableCell>
-                <TableCell>Telefono Alternativo</TableCell>
+                <TableCell>TelefonoAlt</TableCell>
                 <TableCell>Email</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((customer) => {
-                const isSelected = selected.includes(customer.idCliente);
+              {items.map((client) => {
+                const isSelected = selected.includes(client.iDCliente);
 
                 return (
-                  <TableRow hover key={customer.idCliente} selected={isSelected}>
+                  <TableRow hover key={client.iDCliente} selected={isSelected}>
                     <TableCell padding="checkbox">
                       <Checkbox
                         checked={isSelected}
                         onChange={(event) => {
                           if (event.target.checked) {
-                            onSelectOne?.(customer.idCliente);
+                            onSelectOne?.(client.iDCliente);
                           } else {
-                            onDeselectOne?.(customer.idCliente);
+                            onDeselectOne?.(client.iDCliente);
                           }
                         }}
                       />
                     </TableCell>
-                    <TableCell>{customer.idCliente}</TableCell>
-                    <TableCell>{customer.TipoDoc}</TableCell>
-                    <TableCell>{customer.NumeroDoc}</TableCell>
-                    <TableCell>{customer.Nombre}</TableCell>
-                    <TableCell>{customer.Apellido}</TableCell>
-                    <TableCell>{customer.Direccion}</TableCell>
-                    <TableCell>{customer.Telefono}</TableCell>
-                    <TableCell>{customer.TelefonoAlt}</TableCell>
-                    <TableCell>{customer.Email}</TableCell>
+                    <TableCell>{client.tipoDocumento}</TableCell>
+                    <TableCell>{client.numeroDocumento}</TableCell>
+                    <TableCell>{client.nombre}</TableCell>
+                    <TableCell>{client.apellido}</TableCell>
+                    <TableCell>{client.direccion}</TableCell>
+                    <TableCell>{client.numeroTelefono}</TableCell>
+                    <TableCell>{client.numeroTelefonoAlternativo}</TableCell>
+                    <TableCell>{client.email}</TableCell>
                   </TableRow>
                 );
               })}
@@ -110,7 +106,7 @@ export const CustomersTable = (props) => {
   );
 };
 
-CustomersTable.propTypes = {
+ClientsTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
   onDeselectAll: PropTypes.func,

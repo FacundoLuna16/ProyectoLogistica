@@ -1,41 +1,46 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Head from "next/head";
-import { subDays, subHours } from "date-fns";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { useSelection } from "src/hooks/use-selection";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
-import { CustomersTable } from "src/sections/camiones/camiones-table";
+import { CustomersTable } from "src/sections/camiones/camiones-table";  // Reemplazar con el nombre correcto
 import { applyPagination } from "src/utils/apply-pagination";
-import { TrashIcon } from "@heroicons/react/24/outline";
-import { ArrowPathIcon } from "@heroicons/react/24/outline";
-import { UserCircleIcon } from "@heroicons/react/24/outline";
+import { ArrowPathIcon, TruckIcon, UserCircleIcon } from "@heroicons/react/24/outline";  // Reemplazar con el icono correcto para camiones
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import camionesService from "src/service/camionesService";
-
-
-const data = camionesService.getAll();
-  
-
-const useCustomers = (page, rowsPerPage) => {
-  return useMemo(() => {
-    return applyPagination(data, page, rowsPerPage);
-  }, [page, rowsPerPage]);
-};
-
-const useCustomerIds = (customers) => {
-  return useMemo(() => {
-    return customers.map((customer) => customer.id);
-  }, [customers]);
-};
+import CamionesService from "../service/camionesService";  // Reemplazar con el servicio correcto
+import AgregarCamionDialog from "src/sections/camiones/altaCamiones";
+import ConsultarCamionDialog from "src/sections/camiones/verCamion";
+import ModificarCamionDialog from "src/sections/camiones/modificarCamion";
 
 const Camiones = () => {
+  const [camiones, setCamiones] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const customers = useCustomers(page, rowsPerPage);
-  const customersIds = useCustomerIds(customers);
-  const customersSelection = useSelection(customersIds);
+
+  useEffect(() => {
+    const fetchCamiones = async () => {
+      try {
+        const data = await CamionesService.getAll();
+        setCamiones(data);
+      } catch (error) {
+        console.error("Error al obtener camiones:", error);
+      }
+    };
+
+    fetchCamiones();
+  }, []);
+
+  const paginatedCamiones = useMemo(() => {
+    return applyPagination(camiones, page, rowsPerPage);
+  }, [camiones, page, rowsPerPage]);
+
+  const camionesIds = useMemo(() => {
+    return paginatedCamiones.map((camion) => camion.idCamion);
+  }, [paginatedCamiones]);
+
+  const camionesSelection = useSelection(camionesIds);
 
   const handlePageChange = useCallback((event, value) => {
     setPage(value);
@@ -46,12 +51,43 @@ const Camiones = () => {
   }, []);
 
   const theme = useTheme();
-  const isXSmall = useMediaQuery(theme.breakpoints.down('xs')); // 'xs'
+  const isXSmall = useMediaQuery(theme.breakpoints.down("xs"));
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
+
+  const handleCamionAdded = (camion) => {
+    setCamiones([...camiones, camion]);
+  };
+
+  const [dialogConsultaOpen, setDialogConsultaOpen] = useState(false);
+  const [camionSeleccionado, setCamionSeleccionado] = useState({
+    patente: "",
+    modelo: "",
+    color: "",
+    marca: "",
+  });
+
+  const handleVerDetalle = (camionId) => {
+    const camionDetalle = camiones.find((c) => c.idCamion === camionId) || {
+      patente: "",
+      modelo: "",
+      color: "",
+      marca: "",
+    };
+    setCamionSeleccionado(camionDetalle);
+    setDialogConsultaOpen(true);
+  };
+
+  const [dialogModificacionOpen, setDialogModificacionOpen] = useState(false);
 
   return (
     <>
       <Head>
-        <title>Camiones | Sistema de Gestión de Envios</title>
+        <title>Camiones | Sistema de Gestión de Envíos</title>
       </Head>
       <Box
         component="main"
@@ -63,7 +99,7 @@ const Camiones = () => {
         <Container maxWidth="xl">
           <Stack spacing={3}>
             <Stack
-              direction={isXSmall ? 'column' : 'row'}
+              direction={isXSmall ? "column" : "row"}
               justifyContent="space-between"
               spacing={isXSmall ? 2 : 4}
               alignItems="center"
@@ -71,57 +107,61 @@ const Camiones = () => {
               <Typography variant="h4" sx={{ mb: isXSmall ? 2 : 0 }}>
                 Camiones
               </Typography>
-              <Stack
-                direction={isXSmall ? 'column' : 'row'}
-                spacing={2}
-                alignItems="center"
-              >
+              <Stack direction={isXSmall ? "column" : "row"} spacing={2} alignItems="center">
                 <Button
-                  startIcon={<PlusIcon />}
+                  startIcon={<TruckIcon />}
                   variant="contained"
-                    color="success"
-                  sx={{ mb: isXSmall ? 1 : 0 }}
+                  color="success"
+                  onClick={() => setDialogOpen(true)}
                 >
                   Agregar
                 </Button>
-                <Button
-                  startIcon={<TrashIcon />}
-                  variant="contained"
-                  color="error"
-                  sx={{ mb: isXSmall ? 1 : 0 }}
-                >
-                  Eliminar
-                </Button>
+                <AgregarCamionDialog
+                  open={dialogOpen}
+                  onClose={handleDialogClose}
+                  onCamionAdded={handleCamionAdded}
+                />
                 <Button
                   startIcon={<UserCircleIcon />}
                   variant="contained"
                   color="warning"
                   sx={{ mb: isXSmall ? 1 : 0 }}
+                  onClick={() => setDialogModificacionOpen(true)}
                 >
                   Modificar
                 </Button>
+                <ModificarCamionDialog
+                  open={dialogModificacionOpen}
+                  onClose={() => setDialogModificacionOpen(false)}
+                />
                 <Button
                   startIcon={<ArrowPathIcon />}
                   variant="contained"
                   color="info"
                   sx={{ mb: isXSmall ? 1 : 0 }}
+                  onClick={() => handleVerDetalle(/* id del camion seleccionado */)}
                 >
                   Ver
                 </Button>
+                <ConsultarCamionDialog
+                  open={dialogConsultaOpen}
+                  onClose={() => setDialogConsultaOpen(false)}
+                  camion={camionSeleccionado}
+                />
               </Stack>
             </Stack>
             <CustomersTable
-              count={data.length}
-              items={customers}
-              onDeselectAll={customersSelection.handleDeselectAll}
-              onDeselectOne={customersSelection.handleDeselectOne}
+              count={camiones.length}
+              items={paginatedCamiones}
+              onDeselectAll={camionesSelection.handleDeselectAll}
+              onDeselectOne={camionesSelection.handleDeselectOne}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
-              onSelectAll={customersSelection.handleSelectAll}
-              onSelectOne={customersSelection.handleSelectOne}
+              onSelectAll={camionesSelection.handleSelectAll}
+              onSelectOne={camionesSelection.handleSelectOne}
               page={page}
               rowsPerPage={rowsPerPage}
-              selected={customersSelection.selected}
+              selected={camionesSelection.selected}
             />
           </Stack>
         </Container>

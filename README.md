@@ -76,7 +76,7 @@ exit
 
 rm .\dump.sql
 
-mv .\db\mysql_data\dump.sql ./
+mv .\db\mysql_data\dump.sql ./z
 
 ```
 
