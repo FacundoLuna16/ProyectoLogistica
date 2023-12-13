@@ -5,7 +5,7 @@
   "licence": "MIT",
   "private": false,
   "scripts": {
-    "dev": "next",
+    "dev": "next nodemon",
     "build": "next build",
     "start": "next start",
     "export": "next export",
@@ -50,6 +50,7 @@
     "@types/react-dom": "18.0.11",
     "eslint": "8.34.0",
     "eslint-config-next": "13.1.6",
+    "nodemon": "^3.0.2",
     "web-vitals": "^3.5.0"
   }
 }

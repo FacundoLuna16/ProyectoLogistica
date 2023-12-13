@@ -1,8 +1,8 @@
 import Head from "next/head";
 import { Box, Container, Stack, Typography, Unstable_Grid2 as Grid } from "@mui/material";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
-import { AccountProfile } from "src/sections/account/account-profile";
-import { AccountProfileDetails } from "src/sections/account/account-profile-details";
+//import { AccountProfile } from "src/sections/account/account-profile";
+//import { AccountProfileDetails } from "src/sections/account/account-profile-details";
 
 const Page = () => (
   <>
@@ -24,10 +24,10 @@ const Page = () => (
           <div>
             <Grid container spacing={3}>
               <Grid xs={12} md={6} lg={4}>
-                <AccountProfile />
+                {/* <AccountProfile /> */}
               </Grid>
               <Grid xs={12} md={6} lg={8}>
-                <AccountProfileDetails />
+                {/* <AccountProfileDetails /> */}
               </Grid>
             </Grid>
           </div>
