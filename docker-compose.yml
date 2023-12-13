@@ -26,6 +26,14 @@ services:
     volumes:
       - ./db/mysql_data:/var/lib/mysql
 
+  frontend:
+    container_name: react_frontend
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - swiftlogix
+
   keycloak:
     container_name: keycloakContainer
     image: jboss/keycloak
