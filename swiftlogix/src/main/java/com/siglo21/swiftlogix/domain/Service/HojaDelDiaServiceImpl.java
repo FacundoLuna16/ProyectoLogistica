@@ -45,7 +45,7 @@ public class HojaDelDiaServiceImpl implements HojaDelDiaService {
     @Override
     //@Scheduled(cron = "*/30 * * * * MON-THU")
     @Transactional
-    @Scheduled(cron = "0 0 16 * MON-THU ?")
+    @Scheduled(cron = "0 0 16 * * MON-THU")
     public void generarHojaDelDia() {
 
         DayOfWeek diaDeLaSemana = LocalDateTime.now().getDayOfWeek();
