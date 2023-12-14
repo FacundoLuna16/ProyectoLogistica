@@ -1,5 +1,6 @@
 package com.siglo21.swiftlogix.domain.Model;
 
+import com.siglo21.swiftlogix.application.request.CamionCrearRequestDto;
 import com.siglo21.swiftlogix.application.request.CamionRequestDto;
 import com.siglo21.swiftlogix.infrastructure.entity.CamionEntity;
 import jakarta.persistence.Column;
@@ -19,11 +20,18 @@ public class Camion {
     private String color;
     private String descripcion;
 
-    public Camion(CamionRequestDto entity) {
+    public Camion(CamionCrearRequestDto entity) {
         this.patente = entity.getPatente();
         this.modelo = entity.getModelo();
         this.color = entity.getColor();
         this.descripcion = entity.getDescripcion();
+    }
+
+    public Camion(CamionRequestDto camionRequestDto, String patenteCamion) {
+        this.patente = patenteCamion;
+        this.modelo = camionRequestDto.getModelo();
+        this.color = camionRequestDto.getColor();
+        this.descripcion = camionRequestDto.getDescripcion();
     }
 
     public CamionEntity toEntity() {

@@ -7,7 +7,11 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class CamionRequestDto {
+public class CamionCrearRequestDto {
+
+    @NotNull(message = "La patente no puede ser nula")
+    @NotBlank(message = "La patente no puede estar vacia")
+    private String patente;
 
     @NotNull(message = "La patente no puede ser nula")
     @NotBlank(message = "La patente no puede estar vacia")

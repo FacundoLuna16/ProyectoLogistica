@@ -3,6 +3,7 @@ package com.siglo21.swiftlogix.application.controller;
 import com.siglo21.swiftlogix.application.Response.CamionResponse;
 import com.siglo21.swiftlogix.application.Response.ClienteResponse;
 import com.siglo21.swiftlogix.application.Response.EnvioResponse;
+import com.siglo21.swiftlogix.application.request.CamionCrearRequestDto;
 import com.siglo21.swiftlogix.application.request.CamionRequestDto;
 import com.siglo21.swiftlogix.application.request.CrearEnvioRequestDto;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.CamionService;
@@ -45,7 +46,7 @@ public class CamionController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createEnvio(@Valid @RequestBody CamionRequestDto camionRequestDto, BindingResult result){
+    public ResponseEntity<?> createEnvio(@Valid @RequestBody CamionCrearRequestDto camionRequestDto, BindingResult result){
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getFieldError().getDefaultMessage());
         }
@@ -57,8 +58,8 @@ public class CamionController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateEnvio(@PathVariable("id") String patente, @Valid @RequestBody CamionRequestDto camionRequestDto, BindingResult result){
+    @PutMapping("/{patente}")
+    public ResponseEntity<?> updateEnvio(@PathVariable("patente") String patente, @Valid @RequestBody CamionRequestDto camionRequestDto, BindingResult result){
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getFieldError().getDefaultMessage());
         }
