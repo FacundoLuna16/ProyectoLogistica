@@ -67,6 +67,8 @@ export const TopNav = (props) => {
                 </SvgIcon>
               </IconButton>
             )}
+            {/* Comenta o elimina esta porción de código para quitar el icono de la lupa */}
+            {/* 
             <Tooltip title="Search">
               <IconButton>
                 <SvgIcon fontSize="small">
@@ -74,6 +76,7 @@ export const TopNav = (props) => {
                 </SvgIcon>
               </IconButton>
             </Tooltip>
+            */}
           </Stack>
           <Stack
             alignItems="center"
@@ -81,11 +84,11 @@ export const TopNav = (props) => {
             spacing={2}
           >
             {/* Título centrado con fecha y hora sin el día de la semana */}
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
-            {`${currentDay} - ${currentTime}`}
-          </Typography>
-          {/* Espacio vacío para justificar el contenido al centro */}
-          {!lgUp && <Box sx={{ width: 48 }} />} {/* Este Box actúa como un placeholder para mantener el título centrado. */}
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
+              {`${currentDay} - ${currentTime}`}
+            </Typography>
+            {/* Espacio vacío para justificar el contenido al centro */}
+            {!lgUp && <Box sx={{ width: 48 }} />}
             <Avatar
               onClick={accountPopover.handleOpen}
               ref={accountPopover.anchorRef}
@@ -99,6 +102,7 @@ export const TopNav = (props) => {
           </Stack>
         </Stack>
       </Box>
+      
       <AccountPopover
         anchorEl={accountPopover.anchorRef.current}
         open={accountPopover.open}

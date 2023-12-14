@@ -4,7 +4,7 @@ import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { useSelection } from "src/hooks/use-selection";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
-import { CustomersTable } from "src/sections/camiones/camiones-table";  // Reemplazar con el nombre correcto
+import { CamionTable } from "src/sections/camiones/camiones-table";  // Reemplazar con el nombre correcto
 import { applyPagination } from "src/utils/apply-pagination";
 import { ArrowPathIcon, TruckIcon, UserCircleIcon } from "@heroicons/react/24/outline";  // Reemplazar con el icono correcto para camiones
 import { useTheme } from "@mui/material/styles";
@@ -16,7 +16,9 @@ import ModificarCamionDialog from "src/sections/camiones/modificarCamion";
 
 const Camiones = () => {
   const [camiones, setCamiones] = useState([]);
+
   const [page, setPage] = useState(0);
+
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   useEffect(() => {
@@ -64,6 +66,7 @@ const Camiones = () => {
   };
 
   const [dialogConsultaOpen, setDialogConsultaOpen] = useState(false);
+  
   const [camionSeleccionado, setCamionSeleccionado] = useState({
     patente: "",
     modelo: "",
@@ -71,13 +74,8 @@ const Camiones = () => {
     marca: "",
   });
 
-  const handleVerDetalle = (camionId) => {
-    const camionDetalle = camiones.find((c) => c.idCamion === camionId) || {
-      patente: "",
-      modelo: "",
-      color: "",
-      marca: "",
-    };
+  const handleVerDetalle = (patente) => {
+    const camionDetalle = camiones.find((camion) => camion.patente === patente);
     setCamionSeleccionado(camionDetalle);
     setDialogConsultaOpen(true);
   };
@@ -133,13 +131,14 @@ const Camiones = () => {
                 <ModificarCamionDialog
                   open={dialogModificacionOpen}
                   onClose={() => setDialogModificacionOpen(false)}
+                  camion={camionSeleccionado}
                 />
                 <Button
                   startIcon={<ArrowPathIcon />}
                   variant="contained"
                   color="info"
                   sx={{ mb: isXSmall ? 1 : 0 }}
-                  onClick={() => handleVerDetalle(/* id del camion seleccionado */)}
+                  onClick={() => handleVerDetalle(camionSeleccionado.patente)}
                 >
                   Ver
                 </Button>
@@ -150,7 +149,7 @@ const Camiones = () => {
                 />
               </Stack>
             </Stack>
-            <CustomersTable
+            <CamionTable
               count={camiones.length}
               items={paginatedCamiones}
               onDeselectAll={camionesSelection.handleDeselectAll}
@@ -162,6 +161,7 @@ const Camiones = () => {
               page={page}
               rowsPerPage={rowsPerPage}
               selected={camionesSelection.selected}
+              onCamionSelectedChange={setCamionSeleccionado}
             />
           </Stack>
         </Container>

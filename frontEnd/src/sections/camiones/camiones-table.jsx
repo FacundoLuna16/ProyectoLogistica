@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import {
   Box,
   Card,
   Checkbox,
-
   Table,
   TableBody,
   TableCell,
@@ -15,8 +15,7 @@ import {
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
 
-
-export const CustomersTable = (props) => {
+export const CamionTable = (props) => {
   const {
     count = 0,
     items = [],
@@ -24,15 +23,39 @@ export const CustomersTable = (props) => {
     onDeselectOne,
     onPageChange = () => {},
     onRowsPerPageChange,
-    onSelectAll,
     onSelectOne,
     page = 0,
     rowsPerPage = 0,
-    selected = []
+    selected = [],
+    onCamionSelectedChange
   } = props;
 
-  const selectedSome = (selected.length > 0) && (selected.length < items.length);
-  const selectedAll = (items.length > 0) && (selected.length === items.length);
+  const [camionSeleccionado, setCamionSeleccionado] = useState({
+    patente: '',
+    modelo: '',
+    color: '',
+    marca: '',
+  });
+
+  useEffect(() => {
+    // Informar al componente padre sobre el cambio del camión seleccionado
+    onCamionSelectedChange(camionSeleccionado);
+  }, [camionSeleccionado, onCamionSelectedChange]);
+
+
+  const handleCheckboxChange = (event, patente) => {
+    const { checked } = event.target;
+
+    if (checked) {
+      onDeselectAll?.();
+      onSelectOne?.(patente);
+    } else {
+      onDeselectOne?.(patente);
+    }
+    // Actualizar el camión seleccionado
+    const selectedCamion = items.find((camion) => camion.patente === patente);
+    setCamionSeleccionado(checked ? selectedCamion : {});
+  };
 
   return (
     <Card>
@@ -42,17 +65,7 @@ export const CustomersTable = (props) => {
             <TableHead>
               <TableRow>
                 <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={selectedAll}
-                    indeterminate={selectedSome}
-                    onChange={(event) => {
-                      if (event.target.checked) {
-                        onSelectAll?.();
-                      } else {
-                        onDeselectAll?.();
-                      }
-                    }}
-                  />
+                  {/* Eliminamos la opción de seleccionar/deseleccionar todos */}
                 </TableCell>
                 <TableCell>
                   Patente
@@ -69,38 +82,33 @@ export const CustomersTable = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((customer) => {
-                const isSelected = selected.includes(customer.patente);
+              {items.map((camion) => {
+                const isSelected = selected.includes(camion.patente);
 
                 return (
                   <TableRow
                     hover
-                    key={customer.patente}
+                    key={camion.patente}
                     selected={isSelected}
+                    //onClick={() => onSelectOne?.(camion.patente)}
                   >
                     <TableCell padding="checkbox">
                       <Checkbox
                         checked={isSelected}
-                        onChange={(event) => {
-                          if (event.target.checked) {
-                            onSelectOne?.(customer.patente);
-                          } else {
-                            onDeselectOne?.(customer.patente);
-                          }
-                        }}
+                        onChange={(event) => handleCheckboxChange(event, camion.patente)}
                       />
                     </TableCell>
                     <TableCell>
-                      {customer.patente}
+                      {camion.patente}
                     </TableCell>
                     <TableCell>
-                      {customer.modelo}
+                      {camion.modelo}
                     </TableCell>
                     <TableCell>
-                      {customer.color}
+                      {camion.color}
                     </TableCell>
                     <TableCell>
-                      {customer.descripcion}
+                      {camion.descripcion}
                     </TableCell>
                   </TableRow>
                 );
@@ -122,16 +130,16 @@ export const CustomersTable = (props) => {
   );
 };
 
-CustomersTable.propTypes = {
+CamionTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
   onDeselectAll: PropTypes.func,
   onDeselectOne: PropTypes.func,
   onPageChange: PropTypes.func,
   onRowsPerPageChange: PropTypes.func,
-  onSelectAll: PropTypes.func,
   onSelectOne: PropTypes.func,
   page: PropTypes.number,
   rowsPerPage: PropTypes.number,
-  selected: PropTypes.array
+  selected: PropTypes.array,
+  onCamionSelectedChange: PropTypes.func
 };
