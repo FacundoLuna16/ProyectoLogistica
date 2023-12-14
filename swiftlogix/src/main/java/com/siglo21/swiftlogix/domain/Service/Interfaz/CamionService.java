@@ -1,5 +1,6 @@
 package com.siglo21.swiftlogix.domain.Service.Interfaz;
 
+import com.siglo21.swiftlogix.application.request.CamionCrearRequestDto;
 import com.siglo21.swiftlogix.application.request.CamionRequestDto;
 import com.siglo21.swiftlogix.application.request.ClienteRequestDto;
 import com.siglo21.swiftlogix.domain.Model.Camion;
@@ -13,7 +14,7 @@ public interface CamionService {
 
     Optional<Camion> getById(String patenteCamion);
 
-    Optional<Camion> save(CamionRequestDto camionRequestDto);
+    Optional<Camion> save(CamionCrearRequestDto camionRequestDto);
 
     Optional<Camion> update(String patenteCamion, CamionRequestDto camionRequestDto);
 }

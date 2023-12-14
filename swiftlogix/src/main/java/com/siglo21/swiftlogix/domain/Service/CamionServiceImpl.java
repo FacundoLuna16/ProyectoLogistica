@@ -1,5 +1,6 @@
 package com.siglo21.swiftlogix.domain.Service;
 
+import com.siglo21.swiftlogix.application.request.CamionCrearRequestDto;
 import com.siglo21.swiftlogix.application.request.CamionRequestDto;
 import com.siglo21.swiftlogix.domain.Model.Camion;
 import com.siglo21.swiftlogix.domain.Repository.CamionRepository;
@@ -28,7 +29,7 @@ public class CamionServiceImpl implements CamionService {
     }
 
     @Override
-    public Optional<Camion> save(CamionRequestDto camion) {
+    public Optional<Camion> save(CamionCrearRequestDto camion) {
         Optional<Camion> camionNoPresent = camionRepository.getById(camion.getPatente());
         if (camionNoPresent.isPresent()) {
             throw new RuntimeException("Camion ya existe");
@@ -43,7 +44,7 @@ public class CamionServiceImpl implements CamionService {
         if (camion.isEmpty()) {
             throw new RuntimeException("Camion no existe");
         }
-        Camion camionUpdate = new Camion(camionRequestDto);
+        Camion camionUpdate = new Camion(camionRequestDto, patenteCamion);
 
         return camionRepository.save(camionUpdate);
     }
