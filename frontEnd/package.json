@@ -5,7 +5,7 @@
   "licence": "MIT",
   "private": false,
   "scripts": {
-    "dev": "nodemon -e js,jsx,json --exec next",
+    "dev": "next",
     "build": "next build",
     "start": "next start",
     "export": "next export",
@@ -27,6 +27,7 @@
     "apexcharts": "3.37.0",
     "axios": "^1.6.2",
     "date-fns": "2.29.3",
+    "dotenv": "^16.3.1",
     "formik": "2.2.9",
     "jQuery": "^1.7.4",
     "jsdom": "^23.0.1",
