@@ -57,6 +57,7 @@ public class CamionController {
         }
     }
 
+
     @PutMapping("/{id}")
     public ResponseEntity<?> updateEnvio(@PathVariable("id") String patente, @Valid @RequestBody CamionRequestDto camionRequestDto, BindingResult result){
         if (result.hasErrors()) {
@@ -69,6 +70,5 @@ public class CamionController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
 
 }

@@ -13,6 +13,7 @@ import CamionesService from "../service/camionesService";  // Reemplazar con el 
 import AgregarCamionDialog from "src/sections/camiones/altaCamiones";
 import ConsultarCamionDialog from "src/sections/camiones/verCamion";
 import ModificarCamionDialog from "src/sections/camiones/modificarCamion";
+import { el } from "date-fns/locale";
 
 const Camiones = () => {
   const [camiones, setCamiones] = useState([]);
@@ -20,6 +21,8 @@ const Camiones = () => {
   const [page, setPage] = useState(0);
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const [Actualizar, setActualizar] = useState(false);
 
   useEffect(() => {
     const fetchCamiones = async () => {
@@ -32,7 +35,7 @@ const Camiones = () => {
     };
 
     fetchCamiones();
-  }, []);
+  }, [Actualizar]);
 
   const paginatedCamiones = useMemo(() => {
     return applyPagination(camiones, page, rowsPerPage);
@@ -74,11 +77,27 @@ const Camiones = () => {
     marca: "",
   });
 
-  const handleVerDetalle = (patente) => {
-    const camionDetalle = camiones.find((camion) => camion.patente === patente);
-    setCamionSeleccionado(camionDetalle);
-    setDialogConsultaOpen(true);
+  const handleOnClickConSeleccionado = (patente,funcion) => {
+    let camionDetalle = {};
+    
+    if (patente) {
+      camionDetalle = camiones.find((camion) => camion.patente === patente) || {};
+      setCamionSeleccionado(camionDetalle);
+      switch (funcion) {
+        case "C":
+          setDialogConsultaOpen(true);
+          break;
+        case "M":
+          setDialogModificacionOpen(true);
+          break;
+        default:
+          break;
+      }
+    }else{
+      alert("Debe seleccionar un camion");
+    }
   };
+
 
   const [dialogModificacionOpen, setDialogModificacionOpen] = useState(false);
 
@@ -124,7 +143,8 @@ const Camiones = () => {
                   variant="contained"
                   color="warning"
                   sx={{ mb: isXSmall ? 1 : 0 }}
-                  onClick={() => setDialogModificacionOpen(true)}
+                  onClick={() => handleOnClickConSeleccionado(camionSeleccionado.patente,"M")}
+                  //onClick={() => setDialogModificacionOpen(true)}
                 >
                   Modificar
                 </Button>
@@ -138,7 +158,7 @@ const Camiones = () => {
                   variant="contained"
                   color="info"
                   sx={{ mb: isXSmall ? 1 : 0 }}
-                  onClick={() => handleVerDetalle(camionSeleccionado.patente)}
+                  onClick={() => handleOnClickConSeleccionado(camionSeleccionado.patente,"C")}
                 >
                   Ver
                 </Button>
