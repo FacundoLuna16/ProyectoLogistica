@@ -39,6 +39,12 @@ public class CamionServiceImpl implements CamionService {
 
     @Override
     public Optional<Camion> update(String patenteCamion, CamionRequestDto camionRequestDto) {
-        return Optional.empty();
+        Optional<Camion> camion = camionRepository.getById(patenteCamion);
+        if (camion.isEmpty()) {
+            throw new RuntimeException("Camion no existe");
+        }
+        Camion camionUpdate = new Camion(camionRequestDto);
+
+        return camionRepository.save(camionUpdate);
     }
 }

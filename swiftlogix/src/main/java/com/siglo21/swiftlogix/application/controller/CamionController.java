@@ -57,4 +57,18 @@ public class CamionController {
         }
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateEnvio(@PathVariable("id") String patente, @Valid @RequestBody CamionRequestDto camionRequestDto, BindingResult result){
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(result.getFieldError().getDefaultMessage());
+        }
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(camionService.update(patente, camionRequestDto).map(CamionResponse::new));
+        }
+        catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
 }
