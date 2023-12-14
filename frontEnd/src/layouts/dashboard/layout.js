@@ -23,13 +23,27 @@ const LayoutContainer = styled('div')({
   width: '100%'
 });
 
+
+// Se envuelve el componente Layout con un Higher Order Component (HOC) llamado withAuthGuard.
 export const Layout = withAuthGuard((props) => {
+  // Props destructuring: extraer la propiedad 'children' del objeto 'props'
   const { children } = props;
+
+  // Obtener la ruta actual utilizando usePathname de next/navigation
   const pathname = usePathname();
+
+
+  /*****************************************************/
+  //Esta parte del codigo es para el funcionamiento en celular de la sidenav-bar
+
+
+  // Estado local para controlar si el SideNav está abierto o cerrado
   const [openNav, setOpenNav] = useState(false);
 
+  // Función de callback para manejar el cambio de ruta
   const handlePathnameChange = useCallback(
     () => {
+      // Si el SideNav está abierto, cerrarlo al cambiar la ruta
       if (openNav) {
         setOpenNav(false);
       }
@@ -37,26 +51,39 @@ export const Layout = withAuthGuard((props) => {
     [openNav]
   );
 
+  // Efecto que se ejecuta cuando cambia la ruta (pathname)
   useEffect(
     () => {
+      // Llamar a handlePathnameChange al cambiar la ruta
       handlePathnameChange();
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Dependencia: ejecutar el efecto solo cuando cambia la ruta
     [pathname]
   );
 
+
+  /*****************************************************/
+
+  // Renderizar el componente Layout
   return (
     <>
+      {/* Barra de navegación superior */}
       <TopNav onNavOpen={() => setOpenNav(true)} />
+      
+      {/* Panel de navegación lateral */}
       <SideNav
-        onClose={() => setOpenNav(false)}
-        open={openNav}
+        onClose={() => setOpenNav(false)} // Función para cerrar el SideNav
+        open={openNav} // Estado para controlar si el SideNav está abierto
       />
+
+      {/* Contenedor principal del diseño */}
       <LayoutRoot>
         <LayoutContainer>
+          {/* Renderizar el contenido de la página */}
           {children}
         </LayoutContainer>
       </LayoutRoot>
     </>
   );
 });
+  
