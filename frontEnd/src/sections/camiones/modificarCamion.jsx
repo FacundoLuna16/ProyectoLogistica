@@ -4,8 +4,9 @@ import { Dialog, DialogContent, DialogTitle, TextField, DialogActions, Button } 
 import ClientesService from "src/service/clientesService";
 import camionesService from 'src/service/camionesService';
 import { ca, de } from 'date-fns/locale';
+import { ref } from 'yup';
 
-const ModificarCamionDialog = ({ open, onClose, camion }) => {
+const ModificarCamionDialog = ({ open, onClose, camion, refrescar}) => {
   const [patente, setPatente] = useState('');
   const [modelo, setModelo] = useState('');
   const [color, setColor] = useState('');
@@ -19,12 +20,27 @@ const ModificarCamionDialog = ({ open, onClose, camion }) => {
     setDescripcion(camion.descripcion || '');
   }, [camion]);
 
+  const handleCancelar = () => {
+    onClose();
+
+    // Restaurar los valores originales
+    setPatente(camion.patente || '');
+    setModelo(camion.modelo || '');
+    setColor(camion.color || '');
+    setDescripcion(camion.descripcion || '');
+  };
+
+
   const handleModificar = async () => {
     try {
-      await ClientesService.update(/* Agrega aquí los parámetros necesarios */);
+
+      const camionActualizado = await camionesService.update(patente, {modelo, color, descripcion});
+      alert('Camion modificado correctamente');
+      console.log(camionActualizado);
       onClose();
+      refrescar();
     } catch (error) {
-      console.error('Error al modificar cliente:', error);
+      alert('Error al modificar camion',error );
     }
   };
 
@@ -41,6 +57,7 @@ const ModificarCamionDialog = ({ open, onClose, camion }) => {
           type="text"
           fullWidth
           value={patente}
+          InputProps={{ readOnly: true }}
           onChange={(e) => setPatente(e.target.value)}
         />
         <TextField
@@ -73,7 +90,7 @@ const ModificarCamionDialog = ({ open, onClose, camion }) => {
         {/* Agregar más campos según sea necesario */}
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="primary">
+        <Button onClick={handleCancelar} color="primary">
           Cancelar
         </Button>
         <Button onClick={handleModificar} color="primary">

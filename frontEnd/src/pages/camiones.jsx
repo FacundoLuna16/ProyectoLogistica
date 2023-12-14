@@ -22,20 +22,30 @@ const Camiones = () => {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const [Actualizar, setActualizar] = useState(false);
+  //const [Actualizar, setActualizar] = useState(false);
+
+  const fetchCamiones = async () => {
+    try {
+      const data = await CamionesService.getAll();
+      setCamiones(data);
+    } catch (error) {
+      console.error("Error al obtener camiones:", error);
+    }
+  };
+
+  // const ActualizarCamionDelArreglo = (camion) => {
+  //   const camionesActualizados = camiones.map((camionActual) => {
+  //     if (camionActual.patente === camion.patente) {
+  //       return camion;
+  //     }
+  //     return camionActual;
+  //   });
+  //   setCamiones(camionesActualizados);
+  // };
 
   useEffect(() => {
-    const fetchCamiones = async () => {
-      try {
-        const data = await CamionesService.getAll();
-        setCamiones(data);
-      } catch (error) {
-        console.error("Error al obtener camiones:", error);
-      }
-    };
-
     fetchCamiones();
-  }, [Actualizar]);
+  }, []);
 
   const paginatedCamiones = useMemo(() => {
     return applyPagination(camiones, page, rowsPerPage);
@@ -83,6 +93,7 @@ const Camiones = () => {
     if (patente) {
       camionDetalle = camiones.find((camion) => camion.patente === patente) || {};
       setCamionSeleccionado(camionDetalle);
+      //alert("Camion seleccionado: " + camionDetalle.patente + " " + camionDetalle.modelo + " " + camionDetalle.color);
       switch (funcion) {
         case "C":
           setDialogConsultaOpen(true);
@@ -152,6 +163,7 @@ const Camiones = () => {
                   open={dialogModificacionOpen}
                   onClose={() => setDialogModificacionOpen(false)}
                   camion={camionSeleccionado}
+                  refrescar={fetchCamiones}
                 />
                 <Button
                   startIcon={<ArrowPathIcon />}
