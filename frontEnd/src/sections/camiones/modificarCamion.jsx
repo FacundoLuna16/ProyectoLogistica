@@ -2,6 +2,7 @@
 import React, { useState, useEffect} from 'react';
 import { Dialog, DialogContent, DialogTitle, TextField, DialogActions, Button } from '@mui/material';
 import ClientesService from "src/service/clientesService";
+import camionesService from 'src/service/camionesService';
 import { ca, de } from 'date-fns/locale';
 
 const ModificarCamionDialog = ({ open, onClose, camion }) => {
