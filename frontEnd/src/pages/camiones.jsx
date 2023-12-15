@@ -24,9 +24,7 @@ const Camiones = () => {
 
 
   const [page, setPage] = useState(0);
-
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filtroTexto, setFiltroTexto] = useState('');
   const [filtroAtributo, setFiltroAtributo] = useState('patente');
 
@@ -150,9 +148,9 @@ const Camiones = () => {
               <Stack direction={isXSmall ? "column" : "row"} spacing={2} alignItems="center">
               <TextField
                   label="Filtrar"
-                  variant="outlined"
                   size="medium"
                   value={filtroTexto}
+                  variant="standard"
                   onChange={(e) => setFiltroTexto(e.target.value)}
                 />
                 <Select

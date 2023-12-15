@@ -4,44 +4,69 @@ import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { useSelection } from "src/hooks/use-selection";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
-import { ClientsTable } from "src/sections/clientes/clientes-table";
+import { ClientsTable } from "src/sections/clientes/clientes-table";  // Reemplazar con el nombre correcto
 import { applyPagination } from "src/utils/apply-pagination";
-import { ArrowPathIcon, UserCircleIcon } from "@heroicons/react/24/outline";
+import { ArrowPathIcon, TruckIcon, UserCircleIcon } from "@heroicons/react/24/outline";  // Reemplazar con el icono correcto para camiones
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import clientesService from "../service/clientesService";
+import ClientesService from "../service/clientesService";  // Reemplazar con el servicio correcto
 import AgregarClienteDialog from "src/sections/clientes/altaClientes";
 import ConsultarClienteDialog from "src/sections/clientes/verClientes";
 import ModificarClienteDialog from "src/sections/clientes/modificarCliente";
+import TextField from "@mui/material/TextField";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
 const Clientes = () => {
   const [clientes, setClientes] = useState([]);
+  const [clientesFiltrados, setClientesFiltrados] = useState([]); // Nuevo estado para los clientes filtrados
+
+
+
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [filtroTexto, setFiltroTexto] = useState('');
+  const [filtroAtributo, setFiltroAtributo] = useState('numeroDocumento');
+
+  const handleFiltrar = () => {
+    // Aplicar el filtro sobre la copia del arreglo original
+    const clientesFiltrados = clientes.filter((cliente) => {
+      const valorAtributo = cliente[filtroAtributo].toLowerCase();
+      return valorAtributo.includes(filtroTexto.toLowerCase());
+    });
+    
+    setClientesFiltrados(clientesFiltrados);
+  };
 
   useEffect(() => {
-    const fetchClientes = async () => {
-      try {
-        const data = await clientesService.getAll();
-        //console.log(data);
-        setClientes(data);
-      } catch (error) {
-        console.error("Error al obtener clientes:", error);
-      }
-    };
+    handleFiltrar();
+  }, [filtroTexto, filtroAtributo]);
 
+  const fetchClientes = async () => {
+    try {
+      const data = await ClientesService.getAll();
+      setClientes(data);
+      setClientesFiltrados(data);
+    } catch (error) {
+      console.error("Error al obtener clientes:", error);
+    }
+  };
+
+
+
+  useEffect(() => {
     fetchClientes();
   }, []);
 
   const paginatedClientes = useMemo(() => {
-    return applyPagination(clientes, page, rowsPerPage);
-  }, [clientes, page, rowsPerPage]);
+    return applyPagination(clientesFiltrados, page, rowsPerPage);
+  }, [clientesFiltrados, page, rowsPerPage]);
 
   const clientesIds = useMemo(() => {
-    return paginatedClientes.map((cliente) => cliente.iDCliente);
+    return paginatedClientes.map((cliente) => cliente.idCliente);
   }, [paginatedClientes]);
 
-  const clientesSelection = useSelection(clientesIds);
+  const clienteSelection = useSelection(clientesIds);
 
   const handlePageChange = useCallback((event, value) => {
     setPage(value);
@@ -60,45 +85,54 @@ const Clientes = () => {
     setDialogOpen(false);
   };
 
+
   const handleClienteAdded = (cliente) => {
     setClientes([...clientes, cliente]);
   };
 
   const [dialogConsultaOpen, setDialogConsultaOpen] = useState(false);
+  
   const [clienteSeleccionado, setClienteSeleccionado] = useState({
-    iDCliente: 0,
-    tipoDoc: "",
-    nroDoc: "",
+    idCliente: "",
+    tipoDocumento: "",
+    numeroDocumento: "",
     nombre: "",
     apellido: "",
     direccion: "",
-    nroTelefono: "",
-    nroTelefonoAlternativo: "",
-    mail: "",
+    numeroTelefono: "",
+    numeroTelefonoAlternativo: "",
+    email: "",
   });
 
-  const handleVerDetalle = (clienteId) => {
-    const clienteDetalle = clientes.find((c) => c.iDCliente === clienteId) || {
-      iDCliente: 0,
-      tipoDoc: "",
-      nroDoc: "",
-      nombre: "",
-      apellido: "",
-      direccion: "",
-      nroTelefono: "",
-      nroTelefonoAlternativo: "",
-      mail: "",
-    };
-    setClienteSeleccionado(clienteDetalle);
-    setDialogConsultaOpen(true);
+  const handleOnClickConSeleccionado = (idCliente,funcion) => {
+    let clienteDetalle = {};
+
+    if (idCliente) {
+      clienteDetalle = clientes.find((cliente) => cliente.idCliente === idCliente) || {};
+      setClienteSeleccionado(clienteDetalle);
+      //alert("Cliente seleccionado: " + clienteDetalle.idCliente + " " + clienteDetalle.nombre + " " + clienteDetalle.apellido);
+      switch (funcion) {
+        case "C":
+          setDialogConsultaOpen(true);
+          break;
+        case "M":
+          setDialogModificacionOpen(true);
+          break;
+        default:
+          break;
+      }
+    }else{
+      alert("Debe seleccionar un cliente");
+    }
   };
+
 
   const [dialogModificacionOpen, setDialogModificacionOpen] = useState(false);
 
   return (
     <>
       <Head>
-        <title>Clientes | Sistema de Gestión de Envios</title>
+        <title>Clientes | Sistema de Gestión de Envíos</title>
       </Head>
       <Box
         component="main"
@@ -119,8 +153,32 @@ const Clientes = () => {
                 Clientes
               </Typography>
               <Stack direction={isXSmall ? "column" : "row"} spacing={2} alignItems="center">
+              <TextField
+                  label="Filtrar"
+                  size="medium"
+                  value={filtroTexto}
+                  variant="standard"
+                  onChange={(e) => setFiltroTexto(e.target.value)}
+                />
+                <Select
+                  value={filtroAtributo}
+                  onChange={(e) => setFiltroAtributo(e.target.value)}
+                  variant="outlined"
+                  size="small"
+                >
+
+                  <MenuItem value="numeroDocumento">Número de documento</MenuItem>
+                  <MenuItem value="nombre">Nombre</MenuItem>
+                  <MenuItem value="apellido">Apellido</MenuItem>
+                  <MenuItem value="direccion">Dirección</MenuItem>
+                  <MenuItem value="numeroTelefono">Número de teléfono</MenuItem>
+
+                </Select>
+              </Stack>
+              <Stack direction={isXSmall ? "column" : "row"} spacing={2} alignItems="center">
+                
                 <Button
-                  startIcon={<PlusIcon />}
+                  startIcon={<TruckIcon />}
                   variant="contained"
                   color="success"
                   onClick={() => setDialogOpen(true)}
@@ -137,20 +195,23 @@ const Clientes = () => {
                   variant="contained"
                   color="warning"
                   sx={{ mb: isXSmall ? 1 : 0 }}
-                  onClick={() => setDialogModificacionOpen(true)}
+                  onClick={() => handleOnClickConSeleccionado(clienteSeleccionado.idCliente, "M")}
+                  //onClick={() => setDialogModificacionOpen(true)}
                 >
                   Modificar
                 </Button>
                 <ModificarClienteDialog
                   open={dialogModificacionOpen}
                   onClose={() => setDialogModificacionOpen(false)}
+                  camion={clienteSeleccionado}
+                  refrescar={fetchClientes}
                 />
                 <Button
                   startIcon={<ArrowPathIcon />}
                   variant="contained"
                   color="info"
                   sx={{ mb: isXSmall ? 1 : 0 }}
-                  onClick={() => handleVerDetalle(/* id del cliente seleccionado */)}
+                  onClick={() => handleOnClickConSeleccionado(clienteSeleccionado.idCliente, "C")}
                 >
                   Ver
                 </Button>
@@ -162,17 +223,18 @@ const Clientes = () => {
               </Stack>
             </Stack>
             <ClientsTable
-              count={clientes.length}
+              count={clientesFiltrados.length}
               items={paginatedClientes}
-              onDeselectAll={clientesSelection.handleDeselectAll}
-              onDeselectOne={clientesSelection.handleDeselectOne}
+              onDeselectAll={clienteSelection.handleDeselectAll}
+              onDeselectOne={clienteSelection.handleDeselectOne}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
-              onSelectAll={clientesSelection.handleSelectAll}
-              onSelectOne={clientesSelection.handleSelectOne}
+              onSelectAll={clienteSelection.handleSelectAll}
+              onSelectOne={clienteSelection.handleSelectOne}
               page={page}
               rowsPerPage={rowsPerPage}
-              selected={clientesSelection.selected}
+              selected={clienteSelection.selected}
+              onClientSelectedChange={setClienteSeleccionado}
             />
           </Stack>
         </Container>

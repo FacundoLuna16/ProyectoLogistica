@@ -13,7 +13,7 @@ const ConsultarClienteDialog = ({ open, onClose, cliente }) => {
           label="Tipo de Documento"
           type="text"
           fullWidth
-          value={cliente.tipoDoc}
+          value={cliente.tipoDocumento}
           InputProps={{ readOnly: true }}
         />
         <TextField
@@ -22,7 +22,7 @@ const ConsultarClienteDialog = ({ open, onClose, cliente }) => {
           label="Número de Documento"
           type="text"
           fullWidth
-          value={cliente.nroDoc}
+          value={cliente.numeroDocumento}
           InputProps={{ readOnly: true }}
         />
         <TextField
@@ -58,7 +58,7 @@ const ConsultarClienteDialog = ({ open, onClose, cliente }) => {
           label="Número de Teléfono"
           type="text"
           fullWidth
-          value={cliente.nroTelefono}
+          value={cliente.numeroTelefono}
           InputProps={{ readOnly: true }}
         />
         <TextField
@@ -67,7 +67,7 @@ const ConsultarClienteDialog = ({ open, onClose, cliente }) => {
           label="Número de Teléfono Alternativo"
           type="text"
           fullWidth
-          value={cliente.nroTelefonoAlternativo}
+          value={cliente.numeroTelefonoAlternativo}
           InputProps={{ readOnly: true }}
         />
         <TextField
@@ -76,7 +76,7 @@ const ConsultarClienteDialog = ({ open, onClose, cliente }) => {
           label="Correo Electrónico"
           type="email"
           fullWidth
-          value={cliente.mail}
+          value={cliente.email}
           InputProps={{ readOnly: true }}
         />
         {/* Agrega aquí más campos para mostrar según sea necesario */}

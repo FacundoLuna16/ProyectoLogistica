@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { format } from 'date-fns';
 import {
   Box,
@@ -9,8 +10,10 @@ import {
   TableBody,
   TableCell,
   TableHead,
+  TableContainer,
   TablePagination,
   TableRow,
+  Paper,
   Typography
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
@@ -57,64 +60,66 @@ export const CamionTable = (props) => {
     setCamionSeleccionado(checked ? selectedCamion : {});
   };
 
+  const theme = createTheme({
+    components: {
+      MuiTableCell: {
+        styleOverrides: {
+          root: {
+            fontSize: '20px', // Ajusta el tamaño de la fuente según sea necesario
+          },
+        },
+      },
+    },
+  });
+
   return (
     <Card>
       <Scrollbar>
         <Box sx={{ minWidth: 800 }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell padding="checkbox">
-                  {/* Eliminamos la opción de seleccionar/deseleccionar todos */}
-                </TableCell>
-                <TableCell>
-                  Patente
-                </TableCell>
-                <TableCell>
-                  Modelo
-                </TableCell>
-                <TableCell>
-                  Color
-                </TableCell>
-                <TableCell>
-                  Descripcion
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {items.map((camion) => {
-                const isSelected = selected.includes(camion.patente);
-
-                return (
-                  <TableRow
-                    hover
-                    key={camion.patente}
-                    selected={isSelected}
-                    //onClick={() => onSelectOne?.(camion.patente)}
-                  >
+          <Paper sx={{ minWidth: 200 }}>
+            <TableContainer sx={{ maxHeight: 600 }}>
+            <ThemeProvider theme={theme}>
+              <Table>
+                <TableHead stickyHeader>
+                  <TableRow>
                     <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={isSelected}
-                        onChange={(event) => handleCheckboxChange(event, camion.patente)}
-                      />
+                      {/* Eliminamos la opción de seleccionar/deseleccionar todos */}
                     </TableCell>
-                    <TableCell>
-                      {camion.patente}
-                    </TableCell>
-                    <TableCell>
-                      {camion.modelo}
-                    </TableCell>
-                    <TableCell>
-                      {camion.color}
-                    </TableCell>
-                    <TableCell>
-                      {camion.descripcion}
-                    </TableCell>
+                    <TableCell>Patente</TableCell>
+                    <TableCell>Modelo</TableCell>
+                    <TableCell>Color</TableCell>
+                    <TableCell>Descripcion</TableCell>
                   </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
+                </TableHead>
+                <TableBody>
+                  {items.map((camion) => {
+                    const isSelected = selected.includes(camion.patente);
+
+                    return (
+                      <TableRow
+                        hover
+                        key={camion.patente}
+                        selected={isSelected}
+                        //onClick={() => onSelectOne?.(camion.patente)}
+                      >
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            checked={isSelected}
+                            onChange={(event) => handleCheckboxChange(event, camion.patente)}
+                          />
+                        </TableCell>
+                        <TableCell>{camion.patente}</TableCell>
+                        <TableCell>{camion.modelo}</TableCell>
+                        <TableCell>{camion.color}</TableCell>
+                        <TableCell>{camion.descripcion}</TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+              </ThemeProvider>
+            </TableContainer>
+          </Paper>
         </Box>
       </Scrollbar>
       <TablePagination
