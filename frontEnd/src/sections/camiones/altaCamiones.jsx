@@ -3,12 +3,23 @@ import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogTitle, TextField, DialogActions, Button } from '@mui/material';
 import CamionesService from "src/service/camionesService";
 
-const AgregarCamionDialog = ({ open, onClose, onCamionAdded }) => {
+const AgregarCamionDialog = ({ open, onClose, refrescar }) => {
   const [newCamion, setNewCamion] = useState({
     patente: '',
     modelo: '',
     color: '',
+    descripcion: '',
   });
+
+  const areAllFieldsFilled = () => {
+    // Verifica que todos los campos requeridos estén completos
+    return newCamion.patente && newCamion.modelo && newCamion.color && newCamion.descripcion;
+  };
+
+  const handleCancelar = () => {
+    onClose();
+    setNewCamion({ patente: '', modelo: '', color: '',descripcion: ''}); // Resetea los campos
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -17,12 +28,17 @@ const AgregarCamionDialog = ({ open, onClose, onCamionAdded }) => {
 
   const handleAgregar = async () => {
     try {
-      const agregado = await CamionesService.create(newCamion);
-      onCamionAdded(agregado);
-      onClose(); // Cierra el modal
-      setNewCamion({ patente: '', modelo: '', color: ''}); // Resetea los campos
+      if (areAllFieldsFilled()) {
+        const agregado = await CamionesService.create(newCamion);
+        alert('Camion agregado correctamente');
+        onClose();
+        setNewCamion({ patente: '', modelo: '', color: '', descripcion: '' });
+        refrescar();
+      } else {
+        alert('Completa todos los campos requeridos antes de agregar el camión.');
+      }
     } catch (error) {
-      console.error('Error al agregar camión:', error);
+      alert(error.response.data);
     }
   };
 
@@ -40,6 +56,7 @@ const AgregarCamionDialog = ({ open, onClose, onCamionAdded }) => {
           name="patente"
           value={newCamion.patente}
           onChange={handleInputChange}
+          required  
         />
         <TextField
           margin="dense"
@@ -50,6 +67,7 @@ const AgregarCamionDialog = ({ open, onClose, onCamionAdded }) => {
           name="modelo"
           value={newCamion.modelo}
           onChange={handleInputChange}
+          required  
         />
         <TextField
           margin="dense"
@@ -60,14 +78,25 @@ const AgregarCamionDialog = ({ open, onClose, onCamionAdded }) => {
           name="color"
           value={newCamion.color}
           onChange={handleInputChange}
+          required  
         />
-
+        <TextField
+          margin="dense"
+          id="descripcion"
+          label="Descripcion"
+          type="text"
+          fullWidth
+          name="descripcion"
+          value={newCamion.descripcion}
+          onChange={handleInputChange}
+          required 
+        />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="primary">
+        <Button onClick={handleCancelar} color="primary">
           Cancelar
         </Button>
-        <Button onClick={handleAgregar} color="primary">
+        <Button onClick={handleAgregar} color="primary" disabled={!areAllFieldsFilled()}>
           Agregar
         </Button>
       </DialogActions>

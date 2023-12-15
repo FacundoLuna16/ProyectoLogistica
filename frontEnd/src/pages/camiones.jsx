@@ -13,49 +13,61 @@ import CamionesService from "../service/camionesService";  // Reemplazar con el 
 import AgregarCamionDialog from "src/sections/camiones/altaCamiones";
 import ConsultarCamionDialog from "src/sections/camiones/verCamion";
 import ModificarCamionDialog from "src/sections/camiones/modificarCamion";
+import TextField from "@mui/material/TextField";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 import { el } from "date-fns/locale";
 
 const Camiones = () => {
   const [camiones, setCamiones] = useState([]);
+  const [camionesFiltrados, setCamionesFiltrados] = useState([]); // Nuevo estado para los camiones filtrados
+
 
   const [page, setPage] = useState(0);
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  //const [Actualizar, setActualizar] = useState(false);
+  const [filtroTexto, setFiltroTexto] = useState('');
+  const [filtroAtributo, setFiltroAtributo] = useState('patente');
+
+  const handleFiltrar = () => {
+    // Aplicar el filtro sobre la copia del arreglo original
+    const camionesFiltrados = camiones.filter((camion) => {
+      const valorAtributo = camion[filtroAtributo].toLowerCase();
+      return valorAtributo.includes(filtroTexto.toLowerCase());
+    });
+  
+    setCamionesFiltrados(camionesFiltrados);
+  };
+
+  useEffect(() => {
+    handleFiltrar();
+  }, [filtroTexto, filtroAtributo]);
 
   const fetchCamiones = async () => {
     try {
       const data = await CamionesService.getAll();
       setCamiones(data);
+      setCamionesFiltrados(data);
     } catch (error) {
       console.error("Error al obtener camiones:", error);
     }
   };
 
-  // const ActualizarCamionDelArreglo = (camion) => {
-  //   const camionesActualizados = camiones.map((camionActual) => {
-  //     if (camionActual.patente === camion.patente) {
-  //       return camion;
-  //     }
-  //     return camionActual;
-  //   });
-  //   setCamiones(camionesActualizados);
-  // };
 
   useEffect(() => {
     fetchCamiones();
   }, []);
 
   const paginatedCamiones = useMemo(() => {
-    return applyPagination(camiones, page, rowsPerPage);
-  }, [camiones, page, rowsPerPage]);
+    return applyPagination(camionesFiltrados, page, rowsPerPage);
+  }, [camionesFiltrados, page, rowsPerPage]);
 
-  const camionesIds = useMemo(() => {
-    return paginatedCamiones.map((camion) => camion.idCamion);
+  const camionesPatentes = useMemo(() => {
+    return paginatedCamiones.map((camion) => camion.patente);
   }, [paginatedCamiones]);
 
-  const camionesSelection = useSelection(camionesIds);
+  const camionesSelection = useSelection(camionesPatentes);
 
   const handlePageChange = useCallback((event, value) => {
     setPage(value);
@@ -136,6 +148,27 @@ const Camiones = () => {
                 Camiones
               </Typography>
               <Stack direction={isXSmall ? "column" : "row"} spacing={2} alignItems="center">
+              <TextField
+                  label="Filtrar"
+                  variant="outlined"
+                  size="medium"
+                  value={filtroTexto}
+                  onChange={(e) => setFiltroTexto(e.target.value)}
+                />
+                <Select
+                  value={filtroAtributo}
+                  onChange={(e) => setFiltroAtributo(e.target.value)}
+                  variant="outlined"
+                  size="small"
+                >
+                  <MenuItem value="patente">Patente</MenuItem>
+                  <MenuItem value="modelo">Modelo</MenuItem>
+                  <MenuItem value="color">Color</MenuItem>
+                  <MenuItem value="descripcion">Descripción</MenuItem>
+                </Select>
+              </Stack>
+              <Stack direction={isXSmall ? "column" : "row"} spacing={2} alignItems="center">
+                
                 <Button
                   startIcon={<TruckIcon />}
                   variant="contained"
@@ -154,7 +187,7 @@ const Camiones = () => {
                   variant="contained"
                   color="warning"
                   sx={{ mb: isXSmall ? 1 : 0 }}
-                  onClick={() => handleOnClickConSeleccionado(camionSeleccionado.patente,"M")}
+                  onClick={() => handleOnClickConSeleccionado(camionSeleccionado.patente, "M")}
                   //onClick={() => setDialogModificacionOpen(true)}
                 >
                   Modificar
@@ -170,7 +203,7 @@ const Camiones = () => {
                   variant="contained"
                   color="info"
                   sx={{ mb: isXSmall ? 1 : 0 }}
-                  onClick={() => handleOnClickConSeleccionado(camionSeleccionado.patente,"C")}
+                  onClick={() => handleOnClickConSeleccionado(camionSeleccionado.patente, "C")}
                 >
                   Ver
                 </Button>
