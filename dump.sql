@@ -194,6 +194,34 @@ INSERT INTO `AUTHENTICATOR_CONFIG_ENTRY` VALUES ('2c9caed9-5bf2-48f1-8b24-770e9d
 UNLOCK TABLES;
 
 --
+-- Table structure for table `barrios`
+--
+
+DROP TABLE IF EXISTS `barrios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `barrios` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `descripcion` varchar(255) DEFAULT NULL,
+  `nombre` varchar(255) DEFAULT NULL,
+  `barrios_id_zona` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK9ulayj5kuu2kpylv836pw4chn` (`barrios_id_zona`),
+  CONSTRAINT `FK9ulayj5kuu2kpylv836pw4chn` FOREIGN KEY (`barrios_id_zona`) REFERENCES `zonas` (`id_zona`)
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `barrios`
+--
+
+LOCK TABLES `barrios` WRITE;
+/*!40000 ALTER TABLE `barrios` DISABLE KEYS */;
+INSERT INTO `barrios` VALUES (1,NULL,'EZFUERZO',1),(2,NULL,'HIBEPA',1),(3,NULL,'CUENCA XV',1),(4,NULL,'GRAN NEUQUEN NORTE',1),(5,NULL,'GRAN NEUQUEN SUR',1),(6,NULL,'SAN LORENZO NORTE',1),(7,NULL,'SAN LORENZO SUR',1),(8,NULL,'VALENTINA NORTE URBANA',1),(9,NULL,'HUILLICHEZ',1),(10,NULL,'UNION DE MAYO',1),(11,NULL,'MELIPAL',1),(12,NULL,'GREGORIO ALVAREZ',1),(13,NULL,'EL PROGRESO',1),(14,NULL,'VILLA CEFERINO',1),(15,NULL,'BARDAS SOLEADAS',1),(16,NULL,'CUMELEN',1),(17,NULL,'ISLA MALVINAS',1),(18,NULL,'CIUDAD INDUSTRIAL',1),(19,NULL,'COLONIA NUEVA ESPERANZA',1),(20,NULL,'ALMA FUERTE',1),(21,NULL,'PARQUE INDUSTRIAL',1),(22,NULL,'TERRAZAS DEL NEUQUEN',2),(23,NULL,'14 DE OCTUBRE COPOL',2),(24,NULL,'RINCON DE EMILIO',2),(25,NULL,'ALTA BARDA',2),(26,NULL,'AREA CENTRO OESTE',2),(27,NULL,'AREA CENTRO ESTE',2),(28,NULL,'SANTA GENOVEVA',2),(29,NULL,'VILLA FARREL',2),(30,NULL,'PROVINCIAS UNIDAS',2),(31,NULL,'SAPERE',2),(32,NULL,'CENTENARIO',2),(33,NULL,'VISTA ALEGRE',2),(34,NULL,'CINCO SALTOS',2),(35,NULL,'BARDA DEL MEDIO',2),(36,NULL,'C.CORDERO',2),(37,NULL,'BOUQUET ROLDAN',3),(38,NULL,'MILITAR',3),(39,NULL,'VALENTINA SUR RURAL',3),(40,'Balsa las Perlas','BALSA LAS PERLAS',3),(41,NULL,'TERMINAL NEUQUEN',3),(42,NULL,'CANAL V',3),(43,NULL,'LA SIRENA',3),(44,NULL,'PLOTTIER',3),(45,NULL,'CHINA MUERTA',3),(46,NULL,'SENILLOSA',3),(47,NULL,'AREA CENTRO SUR',4),(48,NULL,'NUEVO',4),(49,NULL,'VILLA FLORENCIA',4),(50,NULL,'RIO GRANDE',4),(51,NULL,'DON BOSCO II',4),(52,NULL,'VILLA MARIA',4),(53,NULL,'BELGRANO',4),(54,NULL,'MARIANO MORENO',4),(55,NULL,'CONFLUENCIA URBANO',4),(56,NULL,'CONFLUENCIA RURAL',4),(57,NULL,'DON BOSCO III',4),(58,NULL,'LIMAY',4),(59,NULL,'CIPOLLETTI',4),(60,NULL,'FERNANDEZ ORO',4),(61,NULL,'ALLEN',4),(62,NULL,'ROCA',4),(63,NULL,'MAINQUE',4);
+/*!40000 ALTER TABLE `barrios` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `BROKER_LINK`
 --
 
@@ -219,6 +247,63 @@ CREATE TABLE `BROKER_LINK` (
 LOCK TABLES `BROKER_LINK` WRITE;
 /*!40000 ALTER TABLE `BROKER_LINK` DISABLE KEYS */;
 /*!40000 ALTER TABLE `BROKER_LINK` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cambios_estado`
+--
+
+DROP TABLE IF EXISTS `cambios_estado`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cambios_estado` (
+  `id_cambio_estado` int NOT NULL AUTO_INCREMENT,
+  `fecha_hora_fin` datetime(6) DEFAULT NULL,
+  `fecha_hora_inicio` datetime(6) DEFAULT NULL,
+  `estado_id` int DEFAULT NULL,
+  `numero_factura` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_cambio_estado`),
+  KEY `FKo1m78rq0x6h37ehdhougr9m9t` (`estado_id`),
+  KEY `FK8h9x56jl6m7mj7i5qdhjwpj0l` (`numero_factura`),
+  CONSTRAINT `FK8h9x56jl6m7mj7i5qdhjwpj0l` FOREIGN KEY (`numero_factura`) REFERENCES `envios` (`numero_factura`),
+  CONSTRAINT `FKo1m78rq0x6h37ehdhougr9m9t` FOREIGN KEY (`estado_id`) REFERENCES `estados_envio` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cambios_estado`
+--
+
+LOCK TABLES `cambios_estado` WRITE;
+/*!40000 ALTER TABLE `cambios_estado` DISABLE KEYS */;
+INSERT INTO `cambios_estado` VALUES (1,NULL,'2023-12-04 10:08:50.130152',1,'A-2321-21312312'),(2,NULL,'2023-12-06 16:00:23.683040',1,'HOY'),(3,NULL,'2023-12-08 11:42:25.756484',1,'FAC123'),(4,NULL,'2023-12-08 11:42:32.964051',1,'FAC456'),(5,NULL,'2023-12-08 11:43:12.678711',1,'FAC789'),(6,NULL,'2023-12-08 11:44:17.930616',1,NULL),(7,NULL,'2023-12-08 11:45:35.981018',1,'FAC987'),(8,NULL,'2023-12-08 11:46:10.827096',1,NULL),(9,NULL,'2023-12-08 11:46:29.524061',1,NULL),(10,NULL,'2023-12-08 11:46:32.093274',1,NULL),(11,NULL,'2023-12-08 11:46:34.923147',1,NULL),(12,NULL,'2023-12-08 11:47:04.557998',1,NULL),(13,NULL,'2023-12-08 11:47:14.041132',1,NULL),(14,NULL,'2023-12-08 11:47:21.005400',1,'FAC321'),(15,NULL,'2023-12-08 11:50:20.618614',1,'FAC111'),(16,NULL,'2023-12-08 11:50:26.291225',1,'FAC222'),(17,NULL,'2023-12-08 11:50:41.721242',1,'FAC333'),(18,NULL,'2023-12-08 11:51:14.284150',1,'FAC444'),(19,NULL,'2023-12-08 11:51:22.326333',1,'FAC555'),(20,NULL,'2023-12-08 11:51:31.907768',1,'FAC666'),(21,NULL,'2023-12-08 11:51:40.406291',1,'FAC777');
+/*!40000 ALTER TABLE `cambios_estado` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `camiones`
+--
+
+DROP TABLE IF EXISTS `camiones`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `camiones` (
+  `patente` varchar(255) NOT NULL,
+  `color` varchar(255) DEFAULT NULL,
+  `descripcion` varchar(255) DEFAULT NULL,
+  `modelo` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`patente`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `camiones`
+--
+
+LOCK TABLES `camiones` WRITE;
+/*!40000 ALTER TABLE `camiones` DISABLE KEYS */;
+INSERT INTO `camiones` VALUES ('LOG123','string','string','string'),('LOG456','Rojo','Camión de gran capacidad para transporte de mercancías pesadas.','Camión'),('LOG789','Azul','Furgoneta versátil para entregas rápidas y eficientes.','Furgoneta'),('LOGABC','Gris','Remolque adicional para aumentar la capacidad de carga.','Remolque'),('LOGXYZ','Verde','Minivan para transporte de paquetes pequeños y medianos.','Minivan');
+/*!40000 ALTER TABLE `camiones` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -267,7 +352,7 @@ CREATE TABLE `CLIENT` (
 
 LOCK TABLES `CLIENT` WRITE;
 /*!40000 ALTER TABLE `CLIENT` DISABLE KEYS */;
-INSERT INTO `CLIENT` VALUES ('07a0fe8d-fcfa-40d3-9b3c-78757106c27c',_binary '',_binary '\0','account-console',0,_binary '',NULL,'/realms/master/account/',_binary '\0',NULL,_binary '\0','master','openid-connect',0,_binary '\0',_binary '\0','${client_account-console}',_binary '\0','client-secret','${authBaseUrl}',NULL,NULL,_binary '',_binary '\0',_binary '\0',_binary '\0'),('0ca2e86b-131e-454d-95a7-c124ad72b7cb',_binary '',_binary '\0','broker',0,_binary '\0',NULL,NULL,_binary '',NULL,_binary '\0','siglo21','openid-connect',0,_binary '\0',_binary '\0','${client_broker}',_binary '\0','client-secret',NULL,NULL,NULL,_binary '',_binary '\0',_binary '\0',_binary '\0'),('2fc1d5fa-b23c-4c4e-b2aa-89f64b665fbe',_binary '',_binary '\0','admin-cli',0,_binary '',NULL,NULL,_binary '\0',NULL,_binary '\0','master','openid-connect',0,_binary '\0',_binary '\0','${client_admin-cli}',_binary '\0','client-secret',NULL,NULL,NULL,_binary '\0',_binary '\0',_binary '',_binary '\0'),('30cf30bd-693f-4790-bcd9-7d0b90bb8d5a',_binary '',_binary '\0','account-console',0,_binary '',NULL,'/realms/siglo21/account/',_binary '\0',NULL,_binary '\0','siglo21','openid-connect',0,_binary '\0',_binary '\0','${client_account-console}',_binary '\0','client-secret','${authBaseUrl}',NULL,NULL,_binary '',_binary '\0',_binary '\0',_binary '\0'),('3e7a542c-ed96-424e-b47e-d95da1a3cb1c',_binary '',_binary '\0','master-realm',0,_binary '\0',NULL,NULL,_binary '',NULL,_binary '\0','master',NULL,0,_binary '\0',_binary '\0','master Realm',_binary '\0','client-secret',NULL,NULL,NULL,_binary '',_binary '\0',_binary '\0',_binary '\0'),('42ce5f39-f315-496d-881f-7de13ac3ae08',_binary '',_binary '\0','security-admin-console',0,_binary '',NULL,'/admin/siglo21/console/',_binary '\0',NULL,_binary '\0','siglo21','openid-connect',0,_binary '\0',_binary '\0','${client_security-admin-console}',_binary '\0','client-secret','${authAdminUrl}',NULL,NULL,_binary '',_binary '\0',_binary '\0',_binary '\0'),('4fa2d49e-051c-428b-968b-8a7110abb0ba',_binary '',_binary '','siglo21-client-api-rest',0,_binary '',NULL,'http://localhost:8080',_binary '\0',NULL,_binary '\0','siglo21','openid-connect',-1,_binary '\0',_binary '\0',NULL,_binary '\0','client-secret','',NULL,NULL,_binary '',_binary '\0',_binary '',_binary '\0'),('54b4493f-4dc6-46ec-a697-a77e8977899c',_binary '',_binary '\0','account',0,_binary '',NULL,'/realms/siglo21/account/',_binary '\0',NULL,_binary '\0','siglo21','openid-connect',0,_binary '\0',_binary '\0','${client_account}',_binary '\0','client-secret','${authBaseUrl}',NULL,NULL,_binary '',_binary '\0',_binary '\0',_binary '\0'),('54cff855-78e3-4b1a-8fa0-81596b6804d4',_binary '',_binary '\0','security-admin-console',0,_binary '',NULL,'/admin/master/console/',_binary '\0',NULL,_binary '\0','master','openid-connect',0,_binary '\0',_binary '\0','${client_security-admin-console}',_binary '\0','client-secret','${authAdminUrl}',NULL,NULL,_binary '',_binary '\0',_binary '\0',_binary '\0'),('77fa5bd2-177e-4117-8334-fcfd5b25705c',_binary '',_binary '\0','account',0,_binary '',NULL,'/realms/master/account/',_binary '\0',NULL,_binary '\0','master','openid-connect',0,_binary '\0',_binary '\0','${client_account}',_binary '\0','client-secret','${authBaseUrl}',NULL,NULL,_binary '',_binary '\0',_binary '\0',_binary '\0'),('b6aafbec-9c6e-4ee7-a204-39e6f2484c85',_binary '',_binary '\0','admin-cli',0,_binary '',NULL,NULL,_binary '\0',NULL,_binary '\0','siglo21','openid-connect',0,_binary '\0',_binary '\0','${client_admin-cli}',_binary '\0','client-secret',NULL,NULL,NULL,_binary '\0',_binary '\0',_binary '',_binary '\0'),('c5b43390-a534-4260-91e2-52c6c8446492',_binary '',_binary '\0','broker',0,_binary '\0',NULL,NULL,_binary '',NULL,_binary '\0','master','openid-connect',0,_binary '\0',_binary '\0','${client_broker}',_binary '\0','client-secret',NULL,NULL,NULL,_binary '',_binary '\0',_binary '\0',_binary '\0'),('c6b540d9-5fd3-40ea-a2a9-0050ddb65206',_binary '',_binary '\0','realm-management',0,_binary '\0',NULL,NULL,_binary '',NULL,_binary '\0','siglo21','openid-connect',0,_binary '\0',_binary '\0','${client_realm-management}',_binary '\0','client-secret',NULL,NULL,NULL,_binary '',_binary '\0',_binary '\0',_binary '\0'),('e0b0caaf-494f-4f17-ba6a-084fdb8fc8e2',_binary '',_binary '\0','siglo21-realm',0,_binary '\0',NULL,NULL,_binary '',NULL,_binary '\0','master',NULL,0,_binary '\0',_binary '\0','siglo21 Realm',_binary '\0','client-secret',NULL,NULL,NULL,_binary '',_binary '\0',_binary '\0',_binary '\0');
+INSERT INTO `CLIENT` VALUES ('07a0fe8d-fcfa-40d3-9b3c-78757106c27c',_binary '',_binary '\0','account-console',0,_binary '',NULL,'/realms/master/account/',_binary '\0',NULL,_binary '\0','master','openid-connect',0,_binary '\0',_binary '\0','${client_account-console}',_binary '\0','client-secret','${authBaseUrl}',NULL,NULL,_binary '',_binary '\0',_binary '\0',_binary '\0'),('0ca2e86b-131e-454d-95a7-c124ad72b7cb',_binary '',_binary '\0','broker',0,_binary '\0',NULL,NULL,_binary '',NULL,_binary '\0','siglo21','openid-connect',0,_binary '\0',_binary '\0','${client_broker}',_binary '\0','client-secret',NULL,NULL,NULL,_binary '',_binary '\0',_binary '\0',_binary '\0'),('2fc1d5fa-b23c-4c4e-b2aa-89f64b665fbe',_binary '',_binary '\0','admin-cli',0,_binary '',NULL,NULL,_binary '\0',NULL,_binary '\0','master','openid-connect',0,_binary '\0',_binary '\0','${client_admin-cli}',_binary '\0','client-secret',NULL,NULL,NULL,_binary '\0',_binary '\0',_binary '',_binary '\0'),('30cf30bd-693f-4790-bcd9-7d0b90bb8d5a',_binary '',_binary '\0','account-console',0,_binary '',NULL,'/realms/siglo21/account/',_binary '\0',NULL,_binary '\0','siglo21','openid-connect',0,_binary '\0',_binary '\0','${client_account-console}',_binary '\0','client-secret','${authBaseUrl}',NULL,NULL,_binary '',_binary '\0',_binary '\0',_binary '\0'),('3e7a542c-ed96-424e-b47e-d95da1a3cb1c',_binary '',_binary '\0','master-realm',0,_binary '\0',NULL,NULL,_binary '',NULL,_binary '\0','master',NULL,0,_binary '\0',_binary '\0','master Realm',_binary '\0','client-secret',NULL,NULL,NULL,_binary '',_binary '\0',_binary '\0',_binary '\0'),('42ce5f39-f315-496d-881f-7de13ac3ae08',_binary '',_binary '\0','security-admin-console',0,_binary '',NULL,'/admin/siglo21/console/',_binary '\0',NULL,_binary '\0','siglo21','openid-connect',0,_binary '\0',_binary '\0','${client_security-admin-console}',_binary '\0','client-secret','${authAdminUrl}',NULL,NULL,_binary '',_binary '\0',_binary '\0',_binary '\0'),('4fa2d49e-051c-428b-968b-8a7110abb0ba',_binary '',_binary '','siglo21-client-api-rest',0,_binary '',NULL,'http://localhost:3000',_binary '\0',NULL,_binary '\0','siglo21','openid-connect',-1,_binary '\0',_binary '\0',NULL,_binary '\0','client-secret','',NULL,NULL,_binary '',_binary '\0',_binary '',_binary '\0'),('54b4493f-4dc6-46ec-a697-a77e8977899c',_binary '',_binary '\0','account',0,_binary '',NULL,'/realms/siglo21/account/',_binary '\0',NULL,_binary '\0','siglo21','openid-connect',0,_binary '\0',_binary '\0','${client_account}',_binary '\0','client-secret','${authBaseUrl}',NULL,NULL,_binary '',_binary '\0',_binary '\0',_binary '\0'),('54cff855-78e3-4b1a-8fa0-81596b6804d4',_binary '',_binary '\0','security-admin-console',0,_binary '',NULL,'/admin/master/console/',_binary '\0',NULL,_binary '\0','master','openid-connect',0,_binary '\0',_binary '\0','${client_security-admin-console}',_binary '\0','client-secret','${authAdminUrl}',NULL,NULL,_binary '',_binary '\0',_binary '\0',_binary '\0'),('77fa5bd2-177e-4117-8334-fcfd5b25705c',_binary '',_binary '\0','account',0,_binary '',NULL,'/realms/master/account/',_binary '\0',NULL,_binary '\0','master','openid-connect',0,_binary '\0',_binary '\0','${client_account}',_binary '\0','client-secret','${authBaseUrl}',NULL,NULL,_binary '',_binary '\0',_binary '\0',_binary '\0'),('b6aafbec-9c6e-4ee7-a204-39e6f2484c85',_binary '',_binary '\0','admin-cli',0,_binary '',NULL,NULL,_binary '\0',NULL,_binary '\0','siglo21','openid-connect',0,_binary '\0',_binary '\0','${client_admin-cli}',_binary '\0','client-secret',NULL,NULL,NULL,_binary '\0',_binary '\0',_binary '',_binary '\0'),('c5b43390-a534-4260-91e2-52c6c8446492',_binary '',_binary '\0','broker',0,_binary '\0',NULL,NULL,_binary '',NULL,_binary '\0','master','openid-connect',0,_binary '\0',_binary '\0','${client_broker}',_binary '\0','client-secret',NULL,NULL,NULL,_binary '',_binary '\0',_binary '\0',_binary '\0'),('c6b540d9-5fd3-40ea-a2a9-0050ddb65206',_binary '',_binary '\0','realm-management',0,_binary '\0',NULL,NULL,_binary '',NULL,_binary '\0','siglo21','openid-connect',0,_binary '\0',_binary '\0','${client_realm-management}',_binary '\0','client-secret',NULL,NULL,NULL,_binary '',_binary '\0',_binary '\0',_binary '\0'),('e0b0caaf-494f-4f17-ba6a-084fdb8fc8e2',_binary '',_binary '\0','siglo21-realm',0,_binary '\0',NULL,NULL,_binary '',NULL,_binary '\0','master',NULL,0,_binary '\0',_binary '\0','siglo21 Realm',_binary '\0','client-secret',NULL,NULL,NULL,_binary '',_binary '\0',_binary '\0',_binary '\0');
 /*!40000 ALTER TABLE `CLIENT` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -643,6 +728,40 @@ LOCK TABLES `CLIENT_USER_SESSION_NOTE` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `clientes`
+--
+
+DROP TABLE IF EXISTS `clientes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `clientes` (
+  `id_cliente` int NOT NULL AUTO_INCREMENT,
+  `apellido` varchar(255) DEFAULT NULL,
+  `direccion` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `nombre` varchar(255) DEFAULT NULL,
+  `numero_documento` varchar(255) DEFAULT NULL,
+  `numero_telefono` varchar(255) DEFAULT NULL,
+  `numero_telefono_alternativo` varchar(255) DEFAULT NULL,
+  `id_tipo_documento` int DEFAULT NULL,
+  PRIMARY KEY (`id_cliente`),
+  UNIQUE KEY `UKdunqebmukycxvi902q7ev0a8v` (`id_tipo_documento`,`numero_documento`),
+  KEY `FK158uydvsidi86jgv1skdhcms0` (`id_tipo_documento`),
+  CONSTRAINT `FK158uydvsidi86jgv1skdhcms0` FOREIGN KEY (`id_tipo_documento`) REFERENCES `tipos_documentos` (`id_tipo_documento`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `clientes`
+--
+
+LOCK TABLES `clientes` WRITE;
+/*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
+INSERT INTO `clientes` VALUES (1,'cueva','dire 2112','string@gmail.com','jorge','31245332','+54 2132321','+11 213213213',1),(2,'cuenca','dire 2232','string@gmail.com','alberto','20-32133123-3','+54 12355444','',2),(3,'Perez','Calle Principal 456','juan.perez@example.com','Juan','DOC123','123456789','987654321',3),(4,'Gomez','Avenida Central 789','maria.gomez@example.com','Maria','DOC456','987654321','123456789',3),(6,'Lopez','Plaza Principal 012','carlos.lopez@example.com','Carlos','DOC789','555555555','444444444',3),(7,'Martinez','Calle A 567','ana.martinez@example.com','Ana','DOC012','777777777','888888888',3),(8,'Rodriguez','Avenida X 890','luis.rodriguez@example.com','Luis','DOC345','333333333','222222222',3);
+/*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `COMPONENT`
 --
 
@@ -853,6 +972,116 @@ INSERT INTO `DEFAULT_CLIENT_SCOPE` VALUES ('master','1bb67913-9995-497e-89af-945
 UNLOCK TABLES;
 
 --
+-- Table structure for table `detalles_envios`
+--
+
+DROP TABLE IF EXISTS `detalles_envios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `detalles_envios` (
+  `id_detalle_envio` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) DEFAULT NULL,
+  `numero_factura` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_detalle_envio`),
+  KEY `FK316qxh1txvitlpwtp19s13yr3` (`numero_factura`),
+  CONSTRAINT `FK316qxh1txvitlpwtp19s13yr3` FOREIGN KEY (`numero_factura`) REFERENCES `envios` (`numero_factura`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `detalles_envios`
+--
+
+LOCK TABLES `detalles_envios` WRITE;
+/*!40000 ALTER TABLE `detalles_envios` DISABLE KEYS */;
+INSERT INTO `detalles_envios` VALUES (1,'unaHerramienta','A-2321-21312312'),(2,'otra','A-2321-21312312'),(3,'otra x2','A-2321-21312312'),(4,'string','HOY'),(5,'Producto A','FAC123'),(6,'Producto B','FAC456'),(7,'Producto C','FAC789'),(9,'Producto F','FAC987'),(16,'Producto D','FAC321'),(17,'Producto G','FAC111'),(18,'Producto H','FAC222'),(19,'Producto I','FAC333'),(20,'Producto J','FAC444'),(21,'Producto K','FAC555'),(22,'Producto L','FAC666'),(23,'Producto M','FAC777');
+/*!40000 ALTER TABLE `detalles_envios` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `envios`
+--
+
+DROP TABLE IF EXISTS `envios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `envios` (
+  `numero_factura` varchar(255) NOT NULL,
+  `direccion_envio` varchar(255) DEFAULT NULL,
+  `entre_calles` varchar(255) DEFAULT NULL,
+  `ultimos_digitos_tarjeta` varchar(255) DEFAULT NULL,
+  `id_cliente` int DEFAULT NULL,
+  `id_estado` int DEFAULT NULL,
+  `id_zona` int DEFAULT NULL,
+  PRIMARY KEY (`numero_factura`),
+  KEY `FKe1ag585ivpih4nqoqddp95fsj` (`id_cliente`),
+  KEY `FK23hl635dxtn2m4pl9fcveh34f` (`id_estado`),
+  KEY `FK9cqc2i803wtcip4voinjpg00w` (`id_zona`),
+  CONSTRAINT `FK23hl635dxtn2m4pl9fcveh34f` FOREIGN KEY (`id_estado`) REFERENCES `estados_envio` (`id`),
+  CONSTRAINT `FK9cqc2i803wtcip4voinjpg00w` FOREIGN KEY (`id_zona`) REFERENCES `zonas` (`id_zona`),
+  CONSTRAINT `FKe1ag585ivpih4nqoqddp95fsj` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `envios`
+--
+
+LOCK TABLES `envios` WRITE;
+/*!40000 ALTER TABLE `envios` DISABLE KEYS */;
+INSERT INTO `envios` VALUES ('A-2321-21312312','direccion de envio','una calle y otra','2333',1,1,1),('FAC111','Avenida Terciaria 111','Avenida U y Avenida V','5678',7,1,3),('FAC123','Calle Principal 123','Calle A y Calle B','1234',1,1,1),('FAC222','Calle Terciaria 222','Calle W y Calle X','9012',8,1,3),('FAC321','Avenida Secundaria 321','Avenida M y Avenida N','3456',4,1,2),('FAC333','Plaza Terciaria 333','Plaza E y Plaza F','2345',2,1,3),('FAC444','Avenida Cuarta 444','Avenida Y y Avenida Z','3456',1,1,4),('FAC456','Avenida Central 456','Avenida X y Avenida Y','5678',2,1,1),('FAC555','Calle Cuarta 555','Calle A y Calle B','7890',2,1,4),('FAC666','Plaza Cuarta 666','Plaza M y Plaza N','1234',3,1,4),('FAC777','Avenida Cuarta 777','Avenida C y Avenida D','5678',4,1,4),('FAC789','Plaza Principal 789','Plaza A y Plaza B','9012',3,1,1),('FAC987','Plaza Secundaria 987','Plaza C y Plaza D','1234',6,1,2),('HOY','string','string','stri',1,1,4);
+/*!40000 ALTER TABLE `envios` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `estados_envio`
+--
+
+DROP TABLE IF EXISTS `estados_envio`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `estados_envio` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `estados_envio`
+--
+
+LOCK TABLES `estados_envio` WRITE;
+/*!40000 ALTER TABLE `estados_envio` DISABLE KEYS */;
+INSERT INTO `estados_envio` VALUES (1,'Pendiente'),(2,'EnCamino'),(3,'NoEntregado'),(4,'Entregado');
+/*!40000 ALTER TABLE `estados_envio` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `estados_hoja`
+--
+
+DROP TABLE IF EXISTS `estados_hoja`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `estados_hoja` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `estados_hoja`
+--
+
+LOCK TABLES `estados_hoja` WRITE;
+/*!40000 ALTER TABLE `estados_hoja` DISABLE KEYS */;
+INSERT INTO `estados_hoja` VALUES (1,'EnPreparacion'),(2,'DeCamino'),(3,'Realizado');
+/*!40000 ALTER TABLE `estados_hoja` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `EVENT_ENTITY`
 --
 
@@ -882,60 +1111,6 @@ CREATE TABLE `EVENT_ENTITY` (
 LOCK TABLES `EVENT_ENTITY` WRITE;
 /*!40000 ALTER TABLE `EVENT_ENTITY` DISABLE KEYS */;
 /*!40000 ALTER TABLE `EVENT_ENTITY` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `FEDERATED_IDENTITY`
---
-
-DROP TABLE IF EXISTS `FEDERATED_IDENTITY`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `FEDERATED_IDENTITY` (
-  `IDENTITY_PROVIDER` varchar(255) NOT NULL,
-  `REALM_ID` varchar(36) DEFAULT NULL,
-  `FEDERATED_USER_ID` varchar(255) DEFAULT NULL,
-  `FEDERATED_USERNAME` varchar(255) DEFAULT NULL,
-  `TOKEN` text,
-  `USER_ID` varchar(36) NOT NULL,
-  PRIMARY KEY (`IDENTITY_PROVIDER`,`USER_ID`),
-  KEY `IDX_FEDIDENTITY_USER` (`USER_ID`),
-  KEY `IDX_FEDIDENTITY_FEDUSER` (`FEDERATED_USER_ID`),
-  CONSTRAINT `FK404288B92EF007A6` FOREIGN KEY (`USER_ID`) REFERENCES `USER_ENTITY` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `FEDERATED_IDENTITY`
---
-
-LOCK TABLES `FEDERATED_IDENTITY` WRITE;
-/*!40000 ALTER TABLE `FEDERATED_IDENTITY` DISABLE KEYS */;
-/*!40000 ALTER TABLE `FEDERATED_IDENTITY` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `FEDERATED_USER`
---
-
-DROP TABLE IF EXISTS `FEDERATED_USER`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `FEDERATED_USER` (
-  `ID` varchar(255) NOT NULL,
-  `STORAGE_PROVIDER_ID` varchar(255) DEFAULT NULL,
-  `REALM_ID` varchar(36) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `FEDERATED_USER`
---
-
-LOCK TABLES `FEDERATED_USER` WRITE;
-/*!40000 ALTER TABLE `FEDERATED_USER` DISABLE KEYS */;
-/*!40000 ALTER TABLE `FEDERATED_USER` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1138,6 +1313,60 @@ LOCK TABLES `FED_USER_ROLE_MAPPING` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `FEDERATED_IDENTITY`
+--
+
+DROP TABLE IF EXISTS `FEDERATED_IDENTITY`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `FEDERATED_IDENTITY` (
+  `IDENTITY_PROVIDER` varchar(255) NOT NULL,
+  `REALM_ID` varchar(36) DEFAULT NULL,
+  `FEDERATED_USER_ID` varchar(255) DEFAULT NULL,
+  `FEDERATED_USERNAME` varchar(255) DEFAULT NULL,
+  `TOKEN` text,
+  `USER_ID` varchar(36) NOT NULL,
+  PRIMARY KEY (`IDENTITY_PROVIDER`,`USER_ID`),
+  KEY `IDX_FEDIDENTITY_USER` (`USER_ID`),
+  KEY `IDX_FEDIDENTITY_FEDUSER` (`FEDERATED_USER_ID`),
+  CONSTRAINT `FK404288B92EF007A6` FOREIGN KEY (`USER_ID`) REFERENCES `USER_ENTITY` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `FEDERATED_IDENTITY`
+--
+
+LOCK TABLES `FEDERATED_IDENTITY` WRITE;
+/*!40000 ALTER TABLE `FEDERATED_IDENTITY` DISABLE KEYS */;
+/*!40000 ALTER TABLE `FEDERATED_IDENTITY` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `FEDERATED_USER`
+--
+
+DROP TABLE IF EXISTS `FEDERATED_USER`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `FEDERATED_USER` (
+  `ID` varchar(255) NOT NULL,
+  `STORAGE_PROVIDER_ID` varchar(255) DEFAULT NULL,
+  `REALM_ID` varchar(36) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `FEDERATED_USER`
+--
+
+LOCK TABLES `FEDERATED_USER` WRITE;
+/*!40000 ALTER TABLE `FEDERATED_USER` DISABLE KEYS */;
+/*!40000 ALTER TABLE `FEDERATED_USER` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `GROUP_ATTRIBUTE`
 --
 
@@ -1187,6 +1416,67 @@ CREATE TABLE `GROUP_ROLE_MAPPING` (
 LOCK TABLES `GROUP_ROLE_MAPPING` WRITE;
 /*!40000 ALTER TABLE `GROUP_ROLE_MAPPING` DISABLE KEYS */;
 /*!40000 ALTER TABLE `GROUP_ROLE_MAPPING` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `hojas_del_dia`
+--
+
+DROP TABLE IF EXISTS `hojas_del_dia`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `hojas_del_dia` (
+  `id_hoja_del_dia` int NOT NULL AUTO_INCREMENT,
+  `fecha_creacion` datetime(6) DEFAULT NULL,
+  `fecha_reparto` date DEFAULT NULL,
+  `patente_camion` varchar(255) DEFAULT NULL,
+  `estado_hoja_del_dia_id` int DEFAULT NULL,
+  `repartidor_id_repartidor` int DEFAULT NULL,
+  PRIMARY KEY (`id_hoja_del_dia`),
+  UNIQUE KEY `UK_c583q4cxg3pysororqabyu0yq` (`fecha_reparto`),
+  KEY `FKe6eco77tsnvrw7yx0gf0oau4g` (`patente_camion`),
+  KEY `FKidvjfl3e6fynbwk8hfmukruu5` (`estado_hoja_del_dia_id`),
+  KEY `FKjeqvbe4vny1oi9b9h32i8j3l6` (`repartidor_id_repartidor`),
+  CONSTRAINT `FKe6eco77tsnvrw7yx0gf0oau4g` FOREIGN KEY (`patente_camion`) REFERENCES `camiones` (`patente`),
+  CONSTRAINT `FKidvjfl3e6fynbwk8hfmukruu5` FOREIGN KEY (`estado_hoja_del_dia_id`) REFERENCES `estados_hoja` (`id`),
+  CONSTRAINT `FKjeqvbe4vny1oi9b9h32i8j3l6` FOREIGN KEY (`repartidor_id_repartidor`) REFERENCES `repartidores` (`id_repartidor`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hojas_del_dia`
+--
+
+LOCK TABLES `hojas_del_dia` WRITE;
+/*!40000 ALTER TABLE `hojas_del_dia` DISABLE KEYS */;
+INSERT INTO `hojas_del_dia` VALUES (1,'2023-12-06 20:23:30.084204','2023-12-07',NULL,3,NULL);
+/*!40000 ALTER TABLE `hojas_del_dia` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `hojas_del_dia_envios`
+--
+
+DROP TABLE IF EXISTS `hojas_del_dia_envios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `hojas_del_dia_envios` (
+  `hoja_del_dia_entity_id_hoja_del_dia` int NOT NULL,
+  `envios_numero_factura` varchar(255) NOT NULL,
+  KEY `FKhsgbd96lp45yutcwhvpx91p0y` (`envios_numero_factura`),
+  KEY `FK88t4rvi7xg589j6bim8qxd8ph` (`hoja_del_dia_entity_id_hoja_del_dia`),
+  CONSTRAINT `FK88t4rvi7xg589j6bim8qxd8ph` FOREIGN KEY (`hoja_del_dia_entity_id_hoja_del_dia`) REFERENCES `hojas_del_dia` (`id_hoja_del_dia`),
+  CONSTRAINT `FKhsgbd96lp45yutcwhvpx91p0y` FOREIGN KEY (`envios_numero_factura`) REFERENCES `envios` (`numero_factura`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hojas_del_dia_envios`
+--
+
+LOCK TABLES `hojas_del_dia_envios` WRITE;
+/*!40000 ALTER TABLE `hojas_del_dia_envios` DISABLE KEYS */;
+/*!40000 ALTER TABLE `hojas_del_dia_envios` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1840,8 +2130,33 @@ CREATE TABLE `REDIRECT_URIS` (
 
 LOCK TABLES `REDIRECT_URIS` WRITE;
 /*!40000 ALTER TABLE `REDIRECT_URIS` DISABLE KEYS */;
-INSERT INTO `REDIRECT_URIS` VALUES ('07a0fe8d-fcfa-40d3-9b3c-78757106c27c','/realms/master/account/*'),('30cf30bd-693f-4790-bcd9-7d0b90bb8d5a','/realms/siglo21/account/*'),('42ce5f39-f315-496d-881f-7de13ac3ae08','/admin/siglo21/console/*'),('4fa2d49e-051c-428b-968b-8a7110abb0ba','http://localhost:8080/*'),('54b4493f-4dc6-46ec-a697-a77e8977899c','/realms/siglo21/account/*'),('54cff855-78e3-4b1a-8fa0-81596b6804d4','/admin/master/console/*'),('77fa5bd2-177e-4117-8334-fcfd5b25705c','/realms/master/account/*');
+INSERT INTO `REDIRECT_URIS` VALUES ('07a0fe8d-fcfa-40d3-9b3c-78757106c27c','/realms/master/account/*'),('30cf30bd-693f-4790-bcd9-7d0b90bb8d5a','/realms/siglo21/account/*'),('42ce5f39-f315-496d-881f-7de13ac3ae08','/admin/siglo21/console/*'),('4fa2d49e-051c-428b-968b-8a7110abb0ba','http://localhost:3000/*'),('54b4493f-4dc6-46ec-a697-a77e8977899c','/realms/siglo21/account/*'),('54cff855-78e3-4b1a-8fa0-81596b6804d4','/admin/master/console/*'),('77fa5bd2-177e-4117-8334-fcfd5b25705c','/realms/master/account/*');
 /*!40000 ALTER TABLE `REDIRECT_URIS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `repartidores`
+--
+
+DROP TABLE IF EXISTS `repartidores`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `repartidores` (
+  `id_repartidor` int NOT NULL AUTO_INCREMENT,
+  `apellido` varchar(255) DEFAULT NULL,
+  `nombre` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_repartidor`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `repartidores`
+--
+
+LOCK TABLES `repartidores` WRITE;
+/*!40000 ALTER TABLE `repartidores` DISABLE KEYS */;
+INSERT INTO `repartidores` VALUES (1,'García','Juan'),(2,'Rodríguez','María'),(3,'López','Carlos'),(4,'Martínez','Ana');
+/*!40000 ALTER TABLE `repartidores` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -2240,30 +2555,27 @@ LOCK TABLES `SCOPE_POLICY` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `USERNAME_LOGIN_FAILURE`
+-- Table structure for table `tipos_documentos`
 --
 
-DROP TABLE IF EXISTS `USERNAME_LOGIN_FAILURE`;
+DROP TABLE IF EXISTS `tipos_documentos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `USERNAME_LOGIN_FAILURE` (
-  `REALM_ID` varchar(36) NOT NULL,
-  `USERNAME` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `FAILED_LOGIN_NOT_BEFORE` int DEFAULT NULL,
-  `LAST_FAILURE` bigint DEFAULT NULL,
-  `LAST_IP_FAILURE` varchar(255) DEFAULT NULL,
-  `NUM_FAILURES` int DEFAULT NULL,
-  PRIMARY KEY (`REALM_ID`,`USERNAME`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `tipos_documentos` (
+  `id_tipo_documento` int NOT NULL AUTO_INCREMENT,
+  `descripcion` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_tipo_documento`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `USERNAME_LOGIN_FAILURE`
+-- Dumping data for table `tipos_documentos`
 --
 
-LOCK TABLES `USERNAME_LOGIN_FAILURE` WRITE;
-/*!40000 ALTER TABLE `USERNAME_LOGIN_FAILURE` DISABLE KEYS */;
-/*!40000 ALTER TABLE `USERNAME_LOGIN_FAILURE` ENABLE KEYS */;
+LOCK TABLES `tipos_documentos` WRITE;
+/*!40000 ALTER TABLE `tipos_documentos` DISABLE KEYS */;
+INSERT INTO `tipos_documentos` VALUES (1,'DNI'),(2,'Cuil'),(3,'Cuit');
+/*!40000 ALTER TABLE `tipos_documentos` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -2634,6 +2946,33 @@ LOCK TABLES `USER_SESSION_NOTE` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `USERNAME_LOGIN_FAILURE`
+--
+
+DROP TABLE IF EXISTS `USERNAME_LOGIN_FAILURE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `USERNAME_LOGIN_FAILURE` (
+  `REALM_ID` varchar(36) NOT NULL,
+  `USERNAME` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `FAILED_LOGIN_NOT_BEFORE` int DEFAULT NULL,
+  `LAST_FAILURE` bigint DEFAULT NULL,
+  `LAST_IP_FAILURE` varchar(255) DEFAULT NULL,
+  `NUM_FAILURES` int DEFAULT NULL,
+  PRIMARY KEY (`REALM_ID`,`USERNAME`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `USERNAME_LOGIN_FAILURE`
+--
+
+LOCK TABLES `USERNAME_LOGIN_FAILURE` WRITE;
+/*!40000 ALTER TABLE `USERNAME_LOGIN_FAILURE` DISABLE KEYS */;
+/*!40000 ALTER TABLE `USERNAME_LOGIN_FAILURE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `WEB_ORIGINS`
 --
 
@@ -2657,345 +2996,6 @@ LOCK TABLES `WEB_ORIGINS` WRITE;
 /*!40000 ALTER TABLE `WEB_ORIGINS` DISABLE KEYS */;
 INSERT INTO `WEB_ORIGINS` VALUES ('42ce5f39-f315-496d-881f-7de13ac3ae08','+'),('54cff855-78e3-4b1a-8fa0-81596b6804d4','+');
 /*!40000 ALTER TABLE `WEB_ORIGINS` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `barrios`
---
-
-DROP TABLE IF EXISTS `barrios`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `barrios` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(255) DEFAULT NULL,
-  `nombre` varchar(255) DEFAULT NULL,
-  `barrios_id_zona` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK9ulayj5kuu2kpylv836pw4chn` (`barrios_id_zona`),
-  CONSTRAINT `FK9ulayj5kuu2kpylv836pw4chn` FOREIGN KEY (`barrios_id_zona`) REFERENCES `zonas` (`id_zona`)
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `barrios`
---
-
-LOCK TABLES `barrios` WRITE;
-/*!40000 ALTER TABLE `barrios` DISABLE KEYS */;
-INSERT INTO `barrios` VALUES (1,NULL,'EZFUERZO',1),(2,NULL,'HIBEPA',1),(3,NULL,'CUENCA XV',1),(4,NULL,'GRAN NEUQUEN NORTE',1),(5,NULL,'GRAN NEUQUEN SUR',1),(6,NULL,'SAN LORENZO NORTE',1),(7,NULL,'SAN LORENZO SUR',1),(8,NULL,'VALENTINA NORTE URBANA',1),(9,NULL,'HUILLICHEZ',1),(10,NULL,'UNION DE MAYO',1),(11,NULL,'MELIPAL',1),(12,NULL,'GREGORIO ALVAREZ',1),(13,NULL,'EL PROGRESO',1),(14,NULL,'VILLA CEFERINO',1),(15,NULL,'BARDAS SOLEADAS',1),(16,NULL,'CUMELEN',1),(17,NULL,'ISLA MALVINAS',1),(18,NULL,'CIUDAD INDUSTRIAL',1),(19,NULL,'COLONIA NUEVA ESPERANZA',1),(20,NULL,'ALMA FUERTE',1),(21,NULL,'PARQUE INDUSTRIAL',1),(22,NULL,'TERRAZAS DEL NEUQUEN',2),(23,NULL,'14 DE OCTUBRE COPOL',2),(24,NULL,'RINCON DE EMILIO',2),(25,NULL,'ALTA BARDA',2),(26,NULL,'AREA CENTRO OESTE',2),(27,NULL,'AREA CENTRO ESTE',2),(28,NULL,'SANTA GENOVEVA',2),(29,NULL,'VILLA FARREL',2),(30,NULL,'PROVINCIAS UNIDAS',2),(31,NULL,'SAPERE',2),(32,NULL,'CENTENARIO',2),(33,NULL,'VISTA ALEGRE',2),(34,NULL,'CINCO SALTOS',2),(35,NULL,'BARDA DEL MEDIO',2),(36,NULL,'C.CORDERO',2),(37,NULL,'BOUQUET ROLDAN',3),(38,NULL,'MILITAR',3),(39,NULL,'VALENTINA SUR RURAL',3),(40,'Balsa las Perlas','BALSA LAS PERLAS',3),(41,NULL,'TERMINAL NEUQUEN',3),(42,NULL,'CANAL V',3),(43,NULL,'LA SIRENA',3),(44,NULL,'PLOTTIER',3),(45,NULL,'CHINA MUERTA',3),(46,NULL,'SENILLOSA',3),(47,NULL,'AREA CENTRO SUR',4),(48,NULL,'NUEVO',4),(49,NULL,'VILLA FLORENCIA',4),(50,NULL,'RIO GRANDE',4),(51,NULL,'DON BOSCO II',4),(52,NULL,'VILLA MARIA',4),(53,NULL,'BELGRANO',4),(54,NULL,'MARIANO MORENO',4),(55,NULL,'CONFLUENCIA URBANO',4),(56,NULL,'CONFLUENCIA RURAL',4),(57,NULL,'DON BOSCO III',4),(58,NULL,'LIMAY',4),(59,NULL,'CIPOLLETTI',4),(60,NULL,'FERNANDEZ ORO',4),(61,NULL,'ALLEN',4),(62,NULL,'ROCA',4),(63,NULL,'MAINQUE',4);
-/*!40000 ALTER TABLE `barrios` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `cambios_estado`
---
-
-DROP TABLE IF EXISTS `cambios_estado`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `cambios_estado` (
-  `id_cambio_estado` int NOT NULL AUTO_INCREMENT,
-  `fecha_hora_fin` datetime(6) DEFAULT NULL,
-  `fecha_hora_inicio` datetime(6) DEFAULT NULL,
-  `estado_id` int DEFAULT NULL,
-  `numero_factura` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id_cambio_estado`),
-  KEY `FKo1m78rq0x6h37ehdhougr9m9t` (`estado_id`),
-  KEY `FK8h9x56jl6m7mj7i5qdhjwpj0l` (`numero_factura`),
-  CONSTRAINT `FK8h9x56jl6m7mj7i5qdhjwpj0l` FOREIGN KEY (`numero_factura`) REFERENCES `envios` (`numero_factura`),
-  CONSTRAINT `FKo1m78rq0x6h37ehdhougr9m9t` FOREIGN KEY (`estado_id`) REFERENCES `estados_envio` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `cambios_estado`
---
-
-LOCK TABLES `cambios_estado` WRITE;
-/*!40000 ALTER TABLE `cambios_estado` DISABLE KEYS */;
-INSERT INTO `cambios_estado` VALUES (1,NULL,'2023-12-04 10:08:50.130152',1,'A-2321-21312312'),(2,NULL,'2023-12-06 16:00:23.683040',1,'HOY'),(3,NULL,'2023-12-08 11:42:25.756484',1,'FAC123'),(4,NULL,'2023-12-08 11:42:32.964051',1,'FAC456'),(5,NULL,'2023-12-08 11:43:12.678711',1,'FAC789'),(6,NULL,'2023-12-08 11:44:17.930616',1,NULL),(7,NULL,'2023-12-08 11:45:35.981018',1,'FAC987'),(8,NULL,'2023-12-08 11:46:10.827096',1,NULL),(9,NULL,'2023-12-08 11:46:29.524061',1,NULL),(10,NULL,'2023-12-08 11:46:32.093274',1,NULL),(11,NULL,'2023-12-08 11:46:34.923147',1,NULL),(12,NULL,'2023-12-08 11:47:04.557998',1,NULL),(13,NULL,'2023-12-08 11:47:14.041132',1,NULL),(14,NULL,'2023-12-08 11:47:21.005400',1,'FAC321'),(15,NULL,'2023-12-08 11:50:20.618614',1,'FAC111'),(16,NULL,'2023-12-08 11:50:26.291225',1,'FAC222'),(17,NULL,'2023-12-08 11:50:41.721242',1,'FAC333'),(18,NULL,'2023-12-08 11:51:14.284150',1,'FAC444'),(19,NULL,'2023-12-08 11:51:22.326333',1,'FAC555'),(20,NULL,'2023-12-08 11:51:31.907768',1,'FAC666'),(21,NULL,'2023-12-08 11:51:40.406291',1,'FAC777');
-/*!40000 ALTER TABLE `cambios_estado` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `camiones`
---
-
-DROP TABLE IF EXISTS `camiones`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `camiones` (
-  `patente` varchar(255) NOT NULL,
-  `color` varchar(255) DEFAULT NULL,
-  `descripcion` varchar(255) DEFAULT NULL,
-  `modelo` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`patente`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `camiones`
---
-
-LOCK TABLES `camiones` WRITE;
-/*!40000 ALTER TABLE `camiones` DISABLE KEYS */;
-INSERT INTO `camiones` VALUES ('LOG123','Blanco','Furgón de carga para entregas locales.','Furgón'),('LOG456','Rojo','Camión de gran capacidad para transporte de mercancías pesadas.','Camión'),('LOG789','Azul','Furgoneta versátil para entregas rápidas y eficientes.','Furgoneta'),('LOGABC','Gris','Remolque adicional para aumentar la capacidad de carga.','Remolque'),('LOGXYZ','Verde','Minivan para transporte de paquetes pequeños y medianos.','Minivan');
-/*!40000 ALTER TABLE `camiones` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `clientes`
---
-
-DROP TABLE IF EXISTS `clientes`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `clientes` (
-  `id_cliente` int NOT NULL AUTO_INCREMENT,
-  `apellido` varchar(255) DEFAULT NULL,
-  `direccion` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `nombre` varchar(255) DEFAULT NULL,
-  `numero_documento` varchar(255) DEFAULT NULL,
-  `numero_telefono` varchar(255) DEFAULT NULL,
-  `numero_telefono_alternativo` varchar(255) DEFAULT NULL,
-  `id_tipo_documento` int DEFAULT NULL,
-  PRIMARY KEY (`id_cliente`),
-  UNIQUE KEY `UKdunqebmukycxvi902q7ev0a8v` (`id_tipo_documento`,`numero_documento`),
-  KEY `FK158uydvsidi86jgv1skdhcms0` (`id_tipo_documento`),
-  CONSTRAINT `FK158uydvsidi86jgv1skdhcms0` FOREIGN KEY (`id_tipo_documento`) REFERENCES `tipos_documentos` (`id_tipo_documento`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `clientes`
---
-
-LOCK TABLES `clientes` WRITE;
-/*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
-INSERT INTO `clientes` VALUES (1,'cueva','dire 2112','string@gmail.com','jorge','31245332','+54 2132321','+11 213213213',1),(2,'cuenca','dire 2232','string@gmail.com','alberto','20-32133123-3','+54 12355444','',2),(3,'Perez','Calle Principal 456','juan.perez@example.com','Juan','DOC123','123456789','987654321',3),(4,'Gomez','Avenida Central 789','maria.gomez@example.com','Maria','DOC456','987654321','123456789',3),(6,'Lopez','Plaza Principal 012','carlos.lopez@example.com','Carlos','DOC789','555555555','444444444',3),(7,'Martinez','Calle A 567','ana.martinez@example.com','Ana','DOC012','777777777','888888888',3),(8,'Rodriguez','Avenida X 890','luis.rodriguez@example.com','Luis','DOC345','333333333','222222222',3);
-/*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `detalles_envios`
---
-
-DROP TABLE IF EXISTS `detalles_envios`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `detalles_envios` (
-  `id_detalle_envio` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(255) DEFAULT NULL,
-  `numero_factura` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id_detalle_envio`),
-  KEY `FK316qxh1txvitlpwtp19s13yr3` (`numero_factura`),
-  CONSTRAINT `FK316qxh1txvitlpwtp19s13yr3` FOREIGN KEY (`numero_factura`) REFERENCES `envios` (`numero_factura`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `detalles_envios`
---
-
-LOCK TABLES `detalles_envios` WRITE;
-/*!40000 ALTER TABLE `detalles_envios` DISABLE KEYS */;
-INSERT INTO `detalles_envios` VALUES (1,'unaHerramienta','A-2321-21312312'),(2,'otra','A-2321-21312312'),(3,'otra x2','A-2321-21312312'),(4,'string','HOY'),(5,'Producto A','FAC123'),(6,'Producto B','FAC456'),(7,'Producto C','FAC789'),(9,'Producto F','FAC987'),(16,'Producto D','FAC321'),(17,'Producto G','FAC111'),(18,'Producto H','FAC222'),(19,'Producto I','FAC333'),(20,'Producto J','FAC444'),(21,'Producto K','FAC555'),(22,'Producto L','FAC666'),(23,'Producto M','FAC777');
-/*!40000 ALTER TABLE `detalles_envios` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `envios`
---
-
-DROP TABLE IF EXISTS `envios`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `envios` (
-  `numero_factura` varchar(255) NOT NULL,
-  `direccion_envio` varchar(255) DEFAULT NULL,
-  `entre_calles` varchar(255) DEFAULT NULL,
-  `ultimos_digitos_tarjeta` varchar(255) DEFAULT NULL,
-  `id_cliente` int DEFAULT NULL,
-  `id_estado` int DEFAULT NULL,
-  `id_zona` int DEFAULT NULL,
-  PRIMARY KEY (`numero_factura`),
-  KEY `FKe1ag585ivpih4nqoqddp95fsj` (`id_cliente`),
-  KEY `FK23hl635dxtn2m4pl9fcveh34f` (`id_estado`),
-  KEY `FK9cqc2i803wtcip4voinjpg00w` (`id_zona`),
-  CONSTRAINT `FK23hl635dxtn2m4pl9fcveh34f` FOREIGN KEY (`id_estado`) REFERENCES `estados_envio` (`id`),
-  CONSTRAINT `FK9cqc2i803wtcip4voinjpg00w` FOREIGN KEY (`id_zona`) REFERENCES `zonas` (`id_zona`),
-  CONSTRAINT `FKe1ag585ivpih4nqoqddp95fsj` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `envios`
---
-
-LOCK TABLES `envios` WRITE;
-/*!40000 ALTER TABLE `envios` DISABLE KEYS */;
-INSERT INTO `envios` VALUES ('A-2321-21312312','direccion de envio','una calle y otra','2333',1,1,1),('FAC111','Avenida Terciaria 111','Avenida U y Avenida V','5678',7,1,3),('FAC123','Calle Principal 123','Calle A y Calle B','1234',1,1,1),('FAC222','Calle Terciaria 222','Calle W y Calle X','9012',8,1,3),('FAC321','Avenida Secundaria 321','Avenida M y Avenida N','3456',4,1,2),('FAC333','Plaza Terciaria 333','Plaza E y Plaza F','2345',2,1,3),('FAC444','Avenida Cuarta 444','Avenida Y y Avenida Z','3456',1,1,4),('FAC456','Avenida Central 456','Avenida X y Avenida Y','5678',2,1,1),('FAC555','Calle Cuarta 555','Calle A y Calle B','7890',2,1,4),('FAC666','Plaza Cuarta 666','Plaza M y Plaza N','1234',3,1,4),('FAC777','Avenida Cuarta 777','Avenida C y Avenida D','5678',4,1,4),('FAC789','Plaza Principal 789','Plaza A y Plaza B','9012',3,1,1),('FAC987','Plaza Secundaria 987','Plaza C y Plaza D','1234',6,1,2),('HOY','string','string','stri',1,1,4);
-/*!40000 ALTER TABLE `envios` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `estados_envio`
---
-
-DROP TABLE IF EXISTS `estados_envio`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `estados_envio` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `estados_envio`
---
-
-LOCK TABLES `estados_envio` WRITE;
-/*!40000 ALTER TABLE `estados_envio` DISABLE KEYS */;
-INSERT INTO `estados_envio` VALUES (1,'Pendiente'),(2,'EnCamino'),(3,'NoEntregado'),(4,'Entregado');
-/*!40000 ALTER TABLE `estados_envio` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `estados_hoja`
---
-
-DROP TABLE IF EXISTS `estados_hoja`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `estados_hoja` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `estados_hoja`
---
-
-LOCK TABLES `estados_hoja` WRITE;
-/*!40000 ALTER TABLE `estados_hoja` DISABLE KEYS */;
-INSERT INTO `estados_hoja` VALUES (1,'EnPreparacion'),(2,'DeCamino'),(3,'Realizado');
-/*!40000 ALTER TABLE `estados_hoja` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `hojas_del_dia`
---
-
-DROP TABLE IF EXISTS `hojas_del_dia`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `hojas_del_dia` (
-  `id_hoja_del_dia` int NOT NULL AUTO_INCREMENT,
-  `fecha_creacion` datetime(6) DEFAULT NULL,
-  `fecha_reparto` date DEFAULT NULL,
-  `patente_camion` varchar(255) DEFAULT NULL,
-  `estado_hoja_del_dia_id` int DEFAULT NULL,
-  `repartidor_id_repartidor` int DEFAULT NULL,
-  PRIMARY KEY (`id_hoja_del_dia`),
-  UNIQUE KEY `UK_c583q4cxg3pysororqabyu0yq` (`fecha_reparto`),
-  KEY `FKe6eco77tsnvrw7yx0gf0oau4g` (`patente_camion`),
-  KEY `FKidvjfl3e6fynbwk8hfmukruu5` (`estado_hoja_del_dia_id`),
-  KEY `FKjeqvbe4vny1oi9b9h32i8j3l6` (`repartidor_id_repartidor`),
-  CONSTRAINT `FKe6eco77tsnvrw7yx0gf0oau4g` FOREIGN KEY (`patente_camion`) REFERENCES `camiones` (`patente`),
-  CONSTRAINT `FKidvjfl3e6fynbwk8hfmukruu5` FOREIGN KEY (`estado_hoja_del_dia_id`) REFERENCES `estados_hoja` (`id`),
-  CONSTRAINT `FKjeqvbe4vny1oi9b9h32i8j3l6` FOREIGN KEY (`repartidor_id_repartidor`) REFERENCES `repartidores` (`id_repartidor`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `hojas_del_dia`
---
-
-LOCK TABLES `hojas_del_dia` WRITE;
-/*!40000 ALTER TABLE `hojas_del_dia` DISABLE KEYS */;
-INSERT INTO `hojas_del_dia` VALUES (1,'2023-12-06 20:23:30.084204','2023-12-07',NULL,3,NULL);
-/*!40000 ALTER TABLE `hojas_del_dia` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `hojas_del_dia_envios`
---
-
-DROP TABLE IF EXISTS `hojas_del_dia_envios`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `hojas_del_dia_envios` (
-  `hoja_del_dia_entity_id_hoja_del_dia` int NOT NULL,
-  `envios_numero_factura` varchar(255) NOT NULL,
-  KEY `FKhsgbd96lp45yutcwhvpx91p0y` (`envios_numero_factura`),
-  KEY `FK88t4rvi7xg589j6bim8qxd8ph` (`hoja_del_dia_entity_id_hoja_del_dia`),
-  CONSTRAINT `FK88t4rvi7xg589j6bim8qxd8ph` FOREIGN KEY (`hoja_del_dia_entity_id_hoja_del_dia`) REFERENCES `hojas_del_dia` (`id_hoja_del_dia`),
-  CONSTRAINT `FKhsgbd96lp45yutcwhvpx91p0y` FOREIGN KEY (`envios_numero_factura`) REFERENCES `envios` (`numero_factura`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `hojas_del_dia_envios`
---
-
-LOCK TABLES `hojas_del_dia_envios` WRITE;
-/*!40000 ALTER TABLE `hojas_del_dia_envios` DISABLE KEYS */;
-/*!40000 ALTER TABLE `hojas_del_dia_envios` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `repartidores`
---
-
-DROP TABLE IF EXISTS `repartidores`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `repartidores` (
-  `id_repartidor` int NOT NULL AUTO_INCREMENT,
-  `apellido` varchar(255) DEFAULT NULL,
-  `nombre` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id_repartidor`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `repartidores`
---
-
-LOCK TABLES `repartidores` WRITE;
-/*!40000 ALTER TABLE `repartidores` DISABLE KEYS */;
-INSERT INTO `repartidores` VALUES (1,'García','Juan'),(2,'Rodríguez','María'),(3,'López','Carlos'),(4,'Martínez','Ana');
-/*!40000 ALTER TABLE `repartidores` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tipos_documentos`
---
-
-DROP TABLE IF EXISTS `tipos_documentos`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tipos_documentos` (
-  `id_tipo_documento` int NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id_tipo_documento`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tipos_documentos`
---
-
-LOCK TABLES `tipos_documentos` WRITE;
-/*!40000 ALTER TABLE `tipos_documentos` DISABLE KEYS */;
-INSERT INTO `tipos_documentos` VALUES (1,'DNI'),(2,'Cuil'),(3,'Cuit');
-/*!40000 ALTER TABLE `tipos_documentos` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -3031,4 +3031,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-12  1:36:35
+-- Dump completed on 2023-12-15 14:29:14

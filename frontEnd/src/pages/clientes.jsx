@@ -23,7 +23,7 @@ const Clientes = () => {
     const fetchClientes = async () => {
       try {
         const data = await clientesService.getAll();
-        console.log(data);
+        //console.log(data);
         setClientes(data);
       } catch (error) {
         console.error("Error al obtener clientes:", error);

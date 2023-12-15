@@ -12,7 +12,6 @@ import { ReactKeycloakProvider } from "@react-keycloak/web";
 import Keycloak from "keycloak-js";
 import { useEffect } from "react";
 import keycloak from "src/contexts/keycloak";
-import { AuthProvider, AuthConsumer } from "src/contexts/auth-context";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -50,11 +49,7 @@ const App = (props) => {
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <ThemeProvider theme={theme}>
               <CssBaseline />
-              <AuthConsumer>
-                {(auth) =>
-                  auth.isLoading ? <SplashScreen /> : getLayout(<Component {...pageProps} />)
-                }
-              </AuthConsumer>
+              {getLayout(<Component {...pageProps} />)}
             </ThemeProvider>
         </LocalizationProvider>
       </CacheProvider>

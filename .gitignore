@@ -12,3 +12,5 @@ db/mysql_data/*
 /FrontEnd/node_modules
 /FrontEnd/.pnp
 /FrontEnd/.pnp.js
+
+.vscode

@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { styled } from '@mui/material/styles';
-import { withAuthGuard } from 'src/hocs/with-auth-guard';
 import { SideNav } from './side-nav';
 import { TopNav } from './top-nav';
 
@@ -25,7 +24,7 @@ const LayoutContainer = styled('div')({
 
 
 // Se envuelve el componente Layout con un Higher Order Component (HOC) llamado withAuthGuard.
-export const Layout = withAuthGuard((props) => {
+export const Layout = (props) => {
   // Props destructuring: extraer la propiedad 'children' del objeto 'props'
   const { children } = props;
 
@@ -85,5 +84,5 @@ export const Layout = withAuthGuard((props) => {
       </LayoutRoot>
     </>
   );
-});
+};
   
