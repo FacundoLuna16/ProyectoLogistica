@@ -180,7 +180,7 @@ const Clientes = () => {
                 <AgregarClienteDialog
                   open={dialogOpen}
                   onClose={handleDialogClose}
-                  onClienteAdded={handleClienteAdded}
+                  onClienteAdded={fetchClientes}
                 />
                 <Button
                   startIcon={<UserCircleIcon />}
