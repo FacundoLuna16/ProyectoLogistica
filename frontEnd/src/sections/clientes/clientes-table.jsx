@@ -98,7 +98,7 @@ export const ClientsTable = (props) => {
                       <TableCell>Apellido</TableCell>
                       <TableCell>Direccion</TableCell>
                       <TableCell>Telefono</TableCell>
-                      <TableCell>Email</TableCell>
+                      {/* Columna eliminada: <TableCell>Email</TableCell> */}
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -119,7 +119,7 @@ export const ClientsTable = (props) => {
                           <TableCell>{client.apellido}</TableCell>
                           <TableCell>{client.direccion}</TableCell>
                           <TableCell>{client.numeroTelefono}</TableCell>
-                          <TableCell>{client.email}</TableCell>
+                          {/* Columna eliminada: <TableCell>{client.email}</TableCell> */}
                         </TableRow>
                       );
                     })}
