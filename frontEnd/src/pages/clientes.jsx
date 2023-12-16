@@ -34,6 +34,7 @@ const Clientes = () => {
     });
 
     setClientesFiltrados(clientesFiltrados);
+    setClienteSeleccionado({});
   };
 
   useEffect(() => {

@@ -35,6 +35,7 @@ const Repartidores = () => {
     });
 
     setRepartidoresFiltrado(repartidoresFiltrados);
+    setRepartidorSeleccionado({});
   };
 
   useEffect(() => {

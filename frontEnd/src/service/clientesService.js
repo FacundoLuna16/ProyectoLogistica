@@ -32,7 +32,6 @@ const create = async (cliente) => {
 const update = async (clienteId, clienteData) => {
   try {
     const response = await axios.put(`${API_URL}/${clienteId}`, clienteData);
-    return response.data;
   } catch (error) {
     throw error;
   }

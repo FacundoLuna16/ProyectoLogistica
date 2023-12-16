@@ -5,6 +5,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { id } from 'date-fns/locale';
 
 
 
@@ -57,9 +58,8 @@ const ModificarClienteDialog = ({ open, onClose, cliente, refrescar}) => {
 
   const handleModificar = async () => {
     try {
-      tipoDocumentoParam = tipoDocumentoMapping[tipoDocumento.toUpperCase()]
       const clienteActualizado = await clienteService.update(idCliente, {
-        tipoDocumentoParam,
+        idTipoDocumento: tipoDocumentoMapping[tipoDocumento.toUpperCase()],
         numeroDocumento,
         nombre,
         apellido,
@@ -72,7 +72,12 @@ const ModificarClienteDialog = ({ open, onClose, cliente, refrescar}) => {
       onClose();
       refrescar();
     } catch (error) {
-      alert(error.response.data);
+      if (error.response && error.response.status === 400) {
+        alert(error.response.data); // Muestra el mensaje de error proporcionado por el servidor
+      } else {
+
+        alert(error.response); // Manejo de otros tipos de errores
+      }
     }
   };
 
@@ -106,14 +111,13 @@ const ModificarClienteDialog = ({ open, onClose, cliente, refrescar}) => {
           InputProps={{ readOnly: true }}
         />
         <TextField
-          disabled
           margin="dense"
           id="numeroDocumento"
           label="nroDocumento"
           type="text"
           fullWidth
           value={numeroDocumento}
-          InputProps={{ readOnly: true }}
+          onChange={(e) => setNumeroDocumento(e.target.value)}
         />
         <TextField
           margin="dense"

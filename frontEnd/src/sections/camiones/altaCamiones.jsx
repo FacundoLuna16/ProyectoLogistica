@@ -32,7 +32,7 @@ const AgregarCamionDialog = ({ open, onClose, refrescar }) => {
         const agregado = await CamionesService.create(newCamion);
         alert('Camion agregado correctamente');
         onClose();
-        setNewCamion({ patente: '', modelo: '', color: '', descripcion: '' });
+        setNewCamion({});
         refrescar();
       } else {
         alert('Completa todos los campos requeridos antes de agregar el camión.');

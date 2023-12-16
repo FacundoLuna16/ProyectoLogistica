@@ -36,6 +36,7 @@ const Camiones = () => {
     });
   
     setCamionesFiltrados(camionesFiltrados);
+    setCamionSeleccionado({});
   };
 
   useEffect(() => {
@@ -178,7 +179,7 @@ const Camiones = () => {
                 <AgregarCamionDialog
                   open={dialogOpen}
                   onClose={handleDialogClose}
-                  onCamionAdded={handleCamionAdded}
+                  refrescar={fetchCamiones}
                 />
                 <Button
                   startIcon={<UserCircleIcon />}
