@@ -10,7 +10,6 @@ import {
   Alert,
 } from "@mui/material";
 import repartidoresService from "src/service/repartidoresService";
-import { set } from "nprogress";
 
 const ModificarRepartidorDialog = ({ open, onClose, repartidor, refrescar }) => {
   const [id, setId] = useState("");

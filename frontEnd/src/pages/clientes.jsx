@@ -4,12 +4,12 @@ import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { useSelection } from "src/hooks/use-selection";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
-import { ClientsTable } from "src/sections/clientes/clientes-table";  // Reemplazar con el nombre correcto
+import { ClientsTable } from "src/sections/clientes/clientes-table"; // Reemplazar con el nombre correcto
 import { applyPagination } from "src/utils/apply-pagination";
-import { ArrowPathIcon, TruckIcon, UserCircleIcon } from "@heroicons/react/24/outline";  // Reemplazar con el icono correcto para camiones
+import { ArrowPathIcon, TruckIcon, UserCircleIcon } from "@heroicons/react/24/outline"; // Reemplazar con el icono correcto para camiones
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import ClientesService from "../service/clientesService";  // Reemplazar con el servicio correcto
+import ClientesService from "../service/clientesService"; // Reemplazar con el servicio correcto
 import AgregarClienteDialog from "src/sections/clientes/altaClientes";
 import ConsultarClienteDialog from "src/sections/clientes/verClientes";
 import ModificarClienteDialog from "src/sections/clientes/modificarCliente";
@@ -21,12 +21,10 @@ const Clientes = () => {
   const [clientes, setClientes] = useState([]);
   const [clientesFiltrados, setClientesFiltrados] = useState([]); // Nuevo estado para los clientes filtrados
 
-
-
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [filtroTexto, setFiltroTexto] = useState('');
-  const [filtroAtributo, setFiltroAtributo] = useState('numeroDocumento');
+  const [filtroTexto, setFiltroTexto] = useState("");
+  const [filtroAtributo, setFiltroAtributo] = useState("numeroDocumento");
 
   const handleFiltrar = () => {
     // Aplicar el filtro sobre la copia del arreglo original
@@ -34,7 +32,7 @@ const Clientes = () => {
       const valorAtributo = cliente[filtroAtributo].toLowerCase();
       return valorAtributo.includes(filtroTexto.toLowerCase());
     });
-    
+
     setClientesFiltrados(clientesFiltrados);
   };
 
@@ -51,8 +49,6 @@ const Clientes = () => {
       console.error("Error al obtener clientes:", error);
     }
   };
-
-
 
   useEffect(() => {
     fetchClientes();
@@ -85,13 +81,12 @@ const Clientes = () => {
     setDialogOpen(false);
   };
 
-
   const handleClienteAdded = (cliente) => {
     setClientes([...clientes, cliente]);
   };
 
   const [dialogConsultaOpen, setDialogConsultaOpen] = useState(false);
-  
+
   const [clienteSeleccionado, setClienteSeleccionado] = useState({
     idCliente: "",
     tipoDocumento: "",
@@ -104,7 +99,7 @@ const Clientes = () => {
     email: "",
   });
 
-  const handleOnClickConSeleccionado = (idCliente,funcion) => {
+  const handleOnClickConSeleccionado = (idCliente, funcion) => {
     let clienteDetalle = {};
 
     if (idCliente) {
@@ -121,11 +116,10 @@ const Clientes = () => {
         default:
           break;
       }
-    }else{
+    } else {
       alert("Debe seleccionar un cliente");
     }
   };
-
 
   const [dialogModificacionOpen, setDialogModificacionOpen] = useState(false);
 
@@ -153,7 +147,7 @@ const Clientes = () => {
                 Clientes
               </Typography>
               <Stack direction={isXSmall ? "column" : "row"} spacing={2} alignItems="center">
-              <TextField
+                <TextField
                   label="Filtrar"
                   size="medium"
                   value={filtroTexto}
@@ -166,17 +160,14 @@ const Clientes = () => {
                   variant="outlined"
                   size="small"
                 >
-
                   <MenuItem value="numeroDocumento">Número de documento</MenuItem>
                   <MenuItem value="nombre">Nombre</MenuItem>
                   <MenuItem value="apellido">Apellido</MenuItem>
                   <MenuItem value="direccion">Dirección</MenuItem>
                   <MenuItem value="numeroTelefono">Número de teléfono</MenuItem>
-
                 </Select>
               </Stack>
               <Stack direction={isXSmall ? "column" : "row"} spacing={2} alignItems="center">
-                
                 <Button
                   startIcon={<TruckIcon />}
                   variant="contained"

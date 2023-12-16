@@ -13,16 +13,41 @@ import repartidoresService from "../service/repartidoresService";
 import AgregarRepartidorDialog from "src/sections/repartidores/altaRepartidores";
 import ConsultarRepartidorDialog from "src/sections/repartidores/consultarRepartidor";
 import ModificarRepartidorDialog from "src/sections/repartidores/modificarRepartidor";
+import TextField from "@mui/material/TextField";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import { set } from "nprogress";
 
 const Repartidores = () => {
   const [repartidores, setRepartidores] = useState([]);
+  const [repartidoresFiltrados, setRepartidoresFiltrado] = useState([]); // Nuevo estado para los clientes filtrados
+
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [filtroAtributo, setFiltroAtributo] = useState("nombre");
+  const [filtroTexto, setFiltroTexto] = useState("");
+
+  const handleFiltrar = () => {
+    // Aplicar el filtro sobre la copia del arreglo original
+    const repartidoresFiltrados = repartidores.filter((repartidor) => {
+      const valorAtributo = repartidor[filtroAtributo].toLowerCase();
+      return valorAtributo.includes(filtroTexto.toLowerCase());
+    });
+
+    setRepartidoresFiltrado(repartidoresFiltrados);
+  };
+
+  useEffect(() => {
+    handleFiltrar();
+  }, [filtroTexto, filtroAtributo]);
+  
 
   const fetchRepartidores = async () => {
     try {
       const data = await repartidoresService.getAll();
       setRepartidores(data);
+      set(data);
+      setRepartidoresFiltrado(data);
     } catch (error) {
       console.error("Error al obtener repartidores:", error);
     }
@@ -32,8 +57,8 @@ const Repartidores = () => {
   }, []);
 
   const paginatedRepartidores = useMemo(() => {
-    return applyPagination(repartidores, page, rowsPerPage);
-  }, [repartidores, page, rowsPerPage]);
+    return applyPagination(repartidoresFiltrados, page, rowsPerPage);
+  }, [repartidoresFiltrados, page, rowsPerPage]);
 
   const repartidoresIds = useMemo(() => {
     return paginatedRepartidores.map((repartidor) => repartidor.idRepartidor);
@@ -127,6 +152,24 @@ const Repartidores = () => {
                 Repartidores
               </Typography>
               <Stack direction={isXSmall ? "column" : "row"} spacing={2} alignItems="center">
+                <TextField
+                  label="Filtrar"
+                  size="medium"
+                  value={filtroTexto}
+                  variant="standard"
+                  onChange={(e) => setFiltroTexto(e.target.value)}
+                />
+                <Select
+                  value={filtroAtributo}
+                  onChange={(e) => setFiltroAtributo(e.target.value)}
+                  variant="outlined"
+                  size="small"
+                >
+                  <MenuItem value="nombre">Nombre</MenuItem>
+                  <MenuItem value="apellido">Apellido</MenuItem>
+                </Select>
+              </Stack>
+              <Stack direction={isXSmall ? "column" : "row"} spacing={2} alignItems="center">
                 <Button
                   startIcon={<PlusIcon />}
                   variant="contained"
@@ -138,7 +181,7 @@ const Repartidores = () => {
                 <AgregarRepartidorDialog
                   open={dialogOpen}
                   onClose={handleDialogClose}
-                  onRepartidorAdded={handleRepartidorAdded}
+                  refrescar={fetchRepartidores}
                 />
                 <Button
                   startIcon={<UserCircleIcon />}
