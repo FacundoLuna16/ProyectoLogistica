@@ -1,10 +1,7 @@
-// ModificarClienteDialog.jsx
+
 import React, { useState, useEffect} from 'react';
 import { Dialog, DialogContent, DialogTitle, TextField, DialogActions, Button } from '@mui/material';
-import ClientesService from "src/service/clientesService";
 import camionesService from 'src/service/camionesService';
-import { ca, de } from 'date-fns/locale';
-import { ref } from 'yup';
 
 const ModificarCamionDialog = ({ open, onClose, camion, refrescar}) => {
   const [patente, setPatente] = useState('');
@@ -40,7 +37,7 @@ const ModificarCamionDialog = ({ open, onClose, camion, refrescar}) => {
       onClose();
       refrescar();
     } catch (error) {
-      alert('Error al modificar camion',error );
+      alert(error.response.data );
     }
   };
 
@@ -53,7 +50,6 @@ const ModificarCamionDialog = ({ open, onClose, camion, refrescar}) => {
           margin="dense"
           id="patente"
           label="Patente"
-          
           type="text"
           fullWidth
           value={patente}

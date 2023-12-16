@@ -1,54 +1,78 @@
-// ModificarClienteDialog.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { Dialog, DialogContent, DialogTitle, TextField, DialogActions, Button } from '@mui/material';
-import ClientesService from "src/service/clientesService";
+import clienteService from 'src/service/clientesService';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-const ModificarClienteDialog = ({ open, onClose }) => {
-  const [id, setId] = useState('');
-  const [tipoDoc, setTipoDoc] = useState('');
-  const [nroDoc, setNroDoc] = useState('');
+
+
+const ModificarClienteDialog = ({ open, onClose, cliente, refrescar}) => {
+  const [idCliente, setIdCliente] = useState(''); 
+  const [tipoDocumento, setTipoDocumento] = useState('');
+  const [numeroDocumento, setNumeroDocumento] = useState('');
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
   const [direccion, setDireccion] = useState('');
-  const [nroTelefono, setNroTelefono] = useState('');
-  const [nroTelefonoAlternativo, setNroTelefonoAlternativo] = useState('');
-  const [mail, setMail] = useState('');
-  const [cargando, setCargando] = useState(false);
+  const [numeroTelefono, setNumeroTelefono] = useState('');
+  const [numeroTelefonoAlternativo, setNumeroTelefonoAlternativo] = useState('');
+  const [email, setEmail] = useState('');
 
-  const buscarClientePorId = async () => {
-    setCargando(true);
-    try {
-      const cliente = await ClientesService.getById(id);
-      setTipoDoc(cliente.tipoDoc);
-      setNroDoc(cliente.nroDoc);
-      setNombre(cliente.nombre);
-      setApellido(cliente.apellido);
-      setDireccion(cliente.direccion);
-      setNroTelefono(cliente.nroTelefono);
-      setNroTelefonoAlternativo(cliente.nroTelefonoAlternativo);
-      setMail(cliente.mail);
-    } catch (error) {
-      console.error('Error al buscar cliente:', error);
-    } finally {
-      setCargando(false);
-    }
+
+
+  useEffect(() => {
+    setIdCliente(cliente.idCliente || '');
+    setTipoDocumento(cliente.tipoDocumento || '');
+    setNumeroDocumento(cliente.numeroDocumento || '');
+    setNombre(cliente.nombre || '');
+    setApellido(cliente.apellido || '');
+    setDireccion(cliente.direccion || '');
+    setNumeroTelefono(cliente.numeroTelefono || '');
+    setNumeroTelefonoAlternativo(cliente.numeroTelefonoAlternativo || '');
+    setEmail(cliente.email || '');
+
+  }, [cliente]);
+
+  const handleCancelar = () => {
+    onClose();
+
+    // Restaurar los valores originales
+    setIdCliente(cliente.idCliente || '');
+    setTipoDocumento(cliente.tipoDocumento || '');
+    setNumeroDocumento(cliente.numeroDocumento || '');
+    setNombre(cliente.nombre || '');
+    setApellido(cliente.apellido || '');
+    setDireccion(cliente.direccion || '');
+    setNumeroTelefono(cliente.numeroTelefono || '');
+    setNumeroTelefonoAlternativo(cliente.numeroTelefonoAlternativo || '');
+    setEmail(cliente.email || '');
+  };
+
+  const tipoDocumentoMapping = {
+    'DNI': 1,
+    'CUIT': 2,
+    'CUIL': 3,
   };
 
   const handleModificar = async () => {
     try {
-      await ClientesService.update(id, {
-        tipoDoc,
-        nroDoc,
+      tipoDocumentoParam = tipoDocumentoMapping[tipoDocumento.toUpperCase()]//pushea k
+      const clienteActualizado = await clienteService.update(idCliente, {
+        tipoDocumentoParam,
+        numeroDocumento,
         nombre,
         apellido,
         direccion,
-        nroTelefono,
-        nroTelefonoAlternativo,
-        mail
-      });
-      onClose(); // Cierra el modal después de la actualización
+        numeroTelefono,
+        numeroTelefonoAlternativo,
+        email,
+      }); 
+      alert('Cliente modificado correctamente');
+      onClose();
+      refrescar();
     } catch (error) {
-      console.error('Error al modificar cliente:', error);
+      alert(error.response.data);
     }
   };
 
@@ -56,37 +80,40 @@ const ModificarClienteDialog = ({ open, onClose }) => {
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Modificar Cliente</DialogTitle>
       <DialogContent>
+        {/* <FormControl sx={{ m: 1, minWidth: 120 }} size="medium">
+          <InputLabel id="demo-simple-select-standard-label">TipoDocumento</InputLabel>
+          <Select
+            variant="standard"
+            labelId="demo-select-medium-label"
+            id="demo-select-medium"
+            value={tipoDocumento.toUpperCase()}
+            label="tipoDocumento"
+            onChange={(e) => setTipoDocumento(e.target.value)}
+          >
+            <MenuItem value="DNI">DNI</MenuItem>
+            <MenuItem value="CUIT">CUIT</MenuItem>
+            <MenuItem value="CUIL">CUIL</MenuItem>
+          </Select>
+        </FormControl> */}
         <TextField
-          autoFocus
+          disabled
           margin="dense"
-          id="id"
-          label="ID del Cliente"
+          id="tipoDocumento"
+          label="tipoDocumento"
           type="text"
           fullWidth
-          value={id}
-          onChange={(e) => setId(e.target.value)}
-          disabled={cargando}
+          value={tipoDocumento.toUpperCase()}
+          InputProps={{ readOnly: true }}
         />
-        <Button onClick={buscarClientePorId} disabled={!id || cargando}>Cargar Cliente</Button>
         <TextField
+          disabled
           margin="dense"
-          id="tipoDoc"
-          label="Tipo de Documento"
+          id="numeroDocumento"
+          label="nroDocumento"
           type="text"
           fullWidth
-          value={tipoDoc}
-          onChange={(e) => setTipoDoc(e.target.value)}
-          disabled={!id || cargando}
-        />
-        <TextField
-          margin="dense"
-          id="nroDoc"
-          label="Número de Documento"
-          type="text"
-          fullWidth
-          value={nroDoc}
-          onChange={(e) => setNroDoc(e.target.value)}
-          disabled={!id || cargando}
+          value={numeroDocumento}
+          InputProps={{ readOnly: true }}
         />
         <TextField
           margin="dense"
@@ -96,7 +123,6 @@ const ModificarClienteDialog = ({ open, onClose }) => {
           fullWidth
           value={nombre}
           onChange={(e) => setNombre(e.target.value)}
-          disabled={!id || cargando}
         />
         <TextField
           margin="dense"
@@ -106,52 +132,55 @@ const ModificarClienteDialog = ({ open, onClose }) => {
           fullWidth
           value={apellido}
           onChange={(e) => setApellido(e.target.value)}
-          disabled={!id || cargando}
         />
+
         <TextField
           margin="dense"
           id="direccion"
-          label="Dirección"
+          label="Direccion"
           type="text"
           fullWidth
           value={direccion}
           onChange={(e) => setDireccion(e.target.value)}
-          disabled={!id || cargando}
         />
         <TextField
           margin="dense"
-          id="nroTelefono"
-          label="Número de Teléfono"
+          id="numeroTelefono"
+          label="NumeroTelefono"
           type="text"
           fullWidth
-          value={nroTelefono}
-          onChange={(e) => setNroTelefono(e.target.value)}
-          disabled={!id || cargando}
+          value={numeroTelefono}
+          onChange={(e) => setNumeroTelefono(e.target.value)}
         />
         <TextField
           margin="dense"
-          id="nroTelefonoAlternativo"
-          label="Número de Teléfono Alternativo"
+          id="numeroTelefonoAlternativo"
+          label="NumeroTelefonoAlternativo"
           type="text"
           fullWidth
-          value={nroTelefonoAlternativo}
-          onChange={(e) => setNroTelefonoAlternativo(e.target.value)}
-          disabled={!id || cargando}
+          value={numeroTelefonoAlternativo}
+          onChange={(e) => setNumeroTelefonoAlternativo(e.target.value)}
         />
         <TextField
           margin="dense"
-          id="mail"
-          label="Correo Electrónico"
-          type="email"
+          id="email"
+          label="Email"
+          type="text"
           fullWidth
-          value={mail}
-          onChange={(e) => setMail(e.target.value)}
-          disabled={!id || cargando}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
+        
+
+        {/* Agregar más campos según sea necesario */}
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="primary">Cancelar</Button>
-        <Button onClick={handleModificar} color="primary" disabled={!id || !tipoDoc || !nroDoc || !nombre || !apellido || !direccion || !nroTelefono || !mail || cargando}>Modificar</Button>
+        <Button onClick={handleCancelar} color="primary">
+          Cancelar
+        </Button>
+        <Button onClick={handleModificar} color="primary">
+          Modificar
+        </Button>
       </DialogActions>
     </Dialog>
   );

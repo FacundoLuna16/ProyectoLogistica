@@ -203,7 +203,7 @@ const Clientes = () => {
                 <ModificarClienteDialog
                   open={dialogModificacionOpen}
                   onClose={() => setDialogModificacionOpen(false)}
-                  camion={clienteSeleccionado}
+                  cliente={clienteSeleccionado}
                   refrescar={fetchClientes}
                 />
                 <Button
