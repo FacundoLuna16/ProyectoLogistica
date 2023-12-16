@@ -17,18 +17,17 @@ import ModificarRepartidorDialog from "src/sections/repartidores/modificarRepart
 const Repartidores = () => {
   const [repartidores, setRepartidores] = useState([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
+  const fetchRepartidores = async () => {
+    try {
+      const data = await repartidoresService.getAll();
+      setRepartidores(data);
+    } catch (error) {
+      console.error("Error al obtener repartidores:", error);
+    }
+  };
   useEffect(() => {
-    const fetchRepartidores = async () => {
-      try {
-        const data = await repartidoresService.getAll();
-        setRepartidores(data);
-      } catch (error) {
-        console.error("Error al obtener repartidores:", error);
-      }
-    };
-
     fetchRepartidores();
   }, []);
 
@@ -65,6 +64,7 @@ const Repartidores = () => {
 
   const [dialogConsultaOpen, setDialogConsultaOpen] = useState(false);
   const [repartidorSeleccionado, setRepartidorSeleccionado] = useState({
+    idRepartidor: "",
     nombre: "",
     apellido: "",
   });
@@ -80,6 +80,28 @@ const Repartidores = () => {
   };
 
   const [dialogModificacionOpen, setDialogModificacionOpen] = useState(false);
+
+  const handleOnClickConSeleccionado = (idRepartidor, funcion) => {
+    let repartidorDetalle = {};
+
+    if (idRepartidor) {
+      repartidorDetalle =
+        repartidores.find((repartidor) => repartidor.idRepartidor === idRepartidor) || {};
+      setRepartidorSeleccionado(repartidorDetalle);
+      switch (funcion) {
+        case "C":
+          setDialogConsultaOpen(true);
+          break;
+        case "M":
+          setDialogModificacionOpen(true);
+          break;
+        default:
+          break;
+      }
+    } else {
+      alert("Debe seleccionar un cliente");
+    }
+  };
 
   return (
     <>
@@ -123,20 +145,26 @@ const Repartidores = () => {
                   variant="contained"
                   color="warning"
                   sx={{ mb: isXSmall ? 1 : 0 }}
-                  onClick={() => setDialogModificacionOpen(true)}
+                  onClick={() =>
+                    handleOnClickConSeleccionado(repartidorSeleccionado.idRepartidor, "M")
+                  }
                 >
                   Modificar
                 </Button>
                 <ModificarRepartidorDialog
                   open={dialogModificacionOpen}
                   onClose={() => setDialogModificacionOpen(false)}
+                  repartidor={repartidorSeleccionado}
+                  refrescar={fetchRepartidores}
                 />
                 <Button
                   startIcon={<ArrowPathIcon />}
                   variant="contained"
                   color="info"
                   sx={{ mb: isXSmall ? 1 : 0 }}
-                  onClick={() => handleVerDetalle(/* id del repartidor seleccionado */)}
+                  onClick={() =>
+                    handleOnClickConSeleccionado(repartidorSeleccionado.idRepartidor, "C")
+                  }
                 >
                   Ver
                 </Button>
@@ -159,6 +187,7 @@ const Repartidores = () => {
               page={page}
               rowsPerPage={rowsPerPage}
               selected={repartidoresSelection.selected}
+              onRepartidorSelectedChange={setRepartidorSeleccionado}
             />
           </Stack>
         </Container>

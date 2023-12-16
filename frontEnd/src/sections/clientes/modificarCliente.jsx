@@ -57,7 +57,7 @@ const ModificarClienteDialog = ({ open, onClose, cliente, refrescar}) => {
 
   const handleModificar = async () => {
     try {
-      tipoDocumentoParam = tipoDocumentoMapping[tipoDocumento.toUpperCase()]//pushea k
+      tipoDocumentoParam = tipoDocumentoMapping[tipoDocumento.toUpperCase()]
       const clienteActualizado = await clienteService.update(idCliente, {
         tipoDocumentoParam,
         numeroDocumento,

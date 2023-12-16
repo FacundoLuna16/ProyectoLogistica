@@ -1,34 +1,74 @@
 // ModificarRepartidorDialog.jsx
-import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogTitle, TextField, DialogActions, Button } from '@mui/material';
+import React, { useEffect, useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  DialogActions,
+  Button,
+  Alert,
+} from "@mui/material";
 import repartidoresService from "src/service/repartidoresService";
+import { set } from "nprogress";
 
-const ModificarRepartidorDialog = ({ open, onClose }) => {
-  const [id, setId] = useState('');
-  const [nombre, setNombre] = useState('');
-  const [apellido, setApellido] = useState('');
-  const [cargando, setCargando] = useState(false);
+const ModificarRepartidorDialog = ({ open, onClose, repartidor, refrescar }) => {
+  const [id, setId] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
 
-  const buscarRepartidorPorId = async () => {
-    setCargando(true);
-    try {
-      const repartidor = await repartidoresService.getById(id);
-      setNombre(repartidor.nombre);
-      setApellido(repartidor.apellido);
-    } catch (error) {
-      console.error('Error al buscar repartidor:', error);
-    } finally {
-      setCargando(false);
-    }
+  // Validación
+  const [error, setError] = useState(false);
+  const [errorApellido, setErrorApellido] = useState(false);
+
+  useEffect(() => {
+    setId(repartidor.idRepartidor || "");
+    setNombre(repartidor.nombre || "");
+    setApellido(repartidor.apellido || "");
+  }, [repartidor]);
+
+  const handleCancelar = () => {
+    onClose();
+    // Restaurar los valores originales
+    setId(repartidor.idRepartidor || "");
+    setNombre(repartidor.nombre || "");
+    setApellido(repartidor.apellido || "");
+    setError(false);
+    setErrorApellido(false);
   };
 
   const handleModificar = async () => {
     try {
-      await repartidoresService.update(id, { nombre, apellido });
+      const repartidorActualizado = await repartidoresService.update(id, {
+        nombre,
+        apellido,
+      });
+      alert("Repartidor modificado con éxito");
       onClose(); // Cierra el modal después de la actualización
+      refrescar(); // Actualiza la tabla de repartidores
     } catch (error) {
-      console.error('Error al modificar repartidor:', error);
+      alert(error.response.data);
     }
+  };
+
+  const handleNombreChange = (e) => {
+    const nuevoNombre = e.target.value;
+    //Validacion
+    const esValido = nuevoNombre.trim() !== ""; //verifica que el nombre no esté vacío
+    // Actualiza el estado de error según la validación
+    setError(!esValido);
+    // Actualiza el estado del nombre
+    setNombre(nuevoNombre);
+  };
+
+  const handleApellidoChange = (e) => {
+    const nuevoApellido = e.target.value;
+    // Realiza tu lógica de validación aquí
+    const esValido = nuevoApellido.trim() !== "";
+    // Actualiza el estado de error según la validación
+    setErrorApellido(!esValido);
+    // Actualiza el estado del apellido
+    setApellido(nuevoApellido);
   };
 
   return (
@@ -36,17 +76,15 @@ const ModificarRepartidorDialog = ({ open, onClose }) => {
       <DialogTitle>Modificar Repartidor</DialogTitle>
       <DialogContent>
         <TextField
-          autoFocus
+          disabled
           margin="dense"
           id="id"
           label="ID del Repartidor"
           type="text"
           fullWidth
           value={id}
-          onChange={(e) => setId(e.target.value)}
-          disabled={cargando}
+          InputProps={{ readOnly: true }}
         />
-        <Button onClick={buscarRepartidorPorId} disabled={!id || cargando}>Cargar Repartidor</Button>
         <TextField
           margin="dense"
           id="nombre"
@@ -54,8 +92,9 @@ const ModificarRepartidorDialog = ({ open, onClose }) => {
           type="text"
           fullWidth
           value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-          disabled={!id || cargando}
+          onChange={handleNombreChange}
+          error={error}
+          helperText={error ? "Este campo no puede estar vacío" : ""}
         />
         <TextField
           margin="dense"
@@ -64,13 +103,18 @@ const ModificarRepartidorDialog = ({ open, onClose }) => {
           type="text"
           fullWidth
           value={apellido}
-          onChange={(e) => setApellido(e.target.value)}
-          disabled={!id || cargando}
-        />
+          onChange={handleApellidoChange}
+          error={errorApellido}
+          helperText={errorApellido ? "Este campo no puede estar vacío" : ""}
+        /> 
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="primary">Cancelar</Button>
-        <Button onClick={handleModificar} color="primary" disabled={!nombre || !apellido || cargando}>Modificar</Button>
+        <Button onClick={handleCancelar} color="primary">
+          Cancelar
+        </Button>
+        <Button onClick={handleModificar} color="primary" disabled={!nombre && !apellido}>
+          Modificar
+        </Button>
       </DialogActions>
     </Dialog>
   );

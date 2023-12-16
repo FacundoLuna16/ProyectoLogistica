@@ -1,8 +1,8 @@
-import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-import { format } from 'date-fns';
+import { format } from "date-fns";
 import {
   Box,
   Card,
@@ -15,9 +15,9 @@ import {
   TablePagination,
   TableRow,
   Paper,
-  Typography
-} from '@mui/material';
-import { Scrollbar } from 'src/components/scrollbar';
+  Typography,
+} from "@mui/material";
+import { Scrollbar } from "src/components/scrollbar";
 
 export const ClientsTable = (props) => {
   const {
@@ -32,19 +32,19 @@ export const ClientsTable = (props) => {
     page = 0,
     rowsPerPage = 0,
     selected = [],
-    onClientSelectedChange
+    onClientSelectedChange,
   } = props;
 
   const [clientSelected, setClientSelected] = useState({
-    idCliente: '',
-    tipoDocumento: '',
-    numeroDocumento: '',
-    nombre: '',
-    apellido: '',
-    direccion: '',
-    numeroTelefono: '',
-    numeroTelefonoAlternativo: '',
-    email: '',
+    idCliente: "",
+    tipoDocumento: "",
+    numeroDocumento: "",
+    nombre: "",
+    apellido: "",
+    direccion: "",
+    numeroTelefono: "",
+    numeroTelefonoAlternativo: "",
+    email: "",
   });
 
   useEffect(() => {
@@ -66,7 +66,6 @@ export const ClientsTable = (props) => {
     setClientSelected(checked ? selectedClient : {});
   };
 
-
   // const selectedSome = selected.length > 0 && selected.length < items.length;
   // const selectedAll = items.length > 0 && selected.length === items.length;
 
@@ -75,13 +74,12 @@ export const ClientsTable = (props) => {
       MuiTableCell: {
         styleOverrides: {
           root: {
-            fontSize: '19px', // Ajusta el tamaño de la fuente según sea necesario
+            fontSize: "19px", // Ajusta el tamaño de la fuente según sea necesario
           },
         },
       },
     },
   });
-
 
   return (
     <Card>
@@ -93,8 +91,7 @@ export const ClientsTable = (props) => {
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <TableCell>
-                      </TableCell>
+                      <TableCell></TableCell>
                       <TableCell>TipoDoc</TableCell>
                       <TableCell>NumeroDoc</TableCell>
                       <TableCell>Nombre</TableCell>
@@ -109,10 +106,7 @@ export const ClientsTable = (props) => {
                       const isSelected = selected.includes(client.idCliente);
 
                       return (
-                        <TableRow 
-                        hover 
-                        key={client.idCliente} 
-                        selected={isSelected}>
+                        <TableRow hover key={client.idCliente} selected={isSelected}>
                           <TableCell padding="checkbox">
                             <Checkbox
                               checked={isSelected}
