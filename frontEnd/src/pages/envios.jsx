@@ -1,7 +1,15 @@
 import React, { useState } from "react";
+import { ClientsTable } from "src/sections/clientes/clientes-table"; // Reemplazar con el nombre correcto
+import { applyPagination } from "src/utils/apply-pagination";
+import { ArrowPathIcon, TruckIcon, UserCircleIcon } from "@heroicons/react/24/outline"; // Reemplazar con el icono correcto para camiones
+import useMediaQuery from "@mui/material/useMediaQuery";
+import CollapsibleTable from "src/sections/envios/table-envios";
+import { useTheme } from "@mui/material/styles";
 import {
   Box,
   Container,
+  Typography,
+  TextField,
   Grid,
   Select,
   MenuItem,
@@ -11,101 +19,113 @@ import {
   Button,
   Stack,
 } from "@mui/material";
-import { OverviewLatestOrders } from "src/sections/overview/overview-latest-orders";
 import Head from "next/head";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
 import { TrashIcon } from "@heroicons/react/24/outline";
-import { ArrowPathIcon } from "@heroicons/react/24/outline";
-import { UserCircleIcon } from "@heroicons/react/24/outline";
-import { PlusIcon } from "@heroicons/react/24/outline";
-import { useTheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
+
 
 const Envios = () => {
+  const [clientes, setClientes] = useState([]);
+  const [clientesFiltrados, setClientesFiltrados] = useState([]); // Nuevo estado para los clientes filtrados
+
+  const [page, setPage] = useState(0);
+
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const [filtroTexto, setFiltroTexto] = useState("");
+
+  const [filtroAtributo, setFiltroAtributo] = useState("numeroDocumento");
+
   const theme = useTheme();
-  const isXSmall = useMediaQuery(theme.breakpoints.down("xs")); // 'xs'
-
-  const [zonaSeleccionada, setZonaSeleccionada] = useState("");
-
-  // Datos simulados para las zonas - Deberías obtener estos datos de tu backend
-  const zonas = ["Zona 1", "Zona 2", "Zona 3"];
-
-  // Simulación de cambio de zona
-  const handleZonaChange = (event) => {
-    setZonaSeleccionada(event.target.value);
-    // Aquí también podrías hacer una llamada a tu API para obtener los envíos de la zona seleccionada
-  };
-
-  // Datos simulados de los envíos - Deberías obtener estos datos de tu backend
-  const envios = [
-    // ... tus envíos
-  ];
-
-  // Filtrar los envíos por la zona seleccionada
-  const enviosFiltradosPorZona = envios.filter((envio) => envio.zona === zonaSeleccionada);
-
+  const isXSmall = useMediaQuery(theme.breakpoints.down("xs"));
+  
   return (
     <>
       <Head>
         <title>Envíos | Sistema de Gestión de Envíos</title>
       </Head>
       <Box component="main" sx={{ flexGrow: 1, py: 8 }}>
-      <Paper>
-            <Grid container spacing={3} sx={{ mb: 4 }}>
+      <Container maxWidth="xl">
+          <Stack spacing={3}>
+            <Stack
+              direction={isXSmall ? "column" : "row"}
+              justifyContent="space-between"
+              spacing={isXSmall ? 2 : 4}
+              alignItems="center"
+            >
+              <Typography variant="h4" sx={{ mb: isXSmall ? 2 : 0 }}>
+                Envios
+              </Typography>
+              <Stack direction={isXSmall ? "column" : "row"} spacing={2} alignItems="center">
+                <TextField
+                  label="Filtrar"
+                  size="medium"
+                  value={filtroTexto}
+                  variant="standard"
+                  //onChange={(e) => setFiltroTexto(e.target.value)}
+                />
+                <Select
+                  value={filtroAtributo}
+                  //onChange={(e) => setFiltroAtributo(e.target.value)}
+                  variant="outlined"
+                  size="small"
+                >
+                  <MenuItem value="numeroDocumento">Número de documento</MenuItem>
+                  <MenuItem value="nombre">Nombre</MenuItem>
+                  <MenuItem value="apellido">Apellido</MenuItem>
+                  <MenuItem value="direccion">Dirección</MenuItem>
+                  <MenuItem value="numeroTelefono">Número de teléfono</MenuItem>
+                </Select>
+              </Stack>
               <Stack direction={isXSmall ? "column" : "row"} spacing={2} alignItems="center">
                 <Button
-                  startIcon={<PlusIcon />}
+                  startIcon={<TruckIcon />}
                   variant="contained"
                   color="success"
-                  sx={{ mb: isXSmall ? 1 : 0 }}
+                  //onClick={() => setDialogOpen(true)}
                 >
                   Agregar
                 </Button>
-                <Button
-                  startIcon={<TrashIcon />}
-                  variant="contained"
-                  color="error"
-                  sx={{ mb: isXSmall ? 1 : 0 }}
-                >
-                  Eliminar
-                </Button>
+                {/* <AgregarClienteDialog
+                  open={dialogOpen}
+                  onClose={handleDialogClose}
+                  onClienteAdded={fetchClientes}
+                /> */}
                 <Button
                   startIcon={<UserCircleIcon />}
                   variant="contained"
                   color="warning"
                   sx={{ mb: isXSmall ? 1 : 0 }}
+                  //onClick={() => handleOnClickConSeleccionado(clienteSeleccionado.idCliente, "M")}
+                  //onClick={() => setDialogModificacionOpen(true)}
                 >
                   Modificar
                 </Button>
+                {/* <ModificarClienteDialog
+                  open={dialogModificacionOpen}
+                  onClose={() => setDialogModificacionOpen(false)}
+                  cliente={clienteSeleccionado}
+                  refrescar={fetchClientes}
+                /> */}
                 <Button
                   startIcon={<ArrowPathIcon />}
                   variant="contained"
                   color="info"
                   sx={{ mb: isXSmall ? 1 : 0 }}
+                  //onClick={() => handleOnClickConSeleccionado(clienteSeleccionado.idCliente, "C")}
                 >
                   Ver
                 </Button>
+                {/* <ConsultarClienteDialog
+                  open={dialogConsultaOpen}
+                  onClose={() => setDialogConsultaOpen(false)}
+                  cliente={clienteSeleccionado}
+                /> */}
               </Stack>
-            </Grid>
-          </Paper>
-        <Container maxWidth="xl">
-          <FormControl fullWidth sx={{ mb: 3 }}>
-            <InputLabel>Zona</InputLabel>
-            <Select value={zonaSeleccionada} label="Zona" onChange={handleZonaChange}>
-              {zonas.map((zona) => (
-                <MenuItem key={zona} value={zona}>
-                  {zona}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          <Grid container spacing={3}>
-            <Grid xs={12}>
-              <OverviewLatestOrders orders={enviosFiltradosPorZona} sx={{ height: "100%" }} />
-            </Grid>
-          </Grid>
-          
+            </Stack>
+            <CollapsibleTable>
+            </CollapsibleTable>
+          </Stack>
         </Container>
       </Box>
     </>

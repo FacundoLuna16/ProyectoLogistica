@@ -188,6 +188,7 @@ const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
         </FormControl>
         <TextField
           autoFocus
+          required
           margin="dense"
           id="numeroDocumento"
           label="Número de Documento"
@@ -202,6 +203,7 @@ const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
           margin="dense"
           id="nombre"
           label="Nombre"
+          required
           type="text"
           fullWidth
           name="nombre"
@@ -210,6 +212,7 @@ const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
           error={!validation.nombre}
         />
         <TextField
+          required
           margin="dense"
           id="apellido"
           label="Apellido"
