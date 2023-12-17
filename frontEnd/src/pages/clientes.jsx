@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Head from "next/head";
-import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { useSelection } from "src/hooks/use-selection";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
@@ -145,7 +144,7 @@ const Clientes = () => {
               alignItems="center"
             >
               <Typography variant="h4" sx={{ mb: isXSmall ? 2 : 0 }}>
-                Clientes
+                Envios
               </Typography>
               <Stack direction={isXSmall ? "column" : "row"} spacing={2} alignItems="center">
                 <TextField
@@ -153,19 +152,15 @@ const Clientes = () => {
                   size="medium"
                   value={filtroTexto}
                   variant="standard"
-                  onChange={(e) => setFiltroTexto(e.target.value)}
+                  //onChange={(e) => setFiltroTexto(e.target.value)}
                 />
                 <Select
-                  value={filtroAtributo}
-                  onChange={(e) => setFiltroAtributo(e.target.value)}
+                  value={""}
+                  //onChange={(e) => setFiltroAtributo(e.target.value)}
                   variant="outlined"
                   size="small"
                 >
-                  <MenuItem value="numeroDocumento">Número de documento</MenuItem>
-                  <MenuItem value="nombre">Nombre</MenuItem>
-                  <MenuItem value="apellido">Apellido</MenuItem>
-                  <MenuItem value="direccion">Dirección</MenuItem>
-                  <MenuItem value="numeroTelefono">Número de teléfono</MenuItem>
+                  <MenuItem value="numeroDocumento">a</MenuItem>
                 </Select>
               </Stack>
               <Stack direction={isXSmall ? "column" : "row"} spacing={2} alignItems="center">
@@ -173,45 +168,45 @@ const Clientes = () => {
                   startIcon={<TruckIcon />}
                   variant="contained"
                   color="success"
-                  onClick={() => setDialogOpen(true)}
+                  //onClick={() => setDialogOpen(true)}
                 >
                   Agregar
                 </Button>
-                <AgregarClienteDialog
+                {/* <AgregarClienteDialog
                   open={dialogOpen}
                   onClose={handleDialogClose}
                   onClienteAdded={fetchClientes}
-                />
+                /> */}
                 <Button
                   startIcon={<UserCircleIcon />}
                   variant="contained"
                   color="warning"
                   sx={{ mb: isXSmall ? 1 : 0 }}
-                  onClick={() => handleOnClickConSeleccionado(clienteSeleccionado.idCliente, "M")}
+                  //onClick={() => handleOnClickConSeleccionado(clienteSeleccionado.idCliente, "M")}
                   //onClick={() => setDialogModificacionOpen(true)}
                 >
                   Modificar
                 </Button>
-                <ModificarClienteDialog
+                {/* <ModificarClienteDialog
                   open={dialogModificacionOpen}
                   onClose={() => setDialogModificacionOpen(false)}
                   cliente={clienteSeleccionado}
                   refrescar={fetchClientes}
-                />
+                /> */}
                 <Button
                   startIcon={<ArrowPathIcon />}
                   variant="contained"
                   color="info"
                   sx={{ mb: isXSmall ? 1 : 0 }}
-                  onClick={() => handleOnClickConSeleccionado(clienteSeleccionado.idCliente, "C")}
+                  //onClick={() => handleOnClickConSeleccionado(clienteSeleccionado.idCliente, "C")}
                 >
                   Ver
                 </Button>
-                <ConsultarClienteDialog
+                {/* <ConsultarClienteDialog
                   open={dialogConsultaOpen}
                   onClose={() => setDialogConsultaOpen(false)}
                   cliente={clienteSeleccionado}
-                />
+                /> */}
               </Stack>
             </Stack>
             <ClientsTable
