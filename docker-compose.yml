@@ -39,9 +39,12 @@ services:
     image: jboss/keycloak
     ports:
       - "8180:8080"
+    volumes:
+      - ./mi-tema/keywind/theme/keywind/.:/opt/jboss/keycloak/themes/keywind
     environment:
       - KEYCLOAK_USER=administrador
       - KEYCLOAK_PASSWORD=andes2020
+      - KEYCLOAK_DEVEL=true
       - DB_VENDOR=mysql
       - DB_ADDR=mysql
       - DB_DATABASE=swiftlogix
