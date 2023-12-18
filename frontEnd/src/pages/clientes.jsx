@@ -152,12 +152,13 @@ const Clientes = () => {
                   onChange={(e) => setFiltroTexto(e.target.value)}
                 />
                 <Select
-                  value={""}
+                  value={filtroAtributo}
                   onChange={(e) => setFiltroAtributo(e.target.value)}
                   variant="outlined"
                   size="small"
                 >
-                  <MenuItem value="numeroDocumento">a</MenuItem>
+                  <MenuItem value="numeroDocumento">Numero Documento</MenuItem>
+                  <MenuItem value="nombre">Nombre</MenuItem>
                 </Select>
               </Stack>
               <Stack direction={isXSmall ? "column" : "row"} spacing={2} alignItems="center">

@@ -19,6 +19,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import enviosService from "src/service/enviosService";
 import { useSelection } from "src/hooks/use-selection";
 import { useTheme } from "@mui/material/styles";
+//import EnviosTable from "src/sections/envios/table-envios";
 import { EnviosTable } from "src/sections/envios/table-envios";
 import Head from "next/head";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
@@ -162,7 +163,7 @@ const Envios = () => {
               </Stack>
             </Stack>
             <EnviosTable
-              rows={envios}
+              rows={enviosFiltrados}
               count={enviosFiltrados.length}
               onEnvioSelected={setEnvioSeleccionado}
               onDeselectAll={envioSelection.handleDeselectAll}
@@ -170,10 +171,10 @@ const Envios = () => {
               onSelectAll={envioSelection.handleSelectAll}
               onSelectOne={envioSelection.handleSelectOne}
               selected={envioSelection.selected}
-              onPageChange={handlePageChange}
-              onRowsPerPageChange={handleRowsPerPageChange}
-              page={page}
-              rowsPerPage={rowsPerPage}
+              // onPageChange={handlePageChange}
+              // onRowsPerPageChange={handleRowsPerPageChange}
+              // page={page}
+              // rowsPerPage={rowsPerPage}
             />
           </Stack>
         </Container>

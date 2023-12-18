@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
@@ -13,48 +14,50 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { Card, Scrollbar, TablePagination, Checkbox } from "@mui/material";
+import { Card, TablePagination, Checkbox } from "@mui/material";
+import { Scrollbar } from "src/components/scrollbar";
 
 export const EnviosTable = (props) => {
   const {
+    rows = [],
     count = 0,
+    onEnvioSelected,
     onDeselectAll,
     onDeselectOne,
-    onPageChange = () => {},
-    onRowsPerPageChange,
     onSelectAll,
     onSelectOne,
-    page = 0,
-    rowsPerPage = 0,
     selected = [],
-    rows = [],
-    onEnvioSelected,
+    // onPageChange,
+    // onRowsPerPageChange,
+    // page = 0,
+    // rowsPerPage = 0,
   } = props;
 
   const [envioSeleccionado, setEnvioSeleccionado] = useState({});
 
   useEffect(() => {
-    // Informar al componente padre sobre el cambio del cliente seleccionado
+    // Informar al componente padre sobre el cambio del envío seleccionado
     onEnvioSelected(envioSeleccionado);
   }, [envioSeleccionado, onEnvioSelected]);
+
 
   const handleCheckboxChange = (event, numeroFactura) => {
     const { checked } = event.target;
 
     if (checked) {
-      onDeselectAll?.();
       onSelectOne?.(numeroFactura);
+      setEnvioSeleccionado(rows.find((item) => item.numeroFactura === numeroFactura));
     } else {
       onDeselectOne?.(numeroFactura);
+      setEnvioSeleccionado({});
     }
-    // Actualizar el cliente seleccionado
-    const selectedEnvio = rows.find((item) => item.numeroFactura === numeroFactura);
-    setEnvioSeleccionado(checked ? selectedEnvio : {});
   };
+
 
   function Row(props) {
     const { row } = props;
     const [open, setOpen] = React.useState(false);
+    const isSelected = selected.includes(row.numeroFactura);
 
     return (
       <React.Fragment>
@@ -66,13 +69,11 @@ export const EnviosTable = (props) => {
           </TableCell>
           <TableCell padding="checkbox">
             <Checkbox
-              checked={false}
+              checked={isSelected}
               onChange={(event) => handleCheckboxChange(event, row.numeroFactura)}
             />
           </TableCell>
-          <TableCell component="th" scope="row">
-            {row.numeroFactura}
-          </TableCell>
+          <TableCell component="th" scope="row">{row.numeroFactura}</TableCell>
           <TableCell align="right">{row.zona}</TableCell>
           <TableCell align="right">{row.cliente.nombre + " " + row.cliente.apellido}</TableCell>
           <TableCell align="right">{row.direccionEnvio}</TableCell>
@@ -117,22 +118,6 @@ export const EnviosTable = (props) => {
     );
   }
 
-  //nuevas row props de envios
-  Row.propTypes = {
-    row: PropTypes.shape({
-      numeroFactura: PropTypes.number.isRequired,
-      zona: PropTypes.string.isRequired,
-      cliente: PropTypes.shape({
-        nombre: PropTypes.string.isRequired,
-        apellido: PropTypes.string.isRequired,
-      }),
-      direccionEnvio: PropTypes.string.isRequired,
-      estadoActual: PropTypes.string.isRequired,
-    }).isRequired,
-  };
-
-
-
   return (
     <Card>
       <Scrollbar>
@@ -154,7 +139,7 @@ export const EnviosTable = (props) => {
                 </TableHead>
                 <TableBody>
                   {rows.map((row) => (
-                    <Row key={row.name} row={row} />
+                    <Row key={row.numeroFactura} row={row} />
                   ))}
                 </TableBody>
               </Table>
@@ -162,7 +147,7 @@ export const EnviosTable = (props) => {
           </Paper>
         </Box>
       </Scrollbar>
-      <TablePagination
+      {/* <TablePagination
         component="div"
         count={count}
         onPageChange={onPageChange}
@@ -170,23 +155,24 @@ export const EnviosTable = (props) => {
         page={page}
         rowsPerPage={rowsPerPage}
         rowsPerPageOptions={[5, 10, 25]}
-      />
+      /> */}
     </Card>
   );
+  
 };
+// EnviosTable.propTypes = {
+//   count: PropTypes.number,
+//   onDeselectAll: PropTypes.func,
+//   onDeselectOne: PropTypes.func,
+//   onPageChange: PropTypes.func,
+//   onRowsPerPageChange: PropTypes.func,
+//   onSelectAll: PropTypes.func,
+//   onSelectOne: PropTypes.func,
+//   page: PropTypes.number,
+//   rowsPerPage: PropTypes.number,
+//   selected: PropTypes.array,
+//   rows: PropTypes.array,
+//   onEnvioSelected: PropTypes.func,
+// };
 
 
-EnviosTable.propTypes = {
-  count: PropTypes.number,
-  onDeselectAll: PropTypes.func,
-  onDeselectOne: PropTypes.func,
-  onPageChange: PropTypes.func,
-  onRowsPerPageChange: PropTypes.func,
-  onSelectAll: PropTypes.func,
-  onSelectOne: PropTypes.func,
-  page: PropTypes.number,
-  rowsPerPage: PropTypes.number,
-  selected: PropTypes.array,
-  rows: PropTypes.array,
-  onClienteSelected: PropTypes.func,
-};
