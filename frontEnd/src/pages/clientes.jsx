@@ -81,9 +81,6 @@ const Clientes = () => {
     setDialogOpen(false);
   };
 
-  const handleClienteAdded = (cliente) => {
-    setClientes([...clientes, cliente]);
-  };
 
   const [dialogConsultaOpen, setDialogConsultaOpen] = useState(false);
 
@@ -214,13 +211,13 @@ const Clientes = () => {
               items={paginatedClientes}
               onDeselectAll={clienteSelection.handleDeselectAll}
               onDeselectOne={clienteSelection.handleDeselectOne}
-              onPageChange={handlePageChange}
-              onRowsPerPageChange={handleRowsPerPageChange}
               onSelectAll={clienteSelection.handleSelectAll}
               onSelectOne={clienteSelection.handleSelectOne}
+              selected={clienteSelection.selected}
+              onPageChange={handlePageChange}
+              onRowsPerPageChange={handleRowsPerPageChange}
               page={page}
               rowsPerPage={rowsPerPage}
-              selected={clienteSelection.selected}
               onClientSelectedChange={setClienteSeleccionado}
             />
           </Stack>

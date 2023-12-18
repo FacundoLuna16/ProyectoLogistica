@@ -1,29 +1,27 @@
-
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { ClientsTable } from "src/sections/clientes/clientes-table"; // Reemplazar con el nombre correcto
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { applyPagination } from "src/utils/apply-pagination";
-import { ArrowPathIcon, TruckIcon, UserCircleIcon } from "@heroicons/react/24/outline"; // Reemplazar con el icono correcto para camiones
-import useMediaQuery from "@mui/material/useMediaQuery";
-import CollapsibleTable from "src/sections/envios/table-envios";
-import enviosService from "src/service/enviosService";
-import { useTheme } from "@mui/material/styles";
-import {
-  Box,
-  Container,
-  Typography,
-  TextField,
-  Grid,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Paper,
-  Button,
-  Stack,
+import { 
+  Box, 
+  Container, 
+  Typography, 
+  TextField, 
+  Grid, 
+  Select, 
+  MenuItem, 
+  FormControl, 
+  InputLabel, 
+  Paper, 
+  Button, 
+  Stack 
 } from "@mui/material";
+import { ArrowPathIcon, TruckIcon, UserCircleIcon } from "@heroicons/react/24/outline";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import enviosService from "src/service/enviosService";
+import { useSelection } from "src/hooks/use-selection";
+import { useTheme } from "@mui/material/styles";
+import { EnviosTable } from "src/sections/envios/table-envios";
 import Head from "next/head";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
-import { TrashIcon } from "@heroicons/react/24/outline";
 
 
 const Envios = () => {
@@ -42,6 +40,22 @@ const Envios = () => {
   const theme = useTheme();
   const isXSmall = useMediaQuery(theme.breakpoints.down("xs"));
 
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
+
+  const envioSelection = useSelection();
+
+  const handlePageChange = useCallback((event, value) => {
+    setPage(value);
+  }, []);
+
+  const handleRowsPerPageChange = useCallback((event) => {
+    setRowsPerPage(event.target.value);
+  }, []);
+
 
   const fetchEnvios = async () => {
     try {
@@ -56,6 +70,16 @@ const Envios = () => {
   useEffect(() => {
     fetchEnvios();
   }, []);
+
+  const paginatedEnvios = useMemo(() => {
+    return applyPagination(enviosFiltrados, page, rowsPerPage);
+  }, [enviosFiltrados, page, rowsPerPage]);
+
+  const numerosFactura = useMemo(() => {
+    return envios.map((envio) => envio.numeroFactura);
+  }, [envios]);
+
+
   
   return (
     <>
@@ -63,7 +87,7 @@ const Envios = () => {
         <title>Envíos | Sistema de Gestión de Envíos</title>
       </Head>
       <Box component="main" sx={{ flexGrow: 1, py: 8 }}>
-      <Container maxWidth="xl">
+        <Container maxWidth="xl">
           <Stack spacing={3}>
             <Stack
               direction={isXSmall ? "column" : "row"}
@@ -137,9 +161,19 @@ const Envios = () => {
                 /> */}
               </Stack>
             </Stack>
-            <CollapsibleTable
-            rows={enviosFiltrados}
-            onClienteSelected={setEnvioSeleccionado}
+            <EnviosTable
+              rows={envios}
+              count={enviosFiltrados.length}
+              onEnvioSelected={setEnvioSeleccionado}
+              onDeselectAll={envioSelection.handleDeselectAll}
+              onDeselectOne={envioSelection.handleDeselectOne}
+              onSelectAll={envioSelection.handleSelectAll}
+              onSelectOne={envioSelection.handleSelectOne}
+              selected={envioSelection.selected}
+              onPageChange={handlePageChange}
+              onRowsPerPageChange={handleRowsPerPageChange}
+              page={page}
+              rowsPerPage={rowsPerPage}
             />
           </Stack>
         </Container>
