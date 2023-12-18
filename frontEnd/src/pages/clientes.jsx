@@ -152,11 +152,11 @@ const Clientes = () => {
                   size="medium"
                   value={filtroTexto}
                   variant="standard"
-                  //onChange={(e) => setFiltroTexto(e.target.value)}
+                  onChange={(e) => setFiltroTexto(e.target.value)}
                 />
                 <Select
                   value={""}
-                  //onChange={(e) => setFiltroAtributo(e.target.value)}
+                  onChange={(e) => setFiltroAtributo(e.target.value)}
                   variant="outlined"
                   size="small"
                 >
@@ -168,45 +168,45 @@ const Clientes = () => {
                   startIcon={<TruckIcon />}
                   variant="contained"
                   color="success"
-                  //onClick={() => setDialogOpen(true)}
+                  onClick={() => setDialogOpen(true)}
                 >
                   Agregar
                 </Button>
-                {/* <AgregarClienteDialog
+                <AgregarClienteDialog
                   open={dialogOpen}
                   onClose={handleDialogClose}
                   onClienteAdded={fetchClientes}
-                /> */}
+                />
                 <Button
                   startIcon={<UserCircleIcon />}
                   variant="contained"
                   color="warning"
                   sx={{ mb: isXSmall ? 1 : 0 }}
-                  //onClick={() => handleOnClickConSeleccionado(clienteSeleccionado.idCliente, "M")}
+                  onClick={() => handleOnClickConSeleccionado(clienteSeleccionado.idCliente, "M")}
                   //onClick={() => setDialogModificacionOpen(true)}
                 >
                   Modificar
                 </Button>
-                {/* <ModificarClienteDialog
+                <ModificarClienteDialog
                   open={dialogModificacionOpen}
                   onClose={() => setDialogModificacionOpen(false)}
                   cliente={clienteSeleccionado}
                   refrescar={fetchClientes}
-                /> */}
+                />
                 <Button
                   startIcon={<ArrowPathIcon />}
                   variant="contained"
                   color="info"
                   sx={{ mb: isXSmall ? 1 : 0 }}
-                  //onClick={() => handleOnClickConSeleccionado(clienteSeleccionado.idCliente, "C")}
+                  onClick={() => handleOnClickConSeleccionado(clienteSeleccionado.idCliente, "C")}
                 >
                   Ver
                 </Button>
-                {/* <ConsultarClienteDialog
+                <ConsultarClienteDialog
                   open={dialogConsultaOpen}
                   onClose={() => setDialogConsultaOpen(false)}
                   cliente={clienteSeleccionado}
-                /> */}
+                />
               </Stack>
             </Stack>
             <ClientsTable

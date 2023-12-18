@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ClientsTable } from "src/sections/clientes/clientes-table"; // Reemplazar con el nombre correcto
 import { applyPagination } from "src/utils/apply-pagination";
 import { ArrowPathIcon, TruckIcon, UserCircleIcon } from "@heroicons/react/24/outline"; // Reemplazar con el icono correcto para camiones
 import useMediaQuery from "@mui/material/useMediaQuery";
 import CollapsibleTable from "src/sections/envios/table-envios";
+import enviosService from "src/service/enviosService";
 import { useTheme } from "@mui/material/styles";
 import {
   Box,
@@ -25,8 +27,9 @@ import { TrashIcon } from "@heroicons/react/24/outline";
 
 
 const Envios = () => {
-  const [clientes, setClientes] = useState([]);
-  const [clientesFiltrados, setClientesFiltrados] = useState([]); // Nuevo estado para los clientes filtrados
+  const [envios, setEnvios] = useState([]);
+  const [enviosFiltrados, setEnviosFiltrados] = useState([]); // Nuevo estado para los clientes filtrados
+  const [envioSeleccionado, setEnvioSeleccionado] = useState({}); // Nuevo estado para el cliente seleccionado
 
   const [page, setPage] = useState(0);
 
@@ -34,10 +37,25 @@ const Envios = () => {
 
   const [filtroTexto, setFiltroTexto] = useState("");
 
-  const [filtroAtributo, setFiltroAtributo] = useState("numeroDocumento");
+  const [filtroAtributo, setFiltroAtributo] = useState("Numero Factura");
 
   const theme = useTheme();
   const isXSmall = useMediaQuery(theme.breakpoints.down("xs"));
+
+
+  const fetchEnvios = async () => {
+    try {
+      const data = await enviosService.getAll();
+      setEnvios(data);
+      setEnviosFiltrados(data);
+    } catch (error) {
+      console.error("Error al obtener clientes:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchEnvios();
+  }, []);
   
   return (
     <>
@@ -70,11 +88,7 @@ const Envios = () => {
                   variant="outlined"
                   size="small"
                 >
-                  <MenuItem value="numeroDocumento">Número de documento</MenuItem>
-                  <MenuItem value="nombre">Nombre</MenuItem>
-                  <MenuItem value="apellido">Apellido</MenuItem>
-                  <MenuItem value="direccion">Dirección</MenuItem>
-                  <MenuItem value="numeroTelefono">Número de teléfono</MenuItem>
+                  <MenuItem value="numeroDocumento">Numero Factura</MenuItem>
                 </Select>
               </Stack>
               <Stack direction={isXSmall ? "column" : "row"} spacing={2} alignItems="center">
@@ -123,8 +137,10 @@ const Envios = () => {
                 /> */}
               </Stack>
             </Stack>
-            <CollapsibleTable>
-            </CollapsibleTable>
+            <CollapsibleTable
+            rows={enviosFiltrados}
+            onClienteSelected={setEnvioSeleccionado}
+            />
           </Stack>
         </Container>
       </Box>

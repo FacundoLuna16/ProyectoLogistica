@@ -13,6 +13,9 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import {
+Checkbox
+} from "@mui/material";
 
 
 function createData(name, calories, fat, carbs, protein, price) {
@@ -44,23 +47,25 @@ function Row(props) {
 
   return (
     <React.Fragment>
-      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
         <TableCell>
-          <IconButton
-            aria-label="expand row"
-            size="small"
-            onClick={() => setOpen(!open)}
-          >
+          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">
-          {row.name}
+        <TableCell padding="checkbox">
+          <Checkbox
+            checked={false}
+            //onChange={(event) => handleCheckboxChange(event, client.idCliente)}
+          />
         </TableCell>
-        <TableCell align="right">{row.calories}</TableCell>
-        <TableCell align="right">{row.fat}</TableCell>
-        <TableCell align="right">{row.carbs}</TableCell>
-        <TableCell align="right">{row.protein}</TableCell>
+        <TableCell component="th" scope="row">
+          {row.numeroFactura}
+        </TableCell>
+        <TableCell align="right">{row.zona}</TableCell>
+        <TableCell align="right">{row.cliente.nombre + " " + row.cliente.apellido}</TableCell>
+        <TableCell align="right">{row.direccionEnvio}</TableCell>
+        <TableCell align="right">{row.estadoActual}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -76,10 +81,11 @@ function Row(props) {
                     <TableCell>Customer</TableCell>
                     <TableCell align="right">Amount</TableCell>
                     <TableCell align="right">Total price ($)</TableCell>
+                    
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.history.map((historyRow) => (
+                  {/* {row.history.map((historyRow) => (
                     <TableRow key={historyRow.date}>
                       <TableCell component="th" scope="row">
                         {historyRow.date}
@@ -90,7 +96,7 @@ function Row(props) {
                         {Math.round(historyRow.amount * row.price * 100) / 100}
                       </TableCell>
                     </TableRow>
-                  ))}
+                  ))} */}
                 </TableBody>
               </Table>
             </Box>
@@ -119,26 +125,32 @@ Row.propTypes = {
   }).isRequired,
 };
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
-  createData('Eclair', 262, 16.0, 24, 6.0, 3.79),
-  createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
-  createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
-];
+// const rows = [
+//   createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
+//   createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
+//   createData('Eclair', 262, 16.0, 24, 6.0, 3.79),
+//   createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
+//   createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
+// ];
 
-export default function CollapsibleTable() {
+export default function CollapsibleTable(props) {
+  const {
+    rows = [],
+    onClienteSelected
+  } = props;
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <TableCell />
+            
+            <TableCell>Numero Factura</TableCell>
+            <TableCell align="right">Zona</TableCell>
+            <TableCell align="right">Cliente</TableCell>
+            <TableCell align="right">Direccion de Envio</TableCell>
+            <TableCell align="right">Estado Actual</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
