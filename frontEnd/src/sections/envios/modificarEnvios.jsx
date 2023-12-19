@@ -22,8 +22,30 @@ const ModificarEnvioDialog = ({ open, onClose, envio, refrescar }) => {
         setCambiosEstado(envio.cambiosEstado || []);
         setEstadoActual(envio.estadoActual || '');
         setUltimosDigitosTarjeta(envio.ultimosDigitosTarjeta || '');
-    }, [envio]);
+    }, [envio,onClose]);
 
+    const handleCancelar = () => {
+        onClose();
+    };
+
+
+    const handleModificar = async () => {
+        try {
+
+            await enviosService.update(numeroFactura,{
+                idCliente : cliente.idCliente,
+                zona,
+                direccionEnvio,
+                entreCalles,
+                ultimosDigitosTarjeta,
+            });
+            alert("Envio modificado con exito");
+            refrescar();
+            onClose();
+        } catch (error) {
+            alert(error.response);
+        }
+    }
     return (
       <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
         <DialogTitle>Modificar Envio</DialogTitle>
@@ -88,11 +110,39 @@ const ModificarEnvioDialog = ({ open, onClose, envio, refrescar }) => {
                 <MenuItem value="4">4</MenuItem>
             </Select>
             </FormControl>
+            <TextField
+                margin="dense"
+                id="direccionEnvio"
+                label="Direccion de envio"
+                type="text"
+                fullWidth
+                value={direccionEnvio}
+                onChange={(e) => setDireccionEnvio(e.target.value)}
+            />
+            <TextField
+                margin="dense"
+                id="entreCalles"
+                label="Entre calles"
+                type="text"
+                fullWidth
+                value={entreCalles}
+                onChange={(e) => setEntreCalles(e.target.value)}
+            />
+            <TextField
+                margin="dense"
+                id="ultimosDigitosTarjeta"
+                label="Ultimos digitos tarjeta"
+                type="text"
+                fullWidth
+                value={ultimosDigitosTarjeta}
+                onChange={(e) => setUltimosDigitosTarjeta(e.target.value)}
+            />
+
           {/* Puedes seguir agregando más campos de esta manera */}
         </DialogContent>
         <DialogActions>
-          <Button onClick={onClose}>Cancelar</Button>
-          <Button onClick={onClose}>Guardar</Button>
+          <Button onClick={handleCancelar}>Cancelar</Button>
+          <Button onClick={handleModificar}>Modificar</Button>
         </DialogActions>
       </Dialog>
     );
