@@ -87,30 +87,22 @@ export const EnviosTable = (props) => {
             <Collapse in={open} timeout="auto" unmountOnExit>
               <Box sx={{ margin: 1 }}>
                 <Typography variant="h6" gutterBottom component="div">
-                  History
+                  Detalle de productos
                 </Typography>
                 <Table size="small" aria-label="purchases">
                   <TableHead>
                     <TableRow>
-                      <TableCell>Date</TableCell>
-                      <TableCell>Customer</TableCell>
-                      <TableCell align="right">Amount</TableCell>
-                      <TableCell align="right">Total price ($)</TableCell>
+                      <TableCell>Producto</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {/* {row.history.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
+                    {row.detalleEnvio.map((detalle) => (
+                    <TableRow key={detalle.id}>
                       <TableCell component="th" scope="row">
-                        {historyRow.date}
-                      </TableCell>
-                      <TableCell>{historyRow.customerId}</TableCell>
-                      <TableCell align="right">{historyRow.amount}</TableCell>
-                      <TableCell align="right">
-                        {Math.round(historyRow.amount * row.price * 100) / 100}
+                        {detalle.nombre}
                       </TableCell>
                     </TableRow>
-                  ))} */}
+                  ))}
                   </TableBody>
                 </Table>
               </Box>

@@ -96,13 +96,9 @@ const Clientes = () => {
     email: "",
   });
 
-  const handleOnClickConSeleccionado = (idCliente, funcion) => {
-    let clienteDetalle = {};
+  const handleOnClickConSeleccionado = ( funcion) => {
 
-    if (idCliente) {
-      clienteDetalle = clientes.find((cliente) => cliente.idCliente === idCliente) || {};
-      setClienteSeleccionado(clienteDetalle);
-      //alert("Cliente seleccionado: " + clienteDetalle.idCliente + " " + clienteDetalle.nombre + " " + clienteDetalle.apellido);
+    if (clienteSeleccionado.idCliente) {
       switch (funcion) {
         case "C":
           setDialogConsultaOpen(true);
@@ -180,7 +176,7 @@ const Clientes = () => {
                   variant="contained"
                   color="warning"
                   sx={{ mb: isXSmall ? 1 : 0 }}
-                  onClick={() => handleOnClickConSeleccionado(clienteSeleccionado.idCliente, "M")}
+                  onClick={() => handleOnClickConSeleccionado("M")}
                   //onClick={() => setDialogModificacionOpen(true)}
                 >
                   Modificar
@@ -196,7 +192,7 @@ const Clientes = () => {
                   variant="contained"
                   color="info"
                   sx={{ mb: isXSmall ? 1 : 0 }}
-                  onClick={() => handleOnClickConSeleccionado(clienteSeleccionado.idCliente, "C")}
+                  onClick={() => handleOnClickConSeleccionado("C")}
                 >
                   Ver
                 </Button>

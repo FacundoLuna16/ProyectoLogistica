@@ -27,7 +27,11 @@ public class JpaEnvioRepository implements EnvioRepository {
 
     @Override
     public Optional<Envio> getById(String envioId) {
-        return jpaEnvioDao.findById(envioId).map(EnvioEntity::toDomain);
+        Optional<EnvioEntity> envioEntity = jpaEnvioDao.findById(envioId);
+        if (envioEntity.isEmpty()) {
+            throw new RuntimeException("Envío no encontrado");
+        }
+        return envioEntity.map(EnvioEntity::toDomain);
     }
 
     @Override

@@ -23,6 +23,7 @@ import { useTheme } from "@mui/material/styles";
 import { EnviosTable } from "src/sections/envios/table-envios";
 import Head from "next/head";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
+import ModificarEnvioDialog from "src/sections/envios/modificarEnvios";
 
 
 const Envios = () => {
@@ -98,7 +99,27 @@ const Envios = () => {
   }
   , [filtroTexto, filtroAtributo]);
 
+  const [dialogConsultaOpen, setDialogConsultaOpen] = useState(false);
+  const [dialogModificacionOpen, setDialogModificacionOpen] = useState(false);
   
+  const handleOnClickConSeleccionado = (funcion) => {
+    if (envioSeleccionado.numeroFactura) {
+      switch (funcion) {
+        case "C":
+          setDialogConsultaOpen(true);
+          break;
+        case "M":
+          setDialogModificacionOpen(true);
+          break;
+        default:
+          break;
+      }
+    } else {
+      alert("Debe seleccionar un envio");
+    }
+  };
+
+
   return (
     <>
       <Head>
@@ -152,17 +173,17 @@ const Envios = () => {
                   variant="contained"
                   color="warning"
                   sx={{ mb: isXSmall ? 1 : 0 }}
-                  //onClick={() => handleOnClickConSeleccionado(clienteSeleccionado.idCliente, "M")}
+                  onClick={() => handleOnClickConSeleccionado("M")}
                   //onClick={() => setDialogModificacionOpen(true)}
                 >
                   Modificar
                 </Button>
-                {/* <ModificarClienteDialog
+                <ModificarEnvioDialog
                   open={dialogModificacionOpen}
                   onClose={() => setDialogModificacionOpen(false)}
-                  cliente={clienteSeleccionado}
-                  refrescar={fetchClientes}
-                /> */}
+                  envio={envioSeleccionado}
+                  refrescar={fetchEnvios}
+                />
                 <Button
                   startIcon={<ArrowPathIcon />}
                   variant="contained"

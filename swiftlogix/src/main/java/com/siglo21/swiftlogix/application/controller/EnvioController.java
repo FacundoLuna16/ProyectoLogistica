@@ -10,7 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/v1/envios")
 public class EnvioController {
@@ -36,8 +38,8 @@ public class EnvioController {
     }
 
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable("id") String id){
+    @GetMapping("/{nroFactura}")
+    public ResponseEntity<?> getById(@PathVariable("nroFactura") String id){
         try {
             return ResponseEntity.status(200).body(envioService.getById(id).map(EnvioResponse::new));
         }
@@ -59,8 +61,8 @@ public class EnvioController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateEnvio(@PathVariable("id") String id, @RequestBody ActualizarEnviorRequestDto crearEnvioRequestDto){
+    @PutMapping("/{nroFactura}")
+    public ResponseEntity<?> updateEnvio(@PathVariable("nroFactura") String id, @RequestBody ActualizarEnviorRequestDto crearEnvioRequestDto){
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(envioService.update(id, crearEnvioRequestDto).map(EnvioResponse::new));
         }
