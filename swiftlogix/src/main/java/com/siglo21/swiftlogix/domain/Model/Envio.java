@@ -1,5 +1,6 @@
 package com.siglo21.swiftlogix.domain.Model;
 
+import com.siglo21.swiftlogix.domain.Model.EstadosEnvio.Pendiente;
 import com.siglo21.swiftlogix.infrastructure.entity.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,18 @@ public class Envio {
     private ArrayList<CambioEstado> cambiosEstado;
     private EstadoEnvio estadoActual;
     private String ultimosDigitosTarjeta;
+
+    public Envio(String numeroFactura, Cliente cliente, Zona zona, List<DetalleEnvio> detallesEnvio, Pendiente pendiente, String direccionEnvio, String entreCalles, String ultimosDigitosTarjeta) {
+        this.numeroFactura = numeroFactura;
+        this.cliente = cliente;
+        this.zona = zona;
+        this.detalleEnvio = detallesEnvio;
+        this.direccionEnvio = direccionEnvio;
+        this.entreCalles = entreCalles;
+        this.cambiosEstado = new ArrayList<>(List.of(new CambioEstado(pendiente)));
+        this.estadoActual = pendiente;
+        this.ultimosDigitosTarjeta = ultimosDigitosTarjeta;
+    }
 
 
     public EnvioEntity toEntity() {

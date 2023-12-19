@@ -1,6 +1,7 @@
 package com.siglo21.swiftlogix.application.controller;
 
 import com.siglo21.swiftlogix.application.Response.EnvioResponse;
+import com.siglo21.swiftlogix.application.request.ActualizarEnviorRequestDto;
 import com.siglo21.swiftlogix.application.request.CrearEnvioRequestDto;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.EnvioService;
 import jakarta.validation.Valid;
@@ -59,9 +60,20 @@ public class EnvioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateEnvio(@PathVariable("id") String id, @RequestBody CrearEnvioRequestDto crearEnvioRequestDto){
+    public ResponseEntity<?> updateEnvio(@PathVariable("id") String id, @RequestBody ActualizarEnviorRequestDto crearEnvioRequestDto){
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(envioService.update(id, crearEnvioRequestDto).map(EnvioResponse::new));
+        }
+        catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/cantidadEnviosPorZona")
+    public ResponseEntity<?> cantidadEnviosPorZona(@RequestParam(name = "idEstado", required = false) Integer idEstado,
+                                                   @RequestParam(name = "idZona", required = false) Integer idZona){
+        try {
+            return ResponseEntity.status(200).body(envioService.cantidadEnviosPorZona(idEstado,idZona));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

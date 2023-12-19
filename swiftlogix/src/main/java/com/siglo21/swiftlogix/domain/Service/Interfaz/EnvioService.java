@@ -1,5 +1,6 @@
 package com.siglo21.swiftlogix.domain.Service.Interfaz;
 
+import com.siglo21.swiftlogix.application.request.ActualizarEnviorRequestDto;
 import com.siglo21.swiftlogix.application.request.CrearEnvioRequestDto;
 import com.siglo21.swiftlogix.domain.Model.Envio;
 
@@ -13,5 +14,8 @@ public interface EnvioService {
 
     Optional<Envio> save(CrearEnvioRequestDto envio);
 
-    Optional<Envio> update(String envioId, CrearEnvioRequestDto envio);
+    Optional<Envio> update(String envioId, ActualizarEnviorRequestDto envio);
+
+    Integer cantidadEnviosPorZona(Integer idEstado, Integer idZona);
+
 }
