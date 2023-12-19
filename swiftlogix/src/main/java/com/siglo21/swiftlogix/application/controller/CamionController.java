@@ -7,12 +7,14 @@ import com.siglo21.swiftlogix.application.request.CamionCrearRequestDto;
 import com.siglo21.swiftlogix.application.request.CamionRequestDto;
 import com.siglo21.swiftlogix.application.request.CrearEnvioRequestDto;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.CamionService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/v1/camiones")
 public class CamionController {

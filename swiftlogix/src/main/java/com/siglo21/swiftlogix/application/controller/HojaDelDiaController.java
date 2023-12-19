@@ -5,9 +5,11 @@ import com.siglo21.swiftlogix.application.Response.HojaDelDiaResponse;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.HojaDelDiaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/v1/hojas")
 public class HojaDelDiaController {
