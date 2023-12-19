@@ -85,15 +85,11 @@ public class EnvioServiceImpl implements EnvioService {
         Cliente cliente = obtenerClienteDesdeRequest(requestDto.getIdCliente());
         Zona zona = obtenerZonaDesdeRequest(requestDto.getIdZona());
 
-        List<DetalleEnvio> detallesEnvio = requestDto.getDetalleEnvio().stream()
-                .map(detalleEnvioRequestDto -> new DetalleEnvio(detalleEnvioRequestDto.getNombre()))
-                .toList();
 
         Pendiente pendiente = (Pendiente) estadoEnvioRepository.getById(1).orElseThrow(() -> new RuntimeException("Estado Pendiente no encontrado"));
 
         envio.setCliente(cliente);
         envio.setZona(zona);
-        envio.setDetalleEnvio(detallesEnvio);
         envio.setCambiosEstado(new ArrayList<>(Collections.singletonList(new CambioEstado(pendiente))));
         envio.setEstadoActual(pendiente);
         envio.setDireccionEnvio(requestDto.getDireccionEnvio());

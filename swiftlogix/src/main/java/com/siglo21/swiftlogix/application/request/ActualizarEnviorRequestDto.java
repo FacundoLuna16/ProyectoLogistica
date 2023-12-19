@@ -19,7 +19,7 @@ public class ActualizarEnviorRequestDto {
     @Max(value = 4, message = "El tipo de documento no es valido")
     private Integer idZona;
 
-    private List<DetalleEnvioRequestDto> detalleEnvio;
+//    private List<DetalleEnvioRequestDto> detalleEnvio;
 
     @NotBlank(message = "La direccion de envio no puede estar vacia")
     @NotNull(message = "La direccion de envio no puede ser nula")
