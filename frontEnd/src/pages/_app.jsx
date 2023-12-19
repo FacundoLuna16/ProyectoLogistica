@@ -40,7 +40,7 @@ const App = (props) => {
   }, []);
 
   return (
-    <ReactKeycloakProvider authClient={keycloak}>
+    // <ReactKeycloakProvider authClient={keycloak}>
       <CacheProvider value={emotionCache}>
         <Head>
           <title>Sistema de Gestión de Envios</title>
@@ -53,7 +53,7 @@ const App = (props) => {
             </ThemeProvider>
         </LocalizationProvider>
       </CacheProvider>
-    </ReactKeycloakProvider>
+    // </ReactKeycloakProvider>
   );
 };
 
