@@ -27,10 +27,10 @@ export const EnviosTable = (props) => {
     onSelectAll,
     onSelectOne,
     selected = [],
-    // onPageChange,
-    // onRowsPerPageChange,
-    // page = 0,
-    // rowsPerPage = 0,
+    onPageChange,
+    onRowsPerPageChange,
+    page = 0,
+    rowsPerPage = 0,
   } = props;
 
   const [envioSeleccionado, setEnvioSeleccionado] = useState({});
@@ -45,7 +45,10 @@ export const EnviosTable = (props) => {
     const { checked } = event.target;
 
     if (checked) {
+      // Si se marca una fila, deseleccionar las demás
+      onDeselectAll?.();
       onSelectOne?.(numeroFactura);
+
       setEnvioSeleccionado(rows.find((item) => item.numeroFactura === numeroFactura));
     } else {
       onDeselectOne?.(numeroFactura);
@@ -147,7 +150,7 @@ export const EnviosTable = (props) => {
           </Paper>
         </Box>
       </Scrollbar>
-      {/* <TablePagination
+      <TablePagination
         component="div"
         count={count}
         onPageChange={onPageChange}
@@ -155,24 +158,24 @@ export const EnviosTable = (props) => {
         page={page}
         rowsPerPage={rowsPerPage}
         rowsPerPageOptions={[5, 10, 25]}
-      /> */}
+      />
     </Card>
   );
   
 };
-// EnviosTable.propTypes = {
-//   count: PropTypes.number,
-//   onDeselectAll: PropTypes.func,
-//   onDeselectOne: PropTypes.func,
-//   onPageChange: PropTypes.func,
-//   onRowsPerPageChange: PropTypes.func,
-//   onSelectAll: PropTypes.func,
-//   onSelectOne: PropTypes.func,
-//   page: PropTypes.number,
-//   rowsPerPage: PropTypes.number,
-//   selected: PropTypes.array,
-//   rows: PropTypes.array,
-//   onEnvioSelected: PropTypes.func,
-// };
+EnviosTable.propTypes = {
+  count: PropTypes.number,
+  onDeselectAll: PropTypes.func,
+  onDeselectOne: PropTypes.func,
+  onPageChange: PropTypes.func,
+  onRowsPerPageChange: PropTypes.func,
+  onSelectAll: PropTypes.func,
+  onSelectOne: PropTypes.func,
+  page: PropTypes.number,
+  rowsPerPage: PropTypes.number,
+  selected: PropTypes.array,
+  rows: PropTypes.array,
+  onEnvioSelected: PropTypes.func,
+};
 
 

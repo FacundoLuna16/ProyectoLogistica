@@ -22,7 +22,10 @@ const HojaRuta = () => {
 
   return (
     <Box sx={{ m: 4 }}>
-      
+      <Typography variant="h4" sx={{ mb: 4 }}>
+        Hoja de ruta
+
+      </Typography>
     </Box>
   );
 };

@@ -80,7 +80,7 @@ export const CamionTable = (props) => {
             <TableContainer sx={{ maxHeight: 600 }}>
             <ThemeProvider theme={theme}>
               <Table>
-                <TableHead stickyHeader>
+                <TableHead >
                   <TableRow>
                     <TableCell padding="checkbox">
                       {/* Eliminamos la opción de seleccionar/deseleccionar todos */}

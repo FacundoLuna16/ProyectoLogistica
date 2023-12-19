@@ -36,7 +36,7 @@ const Envios = () => {
 
   const [filtroTexto, setFiltroTexto] = useState("");
 
-  const [filtroAtributo, setFiltroAtributo] = useState("Numero Factura");
+  const [filtroAtributo, setFiltroAtributo] = useState("numeroFactura");
 
   const theme = useTheme();
   const isXSmall = useMediaQuery(theme.breakpoints.down("xs"));
@@ -47,7 +47,7 @@ const Envios = () => {
     setDialogOpen(false);
   };
 
-  const envioSelection = useSelection();
+ 
 
   const handlePageChange = useCallback((event, value) => {
     setPage(value);
@@ -77,9 +77,26 @@ const Envios = () => {
   }, [enviosFiltrados, page, rowsPerPage]);
 
   const numerosFactura = useMemo(() => {
-    return envios.map((envio) => envio.numeroFactura);
-  }, [envios]);
+    return paginatedEnvios.map((envio) => envio.numeroFactura);
+  }, [paginatedEnvios]);
 
+  const envioSelection = useSelection(numerosFactura);
+
+  const handleFiltrar = () => {
+    // Aplicar el filtro sobre la copia del arreglo original
+    const enviosFiltrados = envios.filter((envio) => {
+      const valorAtributo = envio[filtroAtributo].toLowerCase();
+      return valorAtributo.includes(filtroTexto.toLowerCase());
+    });
+
+    setEnviosFiltrados(enviosFiltrados);
+    setEnvioSeleccionado({});
+  }
+
+  useEffect(() => {
+    handleFiltrar();
+  }
+  , [filtroTexto, filtroAtributo]);
 
   
   return (
@@ -105,15 +122,15 @@ const Envios = () => {
                   size="medium"
                   value={filtroTexto}
                   variant="standard"
-                  //onChange={(e) => setFiltroTexto(e.target.value)}
+                  onChange={(e) => setFiltroTexto(e.target.value)}
                 />
                 <Select
                   value={filtroAtributo}
-                  //onChange={(e) => setFiltroAtributo(e.target.value)}
+                  onChange={(e) => setFiltroAtributo(e.target.value)}
                   variant="outlined"
                   size="small"
                 >
-                  <MenuItem value="numeroDocumento">Numero Factura</MenuItem>
+                  <MenuItem value="numeroFactura">Numero Factura</MenuItem>
                 </Select>
               </Stack>
               <Stack direction={isXSmall ? "column" : "row"} spacing={2} alignItems="center">
@@ -163,7 +180,7 @@ const Envios = () => {
               </Stack>
             </Stack>
             <EnviosTable
-              rows={enviosFiltrados}
+              rows={paginatedEnvios}
               count={enviosFiltrados.length}
               onEnvioSelected={setEnvioSeleccionado}
               onDeselectAll={envioSelection.handleDeselectAll}
@@ -171,10 +188,10 @@ const Envios = () => {
               onSelectAll={envioSelection.handleSelectAll}
               onSelectOne={envioSelection.handleSelectOne}
               selected={envioSelection.selected}
-              // onPageChange={handlePageChange}
-              // onRowsPerPageChange={handleRowsPerPageChange}
-              // page={page}
-              // rowsPerPage={rowsPerPage}
+              onPageChange={handlePageChange}
+              onRowsPerPageChange={handleRowsPerPageChange}
+              page={page}
+              rowsPerPage={rowsPerPage}
             />
           </Stack>
         </Container>

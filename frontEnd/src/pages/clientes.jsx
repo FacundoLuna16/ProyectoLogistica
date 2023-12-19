@@ -141,7 +141,7 @@ const Clientes = () => {
               alignItems="center"
             >
               <Typography variant="h4" sx={{ mb: isXSmall ? 2 : 0 }}>
-                Envios
+                Clientes
               </Typography>
               <Stack direction={isXSmall ? "column" : "row"} spacing={2} alignItems="center">
                 <TextField

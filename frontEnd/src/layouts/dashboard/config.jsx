@@ -11,13 +11,8 @@ import { DocumentIcon } from "@heroicons/react/24/outline";
 
 export const items = [
   {
-    title: "Hoja del dia",
-    path: "/",
-    icon: (
-      <SvgIcon fontSize="small">
-        <DocumentIcon className="h-6 w-6 text-gray-500" />
-      </SvgIcon>
-    ),
+    title: "Inicio",
+    path: "/", // path is used by the Sidebar component
   },
   {
     title: "Envios",
@@ -28,6 +23,16 @@ export const items = [
       </SvgIcon>
     ),
   },
+  {
+    title: "Hoja de Ruta",
+    path: "/hojaRuta",
+    icon: (
+      <SvgIcon fontSize="small">
+        <DocumentIcon className="h-6 w-6 text-gray-500" />
+      </SvgIcon>
+    ),
+  },
+
   {
     title: "Repartidores",
     path: "/repartidores",
