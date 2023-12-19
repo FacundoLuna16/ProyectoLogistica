@@ -1,18 +1,37 @@
-// EstadisticasEnviosPorZona.js
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Typography, Paper } from '@mui/material';
-
-// Datos simulados para las zonas y la cantidad de envíos
-const datosEnviosPorZona = [
-  { zona: 'Zona 1', envios: 200 },
-  { zona: 'Zona 2', envios: 150 },
-  { zona: 'Zona 3', envios: 10 },
-  { zona: 'Zona 4', envios: 50 },
-];
+import { getCantidadEnviosPorZona } from 'src/service/reportesService';
 
 const EstadisticasEnviosPorZona = () => {
+  const [datosEnvios, setDatosEnvios] = useState([]);
+
+  useEffect(() => {
+    const cargarDatos = async () => {
+      try {
+        // Realiza las solicitudes de forma simultánea y espera a todas
+        const resultados = await Promise.all([
+          getCantidadEnviosPorZona(1),
+          getCantidadEnviosPorZona(2),
+          getCantidadEnviosPorZona(3),
+          getCantidadEnviosPorZona(4)
+        ]);
+
+        // Transforma los resultados en el formato deseado para el gráfico
+        const nuevosDatos = resultados.map((cantidad, index) => ({
+          zona: `Zona ${index + 1}`,
+          envios: cantidad
+        }));
+
+        setDatosEnvios(nuevosDatos);
+      } catch (error) {
+        console.error('Error al cargar datos:', error);
+      }
+    };
+
+    cargarDatos();
+  }, []);
+
   return (
     <Paper style={{ padding: '20px', margin: '20px' }}>
       <Typography variant="h5" gutterBottom>
@@ -20,7 +39,7 @@ const EstadisticasEnviosPorZona = () => {
       </Typography>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
-          data={datosEnviosPorZona}
+          data={datosEnvios}
           margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
@@ -35,4 +54,4 @@ const EstadisticasEnviosPorZona = () => {
   );
 };
 
-export {EstadisticasEnviosPorZona};
+export { EstadisticasEnviosPorZona };

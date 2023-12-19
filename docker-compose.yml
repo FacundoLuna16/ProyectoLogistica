@@ -28,7 +28,7 @@ services:
 
   frontend:
     container_name: react_frontend
-    build: ./frontend
+    build: frontEnd
     ports:
       - "3000:3000"
     depends_on:
