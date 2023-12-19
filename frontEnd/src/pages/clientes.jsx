@@ -231,3 +231,5 @@ const Clientes = () => {
 Clientes.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
 export default Clientes;
+
+

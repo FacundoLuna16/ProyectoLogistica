@@ -1,5 +1,7 @@
 import UsersIcon from "@heroicons/react/24/solid/UsersIcon";
 import { SvgIcon } from "@mui/material";
+import { HomeIcon } from "@heroicons/react/24/outline";
+
 import React from "react";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import { TruckIcon } from "@heroicons/react/24/outline";
@@ -13,6 +15,11 @@ export const items = [
   {
     title: "Inicio",
     path: "/", // path is used by the Sidebar component
+    icon: (
+      <SvgIcon fontSize="small">
+        <HomeIcon />
+      </SvgIcon>
+    ),
   },
   {
     title: "Envios",
