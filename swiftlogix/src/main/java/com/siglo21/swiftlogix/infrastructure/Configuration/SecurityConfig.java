@@ -24,8 +24,8 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
-//                .authorizeHttpRequests(http -> http.anyRequest().authenticated())
-                .authorizeHttpRequests(http -> http.anyRequest().permitAll())
+                .authorizeHttpRequests(http -> http.anyRequest().authenticated())
+//                .authorizeHttpRequests(http -> http.anyRequest().permitAll())
                 .oauth2ResourceServer(oauth2 -> {
                     oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter));
                 })
