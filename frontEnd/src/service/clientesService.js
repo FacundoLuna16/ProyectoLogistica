@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/api/v1/clientes";
+const API_URL = process.env.NEXT_PUBLIC_APP_API_URL + "/api/v1/clientes";
 
 const getAll = async () => {
   try {
