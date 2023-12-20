@@ -24,6 +24,7 @@ import { EnviosTable } from "src/sections/envios/table-envios";
 import Head from "next/head";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
 import ModificarEnvioDialog from "src/sections/envios/modificarEnvios";
+import ConsultarEnvioDialog from "src/sections/envios/consultarEnvios";
 
 
 const Envios = () => {
@@ -39,6 +40,8 @@ const Envios = () => {
 
   const [filtroAtributo, setFiltroAtributo] = useState("numeroFactura");
 
+  const [dialogConsultaOpen, setDialogConsultaOpen] = useState(false);
+  const [dialogModificacionOpen, setDialogModificacionOpen] = useState(false);
   const theme = useTheme();
   const isXSmall = useMediaQuery(theme.breakpoints.down("xs"));
 
@@ -99,8 +102,7 @@ const Envios = () => {
   }
   , [filtroTexto, filtroAtributo]);
 
-  const [dialogConsultaOpen, setDialogConsultaOpen] = useState(false);
-  const [dialogModificacionOpen, setDialogModificacionOpen] = useState(false);
+
   
   const handleOnClickConSeleccionado = (funcion) => {
     if (envioSeleccionado.numeroFactura) {
@@ -189,15 +191,16 @@ const Envios = () => {
                   variant="contained"
                   color="info"
                   sx={{ mb: isXSmall ? 1 : 0 }}
-                  //onClick={() => handleOnClickConSeleccionado(clienteSeleccionado.idCliente, "C")}
+                  onClick={() => handleOnClickConSeleccionado("C")}
+                  disabled={!envioSeleccionado.numeroFactura}
                 >
                   Ver
                 </Button>
-                {/* <ConsultarClienteDialog
+                <ConsultarEnvioDialog
                   open={dialogConsultaOpen}
                   onClose={() => setDialogConsultaOpen(false)}
-                  cliente={clienteSeleccionado}
-                /> */}
+                  envio={envioSeleccionado} 
+                />
               </Stack>
             </Stack>
             <EnviosTable

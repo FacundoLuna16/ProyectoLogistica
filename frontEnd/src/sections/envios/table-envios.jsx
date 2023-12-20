@@ -76,11 +76,11 @@ export const EnviosTable = (props) => {
               onChange={(event) => handleCheckboxChange(event, row.numeroFactura)}
             />
           </TableCell>
-          <TableCell component="th" scope="row">{row.numeroFactura}</TableCell>
-          <TableCell align="right">{row.zona}</TableCell>
-          <TableCell align="right">{row.cliente.nombre + " " + row.cliente.apellido}</TableCell>
-          <TableCell align="right">{row.direccionEnvio}</TableCell>
-          <TableCell align="right">{row.estadoActual}</TableCell>
+          <TableCell align="center" component="th" scope="row">{row.numeroFactura}</TableCell>
+          <TableCell align="center">{row.zona}</TableCell>
+          <TableCell align="center">{row.cliente.nombre + " " + row.cliente.apellido}</TableCell>
+          <TableCell align="center">{row.direccionEnvio}</TableCell>
+          <TableCell align="center">{row.estadoActual}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -125,11 +125,11 @@ export const EnviosTable = (props) => {
                     <TableCell />
                     <TableCell />
 
-                    <TableCell>Numero Factura</TableCell>
-                    <TableCell align="right">Zona</TableCell>
-                    <TableCell align="right">Cliente</TableCell>
-                    <TableCell align="right">Direccion de Envio</TableCell>
-                    <TableCell align="right">Estado Actual</TableCell>
+                    <TableCell align="center">Numero Factura</TableCell>
+                    <TableCell align="center">Zona</TableCell>
+                    <TableCell align="center">Cliente</TableCell>
+                    <TableCell align="center">Direccion de Envio</TableCell>
+                    <TableCell align="center">Estado Actual</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>

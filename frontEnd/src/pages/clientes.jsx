@@ -83,18 +83,19 @@ const Clientes = () => {
 
 
   const [dialogConsultaOpen, setDialogConsultaOpen] = useState(false);
+  const [clienteSeleccionado, setClienteSeleccionado] = useState({});
 
-  const [clienteSeleccionado, setClienteSeleccionado] = useState({
-    idCliente: "",
-    tipoDocumento: "",
-    numeroDocumento: "",
-    nombre: "",
-    apellido: "",
-    direccion: "",
-    numeroTelefono: "",
-    numeroTelefonoAlternativo: "",
-    email: "",
-  });
+  // const [clienteSeleccionado, setClienteSeleccionado] = useState({
+  //   idCliente: "",
+  //   tipoDocumento: "",
+  //   numeroDocumento: "",
+  //   nombre: "",
+  //   apellido: "",
+  //   direccion: "",
+  //   numeroTelefono: "",
+  //   numeroTelefonoAlternativo: "",
+  //   email: "",
+  // });
 
   const handleOnClickConSeleccionado = ( funcion) => {
 
