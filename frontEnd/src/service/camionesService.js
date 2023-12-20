@@ -1,12 +1,23 @@
+import { useKeycloak } from '@react-keycloak/web';
 import axios from "axios";
+import { useAuth } from 'src/contexts/authContext';
 
-const API_URL1 = "http://localhost:8080/api/v1/camiones";
-//con variable de entorno
 const API_URL = process.env.NEXT_PUBLIC_APP_API_URL + "/api/v1/camiones";
+const { token } = useAuth();
 
 const getAll = async () => {
+  // const { keycloak, initialized } = useKeycloak();
+
+  // if (!initialized || !keycloak.authenticated) {
+  //   throw new Error('User not authenticated');
+  // }
+
   try {
-    const response = await axios.get(API_URL);
+    const response = await axios.get(API_URL, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     throw error;
