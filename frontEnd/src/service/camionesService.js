@@ -1,14 +1,18 @@
 import axios from "axios";
+import { useAuth } from "src/contexts/AuthContext";
 
 const API_URL = process.env.NEXT_PUBLIC_APP_API_URL + "/api/v1/camiones";
-const token = localStorage.getItem("token");
+// const token = localStorage.getItem("token");
+
 
 const getAll = async () => {
   try {
+    
+    const { keycloak } = useAuth();
     console.log("token", token);
     const response = await axios.get(API_URL, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${keycloak.token}`,
       },
     });
     return response.data;

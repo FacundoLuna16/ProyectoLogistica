@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import React, { createContext, useContext } from "react";
 import LoadingPage from 'src/components/loadingPage'
 import initKeycloak from "src/contexts/keycloak";
+import { AuthProvider } from "src/contexts/AuthContext";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -29,6 +30,7 @@ const App = (props) => {
     const initializeKeycloak = async () => {
       const keycloak = await initKeycloak();
       setKeycloak(keycloak);
+      console.log(keycloak);
     };
     initializeKeycloak();
   }, []);
@@ -38,18 +40,20 @@ const App = (props) => {
   }
 
   return (
-    <CacheProvider value={emotionCache}>
-      <Head>
-        <title>Sistema de Gestión de Envios</title>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-      </Head>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          {getLayout(<Component {...pageProps} />)}
-        </ThemeProvider>
-      </LocalizationProvider>
-    </CacheProvider>
+    <AuthProvider keycloakInstance={keycloakCompleto}>
+      <CacheProvider value={emotionCache}>
+        <Head>
+          <title>Sistema de Gestión de Envios</title>
+          <meta name="viewport" content="initial-scale=1, width=device-width" />
+        </Head>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            {getLayout(<Component {...pageProps} />)}
+          </ThemeProvider>
+        </LocalizationProvider>
+      </CacheProvider>
+    </AuthProvider>
   );
 };
 
