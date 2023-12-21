@@ -25,7 +25,11 @@ public class JpaRepartidorRepository implements RepartidorRepository {
 
     @Override
     public Optional<Repartidor> getById(int repartidorId) {
-        return jpaRepartidoresDao.findById(repartidorId).map(RepartidorEntity::toDomain);
+        Optional<RepartidorEntity> repartidorEntity = jpaRepartidoresDao.findById(repartidorId);
+        if (repartidorEntity.isEmpty()) {
+            throw new RuntimeException("Repartidor no existe");
+        }
+        return repartidorEntity.map(RepartidorEntity::toDomain);
     }
 
     @Override

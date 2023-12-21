@@ -39,8 +39,8 @@ public class CamionController {
     }
 
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable("id") String patente){
+    @GetMapping("/{patente}")
+    public ResponseEntity<?> getById(@PathVariable("patente") String patente){
         try {
             return ResponseEntity.status(200).body(camionService.getById(patente).map(CamionResponse::new));
         }

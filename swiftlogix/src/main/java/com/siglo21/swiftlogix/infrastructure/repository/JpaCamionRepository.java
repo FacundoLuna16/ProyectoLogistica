@@ -24,7 +24,11 @@ public class JpaCamionRepository implements CamionRepository {
 
     @Override
     public Optional<Camion> getById(String patenteCamion) {
-        return jpaCamionDao.findById(patenteCamion).map(CamionEntity::toDomain);
+        Optional<CamionEntity> camionEntity = jpaCamionDao.findById(patenteCamion);
+        if (camionEntity.isEmpty()) {
+            throw new RuntimeException("Camion no existe");
+        }
+        return camionEntity.map(CamionEntity::toDomain);
     }
 
     @Override
