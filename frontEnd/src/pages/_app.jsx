@@ -12,6 +12,7 @@ import Keycloak from "keycloak-js";
 import { useEffect, useState } from "react";
 import React, { createContext, useContext } from "react";
 import LoadingPage from 'src/components/loadingPage'
+import initKeycloak from "src/contexts/keycloak";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -25,19 +26,11 @@ const App = (props) => {
   const theme = createTheme();
 
   useEffect(() => {
-    const keycloak = new Keycloak({
-      url: "http://localhost:8180/auth",
-      realm: "siglo21",
-      clientId: "siglo21-client-api-rest",
-      onLoad: "login-required",
-    });
-
-    keycloak.init({ onLoad: "login-required", checkLoginIframe: false }).then(() => {
+    const initializeKeycloak = async () => {
+      const keycloak = await initKeycloak();
       setKeycloak(keycloak);
-      console.log(keycloak)
-      localStorage.setItem("token", keycloak.token);
-      localStorage.setItem("userName", keycloak.idTokenParsed.preferred_username);
-    });
+    };
+    initializeKeycloak();
   }, []);
 
   if (!keycloakCompleto) {
@@ -45,7 +38,6 @@ const App = (props) => {
   }
 
   return (
-    // <ReactKeycloakProvider authClient={keycloakCompleto}>
     <CacheProvider value={emotionCache}>
       <Head>
         <title>Sistema de Gestión de Envios</title>
@@ -58,8 +50,6 @@ const App = (props) => {
         </ThemeProvider>
       </LocalizationProvider>
     </CacheProvider>
-
-    // </ReactKeycloakProvider>
   );
 };
 

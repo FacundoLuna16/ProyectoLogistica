@@ -5,6 +5,7 @@ const token = localStorage.getItem("token");
 
 const getAll = async () => {
   try {
+    console.log("token", token);
     const response = await axios.get(API_URL, {
       headers: {
         Authorization: `Bearer ${token}`,
