@@ -1,10 +1,15 @@
 import axios from "axios";
 
 const API_URL = process.env.NEXT_PUBLIC_APP_API_URL + "/api/v1/clientes";
+const token = localStorage.getItem("token");
 
 const getAll = async () => {
   try {
-    const response = await axios.get(API_URL);
+    const response = await axios.get(API_URL, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     throw error;
@@ -13,7 +18,11 @@ const getAll = async () => {
 
 const getById = async (clienteId) => {
   try {
-    const response = await axios.get(`${API_URL}/${clienteId}`);
+    const response = await axios.get(`${API_URL}/${clienteId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     throw error;
@@ -22,7 +31,11 @@ const getById = async (clienteId) => {
 
 const create = async (cliente) => {
   try {
-    const response = await axios.post(API_URL, cliente);
+    const response = await axios.post(API_URL, cliente, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     throw error;
@@ -31,7 +44,12 @@ const create = async (cliente) => {
 
 const update = async (clienteId, clienteData) => {
   try {
-    const response = await axios.put(`${API_URL}/${clienteId}`, clienteData);
+    const response = await axios.put(`${API_URL}/${clienteId}`, clienteData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
   } catch (error) {
     throw error;
   }
@@ -39,7 +57,11 @@ const update = async (clienteId, clienteData) => {
 
 const remove = async (clienteId) => {
   try {
-    await axios.delete(`${API_URL}/${clienteId}`);
+    await axios.delete(`${API_URL}/${clienteId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   } catch (error) {
     throw error;
   }

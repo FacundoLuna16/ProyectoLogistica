@@ -11,15 +11,13 @@ import "simplebar-react/dist/simplebar.min.css";
 import Keycloak from "keycloak-js";
 import { useEffect, useState } from "react";
 import React, { createContext, useContext } from "react";
-import { AuthProvider } from "src/contexts/authContext";
-import { useAuth } from 'src/contexts/authContext';
 
 const clientSideEmotionCache = createEmotionCache();
 
 const App = (props) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   const [keycloakCompleto, setKeycloak] = useState(null);
-  const { setAuthToken } = useAuth() || {};
+
   useNProgress();
 
   const getLayout = Component.getLayout ?? ((page) => page);
@@ -35,7 +33,8 @@ const App = (props) => {
 
     keycloak.init({ onLoad: "login-required", checkLoginIframe: false }).then(() => {
       setKeycloak(keycloak);
-      setAuthToken(keycloak.token);
+
+      localStorage.setItem("token", keycloak.token);
       // console.log(keycloak);
     });
   }, []);
@@ -46,42 +45,21 @@ const App = (props) => {
 
   return (
     // <ReactKeycloakProvider authClient={keycloakCompleto}>
-    <AuthProvider>
-      <CacheProvider value={emotionCache}>
-        <Head>
-          <title>Sistema de Gestión de Envios</title>
-          <meta name="viewport" content="initial-scale=1, width=device-width" />
-        </Head>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            {getLayout(<Component {...pageProps} />)}
-          </ThemeProvider>
-        </LocalizationProvider>
-      </CacheProvider>
-    </AuthProvider>
+    <CacheProvider value={emotionCache}>
+      <Head>
+        <title>Sistema de Gestión de Envios</title>
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
+      </Head>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          {getLayout(<Component {...pageProps} />)}
+        </ThemeProvider>
+      </LocalizationProvider>
+    </CacheProvider>
+
     // </ReactKeycloakProvider>
   );
 };
 
 export default App;
-
-
-
-/* 
-// ...
-
-import { useAuth } from 'path-to-your/AuthContext'; // Ruta real al archivo AuthContext.js
-
-const Login = () => {
-  const { setAuthToken } = useAuth();
-
-  // Después de recibir el token de autenticación
-  const handleLogin = (token) => {
-    setAuthToken(token);
-    // Resto del código
-  };
-
-  // ...
-};
- */

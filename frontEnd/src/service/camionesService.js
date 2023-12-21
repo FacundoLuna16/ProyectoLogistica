@@ -1,17 +1,9 @@
-import { useKeycloak } from '@react-keycloak/web';
 import axios from "axios";
-import { useAuth } from 'src/contexts/authContext';
 
 const API_URL = process.env.NEXT_PUBLIC_APP_API_URL + "/api/v1/camiones";
-const { token } = useAuth();
+const token = localStorage.getItem("token");
 
 const getAll = async () => {
-  // const { keycloak, initialized } = useKeycloak();
-
-  // if (!initialized || !keycloak.authenticated) {
-  //   throw new Error('User not authenticated');
-  // }
-
   try {
     const response = await axios.get(API_URL, {
       headers: {
@@ -26,7 +18,11 @@ const getAll = async () => {
 
 const getById = async (patente) => {
   try {
-    const response = await axios.get(`${API_URL}/${patente}`);
+    const response = await axios.get(`${API_URL}/${patente}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     throw error;
@@ -35,7 +31,11 @@ const getById = async (patente) => {
 
 const create = async (camion) => {
   try {
-    const response = await axios.post(API_URL, camion);
+    const response = await axios.post(API_URL, camion, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     throw error;
@@ -44,7 +44,11 @@ const create = async (camion) => {
 
 const update = async (patente, camionData) => {
   try {
-    const response = await axios.put(`${API_URL}/${patente}`, camionData);
+    const response = await axios.put(`${API_URL}/${patente}`, camionData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     throw error;
@@ -53,7 +57,11 @@ const update = async (patente, camionData) => {
 
 const remove = async (patente) => {
   try {
-    await axios.delete(`${API_URL}/${patente}`);
+    await axios.delete(`${API_URL}/${patente}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   } catch (error) {
     throw error;
   }
@@ -66,3 +74,4 @@ export default {
   update,
   remove,
 };
+
