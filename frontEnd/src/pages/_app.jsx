@@ -11,6 +11,7 @@ import "simplebar-react/dist/simplebar.min.css";
 import Keycloak from "keycloak-js";
 import { useEffect, useState } from "react";
 import React, { createContext, useContext } from "react";
+import LoadingPage from 'src/components/loadingPage'
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -35,12 +36,11 @@ const App = (props) => {
       setKeycloak(keycloak);
 
       localStorage.setItem("token", keycloak.token);
-      // console.log(keycloak);
     });
   }, []);
 
   if (!keycloakCompleto) {
-    return <div>Cargando...</div>;
+    return <LoadingPage />;
   }
 
   return (
