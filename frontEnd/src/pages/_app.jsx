@@ -34,8 +34,9 @@ const App = (props) => {
 
     keycloak.init({ onLoad: "login-required", checkLoginIframe: false }).then(() => {
       setKeycloak(keycloak);
-
+      console.log(keycloak)
       localStorage.setItem("token", keycloak.token);
+      localStorage.setItem("userName", keycloak.idTokenParsed.preferred_username);
     });
   }, []);
 

@@ -3,20 +3,15 @@ import { useRouter } from "next/navigation";
 import PropTypes from "prop-types";
 import { Box, Divider, MenuItem, MenuList, Popover, Typography } from "@mui/material";
 
-import {
-  getNombreUsuario,
-  getEmailUsuario,
-  getRolUsuario,
-  getIdUsuario,
-} from "src/service/accountService";
-
 export const AccountPopover = (props) => {
   const { anchorEl, onClose, open } = props;
   const router = useRouter();
 
-
+  //Logica para el boton de cerrar sesion
   const handleSignOut = useCallback(() => {
   }, [onClose, router]);
+
+  const accountName = localStorage.getItem("userName");
 
   return (
     <Popover
@@ -37,7 +32,7 @@ export const AccountPopover = (props) => {
       >
         <Typography variant="overline">Cuenta</Typography>
         <Typography color="text.secondary" variant="body2">
-          ENDPOINT CUENTA NOMBRE
+        {accountName}
         </Typography>
       </Box>
       <Divider />
