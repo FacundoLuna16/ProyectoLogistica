@@ -17,8 +17,11 @@ import TextField from "@mui/material/TextField";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { el } from "date-fns/locale";
+import { useAuth } from "src/contexts/AuthContext";
 
 const Camiones = () => {
+  const authContext = useAuth();
+  const camionesService = new CamionesService(authContext);
   const [camiones, setCamiones] = useState([]);
   const [camionesFiltrados, setCamionesFiltrados] = useState([]); // Nuevo estado para los camiones filtrados
 
@@ -45,7 +48,7 @@ const Camiones = () => {
 
   const fetchCamiones = async () => {
     try {
-      const data = await CamionesService.getAll();
+      const data = await camionesService.getAll();
       setCamiones(data);
       setCamionesFiltrados(data);
     } catch (error) {

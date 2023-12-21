@@ -14,8 +14,8 @@ const initKeycloak = async () => {
     checkLoginIframe: false,
   });
 
-  localStorage.setItem("token", keycloak.token);
-  localStorage.setItem("userName", keycloak.idTokenParsed.preferred_username);
+  // localStorage.setItem("token", keycloak.token);
+  // localStorage.setItem("userName", keycloak.idTokenParsed.preferred_username);
 
   return keycloak;
 };
