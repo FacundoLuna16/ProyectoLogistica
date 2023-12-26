@@ -6,8 +6,12 @@ import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import { Dialog, DialogContent, DialogTitle, DialogActions, Button } from '@mui/material';
 import ClientesService from "src/service/clientesService";
+import { useAuth } from "src/contexts/AuthContext";
+
 
 const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
+  const authContext = useAuth();
+  const clientesService = new ClientesService(authContext);
   const [newCliente, setNewCliente] = useState({
     idTipoDocumento: 0,
     numeroDocumento: '',
@@ -140,7 +144,7 @@ const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
   const handleAgregar = async () => {
     if (isFormValid) {
       try {
-        const addedCliente = await ClientesService.create(newCliente);
+        const addedCliente = await clientesService.create(newCliente);
         onClienteAdded();
         alert('Cliente agregado correctamente');
         onClose();

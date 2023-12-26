@@ -39,6 +39,8 @@ services:
     image: jboss/keycloak
     ports:
       - "8180:8080"
+    expose:
+      - "8180"
     volumes:
       - ./mi-tema/keywind/theme/keywind/.:/opt/jboss/keycloak/themes/keywind
     environment:

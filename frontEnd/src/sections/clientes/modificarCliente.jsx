@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import { Dialog, DialogContent, DialogTitle, TextField, DialogActions, Button } from '@mui/material';
-import clienteService from 'src/service/clientesService';
+import ClientesService from 'src/service/clientesService';
+import { useAuth } from "src/contexts/AuthContext";
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -10,6 +11,8 @@ import { id } from 'date-fns/locale';
 
 
 const ModificarClienteDialog = ({ open, onClose, cliente, refrescar}) => {
+  const authContext = useAuth();
+  const clientesService = new ClientesService(authContext);
   const [idCliente, setIdCliente] = useState(''); 
   const [tipoDocumento, setTipoDocumento] = useState('');
   const [numeroDocumento, setNumeroDocumento] = useState('');
@@ -58,7 +61,7 @@ const ModificarClienteDialog = ({ open, onClose, cliente, refrescar}) => {
 
   const handleModificar = async () => {
     try {
-      const clienteActualizado = await clienteService.update(idCliente, {
+      const clienteActualizado = await clientesService.update(idCliente, {
         idTipoDocumento: tipoDocumentoMapping[tipoDocumento.toUpperCase()],
         numeroDocumento,
         nombre,

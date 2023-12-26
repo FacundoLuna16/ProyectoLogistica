@@ -61,6 +61,7 @@ const EnviosPendientes = () => {
                   </Button>
                   <Button
                     variant="contained"
+                    color="success"
                     onClick={() => console.log('Reprogramar envío', envio.id)}
                   >
                     Reprogramar a su zona de cobertura

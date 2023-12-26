@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Head from "next/head";
-import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
+
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { useSelection } from "src/hooks/use-selection";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
@@ -16,7 +16,7 @@ import ModificarCamionDialog from "src/sections/camiones/modificarCamion";
 import TextField from "@mui/material/TextField";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { el } from "date-fns/locale";
+
 import { useAuth } from "src/contexts/AuthContext";
 
 const Camiones = () => {
@@ -55,7 +55,6 @@ const Camiones = () => {
       console.error("Error al obtener camiones:", error);
     }
   };
-
 
   useEffect(() => {
     fetchCamiones();

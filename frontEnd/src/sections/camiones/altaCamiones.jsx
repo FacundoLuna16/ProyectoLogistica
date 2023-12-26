@@ -2,8 +2,12 @@
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogTitle, TextField, DialogActions, Button } from '@mui/material';
 import CamionesService from "src/service/camionesService";
+import { useAuth } from "src/contexts/AuthContext";
+
 
 const AgregarCamionDialog = ({ open, onClose, refrescar }) => {
+  const authContext = useAuth();
+  const camionesService = new CamionesService(authContext);
   const [newCamion, setNewCamion] = useState({
     patente: '',
     modelo: '',
@@ -29,7 +33,7 @@ const AgregarCamionDialog = ({ open, onClose, refrescar }) => {
   const handleAgregar = async () => {
     try {
       if (areAllFieldsFilled()) {
-        const agregado = await CamionesService.create(newCamion);
+        const agregado = await camionesService.create(newCamion);
         alert('Camion agregado correctamente');
         onClose();
         setNewCamion({});

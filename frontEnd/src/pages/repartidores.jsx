@@ -9,7 +9,7 @@ import { applyPagination } from "src/utils/apply-pagination";
 import { ArrowPathIcon, UserCircleIcon } from "@heroicons/react/24/outline";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import repartidoresService from "../service/repartidoresService";
+import RepartidoresService from "../service/repartidoresService";
 import AgregarRepartidorDialog from "src/sections/repartidores/altaRepartidores";
 import ConsultarRepartidorDialog from "src/sections/repartidores/consultarRepartidor";
 import ModificarRepartidorDialog from "src/sections/repartidores/modificarRepartidor";
@@ -17,8 +17,11 @@ import TextField from "@mui/material/TextField";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { set } from "nprogress";
+import { useAuth } from "src/contexts/AuthContext";
 
 const Repartidores = () => {
+  const authContext = useAuth();
+  const repartidoresService = new RepartidoresService(authContext);
   const [repartidores, setRepartidores] = useState([]);
   const [repartidoresFiltrados, setRepartidoresFiltrado] = useState([]); // Nuevo estado para los clientes filtrados
 

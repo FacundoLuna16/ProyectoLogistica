@@ -13,9 +13,12 @@ import {
   Button,
   Box,
 } from "@mui/material";
-import enviosService from "src/service/enviosService";
+import EnvioService from "src/service/enviosService";
+import { useAuth } from "src/contexts/AuthContext";
 
 const ModificarEnvioDialog = ({ open, onClose, envio, refrescar }) => {
+  const authContext = useAuth();
+  const enviosService = new EnvioService(authContext);
   const [numeroFactura, setNumeroFactura] = useState("");
   const [cliente, setCliente] = useState({});
   const [idZona, setIdZona] = useState(0);

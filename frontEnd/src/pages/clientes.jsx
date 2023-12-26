@@ -15,8 +15,11 @@ import ModificarClienteDialog from "src/sections/clientes/modificarCliente";
 import TextField from "@mui/material/TextField";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import { useAuth } from "src/contexts/AuthContext";
 
 const Clientes = () => {
+  const authContext = useAuth();
+  const clientesService = new ClientesService(authContext);
   const [clientes, setClientes] = useState([]);
   const [clientesFiltrados, setClientesFiltrados] = useState([]); // Nuevo estado para los clientes filtrados
 
@@ -42,7 +45,7 @@ const Clientes = () => {
 
   const fetchClientes = async () => {
     try {
-      const data = await ClientesService.getAll();
+      const data = await clientesService.getAll();
       setClientes(data);
       setClientesFiltrados(data);
     } catch (error) {

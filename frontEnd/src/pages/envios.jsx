@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import { ArrowPathIcon, TruckIcon, UserCircleIcon } from "@heroicons/react/24/outline";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import enviosService from "src/service/enviosService";
+import EnvioService from "src/service/enviosService";
 import { useSelection } from "src/hooks/use-selection";
 import { useTheme } from "@mui/material/styles";
 //import EnviosTable from "src/sections/envios/table-envios";
@@ -25,9 +25,13 @@ import Head from "next/head";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
 import ModificarEnvioDialog from "src/sections/envios/modificarEnvios";
 import ConsultarEnvioDialog from "src/sections/envios/consultarEnvios";
+import { useAuth } from "src/contexts/AuthContext";
+
 
 
 const Envios = () => {
+  const authContext = useAuth();
+  const enviosService = new EnvioService(authContext);
   const [envios, setEnvios] = useState([]);
   const [enviosFiltrados, setEnviosFiltrados] = useState([]); // Nuevo estado para los clientes filtrados
   const [envioSeleccionado, setEnvioSeleccionado] = useState({}); // Nuevo estado para el cliente seleccionado

@@ -8,9 +8,12 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
-import repartidoresService from "src/service/repartidoresService";
+import RepartidoresService from "src/service/repartidoresService";
+import { useAuth } from "src/contexts/AuthContext";
 
 const AgregarRepartidorDialog = ({ open, onClose, refrescar }) => {
+  const authContext = useAuth();
+  const repartidoresService = new RepartidoresService(authContext);
   const [id, setId] = useState("");
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");

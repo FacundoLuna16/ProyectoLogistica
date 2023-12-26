@@ -1,9 +1,12 @@
 
 import React, { useState, useEffect} from 'react';
 import { Dialog, DialogContent, DialogTitle, TextField, DialogActions, Button } from '@mui/material';
-import camionesService from 'src/service/camionesService';
+import CamionesService from 'src/service/camionesService';
+import { useAuth } from "src/contexts/AuthContext";
 
 const ModificarCamionDialog = ({ open, onClose, camion, refrescar}) => {
+  const authContext = useAuth();
+  const camionesService = new CamionesService(authContext);
   const [patente, setPatente] = useState('');
   const [modelo, setModelo] = useState('');
   const [color, setColor] = useState('');
