@@ -14,6 +14,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @CrossOrigin
 @RestController
@@ -28,7 +35,7 @@ public class CamionController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('administrador-cliente-rol') or hasRole('repartidor-cliente-rol')")
+    // @PreAuthorize("hasRole('administrador-cliente-rol') or hasRole('repartidor-cliente-rol')")
     public ResponseEntity<?> getAll(){
         try {
             return ResponseEntity.status(200).body(camionService.getAll().stream().map(CamionResponse::new));
