@@ -170,7 +170,7 @@ const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Agregar Nuevo Cliente</DialogTitle>
       <DialogContent>
-        <FormControl sx={{ m: 1, minWidth: 120 }} size="medium">
+        <FormControl sx={{ m: 1, minWidth: 150 }} size="medium">
           <InputLabel id="demo-simple-select-standard-label">TipoDocumento</InputLabel>
           <Select
             variant="standard"

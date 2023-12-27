@@ -24,6 +24,7 @@ import { EnviosTable } from "src/sections/envios/table-envios";
 import Head from "next/head";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
 import ModificarEnvioDialog from "src/sections/envios/modificarEnvios";
+import AgregarEnvioDialog from "src/sections/envios/altaEnvios";
 import ConsultarEnvioDialog from "src/sections/envios/consultarEnvios";
 import { useAuth } from "src/contexts/AuthContext";
 
@@ -165,22 +166,21 @@ const Envios = () => {
                   startIcon={<TruckIcon />}
                   variant="contained"
                   color="success"
-                  //onClick={() => setDialogOpen(true)}
+                  onClick={() => setDialogOpen(true)}
                 >
                   Agregar
                 </Button>
-                {/* <AgregarClienteDialog
+                < AgregarEnvioDialog
                   open={dialogOpen}
                   onClose={handleDialogClose}
-                  onClienteAdded={fetchClientes}
-                /> */}
+                  onClienteAdded={fetchEnvios}
+                />
                 <Button
                   startIcon={<UserCircleIcon />}
                   variant="contained"
                   color="warning"
                   sx={{ mb: isXSmall ? 1 : 0 }}
                   onClick={() => handleOnClickConSeleccionado("M")}
-                  //onClick={() => setDialogModificacionOpen(true)}
                 >
                   Modificar
                 </Button>
