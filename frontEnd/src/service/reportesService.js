@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_APP_API_URL + '/api/v1/reportes';
+const API_URL = 'http://localhost:8080/api/v1/envios/cantidadEnviosPorZona';
 
 /**
  * Obtiene la cantidad de envíos por una zona específica.

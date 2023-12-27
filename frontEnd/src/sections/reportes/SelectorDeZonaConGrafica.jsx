@@ -49,7 +49,7 @@ const SelectorDeZonaConGrafica = () => {
         </Select>
       </FormControl>
       <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-        Estadísticas de Envíos por Zona
+        Estados de los envios por zona
       </Typography>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={datosGrafica}>
