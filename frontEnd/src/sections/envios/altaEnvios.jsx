@@ -146,9 +146,10 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
           // Construir el objeto envio de acuerdo con la estructura esperada por la API
           const envioParaEnviar = {
             ...newEnvio,
-            idCliente: parseInt(newEnvio.idCliente), // Asegúrate de que idCliente sea un número
-            idZona: parseInt(newEnvio.idZona),       // Asegúrate de que idZona sea un número
-            detalleEnvio: newEnvio.detalleEnvio.map(detalle => ({ nombre: detalle })),
+            idCliente: parseInt(newEnvio.idCliente),
+            idZona: parseInt(newEnvio.idZona),
+            detalleEnvio: newEnvio.detalleEnvio.map(nombre => ({ nombre })),
+            ultimosDigitosTarjeta: newEnvio.ultimosDigitosTarjeta // Asumiendo que este campo es un string
           };
     
           await enviosService.create(envioParaEnviar);
@@ -158,13 +159,15 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
             onEnvioAdded();
           }
         } catch (error) {
-          console.error("Error al agregar el envío:", error);
-          alert("Error al agregar el envío: " + error.message);
+          // Mostrar el mensaje de error en un alert
+          alert(error.message);
         }
       } else {
         alert("Por favor, completa todos los campos.");
       }
     };
+    
+    
     
     
 
@@ -173,6 +176,21 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
 
 //   }
 //     , [clienteSeleccionado]);
+useEffect(() => {
+  // Restablecer el estado cuando se cierre el diálogo
+  if (!open) {
+    setNewEnvio({
+      numeroFactura: "",
+      idCliente: "",
+      idZona: "",
+      direccionEnvio: "",
+      entreCalles: "",
+      ultimosDigitosTarjeta: "",
+      detalleEnvio: [""],
+    });
+  }
+}, [open]);
+
 
   useEffect(() => {
     const fetchData = async () => {
