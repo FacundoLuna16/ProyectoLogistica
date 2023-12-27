@@ -20,6 +20,7 @@ import { Typography } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
+import AgregarClienteDialog from "src/sections/clientes/altaClientes";
 
 const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
   const authContext = useAuth();
@@ -167,8 +168,24 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
       }
     };
     
-    
-    
+    // Logica boton agregar cliente
+    const [openAgregarCliente, setOpenAgregarCliente] = useState(false);
+
+
+    const handleOpenAgregarCliente = () => {
+      setOpenAgregarCliente(true);
+    };
+  
+    const handleCloseAgregarCliente = () => {
+      setOpenAgregarCliente(false);
+    };
+  
+    const handleClienteAdded = () => {
+      // Actualiza la lista de clientes
+      fetchClientes();
+      // Cierra el diálogo de agregar cliente
+      handleCloseAgregarCliente();
+    };
     
 
 //   useEffect(() => {
@@ -224,12 +241,11 @@ useEffect(() => {
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-      <DialogTitle>Agregar Envio</DialogTitle>
-      {/** NRO FACTURA */}
-      <DialogContent sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
-        <TextField
+      <DialogTitle>Agregar Envío</DialogTitle>
+      <DialogContent sx={{ '& .MuiFormControl-root': { m: 1 }, '& .MuiTextField-root': { m: 1 }, overflowY: 'auto' }}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          <TextField
             autoFocus
-            margin="dense"
             id="numeroFactura"
             label="Nro Factura"
             type="text"
@@ -238,138 +254,161 @@ useEffect(() => {
             name="numeroFactura"
             value={newEnvio.numeroFactura}
             onChange={handleChange}
+            size="small"
           />
-        <Typography>Cliente</Typography>
-        <Box display="flex" flexDirection="row" maxHeight={"70px"}>
-          <FormControl sx={{ m: 1, minWidth: 150 }} size="medium">
-            <InputLabel id="demo-simple-select-standard-label">TipoDocumento</InputLabel>
+          <Typography variant="subtitle1" gutterBottom>Cliente</Typography>
+          <Box display="flex" flexDirection={{ xs: 'column', sm: 'row' }} alignItems="center" gap={2}>
+  <Box flex={1}>
+    <FormControl fullWidth>
+      <InputLabel id="tipoDocumento-label">TipoDocumento</InputLabel>
+      <Select
+        labelId="tipoDocumento-label"
+        id="tipoDocumento"
+        name="idTipoDocumento"
+        value={tipoDocumentoFiltro}
+        label="TipoDocumento"
+        onChange={(e) => {
+          setTipoDocumentoFiltro(e.target.value);
+          filtrarPorTipoDocumento(e.target.value);
+        }}
+        size="small"
+      >
+        <MenuItem value={"DNI"}>DNI</MenuItem>
+        <MenuItem value={"CUIT"}>CUIT</MenuItem>
+        <MenuItem value={"CUIL"}>CUIL</MenuItem>
+      </Select>
+    </FormControl>
+  </Box>
+  <Box flex={2}>
+    <FormControl fullWidth>
+      <InputLabel id="numeroDocumento-label">Numero Documento</InputLabel>
+      <Select
+        labelId="numeroDocumento-label"
+        id="numeroDocumento"
+        value={clienteSeleccionado}
+        onChange={handleClienteSeleccionadoChange}
+        size="small"
+      >
+        {clientesFiltrados.map((cliente) => (
+          <MenuItem key={cliente.id} value={cliente}>
+            {cliente.numeroDocumento}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  </Box>
+  <Box flex={3}>
+    <TextField
+      id="nombre"
+      label="Nombre"
+      type="text"
+      fullWidth
+      name="nombre"
+      value={clienteSeleccionado.nombre + " " + clienteSeleccionado.apellido}
+      InputProps={{
+        readOnly: true,
+      }}
+      size="small"
+    />
+  </Box>
+  <Box flex={1}>
+  <Button
+          variant="contained"
+          color="info"
+          onClick={handleOpenAgregarCliente}
+          sx={{ whiteSpace: 'nowrap', width: '100%' }}
+        >
+          Agregar Cliente
+        </Button>
+        <AgregarClienteDialog
+        open={openAgregarCliente}
+        onClose={handleCloseAgregarCliente}
+        onClienteAdded={handleClienteAdded}
+      />
+  </Box>
+</Box>
+          <FormControl fullWidth>
+            <InputLabel id="zona-label">Zona</InputLabel>
             <Select
-              variant="standard"
-              labelId="demo-select-medium-label"
-              id="tipoDocumento"
-              name="idTipoDocumento"
-              value={tipoDocumentoFiltro}
-              label="tipoDocumento"
-              onChange={(e) => {
-                setTipoDocumentoFiltro(e.target.value);
-                filtrarPorTipoDocumento(e.target.value);
-              }}
+              labelId="zona-label"
+              id="zona"
+              value={newEnvio.idZona}
+              label="Zona"
+              onChange={handleZonaChange}
+              size="small"
             >
-              <MenuItem value={"DNI"}>DNI</MenuItem>
-              <MenuItem value={"CUIT"}>CUIT</MenuItem>
-              <MenuItem value={"CUIL"}>CUIL</MenuItem>
+              <MenuItem value={"1"}>1</MenuItem>
+              <MenuItem value={"2"}>2</MenuItem>
+              <MenuItem value={"3"}>3</MenuItem>
+              <MenuItem value={"4"}>4</MenuItem>
             </Select>
           </FormControl>
-          <FormControl sx={{ m: 1, minWidth: 200 }} size="medium">
-            <InputLabel id="demo-simple-select-standard-label">Numero Documento</InputLabel>
-            <Select
-              variant="standard"
-              labelId="demo-select-medium-label"
-              //id="numeroDocumento"
-              value={clienteSeleccionado}
-              onChange={handleClienteSeleccionadoChange}
-            >
-              {clientesFiltrados.map((cliente) => (
-                <MenuItem key={cliente.id} value={cliente}>
-                  {cliente.numeroDocumento}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          {/** NOMBRE y apellido */}
-          <TextField
-            margin="dense"
-            id="nombre"
-            label="Nombre"
-            type="text"
-            fullWidth
-            name="nombre"
-            value={clienteSeleccionado.nombre + " " + clienteSeleccionado.apellido}
-            onChange={""}
-          />
-          <Button variant="contained" color="info" onClick={() => {}}>
-            Agregar Cliente
+          <Typography variant="subtitle1" gutterBottom>Detalles del Envío:</Typography>
+          {newEnvio.detalleEnvio.map((detalle, index) => (
+            <Box key={index} display="flex" alignItems="center" gap={1}>
+              <TextField
+                label={`Detalle ${index + 1}`}
+                type="text"
+                fullWidth
+                value={detalle}
+                onChange={(e) => handleDetalleEnvioChange(index, e.target.value)}
+                size="small"
+              />
+              {index > 0 && (
+                <IconButton onClick={() => eliminarDetalleEnvio(index)}>
+                  <DeleteIcon />
+                </IconButton>
+              )}
+            </Box>
+          ))}
+          <Button startIcon={<AddIcon />} onClick={agregarDetalleEnvio} size="small">
+            Agregar Detalle
           </Button>
-        </Box>
-        {/* Seleccionar Zona */}
-        <FormControl fullWidth margin="dense">
-          <InputLabel id="zona-label">Zona</InputLabel>
-          <Select
-            labelId="zona-label"
-            id="zona"
-            value={newEnvio.idZona}
-            label="Zona"
-            onChange={handleZonaChange}
-          >
-            <MenuItem value={"1"}>1</MenuItem>
-            <MenuItem value={"2"}>2</MenuItem>
-            <MenuItem value={"3"}>3</MenuItem>
-            <MenuItem value={"4"}>4</MenuItem>
-          </Select>
-        </FormControl>
-        {/* Detalles de Envío */}
-        <Typography marginY={2}>Detalles del Envío:</Typography>
-        {newEnvio.detalleEnvio.map((detalle, index) => (
-          <Box key={index} display="flex" alignItems="center">
+          <Box display="flex" flexDirection={{ xs: 'column', sm: 'row' }} gap={2}>
             <TextField
-              margin="dense"
-              label={`Detalle ${index + 1}`}
+              label="Dirección de Envío"
               type="text"
               fullWidth
-              value={detalle}
-              onChange={(e) => handleDetalleEnvioChange(index, e.target.value)}
+              required
+              name="direccionEnvio"
+              value={newEnvio.direccionEnvio}
+              onChange={handleChange}
+              size="small"
             />
-            {index > 0 && (
-              <IconButton onClick={() => eliminarDetalleEnvio(index)}>
-                <DeleteIcon />
-              </IconButton>
-            )}
+            <TextField
+              label="Entre Calles"
+              type="text"
+              fullWidth
+              required
+              name="entreCalles"
+              value={newEnvio.entreCalles}
+              onChange={handleChange}
+              size="small"
+            />
           </Box>
-        ))}
-        <Button startIcon={<AddIcon />} onClick={agregarDetalleEnvio}>
-          Agregar Detalle
-        </Button>
-          {/* Dirección de Envío y Entre Calles */}
-          <Box display="flex" flexDirection="row" alignItems="center" marginY={2}>
           <TextField
-            margin="dense"
-            label="Dirección de Envío"
+            label="Últimos Dígitos de la Tarjeta"
             type="text"
             fullWidth
             required
-            name="direccionEnvio"
-            value={newEnvio.direccionEnvio}
-            onChange={handleChange}
-            sx={{ marginRight: 2 }}
-          />
-          <TextField
-            margin="dense"
-            label="Entre Calles"
-            type="text"
-            fullWidth
-            required
-            name="entreCalles"
-            value={newEnvio.entreCalles}
-            onChange={handleChange}
+            error={!validarUltimosDigitosTarjeta() && newEnvio.ultimosDigitosTarjeta.length > 0}
+            helperText={!validarUltimosDigitosTarjeta() ? "Debe tener exactamente 4 dígitos" : ""}
+            name="ultimosDigitosTarjeta"
+            value={newEnvio.ultimosDigitosTarjeta}
+            onChange={handleUltimosDigitosTarjetaChange}
+            size="small"
           />
         </Box>
-        {/* Últimos Dígitos de la Tarjeta */}
-        <TextField
-          margin="dense"
-          label="Últimos Dígitos de la Tarjeta"
-          type="text"
-          fullWidth
-          required
-          error={!validarUltimosDigitosTarjeta() && newEnvio.ultimosDigitosTarjeta.length > 0}
-          helperText={!validarUltimosDigitosTarjeta() && newEnvio.ultimosDigitosTarjeta.length > 0 ? "Debe tener exactamente 4 dígitos" : ""}
-          name="ultimosDigitosTarjeta"
-          value={newEnvio.ultimosDigitosTarjeta}
-          onChange={handleUltimosDigitosTarjetaChange}
-        />
       </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>Cancelar</Button>
-        <Button onClick={handleOnEnvioAdded} disabled={!esFormularioValido()}>Agregar</Button>
+      <DialogActions sx={{ justifyContent: "flex-end" }}>
+        <Button onClick={onClose} color="inherit">Cancelar</Button>
+        <Button onClick={handleOnEnvioAdded} 
+                color="primary" 
+                variant="contained" 
+                disabled={!esFormularioValido() || loading}
+        >
+          Agregar
+        </Button>
       </DialogActions>
     </Dialog>
   );
