@@ -3,7 +3,7 @@ import axios from "axios";
 class EnvioService {
   constructor(authContext) {
     this.authContext = authContext;
-    this.API_URL = process.env.NEXT_PUBLIC_APP_API_URL + "/api/v1/envios";
+    this.API_URL = "http://localhost:8080/api/v1/envios";
   }
 
   getAll = async () => {
@@ -42,6 +42,7 @@ class EnvioService {
       return response.data;
     } catch (error) {
       throw error;
+      console.log(error);
     }
   };
 

@@ -170,10 +170,10 @@ const Envios = () => {
                 >
                   Agregar
                 </Button>
-                < AgregarEnvioDialog
+                <AgregarEnvioDialog
                   open={dialogOpen}
                   onClose={handleDialogClose}
-                  onClienteAdded={fetchEnvios}
+                  onEnvioAdded={fetchEnvios} // Cambiado de onClienteAdded a onEnvioAdded
                 />
                 <Button
                   startIcon={<UserCircleIcon />}

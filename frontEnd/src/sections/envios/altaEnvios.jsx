@@ -17,6 +17,9 @@ import ClientesService from "src/service/clientesService";
 import { useAuth } from "src/contexts/AuthContext";
 import { Box } from "@mui/system";
 import { Typography } from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
 
 const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
   const authContext = useAuth();
@@ -30,7 +33,7 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
     direccionEnvio: "",
     entreCalles: "",
     ultimosDigitosTarjeta: "",
-    detalleEnvio: [],
+    detalleEnvio: [""],
   });
 
   const [loading, setLoading] = useState(true);
@@ -70,6 +73,100 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
     nombre: "",
     apellido: "",});
   };
+
+  //Logica de zona
+  const handleZonaChange = (event) => {
+    setNewEnvio({ ...newEnvio, idZona: event.target.value });
+  };
+
+  // Agregar un nuevo detalle de envío
+  const agregarDetalleEnvio = () => {
+    setNewEnvio({ ...newEnvio, detalleEnvio: [...newEnvio.detalleEnvio, ""] });
+  };
+
+  const eliminarDetalleEnvio = (index) => {
+    const updatedDetalles = newEnvio.detalleEnvio.filter((_, i) => i !== index);
+    setNewEnvio({ ...newEnvio, detalleEnvio: updatedDetalles });
+  };
+
+  // Manejar el cambio en los detalles de envío
+  const handleDetalleEnvioChange = (index, value) => {
+    const updatedDetalles = newEnvio.detalleEnvio.map((detalle, i) => {
+      if (i === index) {
+        return value;
+      }
+      return detalle;
+    });
+    setNewEnvio({ ...newEnvio, detalleEnvio: updatedDetalles });
+  };
+
+    // Esto sirve para los manejos de cambios globales
+    const handleChange = (event) => {
+      setNewEnvio({ ...newEnvio, [event.target.name]: event.target.value });
+    };
+
+      // Manejo de cambios de la tarjeta con 4 digitos
+  const handleUltimosDigitosTarjetaChange = (event) => {
+    const value = event.target.value;
+    // Expresion regular para que sean 4 ni mas ni menos
+    if (value === '' || (value.match(/^\d+$/) && value.length <= 4)) {
+      setNewEnvio({ ...newEnvio, ultimosDigitosTarjeta: value });
+    }
+  };
+
+    // Validar el campo de los últimos dígitos de la tarjeta
+    const validarUltimosDigitosTarjeta = () => {
+      return newEnvio.ultimosDigitosTarjeta.length === 4;
+    };
+
+    //vERIFICACION DEL FORMULARIO CARGADO COMPLETO VER POR LAS DUDAS QUE QUEDE BIEN
+    const esFormularioValido = () => {
+      return (
+        newEnvio.numeroFactura.trim() &&
+        newEnvio.idCliente &&
+        newEnvio.idZona.trim() &&
+        newEnvio.direccionEnvio.trim() &&
+        newEnvio.entreCalles.trim() &&
+        validarUltimosDigitosTarjeta() &&
+        newEnvio.detalleEnvio.every(detalle => detalle.trim())
+      );
+    };
+    
+
+    const handleClienteSeleccionadoChange = (event) => {
+      const cliente = event.target.value;
+      setClienteSeleccionado(cliente);
+      setNewEnvio({ ...newEnvio, idCliente: cliente.idCliente });
+    };
+    
+  
+    const handleOnEnvioAdded = async () => {
+      if (esFormularioValido()) {
+        try {
+          // Construir el objeto envio de acuerdo con la estructura esperada por la API
+          const envioParaEnviar = {
+            ...newEnvio,
+            idCliente: parseInt(newEnvio.idCliente), // Asegúrate de que idCliente sea un número
+            idZona: parseInt(newEnvio.idZona),       // Asegúrate de que idZona sea un número
+            detalleEnvio: newEnvio.detalleEnvio.map(detalle => ({ nombre: detalle })),
+          };
+    
+          await enviosService.create(envioParaEnviar);
+          alert("Envío agregado exitosamente");
+          onClose();
+          if (typeof onEnvioAdded === 'function') {
+            onEnvioAdded();
+          }
+        } catch (error) {
+          console.error("Error al agregar el envío:", error);
+          alert("Error al agregar el envío: " + error.message);
+        }
+      } else {
+        alert("Por favor, completa todos los campos.");
+      }
+    };
+    
+    
 
 //   useEffect(() => {
 //     alert(JSON.stringify(clienteSeleccionado, null, 2))
@@ -113,17 +210,17 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
       {/** NRO FACTURA */}
       <DialogContent sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
         <TextField
-          autoFocus
-          margin="dense"
-          id="numeroFactura"
-          label="Nro Factura"
-          type="text"
-          fullWidth
-          required
-          name="numeroFactura"
-          value={""}
-          onChange={""}
-        />
+            autoFocus
+            margin="dense"
+            id="numeroFactura"
+            label="Nro Factura"
+            type="text"
+            fullWidth
+            required
+            name="numeroFactura"
+            value={newEnvio.numeroFactura}
+            onChange={handleChange}
+          />
         <Typography>Cliente</Typography>
         <Box display="flex" flexDirection="row" maxHeight={"70px"}>
           <FormControl sx={{ m: 1, minWidth: 150 }} size="medium">
@@ -152,10 +249,7 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
               labelId="demo-select-medium-label"
               //id="numeroDocumento"
               value={clienteSeleccionado}
-              //label="numeroDocumento"
-              onChange={(e) => {
-                setClienteSeleccionado(e.target.value);
-              }}
+              onChange={handleClienteSeleccionadoChange}
             >
               {clientesFiltrados.map((cliente) => (
                 <MenuItem key={cliente.id} value={cliente}>
@@ -179,11 +273,85 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
             Agregar Cliente
           </Button>
         </Box>
+        {/* Seleccionar Zona */}
+        <FormControl fullWidth margin="dense">
+          <InputLabel id="zona-label">Zona</InputLabel>
+          <Select
+            labelId="zona-label"
+            id="zona"
+            value={newEnvio.idZona}
+            label="Zona"
+            onChange={handleZonaChange}
+          >
+            <MenuItem value={"1"}>1</MenuItem>
+            <MenuItem value={"2"}>2</MenuItem>
+            <MenuItem value={"3"}>3</MenuItem>
+            <MenuItem value={"4"}>4</MenuItem>
+          </Select>
+        </FormControl>
+        {/* Detalles de Envío */}
+        <Typography marginY={2}>Detalles del Envío:</Typography>
+        {newEnvio.detalleEnvio.map((detalle, index) => (
+          <Box key={index} display="flex" alignItems="center">
+            <TextField
+              margin="dense"
+              label={`Detalle ${index + 1}`}
+              type="text"
+              fullWidth
+              value={detalle}
+              onChange={(e) => handleDetalleEnvioChange(index, e.target.value)}
+            />
+            {index > 0 && (
+              <IconButton onClick={() => eliminarDetalleEnvio(index)}>
+                <DeleteIcon />
+              </IconButton>
+            )}
+          </Box>
+        ))}
+        <Button startIcon={<AddIcon />} onClick={agregarDetalleEnvio}>
+          Agregar Detalle
+        </Button>
+          {/* Dirección de Envío y Entre Calles */}
+          <Box display="flex" flexDirection="row" alignItems="center" marginY={2}>
+          <TextField
+            margin="dense"
+            label="Dirección de Envío"
+            type="text"
+            fullWidth
+            required
+            name="direccionEnvio"
+            value={newEnvio.direccionEnvio}
+            onChange={handleChange}
+            sx={{ marginRight: 2 }}
+          />
+          <TextField
+            margin="dense"
+            label="Entre Calles"
+            type="text"
+            fullWidth
+            required
+            name="entreCalles"
+            value={newEnvio.entreCalles}
+            onChange={handleChange}
+          />
+        </Box>
+        {/* Últimos Dígitos de la Tarjeta */}
+        <TextField
+          margin="dense"
+          label="Últimos Dígitos de la Tarjeta"
+          type="text"
+          fullWidth
+          required
+          error={!validarUltimosDigitosTarjeta() && newEnvio.ultimosDigitosTarjeta.length > 0}
+          helperText={!validarUltimosDigitosTarjeta() && newEnvio.ultimosDigitosTarjeta.length > 0 ? "Debe tener exactamente 4 dígitos" : ""}
+          name="ultimosDigitosTarjeta"
+          value={newEnvio.ultimosDigitosTarjeta}
+          onChange={handleUltimosDigitosTarjetaChange}
+        />
       </DialogContent>
-
       <DialogActions>
         <Button onClick={onClose}>Cancelar</Button>
-        <Button onClick={onEnvioAdded}>Agregar</Button>
+        <Button onClick={handleOnEnvioAdded} disabled={!esFormularioValido()}>Agregar</Button>
       </DialogActions>
     </Dialog>
   );
