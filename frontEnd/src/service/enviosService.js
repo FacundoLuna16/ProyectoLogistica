@@ -35,13 +35,10 @@ class EnvioService {
   create = async (envio) => {
     try {
       const response = await axios.post(this.API_URL, envio);
+      
       return response.data;
     } catch (error) {
-      // Revisa si hay una respuesta del backend y captura el mensaje de error
-      const errorMessage = error.response && error.response.data 
-                           ? error.response.data 
-                           : "Error al realizar la solicitud";
-      throw new Error(errorMessage);
+      throw error;
     }
   };
   
