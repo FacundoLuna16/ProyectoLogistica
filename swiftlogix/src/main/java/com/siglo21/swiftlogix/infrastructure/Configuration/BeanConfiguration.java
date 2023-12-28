@@ -24,6 +24,12 @@ public class BeanConfiguration {
             }
         };
     }
+
+    @Bean
+    public ZonaService zonaService(ZonaRepository zonaRepository) {
+        return new ZonaServiceImpl(zonaRepository);
+    }
+
     @Bean
     public ClienteService clienteService(ClienteRepository clienteRepository, TipoDocumentoRepository tipoDocumentoRepository) {
         return new ClienteServiceImpl(clienteRepository, tipoDocumentoRepository);

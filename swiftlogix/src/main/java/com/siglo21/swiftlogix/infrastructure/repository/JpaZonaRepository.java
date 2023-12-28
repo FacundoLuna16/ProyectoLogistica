@@ -27,10 +27,10 @@ public class JpaZonaRepository implements ZonaRepository {
     public Optional<Zona> getById(int zonaId) {
         return jpaZonaDao.findById(zonaId).map(ZonaEntity::toDomain);
     }
-
-    @Override
-    public Optional<Zona> save(Zona zona) {
-        return Optional.of(jpaZonaDao.save(zona.toEntity()).toDomain());
-    }
+//
+//    @Override
+//    public Optional<Zona> save(Zona zona) {
+//        return Optional.of(jpaZonaDao.save(zona.toEntity()).toDomain());
+//    }
 
 }

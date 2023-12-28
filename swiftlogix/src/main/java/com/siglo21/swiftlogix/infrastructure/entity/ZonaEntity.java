@@ -29,7 +29,7 @@ public class ZonaEntity {
         Zona zona = new Zona();
         zona.setIdZona(this.idZona);
         zona.setDia(this.dia);
-        zona.setBarrios(this.barrios);
+        zona.setBarrios(this.barrios.stream().map(BarrioEntity::toDomain).toList());
         return zona;
     }
 }

@@ -10,7 +10,7 @@ public interface ZonaRepository {
     List<Zona> getAll();
 
     Optional<Zona> getById(int zonaId);
-
-    Optional<Zona> save(Zona zona);
+//
+//    Optional<Zona> save(Zona zona);
 
 }

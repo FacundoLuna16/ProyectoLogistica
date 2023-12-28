@@ -17,13 +17,13 @@ public class Zona {
 
     private Integer idZona;
     private String dia;
-    private List<BarrioEntity> barrios;
+    private List<Barrio> barrios;
 
     public ZonaEntity toEntity() {
         ZonaEntity entity = new ZonaEntity();
         entity.setIdZona(this.idZona);
         entity.setDia(this.dia);
-        entity.setBarrios(this.barrios);
+        entity.setBarrios(this.barrios.stream().map(Barrio::toEntity).toList());
         return entity;
     }
 }
