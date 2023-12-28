@@ -61,7 +61,7 @@ public class EnvioServiceImpl implements EnvioService {
     }
 
     private void validarEnvioNoExistente(String numeroFactura) {
-        Optional<Envio> envioExistente = envioRepository.getById(numeroFactura);
+        Optional<Envio> envioExistente = envioRepository.getByNroFactura(numeroFactura);
         if (envioExistente.isPresent()) {
             throw new RuntimeException("Envío ya existe");
         }

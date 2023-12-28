@@ -11,6 +11,8 @@ public interface EnvioRepository {
 
     Optional<Envio> getById(String envioId);
 
+    Optional<Envio> getByNroFactura(String nroFactura);
+
     Optional<Envio> save(Envio envio);
 
     List<Envio> saveAll(List<Envio> envios);

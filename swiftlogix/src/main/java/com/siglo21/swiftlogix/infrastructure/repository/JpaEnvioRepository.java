@@ -35,6 +35,22 @@ public class JpaEnvioRepository implements EnvioRepository {
     }
 
     @Override
+    public Optional<Envio> getByNroFactura(String nroFactura) {
+        // Buscar un EnvioEntity por el número de factura utilizando el JPA repository
+        Optional<EnvioEntity> envioEntity = jpaEnvioDao.findById(nroFactura);
+
+        // Verificar si se encontró un EnvioEntity con el número de factura dado
+        if (envioEntity.isEmpty()) {
+            // Si no se encuentra, mapear el EnvioEntity a un objeto de dominio Envio y devolverlo opcionalmente
+            return envioEntity.map(EnvioEntity::toDomain);
+        }
+
+        // Si ya existe un EnvioEntity con el mismo número de factura, lanzar una excepción
+        throw new RuntimeException("El numero de factura ya esta registrado");
+    }
+
+
+    @Override
     public Optional<Envio> save(Envio envio) {
         EnvioEntity prueba = envio.toEntity();
         EnvioEntity envioEntity = jpaEnvioDao.save(prueba);

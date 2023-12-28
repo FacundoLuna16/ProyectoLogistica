@@ -4,7 +4,7 @@ import axios from "axios";
 class CamionesService {
   constructor(authContext) {
     this.authContext = authContext;
-    this.API_URL = process.env.NEXT_PUBLIC_APP_API_URL + "/api/v1/camiones";
+    this.API_URL = "http://localhost:8080"  + "/api/v1/camiones";
   }
 
   getAll = async () => {
