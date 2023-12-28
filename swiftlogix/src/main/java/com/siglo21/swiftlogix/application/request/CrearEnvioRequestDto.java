@@ -1,5 +1,6 @@
 package com.siglo21.swiftlogix.application.request;
 
+import com.siglo21.swiftlogix.application.request.validaciones.NumeroFacturaValid;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +13,7 @@ public class CrearEnvioRequestDto {
 
     @NotNull(message = "El numero de factura no puede ser nulo")
     @NotBlank(message = "El numero de factura no puede estar vacio")
+    @NumeroFacturaValid
     private String numeroFactura;
 
     @Positive(message = "El id del cliente no puede ser negativo")
