@@ -31,8 +31,8 @@ export const items = [
     ),
   },
   {
-    title: "Hoja de Ruta",
-    path: "/hojaRuta",
+    title: "Hoja del Dia",
+    path: "/hojaDelDia",
     icon: (
       <SvgIcon fontSize="small">
         <DocumentIcon className="h-6 w-6 text-gray-500" />

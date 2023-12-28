@@ -40,7 +40,7 @@ const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
 
   useEffect(() => {
     // Campos obligatorios
-    const requiredFields = ['idTipoDocumento', 'numeroDocumento', 'nombre', 'apellido'];
+    const requiredFields = ['idTipoDocumento', 'numeroDocumento', 'nombre', 'apellido', 'direccion', 'numeroTelefono', 'email'];
     
     // Verificar si todos los campos obligatorios tienen un valor
     const areRequiredFieldsComplete = requiredFields.every((field) => !!newCliente[field]);
@@ -145,9 +145,10 @@ const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
     if (isFormValid) {
       try {
         const addedCliente = await clientesService.create(newCliente);
-        onClienteAdded();
+        
         alert('Cliente agregado correctamente');
         onClose();
+        onClienteAdded();
         setNewCliente({
           idTipoDocumento: 0,
           numeroDocumento: '',
@@ -233,6 +234,7 @@ const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
           label="Dirección"
           type="text"
           fullWidth
+          required
           name="direccion"
           value={newCliente.direccion}
           onChange={handleInputChange}
@@ -244,6 +246,7 @@ const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
           label="Número de Teléfono"
           type="text"
           fullWidth
+          required
           name="numeroTelefono"
           value={newCliente.numeroTelefono}
           onChange={handleInputChange}
@@ -266,6 +269,7 @@ const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
           label="Email"
           type="text"
           fullWidth
+          required
           name="email"
           value={newCliente.email}
           onChange={handleInputChange}
