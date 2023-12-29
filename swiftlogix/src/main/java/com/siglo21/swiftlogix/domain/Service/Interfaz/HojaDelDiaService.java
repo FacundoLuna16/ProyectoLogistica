@@ -2,17 +2,23 @@ package com.siglo21.swiftlogix.domain.Service.Interfaz;
 
 import com.siglo21.swiftlogix.domain.Model.HojaDelDia;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 public interface HojaDelDiaService {
 
-    public List<HojaDelDia> getAll();
+    List<HojaDelDia> getAll();
 
-    public void generarHojaDelDia();
+    void generarHojaDelDia();
 
-    public void cerrarHojaDelDia(Integer idHojaDelDia, List<String> idsEnviosEntregados);
+    void cerrarHojaDelDia(Integer idHojaDelDia, List<String> idsEnviosEntregados);
 
-    public void iniciarEntrega(Integer idHojaDelDia);
+    void iniciarEntrega(Integer idHojaDelDia);
+
+    HojaDelDia getHojaDelDia(LocalDate idHojaDelDia);
+
+    List<HojaDelDia> getHojaDelDiaSemanal(LocalDate fechaReparto);
 
 
 

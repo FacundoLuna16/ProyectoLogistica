@@ -9,13 +9,15 @@ import com.siglo21.swiftlogix.domain.Repository.EstadoHojaRepository;
 import com.siglo21.swiftlogix.domain.Repository.HojaDelDiaRepository;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.HojaDelDiaService;
 import jakarta.persistence.EntityNotFoundException;
-import org.aspectj.util.LangUtil;
+import java.time.temporal.TemporalAdjusters;
 import org.springframework.scheduling.annotation.Scheduled;
 import com.siglo21.swiftlogix.domain.Model.Envio;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -167,6 +169,21 @@ public class HojaDelDiaServiceImpl implements HojaDelDiaService {
         //Cambiar el estado de la hoja del dia a cerrada
         //Guardar la hoja del dia
         hojaDelDiaRepository.save(hojaDelDia);
+    }
+
+    @Override
+    public HojaDelDia getHojaDelDia(LocalDate idHojaDelDia) {
+        return hojaDelDiaRepository.getHojaDelDia(idHojaDelDia).orElseThrow(() -> new RuntimeException("No se encontró la Hoja del Día."));
+    }
+
+    @Override
+    public List<HojaDelDia> getHojaDelDiaSemanal(LocalDate fechaReparto) {
+        // Obtener la semana correspondiente a la fecha de reparto
+        LocalDate startDate = fechaReparto.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate endDate = startDate.plusDays(6);  // asumiendo una semana de lunes a domingo
+
+        // Llamar al método en el repositorio para obtener las hojas del día de esa semana
+        return hojaDelDiaRepository.getHojaDelDiaBetween(startDate, endDate);
     }
 
 

@@ -2,11 +2,13 @@ package com.siglo21.swiftlogix.application.controller;
 
 
 import com.siglo21.swiftlogix.application.Response.HojaDelDiaResponse;
+import com.siglo21.swiftlogix.application.Response.HojaDelDiaResponsePorDia;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.HojaDelDiaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @CrossOrigin
@@ -63,5 +65,26 @@ public class HojaDelDiaController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping("/getHojaDelDia")
+    public ResponseEntity<?> getHojaDelDia(@RequestParam LocalDate fechaReparto){
+        try {
+            return ResponseEntity.status(200).body(new HojaDelDiaResponsePorDia(hojaDelDiaService.getHojaDelDia(fechaReparto)));
+        }
+        catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/getHojaDelDiaSemanal")
+    public ResponseEntity<?> getHojaDelDiaSemanal(@RequestParam LocalDate fechaDeSemana){
+        try {
+            return ResponseEntity.status(200).body(hojaDelDiaService.getHojaDelDiaSemanal(fechaDeSemana).stream().map(HojaDelDiaResponsePorDia::new));
+        }
+        catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 
 }
