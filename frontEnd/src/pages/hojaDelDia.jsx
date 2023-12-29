@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Table,
   TableBody,
@@ -19,8 +19,54 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import PrintExportSelectedRows from "src/sections/hojaDelDia/enviosXHoja-table";
+import HojaDelDiaService from "src/service/hojaDelDiaService";
+import { useAuth } from "src/contexts/AuthContext";
+import { set } from "nprogress";
 
 const HojaDelDia = () => {
+  const authContext = useAuth();
+  const hojasService = new HojaDelDiaService(authContext);
+  const [hojaSelecionada, setHojaSelecionada] = useState({});
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [hojasDelDia, setHojasDelDia] = useState([]);
+
+  const getAllHojasDelDia = async () => {
+    try {
+      const data = await hojasService.getAll();
+      setHojasDelDia(data);
+      //alert de data pasado a json
+      setHojaSelecionada(data[1]);
+      // alert(JSON.stringify(data[1]));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  //cuando renderiza el componente hace una peticion para buscar todas las hojas del dia
+  // useEffect(() => {
+  //   //Hacer peticion para buscar todas las hojas del dia
+  //   getAllHojasDelDia();
+
+  //   //setear el estado de hojas del dia
+  // }, []);
+
+  const getByFechaReparto = async (fechaReparto) => {
+    try {
+      const data = await hojasService.getByFechaReparto(fechaReparto.toISOString().split("T")[0]);
+      setHojaSelecionada(data);
+    } catch (error) {
+      //si hay un error 400 setea la hoja del dia como vacia
+      setHojaSelecionada({});
+
+    }
+  }
+
+  const handleDateChange = (date) => {
+    //formatea la fecha a yyyy-mm-dd
+    //setSelectedDate(date.toISOString().split("T")[0]);
+
+    //buscar la hoja del dia con la fecha seleccionada y valida que si de un arreglo vacio 
+    getByFechaReparto(date);
+  };
   return (
     <>
       <Head>
@@ -30,7 +76,7 @@ const HojaDelDia = () => {
         <Grid container spacing={0}>
           <Grid item xs={3}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DateCalendar />
+              <DateCalendar  onChange={handleDateChange} />
             </LocalizationProvider>
           </Grid>
           <Grid item xs={9}>
@@ -39,7 +85,9 @@ const HojaDelDia = () => {
                 Hoja del día
               </Typography>
             </Box>
-            <PrintExportSelectedRows />
+            {hojaSelecionada && hojaSelecionada.envios && (
+              <PrintExportSelectedRows envios={hojaSelecionada.envios} />
+            )}
             <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end" }}>
               <Button variant="contained" color="primary" sx={{ mr: 2 }}>
                 Imprimir
