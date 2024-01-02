@@ -6,16 +6,28 @@ import {
   selectedGridRowsSelector,
 } from '@mui/x-data-grid';
 
-const getSelectedRowsToExport = ({ apiRef }) => {
+export const getSelectedRowsToExport = ({ apiRef }) => {
   const selectedRowIds = selectedGridRowsSelector(apiRef);
   if (selectedRowIds.size > 0) {
+    alert(JSON.stringify(Array.from(selectedRowIds.keys())));
     return Array.from(selectedRowIds.keys());
   }
-
+  alert(JSON.stringify(gridFilteredSortedRowIdsSelector(apiRef)));
   return gridFilteredSortedRowIdsSelector(apiRef);
 };
 
-export default function CustomDataGridComponent({ envios }) {
+export const getNroFacturasACerrar = ({ apiRef }) => {
+  alert('getNroFacturasACerrar');
+  const selectedRowIds = selectedGridRowsSelector(apiRef);
+  if (selectedRowIds.size > 0) {
+    alert(JSON.stringify(Array.from(selectedRowIds.keys())));
+    return Array.from(selectedRowIds.keys());
+  }
+  alert('No hay envíos seleccionados');
+  return Array.from(selectedRowIds.keys());
+}
+
+export default function CustomDataGridComponent({ envios, onEnviosSeleccionadosChange}) {
   const apiRef = React.useRef(null);
 
   // Transforma la estructura de datos para adaptarla al DataGrid
@@ -59,6 +71,7 @@ export default function CustomDataGridComponent({ envios }) {
         checkboxSelection
         apiRef={apiRef}
         slots={{ toolbar: GridToolbar }}
+        //onSelectionModelChange={handleSelectionChange}
         slotProps={{
           toolbar: { printOptions: { getRowsToExport: getSelectedRowsToExport } },
         }}

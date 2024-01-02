@@ -27,13 +27,57 @@ class HojaDelDiaService {
                 // query params
                 params: {
                     //Formato de la fecha debe ser YYYY-MM-DD
-                    
                     fechaReparto : fechaReparto,
                 },
                 // headers: {
                 //   Authorization: `Bearer ${this.authContext.token}`,
                 // },
             });
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    };
+
+
+
+
+    iniciarEntrega = async (idHoja) => {
+        try {
+            const params = {
+                idHojaDelDia: parseInt(idHoja),
+            };
+    
+            // Asegúrate de que estás utilizando bien las cadenas de plantilla (backticks `)
+            const url = `${this.API_URL}/iniciarEntrega`;
+    
+            const response = await axios.put(url, null, { 
+                params: params,
+                // headers: {
+                //   Authorization: Bearer ${this.authContext.token},
+                // },
+            });
+    
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    cerrarHojaDelDia = async (idHojaDelDia, arregloStrings) => {
+        try {
+            const url = `${this.API_URL}/cerrarHojaDelDia`;
+            const params = {
+                idHojaDelDia: idHojaDelDia,
+            };
+    
+            const response = await axios.put(url, arregloStrings, { 
+                params: params,
+                // headers: {
+                //   Authorization: `Bearer ${this.authContext.token}`,
+                // },
+            });
+    
             return response.data;
         } catch (error) {
             throw error;
