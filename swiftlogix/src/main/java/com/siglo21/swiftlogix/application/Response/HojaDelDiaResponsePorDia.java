@@ -21,7 +21,8 @@ public class HojaDelDiaResponsePorDia {
         this.idHojaDelDia = hojaDelDia.getIdHojaDelDia();
         this.fechaReparto = hojaDelDia.getFechaReparto() != null ? hojaDelDia.getFechaReparto().toString() : null;
         this.fechaCreacion = hojaDelDia.getFechaCreacion() != null ? hojaDelDia.getFechaCreacion().toString() : null;
-        this.envios = hojaDelDia.getEnvios() != null ? hojaDelDia.getEnvios().stream().map(EnvioResponseHojaDelDia::new).toList() : null;
+        this.envios = hojaDelDia.getEnvios() != null ? hojaDelDia.getEnvios().stream().map(envio -> new EnvioResponseHojaDelDia(envio,this.fechaReparto)).toList() : null;
         this.estadoHojaDelDia = hojaDelDia.getEstadoHojaDelDia() != null ? hojaDelDia.getEstadoHojaDelDia().getNombre() : null;
     }
+
 }
