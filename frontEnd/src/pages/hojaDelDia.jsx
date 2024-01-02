@@ -38,9 +38,10 @@ const HojaDelDia = () => {
   const [nroDeFacturasACerrar, setNroDeFacturasACerrar] = useState([]);
 
 
-  const handleEnviosSeleccionadosChange = (enviosSeleccionados) => {
-    setEnviosSeleccionados(enviosSeleccionados);
+  const handleEnviosSeleccionadosChange = (selectedEnvios) => {
+    setEnviosSeleccionados(selectedEnvios);
   };
+  
 
   const getAllHojasDelDia = async () => {
     
@@ -54,13 +55,6 @@ const HojaDelDia = () => {
       console.log(error);
     }
   };
-  //cuando renderiza el componente hace una peticion para buscar todas las hojas del dia
-  // useEffect(() => {
-  //   //Hacer peticion para buscar todas las hojas del dia
-  //   getAllHojasDelDia();
-
-  //   //setear el estado de hojas del dia
-  // }, []);
 
   const getByFechaReparto = async (fechaReparto) => {
     try {
@@ -85,13 +79,17 @@ const HojaDelDia = () => {
     // ...
   };
 
-  const handleCerrarHoja = () => {
-    
-    getNroFacturasACerrar({apiRef: useRef(null)});
-    //busca los envios marcados en la tabla
-    setDialogCerrarHojaOpen(true);
-  
-  };
+  const apiRef = useRef(null);
+
+  const [dataGridApiRef, setDataGridApiRef] = useState(null);
+
+const handleCerrarHoja = () => {
+  if (dataGridApiRef && dataGridApiRef.current) {
+    getNroFacturasACerrar({ apiRef: dataGridApiRef.current });
+  }
+  setDialogCerrarHojaOpen(true);
+};
+
 
   const cerrarHoja = async () => {
     try {
@@ -155,6 +153,7 @@ const HojaDelDia = () => {
                 <CustomDataGridComponent 
                 envios={hojaSelecionada.envios} 
                 onEnviosSeleccionadosChange={handleEnviosSeleccionadosChange}
+                apiRef={apiRef}
                 />
               )}
               <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end" }}>
@@ -176,10 +175,10 @@ const HojaDelDia = () => {
                 >
                   Cerrar Hoja
                 </Button>
-                <CerrarHoja
+                <CerrarHoja 
                   open={dialogCerrarHojaOpen}
-                  onClose={ () => setDialogCerrarHojaOpen(false)}
-                  enviosSeleccionados={enviosSeleccionados}
+                  onClose={() => setDialogCerrarHojaOpen(false)}
+                  enviosSeleccionados={enviosSeleccionados} // Pasa los envíos seleccionados
                   cerrarHoja={cerrarHoja}
                 />
 
