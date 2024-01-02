@@ -33,8 +33,8 @@ public class HojaDelDiaController {
         }
     }
 
-    @GetMapping("/iniciarEntrega")
-    public ResponseEntity<?> marcarEnCamino(@RequestParam Integer idHojaDelDia, @RequestParam String idRepartidor){
+    @PutMapping("/iniciarEntrega")
+    public ResponseEntity<?> marcarEnCamino(@RequestParam Integer idHojaDelDia){
         try {
             hojaDelDiaService.iniciarEntrega(idHojaDelDia);
             return ResponseEntity.status(200).body(null);
