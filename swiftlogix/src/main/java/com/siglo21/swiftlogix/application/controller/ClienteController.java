@@ -24,7 +24,6 @@ public class ClienteController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> getAll(){
         try {
             return ResponseEntity.status(200).body(clienteService.getAll().stream().map(ClienteResponse::new));
@@ -35,7 +34,6 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> getById(@PathVariable("id") int id){
         try {
             return ResponseEntity.status(200).body(clienteService.getById(id).map(ClienteResponse::new));
@@ -46,7 +44,6 @@ public class ClienteController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> createCliente(@Valid @RequestBody ClienteRequestDto clienteRequestDto, BindingResult result){
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getFieldError().getDefaultMessage());
@@ -60,7 +57,6 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> updateCliente( @PathVariable("id") int id,@Valid @RequestBody ClienteRequestDto clienteRequestDto, BindingResult result){
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getFieldError().getDefaultMessage());

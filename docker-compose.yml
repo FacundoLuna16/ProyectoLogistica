@@ -58,6 +58,8 @@ services:
       - DB_DATABASE=swiftlogix
       - DB_USER=dev
       - DB_PASSWORD=andes2020
+      - KEYCLOAK_LOGLEVEL=DEBUG  
+
     depends_on:
       - mysql
     networks:

@@ -21,7 +21,6 @@ public class ZonaController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> getAll(){
         try {
             return ResponseEntity.status(200).body(zonaService.getAll().stream().map(ZonaResponse::new));

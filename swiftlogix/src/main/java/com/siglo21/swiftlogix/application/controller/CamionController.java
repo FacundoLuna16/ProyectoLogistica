@@ -35,7 +35,6 @@ public class CamionController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> getAll(){
         try {
             return ResponseEntity.status(200).body(camionService.getAll().stream().map(CamionResponse::new));
@@ -47,7 +46,6 @@ public class CamionController {
 
 
     @GetMapping("/{patente}")
-    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> getById(@PathVariable("patente") String patente){
         try {
             return ResponseEntity.status(200).body(camionService.getById(patente).map(CamionResponse::new));
@@ -58,7 +56,6 @@ public class CamionController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> createEnvio(@Valid @RequestBody CamionCrearRequestDto camionRequestDto, BindingResult result){
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getFieldError().getDefaultMessage());
@@ -72,7 +69,6 @@ public class CamionController {
     }
 
     @PutMapping("/{patente}")
-    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> updateEnvio(@PathVariable("patente") String patente, @Valid @RequestBody CamionRequestDto camionRequestDto, BindingResult result){
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getFieldError().getDefaultMessage());

@@ -12,7 +12,7 @@ class ClientesService {
     try {
       const response = await axios.get(this.API_URL, {
         headers: {
-          Authorization: `Bearer ${this.authContext.token}`,
+          Authorization: `Bearer ${this.authContext.keycloak.token}`,
         },
       });
       return response.data;
@@ -25,7 +25,7 @@ class ClientesService {
     try {
       const response = await axios.get(`${this.API_URL}/${clienteId}`, {
         headers: {
-          Authorization: `Bearer ${this.authContext.token}`,
+          Authorization: `Bearer ${this.authContext.keycloak.token}`,
         },
       });
       return response.data;
@@ -38,7 +38,7 @@ class ClientesService {
     try {
       const response = await axios.post(this.API_URL, cliente, {
         headers: {
-          Authorization: `Bearer ${this.authContext.token}`,
+          Authorization: `Bearer ${this.authContext.keycloak.token}`,
         },
       });
       return response.data;
@@ -51,7 +51,7 @@ class ClientesService {
     try {
       const response = await axios.put(`${this.API_URL}/${clienteId}`, clienteData, {
         headers: {
-          Authorization: `Bearer ${this.authContext.token}`,
+          Authorization: `Bearer ${this.authContext.keycloak.token}`,
         },
       });
       return response.data;
@@ -64,7 +64,7 @@ class ClientesService {
     try {
       await axios.delete(`${this.API_URL}/${clienteId}`, {
         headers: {
-          Authorization: `Bearer ${this.authContext.token}`,
+          Authorization: `Bearer ${this.authContext.keycloak.token}`,
         },
       });
     } catch (error) {
