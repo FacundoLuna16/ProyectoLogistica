@@ -9,9 +9,9 @@ class EnvioService {
   getAll = async () => {
     try {
       const response = await axios.get(this.API_URL, {
-        // headers: {
-        //   Authorization: `Bearer ${this.authContext.token}`,
-        // },
+        headers: {
+          Authorization: `Bearer ${this.authContext.keycloak.token}`,
+        },
       });
       return response.data;
     } catch (error) {
@@ -22,9 +22,9 @@ class EnvioService {
   getById = async (numeroFactura) => {
     try {
       const response = await axios.get(`${this.API_URL}/${numeroFactura}`, {
-        // headers: {
-        //   Authorization: `Bearer ${this.authContext.token}`,
-        // },
+        headers: {
+          Authorization: `Bearer ${this.authContext.keycloak.token}`,
+        },
       });
       return response.data;
     } catch (error) {
@@ -34,7 +34,11 @@ class EnvioService {
 
   create = async (envio) => {
     try {
-      const response = await axios.post(this.API_URL, envio);
+      const response = await axios.post(this.API_URL, envio, {
+        headers: {
+          Authorization: `Bearer ${this.authContext.keycloak.token}`,
+        },
+      });
       
       return response.data;
     } catch (error) {
@@ -46,9 +50,9 @@ class EnvioService {
   update = async (numeroFactura, envioData) => {
     try {
       const response = await axios.put(`${this.API_URL}/${numeroFactura}`, envioData, {
-        // headers: {
-        //   Authorization: `Bearer ${this.authContext.token}`,
-        // },
+        headers: {
+          Authorization: `Bearer ${this.authContext.keycloak.token}`,
+        },
       });
       return response.data;
     } catch (error) {
@@ -59,9 +63,9 @@ class EnvioService {
   remove = async (numeroFactura) => {
     try {
       await axios.delete(`${this.API_URL}/${numeroFactura}`, {
-        // headers: {
-        //   Authorization: `Bearer ${this.authContext.token}`,
-        // },
+        headers: {
+          Authorization: `Bearer ${this.authContext.keycloak.token}`,
+        },
       });
     } catch (error) {
       throw error;

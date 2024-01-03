@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 class ClientesService {
   
   constructor(authContext) {
@@ -10,9 +11,9 @@ class ClientesService {
   getAll = async () => {
     try {
       const response = await axios.get(this.API_URL, {
-        // headers: {
-        //   Authorization: `Bearer ${this.authContext.token}`,
-        // },
+        headers: {
+          Authorization: `Bearer ${this.authContext.token}`,
+        },
       });
       return response.data;
     } catch (error) {
@@ -23,9 +24,9 @@ class ClientesService {
   getById = async (clienteId) => {
     try {
       const response = await axios.get(`${this.API_URL}/${clienteId}`, {
-        // headers: {
-        //   Authorization: `Bearer ${this.authContext.token}`,
-        // },
+        headers: {
+          Authorization: `Bearer ${this.authContext.token}`,
+        },
       });
       return response.data;
     } catch (error) {
@@ -36,9 +37,9 @@ class ClientesService {
   create = async (cliente) => {
     try {
       const response = await axios.post(this.API_URL, cliente, {
-        // headers: {
-        //   Authorization: `Bearer ${this.authContext.token}`,
-        // },
+        headers: {
+          Authorization: `Bearer ${this.authContext.token}`,
+        },
       });
       return response.data;
     } catch (error) {
@@ -49,9 +50,9 @@ class ClientesService {
   update = async (clienteId, clienteData) => {
     try {
       const response = await axios.put(`${this.API_URL}/${clienteId}`, clienteData, {
-        // headers: {
-        //   Authorization: `Bearer ${this.authContext.token}`,
-        // },
+        headers: {
+          Authorization: `Bearer ${this.authContext.token}`,
+        },
       });
       return response.data;
     } catch (error) {
@@ -62,9 +63,9 @@ class ClientesService {
   remove = async (clienteId) => {
     try {
       await axios.delete(`${this.API_URL}/${clienteId}`, {
-        // headers: {
-        //   Authorization: `Bearer ${this.authContext.token}`,
-        // },
+        headers: {
+          Authorization: `Bearer ${this.authContext.token}`,
+        },
       });
     } catch (error) {
       throw error;

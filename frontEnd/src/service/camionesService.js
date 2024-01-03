@@ -23,9 +23,9 @@ class CamionesService {
   getById = async (patente) => {
     try {
       const response = await axios.get(`${this.API_URL}/${patente}`, {
-        // headers: {
-        //   Authorization: `Bearer ${this.authContext.keycloak.token}`,
-        // },
+        headers: {
+          Authorization: `Bearer ${this.authContext.keycloak.token}`,
+        },
       });
       return response.data;
     } catch (error) {
@@ -36,9 +36,9 @@ class CamionesService {
   create = async (camion) => {
     try {
       const response = await axios.post(this.API_URL, camion, {
-        // headers: {
-        //   Authorization: `Bearer ${this.authContext.keycloak.token}`,
-        // },
+        headers: {
+          Authorization: `Bearer ${this.authContext.keycloak.token}`,
+        },
       });
       return response.data;
     } catch (error) {
@@ -49,9 +49,9 @@ class CamionesService {
   update = async (patente, camionData) => {
     try {
       const response = await axios.put(`${this.API_URL}/${patente}`, camionData, {
-        // headers: {
-        //   Authorization: `Bearer ${this.authContext.keycloak.token}`,
-        // },
+        headers: {
+          Authorization: `Bearer ${this.authContext.keycloak.token}`,
+        },
       });
       return response.data;
     } catch (error) {
@@ -62,9 +62,9 @@ class CamionesService {
   remove = async (patente) => {
     try {
       await axios.delete(`${this.API_URL}/${patente}`, {
-        // headers: {
-        //   Authorization: `Bearer ${this.authContext.keycloak.token}`,
-        // },
+        headers: {
+          Authorization: `Bearer ${this.authContext.keycloak.token}`,
+        },
       });
     } catch (error) {
       throw error;

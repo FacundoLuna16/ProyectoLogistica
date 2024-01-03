@@ -9,9 +9,9 @@ class RepartidoresService {
   getAll = async () => {
     try {
       const response = await axios.get(this.API_URL, {
-        // headers: {
-        //   Authorization: `Bearer ${this.authContext.token}`,
-        // },
+        headers: {
+          Authorization: `Bearer ${this.authContext.keycloak.token}`,
+        },
       });
       return response.data;
     } catch (error) {
@@ -23,9 +23,9 @@ class RepartidoresService {
   getById = async (repartidorId) => {
     try {
       const response = await axios.get(`${this.API_URL}/${repartidorId}`, {
-        // headers: {
-        //   Authorization: `Bearer ${this.authContext.token}`,
-        // },
+        headers: {
+          Authorization: `Bearer ${this.authContext.keycloak.token}`,
+        },
       });
       return response.data;
     } catch (error) {
@@ -37,9 +37,9 @@ class RepartidoresService {
   create = async (repartidor) => {
     try {
       const response = await axios.post(this.API_URL, repartidor, {
-        // headers: {
-        //   Authorization: `Bearer ${this.authContext.token}`,
-        // },
+        headers: {
+          Authorization: `Bearer ${this.authContext.keycloak.token}`,
+        },
       });
       return response.data;
     } catch (error) {
@@ -51,9 +51,9 @@ class RepartidoresService {
   update = async (repartidorId, repartidorData) => {
     try {
       const response = await axios.put(`${this.API_URL}/${repartidorId}`, repartidorData, {
-        // headers: {
-        //   Authorization: `Bearer ${this.authContext.token}`,
-        // },
+        headers: {
+          Authorization: `Bearer ${this.authContext.keycloak.token}`,
+        },
       });
       return response.data;
     } catch (error) {
@@ -65,9 +65,9 @@ class RepartidoresService {
   remove = async (repartidorId) => {
     try {
       await axios.delete(`${this.API_URL}/${repartidorId}`, {
-        // headers: {
-        //   Authorization: `Bearer ${this.authContext.token}`,
-        // },
+        headers: {
+          Authorization: `Bearer ${this.authContext.keycloak.token}`,
+        },
       });
     } catch (error) {
       // Error handling
