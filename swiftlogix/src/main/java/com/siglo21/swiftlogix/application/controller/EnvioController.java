@@ -25,6 +25,7 @@ public class EnvioController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('administrador-cliente-rol')")
 //    @PreAuthorize("hasRole('ROLE_administrador') or hasRole('ROLE_repartidor')")
     public ResponseEntity<?> getAll(
             @RequestParam(name = "idEstado", required = false) Integer idEstado,
@@ -39,6 +40,7 @@ public class EnvioController {
 
 
     @GetMapping("/{nroFactura}")
+    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> getById(@PathVariable("nroFactura") String id){
         try {
             return ResponseEntity.status(200).body(envioService.getById(id).map(EnvioResponse::new));
@@ -49,6 +51,7 @@ public class EnvioController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> createEnvio(@Valid @RequestBody CrearEnvioRequestDto crearEnvioRequestDto, BindingResult result){
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getFieldError().getDefaultMessage());
@@ -62,6 +65,7 @@ public class EnvioController {
     }
 
     @PutMapping("/{nroFactura}")
+    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> updateEnvio(@PathVariable("nroFactura") String id, @RequestBody ActualizarEnviorRequestDto crearEnvioRequestDto){
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(envioService.update(id, crearEnvioRequestDto).map(EnvioResponse::new));
@@ -72,6 +76,7 @@ public class EnvioController {
     }
 
     @GetMapping("/cantidadEnviosPorZona")
+    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> cantidadEnviosPorZona(@RequestParam(name = "idEstado", required = false) Integer idEstado,
                                                    @RequestParam(name = "idZona", required = false) Integer idZona){
         try {

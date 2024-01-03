@@ -5,6 +5,7 @@ import com.siglo21.swiftlogix.application.Response.HojaDelDiaResponse;
 import com.siglo21.swiftlogix.application.Response.HojaDelDiaResponsePorDia;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.HojaDelDiaService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -24,6 +25,7 @@ public class HojaDelDiaController {
 
 
     @GetMapping
+    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> getAll(){
         try {
             return ResponseEntity.status(200).body(hojaDelDiaService.getAll().stream().map(HojaDelDiaResponse::new));
@@ -34,6 +36,7 @@ public class HojaDelDiaController {
     }
 
     @PutMapping("/iniciarEntrega")
+    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> marcarEnCamino(@RequestParam Integer idHojaDelDia){
         try {
             hojaDelDiaService.iniciarEntrega(idHojaDelDia);
@@ -45,6 +48,7 @@ public class HojaDelDiaController {
     }
 
     @PutMapping("/cerrarHojaDelDia")
+    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> cerrarHojaDelDia(@RequestParam Integer idHojaDelDia,@RequestBody List<String> idsEnviosEntregados){
         try {
             hojaDelDiaService.cerrarHojaDelDia(idHojaDelDia, idsEnviosEntregados);
@@ -56,6 +60,7 @@ public class HojaDelDiaController {
     }
 
     @GetMapping("/generarHojaDelDia")
+    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> generarHojaDelDia(){
         try {
             hojaDelDiaService.generarHojaDelDia();
@@ -67,6 +72,7 @@ public class HojaDelDiaController {
     }
 
     @GetMapping("/getHojaDelDia")
+    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> getHojaDelDia(@RequestParam LocalDate fechaReparto){
         try {
             return ResponseEntity.status(200).body(new HojaDelDiaResponsePorDia(hojaDelDiaService.getHojaDelDia(fechaReparto)));
@@ -77,6 +83,7 @@ public class HojaDelDiaController {
     }
 
     @GetMapping("/getHojaDelDiaSemanal")
+    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> getHojaDelDiaSemanal(@RequestParam LocalDate fechaDeSemana){
         try {
             return ResponseEntity.status(200).body(hojaDelDiaService.getHojaDelDiaSemanal(fechaDeSemana).stream().map(HojaDelDiaResponsePorDia::new));

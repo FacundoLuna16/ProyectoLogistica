@@ -3,6 +3,7 @@ package com.siglo21.swiftlogix.application.controller;
 import com.siglo21.swiftlogix.application.Response.ZonaResponse;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.ZonaService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ public class ZonaController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> getAll(){
         try {
             return ResponseEntity.status(200).body(zonaService.getAll().stream().map(ZonaResponse::new));

@@ -10,6 +10,8 @@ public class ClienteDelEnvioDto {
     private Integer idCliente;
     private String tipoDocumento;
     private String numeroDocumento;
+    private String numeroTelefono;
+    private String numeroAltTelefono;
     private String nombre;
     private String apellido;
 
@@ -17,6 +19,8 @@ public class ClienteDelEnvioDto {
         this.idCliente = cliente.getIdCliente();
         this.tipoDocumento = cliente.getTipoDocumento().getDescripcion();
         this.numeroDocumento = cliente.getNumeroDocumento();
+        this.numeroTelefono = cliente.getNumeroTelefono();
+        this.numeroAltTelefono = cliente.getNumeroTelefonoAlternativo();
         this.nombre = cliente.getNombre();
         this.apellido = cliente.getApellido();
     }
