@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import { Paper, Button, Typography, Box, Grid, Container, useMediaQuery } from "@mui/material";
 import Head from "next/head";
@@ -11,7 +11,6 @@ import CustomDataGridComponent, {
 } from "src/sections/hojaDelDia/enviosXHoja-table";
 import HojaDelDiaService from "src/service/hojaDelDiaService";
 import { useAuth } from "src/contexts/AuthContext";
-import { set } from "nprogress";
 import IniciarEntregaDialog from "src/sections/hojaDelDia/iniciarEntrega";
 import CerrarHoja from "src/sections/hojaDelDia/cerrarHoja";
 import jsPDF from 'jspdf';
@@ -105,50 +104,64 @@ const HojaDelDia = () => {
   };
 
 
-  const generarPDF = (hojaSeleccionada) => {
-    // Crear instancia de jsPDF
+  function cargarLogo() {
+    return new Promise((resolve, reject) => {
+      var img = new Image();
+      img.src = '/assets/logos21logistica.png';
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+    });
+  }
+  
+  async function generarPDF(hojaSeleccionada) {
     const pdf = new jsPDF();
   
-    // Encabezado
-    pdf.setFontSize(16);
-    pdf.text('Siglo 21 Logistica // Hoja Del dia', 20, 20);
-    pdf.text(`Fecha Reparto: ${hojaSeleccionada.fechaReparto}`, 20, 30);
-    pdf.text(`Repartidor: ${hojaSeleccionada.repartidor}`, 20, 40);
-    pdf.text(`Zona: ${hojaSeleccionada.zona}`, 20, 50);
-    //camion
-    pdf.text(`Camion: ${hojaSeleccionada.camion}`, 100, 30);
+    try {
+      const img = await cargarLogo(); // Cargar el logo
+      pdf.addImage(img, 'PNG', 20, 10, 50, 20); // Ajusta según el tamaño y posición del logo
   
-    // Cuerpo (Tabla)
-    const envios = hojaSeleccionada.envios;
-    const columnas = ['     ', 'Número de Factura', 'Direccion', 'Productos', 'Telefono 1', 'Telefono 2', 'Cliente', 'Zona'];
-    const filas = envios.map((envio) => [
-      '[ ]', // Espacio para el checkbox
-      envio.numeroFactura,
-      envio.direccionEnvio,
-      envio.detalleEnvio.map((detalle) => detalle.nombre).join('\n'),
-      envio.cliente.telefono1,
-      envio.cliente.telefono2,
-      `${envio.cliente.nombre} ${envio.cliente.apellido}`,
-      envio.zona,
-    ]);
-
-
-    pdf.autoTable({
-      head: [columnas],
-      body: filas,
-      startY: 60, // Ajusta la posición inicial según tus necesidades
-    });
-    
-    // Pie
-    pdf.text('Firma: ........................', 20, pdf.internal.pageSize.height - 30);
+      // Encabezado
+      pdf.setFontSize(16);
+      pdf.text('      Hoja Del día', 80, 20);
+      pdf.text(`Fecha Reparto: ${hojaSeleccionada.fechaReparto}`, 20, 40);
+      pdf.text(`Repartidor: ${hojaSeleccionada.repartidor}`, 20, 50);
+      pdf.text(`Zona: ${hojaSeleccionada.zona}`, 20, 60);
+      pdf.text(`Camion: ${hojaSeleccionada.camion}`, 100, 40);
   
-    // Guardar o visualizar el PDF
-    // pdf.save('hoja_del_dia.pdf'); // Puedes cambiar el nombre del archivo según tu preferencia
-
-
-    pdf.autoPrint();
-    window.open(pdf.output('bloburl'), '_blank');
-  };
+      // Cuerpo (Tabla)
+      const columnas = ['     ', 'Número de Factura', 'Direccion', 'Productos', 'Telefono 1', 'Telefono 2', 'Cliente', 'Zona'];
+      const filas = hojaSeleccionada.envios.map(envio => [
+        '[ ]',
+        envio.numeroFactura,
+        envio.direccionEnvio,
+        envio.detalleEnvio.map(detalle => detalle.nombre).join('\n'),
+        envio.cliente.telefono1,
+        envio.cliente.telefono2,
+        `${envio.cliente.nombre} ${envio.cliente.apellido}`,
+        envio.zona,
+      ]);
+  
+      pdf.autoTable({
+        head: [columnas],
+        body: filas,
+        startY: 70,
+        didDrawPage: function(data) {
+          let str = 'Página ' + pdf.internal.getNumberOfPages();
+          pdf.text(str, data.settings.margin.left, pdf.internal.pageSize.height - 10);
+        },
+        // Otros estilos y configuraciones aquí...
+      });
+  
+      // Pie
+      pdf.text('Firma: ........................', 20, pdf.internal.pageSize.height - 30);
+  
+      // Visualizar o guardar el PDF
+      pdf.autoPrint();
+      window.open(pdf.output('bloburl'), '_blank');
+    } catch (error) {
+      console.error('Error al generar el PDF:', error);
+    }
+  }
 
   return (
     <>
