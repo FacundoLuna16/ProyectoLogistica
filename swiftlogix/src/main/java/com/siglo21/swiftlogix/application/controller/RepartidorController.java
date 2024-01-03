@@ -5,6 +5,7 @@ import com.siglo21.swiftlogix.application.request.RepartidorRequestDto;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.RepartidorService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,6 +23,7 @@ public class RepartidorController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> getAll(){
         try {
             return ResponseEntity.status(200).body(repartidorService.getAll().stream().map(RepartidorResponse::new));
@@ -32,7 +34,8 @@ public class RepartidorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(int id){
+    @PreAuthorize("hasRole('administrador-cliente-rol')")
+    public ResponseEntity<?> getById(@PathVariable("id") int id){
         try {
             return ResponseEntity.status(200).body(repartidorService.getById(id).map(RepartidorResponse::new));
         }
@@ -42,6 +45,7 @@ public class RepartidorController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> createRepartidor(@Valid @RequestBody RepartidorRequestDto repartidorRequestDto, BindingResult result){
         try {
             return ResponseEntity.status(200).body(repartidorService.save(repartidorRequestDto).map(RepartidorResponse::new));
@@ -52,6 +56,7 @@ public class RepartidorController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> updateRepartidor(@PathVariable("id") int id, @Valid @RequestBody RepartidorRequestDto repartidorRequestDto, BindingResult result){
         if (result.hasErrors()) {
             //Valida que los campos sean los que corresponden

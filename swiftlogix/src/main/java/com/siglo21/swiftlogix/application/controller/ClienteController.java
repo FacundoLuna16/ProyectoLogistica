@@ -6,6 +6,7 @@ import com.siglo21.swiftlogix.domain.Service.Interfaz.ClienteService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,6 +24,7 @@ public class ClienteController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> getAll(){
         try {
             return ResponseEntity.status(200).body(clienteService.getAll().stream().map(ClienteResponse::new));
@@ -33,6 +35,7 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> getById(@PathVariable("id") int id){
         try {
             return ResponseEntity.status(200).body(clienteService.getById(id).map(ClienteResponse::new));
@@ -43,6 +46,7 @@ public class ClienteController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> createCliente(@Valid @RequestBody ClienteRequestDto clienteRequestDto, BindingResult result){
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getFieldError().getDefaultMessage());
@@ -56,6 +60,7 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('administrador-cliente-rol')")
     public ResponseEntity<?> updateCliente( @PathVariable("id") int id,@Valid @RequestBody ClienteRequestDto clienteRequestDto, BindingResult result){
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getFieldError().getDefaultMessage());
