@@ -1,17 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTheme } from "@mui/material/styles";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   Paper,
   Button,
   Typography,
   Box,
   Grid,
   Container,
+  useMediaQuery
 } from "@mui/material";
 import Head from "next/head";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
@@ -37,6 +33,10 @@ const HojaDelDia = () => {
   const [enviosSeleccionados, setEnviosSeleccionados] = useState([]);
   const [nroDeFacturasACerrar, setNroDeFacturasACerrar] = useState([]);
 
+  //Estilos
+  const theme = useTheme();
+  const isXSmall = useMediaQuery(theme.breakpoints.down('xs'));
+  const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleEnviosSeleccionadosChange = (selectedEnvios) => {
     setEnviosSeleccionados(selectedEnvios);
@@ -118,51 +118,55 @@ const handleCerrarHoja = () => {
     }
   }
 
-
-
   return (
     <>
       <Head>
-        <title>Envíos | Sistema de Gestión de Envíos</title>
+        <title>Hoja del Día | Sistema de Gestión de Envíos</title>
       </Head>
       <Box component="main" sx={{ flexGrow: 1, py: 8 }}>
-        <Container maxWidth="xxl">
-          <Grid container spacing={1}>
-            <Grid item xs={12} md={3} style={{ flex: 1 }}>
+        <Container maxWidth={false}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} lg={4}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateCalendar onChange={handleDateChange} />
               </LocalizationProvider>
             </Grid>
-            <Grid item xs={12} md={9} style={{ flex: 1, my: 4 }}>
-              <Typography variant="h4">Hoja del día</Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: { xs: "column", md: "row" },
-                  gap: { xs: 2, md: 5 }, // Espaciado entre detalles en pantallas pequeñas y grandes
-                  mb: 2, // Margen inferior general
-                }}
-              >
-                <Typography variant="h6">
+            <Grid item xs={12} lg={8}>
+              <Typography variant="h3">
+                Hoja del día
+              </Typography>
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="h6" gutterBottom>
                   Fecha de reparto: {hojaSelecionada.fechaReparto}
                 </Typography>
-                <Typography variant="h6">Estado: {hojaSelecionada.estadoHojaDelDia}</Typography>
-                <Typography variant="h6">Observaciones: {hojaSelecionada.observaciones}</Typography>
+                <Typography variant="h6" gutterBottom>
+                  Estado: {hojaSelecionada.estadoHojaDelDia}
+                </Typography>
+                <Typography variant="h6" gutterBottom>
+                  Observaciones: {hojaSelecionada.observaciones}
+                </Typography>
               </Box>
-              {hojaSelecionada && hojaSelecionada.envios && (
-                <CustomDataGridComponent 
-                envios={hojaSelecionada.envios} 
-                onEnviosSeleccionadosChange={handleEnviosSeleccionadosChange}
-                apiRef={apiRef}
-                />
-              )}
-              <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end" }}>
+              <Paper sx={{ width: '100%', overflowX: 'auto', maxHeight: '60vh', mb: 4 }}>
+                {hojaSelecionada && hojaSelecionada.envios && (
+                  <CustomDataGridComponent
+                    envios={hojaSelecionada.envios}
+                    onEnviosSeleccionadosChange={handleEnviosSeleccionadosChange}
+                    apiRef={apiRef}
+                    sx={{
+                      '& .MuiDataGrid-root': {
+                        maxHeight: '60vh', // Ajusta este valor según sea necesario
+                      },
+                    }}
+                  />
+                )}
+              </Paper>
+              <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end', flexWrap: 'wrap' }}>
                 <Button
                   variant="contained"
                   color="primary"
                   onClick={handleImprimir}
                   disabled={hojaSelecionada.estadoHojaDelDia !== "EnPreparacion"}
-                  sx={{ mr: 2 }}
+                  sx={{ mb: 2, mr: 2 }}
                 >
                   Imprimir
                 </Button>
@@ -171,23 +175,23 @@ const handleCerrarHoja = () => {
                   color="primary"
                   onClick={handleCerrarHoja}
                   disabled={hojaSelecionada.estadoHojaDelDia !== "DeCamino"}
-                  sx={{ mr: 2 }}
+                  sx={{ mb: 2, mr: 2 }}
                 >
                   Cerrar Hoja
                 </Button>
+                {/* ... otros botones que puedas tener */}
                 <CerrarHoja 
                   open={dialogCerrarHojaOpen}
                   onClose={() => setDialogCerrarHojaOpen(false)}
-                  enviosSeleccionados={enviosSeleccionados} // Pasa los envíos seleccionados
+                  enviosSeleccionados={enviosSeleccionados}
                   cerrarHoja={cerrarHoja}
                 />
-
                 <Button
                   variant="contained"
                   color="primary"
                   onClick={handleIniciarEntrega}
                   disabled={hojaSelecionada.estadoHojaDelDia !== "EnPreparacion"}
-                  sx={{ mr: 2 }}
+                  sx={{ mb: 2, mr: 2 }}
                 >
                   Iniciar Entrega
                 </Button>
@@ -196,12 +200,12 @@ const handleCerrarHoja = () => {
                   onClose={() => setDialogIniciarEntregaOpen(false)}
                   iniciar={iniciarEntrega}
                 />
-                
               </Box>
             </Grid>
           </Grid>
         </Container>
       </Box>
+      {/* ... cualquier otro componente o retorno que necesites aquí */}
     </>
   );
 };
