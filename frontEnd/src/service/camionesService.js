@@ -10,9 +10,9 @@ class CamionesService {
   getAll = async () => {
     try {
       const response = await axios.get(this.API_URL, {
-        // headers: {
-        //   Authorization: `Bearer ${this.authContext.keycloak.token}`,
-        // },
+        headers: {
+          Authorization: `Bearer ${this.authContext.keycloak.token}`,
+        },
       });
       return response.data;
     } catch (error) {

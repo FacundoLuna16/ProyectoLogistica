@@ -10,13 +10,13 @@ class HojaDelDiaService {
     getAll = async () => {
         try {
             const response = await axios.get(this.API_URL, {
-                // headers: {
-                //   Authorization: `Bearer ${this.authContext.token}`,
-                // },
+                headers: {
+                    Authorization: `Bearer ${this.authContext.keycloak.token}`,
+                  },
             });
             return response.data;
         } catch (error) {
-            throw error;
+                throw error;
         }
     };
 
@@ -29,9 +29,9 @@ class HojaDelDiaService {
                     //Formato de la fecha debe ser YYYY-MM-DD
                     fechaReparto : fechaReparto,
                 },
-                // headers: {
-                //   Authorization: `Bearer ${this.authContext.token}`,
-                // },
+                headers: {
+                    Authorization: `Bearer ${this.authContext.keycloak.token}`,
+                  },
             });
             return response.data;
         } catch (error) {
@@ -53,9 +53,9 @@ class HojaDelDiaService {
     
             const response = await axios.put(url, null, { 
                 params: params,
-                // headers: {
-                //   Authorization: Bearer ${this.authContext.token},
-                // },
+                headers: {
+                    Authorization: `Bearer ${this.authContext.keycloak.token}`,
+                  },
             });
     
             return response.data;
@@ -73,9 +73,9 @@ class HojaDelDiaService {
     
             const response = await axios.put(url, arregloStrings, { 
                 params: params,
-                // headers: {
-                //   Authorization: `Bearer ${this.authContext.token}`,
-                // },
+                headers: {
+                    Authorization: `Bearer ${this.authContext.keycloak.token}`,
+                  },
             });
     
             return response.data;
