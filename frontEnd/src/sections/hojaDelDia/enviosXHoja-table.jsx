@@ -5,19 +5,39 @@ import {
   gridFilteredSortedRowIdsSelector,
   selectedGridRowsSelector,
 } from '@mui/x-data-grid';
-
-const getSelectedRowsToExport = ({ apiRef }) => {
+import { useRef } from 'react';
+export const getSelectedRowsToExport = ({ apiRef }) => {
   const selectedRowIds = selectedGridRowsSelector(apiRef);
   if (selectedRowIds.size > 0) {
+    alert(JSON.stringify(Array.from(selectedRowIds.keys())));
     return Array.from(selectedRowIds.keys());
   }
-
+  alert(JSON.stringify(gridFilteredSortedRowIdsSelector(apiRef)));
   return gridFilteredSortedRowIdsSelector(apiRef);
 };
 
-export default function CustomDataGridComponent({ envios }) {
-  const apiRef = React.useRef(null);
+export const getNroFacturasACerrar = ({ apiRef }) => {
+  alert('getNroFacturasACerrar');
+  const selectedRowIds = selectedGridRowsSelector(apiRef);
+  if (selectedRowIds.size > 0) {
+    alert(JSON.stringify(Array.from(selectedRowIds.keys())));
+    return Array.from(selectedRowIds.keys());
+  }
+  alert('No hay envíos seleccionados');
+  return Array.from(selectedRowIds.keys());
+}
 
+export default function CustomDataGridComponent({ envios, onEnviosSeleccionadosChange}) {
+
+  const [selectionModel, setSelectionModel] = React.useState([]);
+
+  const handleSelectionModelChange = (newSelectionModel) => {
+    console.log('Filas seleccionadas:', newSelectionModel); // Para depuración
+    setSelectionModel(newSelectionModel);
+    // Asegúrate de que esta línea se ejecuta correctamente
+    onEnviosSeleccionadosChange(newSelectionModel); 
+  };
+  
   // Transforma la estructura de datos para adaptarla al DataGrid
   const rows = envios.map((envio) => ({
     id: envio.numeroFactura,
@@ -51,16 +71,18 @@ export default function CustomDataGridComponent({ envios }) {
     { field: 'ultimosDigitosTarjeta', headerName: 'Últimos dígitos de Tarjeta', width: 200 },
   ];
 
+
+
   return (
     <div style={{ height: 600, width: '100%' }}>
-      <DataGrid
+     <DataGrid
         rows={rows}
         columns={columns}
         checkboxSelection
-        apiRef={apiRef}
-        slots={{ toolbar: GridToolbar }}
-        slotProps={{
-          toolbar: { printOptions: { getRowsToExport: getSelectedRowsToExport } },
+        onRowSelectionModelChange={handleSelectionModelChange}
+        selectionModel={selectionModel}
+        components={{
+          Toolbar: GridToolbar,
         }}
       />
     </div>

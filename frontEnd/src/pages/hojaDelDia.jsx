@@ -1,27 +1,21 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Button,
-  Typography,
-  Box,
-  Grid,
-  Container,
-} from "@mui/material";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTheme } from "@mui/material/styles";
+import { Paper, Button, Typography, Box, Grid, Container, useMediaQuery } from "@mui/material";
 import Head from "next/head";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
-import PrintExportSelectedRows from "src/sections/hojaDelDia/enviosXHoja-table";
+import CustomDataGridComponent, {
+  getNroFacturasACerrar,
+} from "src/sections/hojaDelDia/enviosXHoja-table";
 import HojaDelDiaService from "src/service/hojaDelDiaService";
 import { useAuth } from "src/contexts/AuthContext";
 import { set } from "nprogress";
+import IniciarEntregaDialog from "src/sections/hojaDelDia/iniciarEntrega";
+import CerrarHoja from "src/sections/hojaDelDia/cerrarHoja";
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 const HojaDelDia = () => {
   const authContext = useAuth();
@@ -29,6 +23,18 @@ const HojaDelDia = () => {
   const [hojaSelecionada, setHojaSelecionada] = useState({});
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [hojasDelDia, setHojasDelDia] = useState([]);
+  const [dialogIniciarEntregaOpen, setDialogIniciarEntregaOpen] = useState(false);
+  const [dialogCerrarHojaOpen, setDialogCerrarHojaOpen] = useState(false);
+  const [enviosSeleccionados, setEnviosSeleccionados] = useState([]);
+
+  //Estilos
+  const theme = useTheme();
+  const isXSmall = useMediaQuery(theme.breakpoints.down("xs"));
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const handleEnviosSeleccionadosChange = (selectedEnvios) => {
+    setEnviosSeleccionados(selectedEnvios);
+  };
 
   const getAllHojasDelDia = async () => {
     try {
@@ -41,13 +47,6 @@ const HojaDelDia = () => {
       console.log(error);
     }
   };
-  //cuando renderiza el componente hace una peticion para buscar todas las hojas del dia
-  // useEffect(() => {
-  //   //Hacer peticion para buscar todas las hojas del dia
-  //   getAllHojasDelDia();
-
-  //   //setear el estado de hojas del dia
-  // }, []);
 
   const getByFechaReparto = async (fechaReparto) => {
     try {
@@ -56,52 +55,188 @@ const HojaDelDia = () => {
     } catch (error) {
       //si hay un error 400 setea la hoja del dia como vacia
       setHojaSelecionada({});
-
     }
-  }
+  };
 
   const handleDateChange = (date) => {
-    //formatea la fecha a yyyy-mm-dd
-    //setSelectedDate(date.toISOString().split("T")[0]);
-
-    //buscar la hoja del dia con la fecha seleccionada y valida que si de un arreglo vacio 
     getByFechaReparto(date);
   };
+
+
+  const apiRef = useRef(null);
+
+  const [dataGridApiRef, setDataGridApiRef] = useState(null);
+
+  const handleCerrarHoja = () => {
+    if (dataGridApiRef && dataGridApiRef.current) {
+      getNroFacturasACerrar({ apiRef: dataGridApiRef.current });
+    }
+    setDialogCerrarHojaOpen(true);
+  };
+
+  const cerrarHoja = async () => {
+    try {
+      alert("Se esta por cerrar la hoja" + hojaSelecionada.idHojaDelDia);
+      // muestra por json los envios seleccionados
+      alert(JSON.stringify(enviosSeleccionados));
+      await hojasService.cerrarHojaDelDia(hojaSelecionada.idHojaDelDia, enviosSeleccionados);
+      alert("Se cerro la hoja");
+    } catch (error) {
+      alert(error.response.data.message);
+    }
+  };
+
+  const handleIniciarEntrega = () => {
+    // Lógica para el botón Iniciar Entrega
+    setDialogIniciarEntregaOpen(true);
+  };
+
+  const iniciarEntrega = async () => {
+    try {
+      alert("Se esta por iniciar la hoja" + hojaSelecionada.idHojaDelDia);
+      await hojasService.iniciarEntrega(hojaSelecionada.idHojaDelDia);
+      alert("Se inicio la entrega");
+    } catch (error) {
+      alert(error.response.data.message);
+    }
+  };
+  const handleImprimir = () => {
+    generarPDF(hojaSelecionada);
+  };
+
+
+  const generarPDF = (hojaSeleccionada) => {
+    // Crear instancia de jsPDF
+    const pdf = new jsPDF();
+  
+    // Encabezado
+    pdf.setFontSize(16);
+    pdf.text('Siglo 21 Logistica // Hoja Del dia', 20, 20);
+    pdf.text(`Fecha Reparto: ${hojaSeleccionada.fechaReparto}`, 20, 30);
+    pdf.text(`Repartidor: ${hojaSeleccionada.repartidor}`, 20, 40);
+    pdf.text(`Zona: ${hojaSeleccionada.zona}`, 20, 50);
+    //camion
+    pdf.text(`Camion: ${hojaSeleccionada.camion}`, 100, 30);
+  
+    // Cuerpo (Tabla)
+    const envios = hojaSeleccionada.envios;
+    const columnas = ['     ', 'Número de Factura', 'Direccion', 'Productos', 'Telefono 1', 'Telefono 2', 'Cliente', 'Zona'];
+    const filas = envios.map((envio) => [
+      '[ ]', // Espacio para el checkbox
+      envio.numeroFactura,
+      envio.direccionEnvio,
+      envio.detalleEnvio.map((detalle) => detalle.nombre).join('\n'),
+      envio.cliente.telefono1,
+      envio.cliente.telefono2,
+      `${envio.cliente.nombre} ${envio.cliente.apellido}`,
+      envio.zona,
+    ]);
+
+
+    pdf.autoTable({
+      head: [columnas],
+      body: filas,
+      startY: 60, // Ajusta la posición inicial según tus necesidades
+    });
+    
+    // Pie
+    pdf.text('Firma: ........................', 20, pdf.internal.pageSize.height - 30);
+  
+    // Guardar o visualizar el PDF
+    // pdf.save('hoja_del_dia.pdf'); // Puedes cambiar el nombre del archivo según tu preferencia
+
+
+    pdf.autoPrint();
+    window.open(pdf.output('bloburl'), '_blank');
+  };
+
   return (
     <>
       <Head>
-        <title>Envíos | Sistema de Gestión de Envíos</title>
+        <title>Hoja del Día | Sistema de Gestión de Envíos</title>
       </Head>
       <Box component="main" sx={{ flexGrow: 1, py: 8 }}>
-        <Grid container spacing={0}>
-          <Grid item xs={3}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DateCalendar  onChange={handleDateChange} />
-            </LocalizationProvider>
+        <Container maxWidth={false}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} lg={4}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DateCalendar onChange={handleDateChange} />
+              </LocalizationProvider>
+            </Grid>
+            <Grid item xs={12} lg={8}>
+              <Typography variant="h3">Hoja del día</Typography>
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="h6" gutterBottom>
+                  Fecha de reparto: {hojaSelecionada.fechaReparto}
+                </Typography>
+                <Typography variant="h6" gutterBottom>
+                  Estado: {hojaSelecionada.estadoHojaDelDia}
+                </Typography>
+                <Typography variant="h6" gutterBottom>
+                  Observaciones: {hojaSelecionada.observaciones}
+                </Typography>
+              </Box>
+              <Paper sx={{ width: "100%", overflowX: "auto", maxHeight: "60vh", mb: 4 }}>
+                {hojaSelecionada && hojaSelecionada.envios && (
+                  <CustomDataGridComponent
+                    envios={hojaSelecionada.envios}
+                    onEnviosSeleccionadosChange={handleEnviosSeleccionadosChange}
+                    apiRef={apiRef}
+                    sx={{
+                      "& .MuiDataGrid-root": {
+                        maxHeight: "60vh", // Ajusta este valor según sea necesario
+                      },
+                    }}
+                  />
+                )}
+              </Paper>
+              <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end", flexWrap: "wrap" }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleImprimir}
+                  //Desabilitado si no hay una hoja del dia seleccionada
+                  disabled={!hojaSelecionada.idHojaDelDia}
+                  sx={{ mb: 2, mr: 2 }}
+                >
+                  Imprimir
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleCerrarHoja}
+                  disabled={hojaSelecionada.estadoHojaDelDia !== "DeCamino"}
+                  sx={{ mb: 2, mr: 2 }}
+                >
+                  Cerrar Hoja
+                </Button>
+                {/* ... otros botones que puedas tener */}
+                <CerrarHoja
+                  open={dialogCerrarHojaOpen}
+                  onClose={() => setDialogCerrarHojaOpen(false)}
+                  enviosSeleccionados={enviosSeleccionados}
+                  cerrarHoja={cerrarHoja}
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleIniciarEntrega}
+                  disabled={hojaSelecionada.estadoHojaDelDia !== "EnPreparacion"}
+                  sx={{ mb: 2, mr: 2 }}
+                >
+                  Iniciar Entrega
+                </Button>
+                <IniciarEntregaDialog
+                  open={dialogIniciarEntregaOpen}
+                  onClose={() => setDialogIniciarEntregaOpen(false)}
+                  iniciar={iniciarEntrega}
+                />
+              </Box>
+            </Grid>
           </Grid>
-          <Grid item xs={9}>
-            <Box>
-              <Typography variant="h4" sx={{ mb: 2 }}>
-                Hoja del día
-              </Typography>
-            </Box>
-            {hojaSelecionada && hojaSelecionada.envios && (
-              <PrintExportSelectedRows envios={hojaSelecionada.envios} />
-            )}
-            <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end" }}>
-              <Button variant="contained" color="primary" sx={{ mr: 2 }}>
-                Imprimir
-              </Button>
-              <Button variant="contained" color="primary" sx={{ mr: 2 }}>
-                Cerrar Hoja
-              </Button>
-              <Button variant="contained" color="primary" sx={{ mr: 2 }}>
-                Iniciar Entrega
-              </Button>
-            </Box>
-          </Grid>
-        </Grid>
+        </Container>
       </Box>
+      {/* ... cualquier otro componente o retorno que necesites aquí */}
     </>
   );
 };
