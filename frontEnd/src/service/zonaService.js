@@ -1,4 +1,4 @@
-// En un archivo llamado zoneService.js
+import axios from 'axios';
 
 const BASE_URL = 'http://localhost:8080/api/v1/zona';
 
@@ -9,17 +9,13 @@ class ZoneService {
 
   getAll = async () => {
     try {
-      const response = await fetch(BASE_URL, {
+      const response = await axios.get(BASE_URL, {
         headers: {
           Authorization: `Bearer ${this.authContext.keycloak.token}`,
         },
       });
-      if (!response.ok) {
-        throw new Error('Error al obtener las zonas');
-      }
-      return await response.json();
+      return response.data;
     } catch (error) {
-      console.error('Error en ZoneService.getAll:', error);
       throw error;
     }
   }
