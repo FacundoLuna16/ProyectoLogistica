@@ -143,7 +143,7 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
     }
   };
   
-  
+  const [tipoEnvio, setTipoEnvio] = useState('');
 
   const [validation, setValidation] = useState({
     numeroFactura: true,
@@ -153,16 +153,9 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
   
 
   useEffect(() => {
-    // Campos obligatorios
-    const requiredFields = ["numeroFactura", "idCliente", "idZona", "direccionEnvio", "entreCalles", "ultimosDigitosTarjeta"];
-    
-    // Verificar si todos los campos obligatorios tienen un valor
+    const requiredFields = ["numeroFactura", "idCliente", "idZona", "direccionEnvio", "entreCalles"];
     const areRequiredFieldsComplete = requiredFields.every((field) => !!newEnvio[field]);
-
-    // Verificar la validez de todos los campos
     const isValidForm = Object.values(validation).every((isValid) => isValid);
-
-    // Habilitar el botón "Agregar" solo si todos los campos obligatorios están completos y el formulario es válido
     setIsFormValid(areRequiredFieldsComplete && isValidForm);
   }, [newEnvio, validation]);
 
@@ -202,9 +195,6 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
   const handleOnEnvioAdded = async () => {
     if (isFormValid) {
       try {
-        
-        
-
         const envioPost = {
           ...newEnvio,
           idCliente: parseInt(newEnvio.idCliente),
@@ -311,19 +301,36 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
         }}
       >
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          <TextField
-            autoFocus
-            id="numeroFactura"
-            label="Nro Factura"
-            type="text"
-            fullWidth
-            required
-            name="numeroFactura"
-            error={!validation.numeroFactura}
-            value={newEnvio.numeroFactura}
-            onChange={handleChange}
-            size="small"
-          />
+          <Box size="small" display="flex" flexDirection={{ xs: "column", sm: "row" }} alignItems="center" gap={2}>
+              <TextField
+                autoFocus
+                id="numeroFactura"
+                label="Nro Factura"
+                type="text"
+                fullWidth
+                required
+                name="numeroFactura"
+                error={!validation.numeroFactura}
+                value={newEnvio.numeroFactura}
+                onChange={handleChange}
+                size="small"
+              />
+              {/* Select para el tipo de envío */}
+            <FormControl size="small" sx={{ width: '20%' }}>
+              <InputLabel id="tipo-envio-label">Tipo de Envío</InputLabel>
+              <Select
+                labelId="tipo-envio-label"
+                id="tipo-envio-select"
+                value={tipoEnvio}
+                label="Tipo de Envío"
+                onChange={(e) => setTipoEnvio(e.target.value)}
+              >
+                <MenuItem value="envioWeb">Envío Web</MenuItem>
+                <MenuItem value="envioPago">Envío Pago</MenuItem>
+                <MenuItem value="otro">Otro</MenuItem>
+              </Select>
+            </FormControl>
+            </Box>
           <Typography variant="subtitle1" gutterBottom>
             Cliente *
           </Typography>
@@ -335,7 +342,7 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
           >
             <Box flex={1}>
               <FormControl fullWidth>
-                <InputLabel id="tipoDocumento-label">TipoDocumento</InputLabel>
+                <InputLabel id="numeroFactura-label">TipoDocumento</InputLabel>
                 <Select
                   labelId="tipoDocumento-label"
                   id="tipoDocumento"
@@ -411,36 +418,26 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
               label="Zona"
               onChange={handleZonaChange}
               size="small"
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    '.MuiMenuItem-root': {
+                      whiteSpace: 'normal', // Permite que el texto se ajuste en varias líneas
+                      wordWrap: 'break-word' // Asegura que el texto se ajuste correctamente
+                    }
+                  }
+                }
+              }}
             >
-              <MenuItem value={"1"}>1</MenuItem>
-              <MenuItem value={"2"}>2</MenuItem>
-              <MenuItem value={"3"}>3</MenuItem>
-              <MenuItem value={"4"}>4</MenuItem>
+              <MenuItem value={"1"}>1(EZFUERZO, HIBEPA, CUENCA XV, GRAN NEUQUEN NORTE, GRAN NEUQUEN SUR, SAN LORENZO NORTE, SAN LORENZO SUR, VALNTINA NORTE URBANA, HUILLICHEZ, UNION DE MAYO, MELIPAL, GREGORIO ALVAREZ, EL PROGRESO, VILLA CEFERINO, BARDAS SOLEADAS, CUMELEN, ISLA MALVINAS, CIUDAD INDUSTRIAL, COLONIA NUEVA ESPERANZA, ALMA FUERTE, PARQUE INDUSTRIAL)</MenuItem>
+              <MenuItem value={"2"}>2(TERRAZA DEL NEUQUEN, 14 DE OCUTBRE COPOL, RINCON DE EMILIO, ALTA BARDA, AREA CENTRO OESTE, RINCON DE EMILIO,  ALTA BARDA, AREA CENTRO OESTE, AREA CENTRO ESTE, SANTA GENOVEVA, VILLA FARREL, PROVINCIAS UNIDAS, SAPERE, CENTENARIO, VISTA ALEGRE, CINCO SALTOS, BARDA DEL MEDIO, C.CORDERO)</MenuItem>
+              <MenuItem value={"3"}>3(BOUQUET ROLDAN, MILITAR, VALENTINA SUR RURAL, BALSA LAS PERLAS, TERMINAL NEUQUEN, CANAL V, LA SIRENA, PLOTTIER, CHINA MUERTA, SENILLOSA)</MenuItem>
+              <MenuItem value={"4"}>4(AREA CENTRO SUR, NUEVO, VILLA FLORENCIA, RIO GRANDE, DON BOSCO II, VILLA MARIA, BELGRANO, MARIANO MORENO, CONFLUENCIA URBANO, CONFLUENCIA RURAL, DON BOSCO III, LIMAY, CIPOLLETTI, FERNANDEZ ORO, ALLEN, ROCA, MAINQUE)</MenuItem>
             </Select>
           </FormControl>
           <Typography variant="subtitle1" gutterBottom>
-            Detalles del Envío:
+            Espacio para pdf *
           </Typography>
-          {newEnvio.detalleEnvio.map((detalle, index) => (
-            <Box key={index} display="flex" alignItems="center" gap={1}>
-              <TextField
-                label={`Detalle ${index + 1}`}
-                type="text"
-                fullWidth
-                value={detalle}
-                onChange={(e) => handleDetalleEnvioChange(index, e.target.value)}
-                size="small"
-              />
-              {index > 0 && (
-                <IconButton onClick={() => eliminarDetalleEnvio(index)}>
-                  <DeleteIcon />
-                </IconButton>
-              )}
-            </Box>
-          ))}
-          <Button startIcon={<AddIcon />} onClick={agregarDetalleEnvio} size="small">
-            Agregar Detalle
-          </Button>
           <Box display="flex" flexDirection={{ xs: "column", sm: "row" }} gap={2}>
             <TextField
               label="Dirección de Envío"
@@ -467,7 +464,6 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
             label="Últimos Dígitos de la Tarjeta"
             type="text"
             fullWidth
-            required
             error={!validarUltimosDigitosTarjeta() && newEnvio.ultimosDigitosTarjeta.length > 0}
             helperText={!validarUltimosDigitosTarjeta() ? "Debe tener exactamente 4 dígitos" : ""}
             name="ultimosDigitosTarjeta"
