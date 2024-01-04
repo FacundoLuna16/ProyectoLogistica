@@ -1,18 +1,18 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { applyPagination } from "src/utils/apply-pagination";
-import { 
-  Box, 
-  Container, 
-  Typography, 
-  TextField, 
-  Grid, 
-  Select, 
-  MenuItem, 
-  FormControl, 
-  InputLabel, 
-  Paper, 
-  Button, 
-  Stack 
+import {
+  Box,
+  Container,
+  Typography,
+  TextField,
+  Grid,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Paper,
+  Button,
+  Stack,
 } from "@mui/material";
 import { ArrowPathIcon, TruckIcon, UserCircleIcon } from "@heroicons/react/24/outline";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -28,8 +28,6 @@ import AgregarEnvioDialog from "src/sections/envios/altaEnvios";
 import ConsultarEnvioDialog from "src/sections/envios/consultarEnvios";
 import { useAuth } from "src/contexts/AuthContext";
 
-
-
 const Envios = () => {
   const authContext = useAuth();
   const enviosService = new EnvioService(authContext);
@@ -41,9 +39,13 @@ const Envios = () => {
 
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const [filtroTexto, setFiltroTexto] = useState("");
+  const [filtroTexto, setFiltroTexto] = useState("1");
 
   const [filtroAtributo, setFiltroAtributo] = useState("numeroFactura");
+
+  const [filtroZonaEstado, setFiltroZonaEstado] = useState("1");
+
+  const [tipoEntrada, setTipoEntrada] = useState("text");
 
   const [dialogConsultaOpen, setDialogConsultaOpen] = useState(false);
   const [dialogModificacionOpen, setDialogModificacionOpen] = useState(false);
@@ -56,8 +58,6 @@ const Envios = () => {
     setDialogOpen(false);
   };
 
- 
-
   const handlePageChange = useCallback((event, value) => {
     setPage(value);
   }, []);
@@ -65,7 +65,6 @@ const Envios = () => {
   const handleRowsPerPageChange = useCallback((event) => {
     setRowsPerPage(event.target.value);
   }, []);
-
 
   const fetchEnvios = async () => {
     try {
@@ -94,21 +93,22 @@ const Envios = () => {
   const handleFiltrar = () => {
     // Aplicar el filtro sobre la copia del arreglo original
     const enviosFiltrados = envios.filter((envio) => {
-      const valorAtributo = envio[filtroAtributo].toLowerCase();
-      return valorAtributo.includes(filtroTexto.toLowerCase());
+      const valorAtributo = String(envio[filtroAtributo]); // Convertir el valor del atributo a cadena
+
+      const valorFiltro = String(filtroTexto); // Convertir el filtro a cadena
+
+      //valida si los valores son iguales ignorando mayusculas y minusculas y sin son numeros que tambien los contemple
+      return valorAtributo.toLowerCase().includes(valorFiltro.toLowerCase());
     });
 
     setEnviosFiltrados(enviosFiltrados);
     setEnvioSeleccionado({});
-  }
+  };
 
   useEffect(() => {
     handleFiltrar();
-  }
-  , [filtroTexto, filtroAtributo]);
+  }, [filtroTexto, filtroAtributo]);
 
-
-  
   const handleOnClickConSeleccionado = (funcion) => {
     if (envioSeleccionado.numeroFactura) {
       switch (funcion) {
@@ -126,6 +126,23 @@ const Envios = () => {
     }
   };
 
+  const handleFiltroAtributoChange = (e) => {
+    //limpia el filtro
+    setFiltroTexto("");
+    setFiltroAtributo(e.target.value);
+
+    // Determinar el tipo de entrada según el valor del atributo
+    if (e.target.value === "zona" || e.target.value === "estadoActual") {
+      setTipoEntrada("select");
+    } else {
+      setTipoEntrada("text");
+    }
+  };
+
+  const handleSelectChange = (e) => {
+    // Actualizar el estado de filtroTexto al cambiar la opción en el Select
+    setFiltroTexto(e.target.value);
+  };
 
   return (
     <>
@@ -145,20 +162,60 @@ const Envios = () => {
                 Envios
               </Typography>
               <Stack direction={isXSmall ? "column" : "row"} spacing={2} alignItems="center">
-                <TextField
-                  label="Filtrar"
-                  size="medium"
-                  value={filtroTexto}
-                  variant="standard"
-                  onChange={(e) => setFiltroTexto(e.target.value)}
-                />
+                {tipoEntrada === "text" ? (
+                  <TextField
+                    label="Filtrar"
+                    size="medium"
+                    value={filtroTexto}
+                    variant="standard"
+                    onChange={(e) => setFiltroTexto(e.target.value)}
+                  />
+                ) : filtroAtributo === "zona" ? (
+                  <Select
+                    label="Filtrar"
+                    value={filtroTexto}
+                    onChange={handleSelectChange}
+                    variant="outlined"
+                    size="small"
+                  >
+                    <MenuItem value="1">1</MenuItem>
+                    <MenuItem value="2">2</MenuItem>
+                    <MenuItem value="3">3</MenuItem>
+                    <MenuItem value="4">4</MenuItem>
+                  </Select>
+                ) : filtroAtributo === "estadoActual" ? (
+                  <Select
+                    label="Filtrar"
+                    value={filtroTexto}
+                    onChange={handleSelectChange}
+                    variant="outlined"
+                    size="small"
+                  >
+                    <MenuItem value="Pendiente">Pendiente</MenuItem>
+                    <MenuItem value="EnCamino">En Camino</MenuItem>
+                    <MenuItem value="Entregado">Entregado</MenuItem>
+                    <MenuItem value="NoEntregado">No Entregado</MenuItem>
+                  </Select>
+                ) : (
+                  <TextField
+                    label="Filtrar"
+                    size="medium"
+                    value={filtroTexto}
+                    variant="standard"
+                    onChange={(e) => setFiltroTexto(e.target.value)}
+                  />
+                )}
                 <Select
                   value={filtroAtributo}
-                  onChange={(e) => setFiltroAtributo(e.target.value)}
+                  onChange={handleFiltroAtributoChange}
                   variant="outlined"
                   size="small"
                 >
                   <MenuItem value="numeroFactura">Numero Factura</MenuItem>
+                  <MenuItem value="zona">Zona</MenuItem>
+                  <MenuItem value="cliente.nombre">Cliente</MenuItem>
+                  <MenuItem value="direccionEnvio">Direccion de Envio</MenuItem>
+                  <MenuItem value="estadoActual">Estado Actual</MenuItem>
                 </Select>
               </Stack>
               <Stack direction={isXSmall ? "column" : "row"} spacing={2} alignItems="center">
@@ -174,7 +231,6 @@ const Envios = () => {
                   open={dialogOpen}
                   onClose={handleDialogClose}
                   onEnvioAdded={fetchEnvios}
-                  resetForm={""}
                 />
                 <Button
                   startIcon={<UserCircleIcon />}
@@ -204,7 +260,7 @@ const Envios = () => {
                 <ConsultarEnvioDialog
                   open={dialogConsultaOpen}
                   onClose={() => setDialogConsultaOpen(false)}
-                  envio={envioSeleccionado} 
+                  envio={envioSeleccionado}
                 />
               </Stack>
             </Stack>

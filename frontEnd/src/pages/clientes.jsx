@@ -84,7 +84,6 @@ const Clientes = () => {
     setDialogOpen(false);
   };
 
-
   const [dialogConsultaOpen, setDialogConsultaOpen] = useState(false);
   const [clienteSeleccionado, setClienteSeleccionado] = useState({});
 

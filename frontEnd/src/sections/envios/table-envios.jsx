@@ -85,7 +85,7 @@ export const EnviosTable = (props) => {
         <TableRow>
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
             <Collapse in={open} timeout="auto" unmountOnExit>
-              <Box sx={{ margin: 1 }}>
+              {/* <Box sx={{ margin: 1 }}>
                 <Typography variant="h6" gutterBottom component="div">
                   Detalle de productos
                 </Typography>
@@ -105,7 +105,7 @@ export const EnviosTable = (props) => {
                   ))}
                   </TableBody>
                 </Table>
-              </Box>
+              </Box> */}
             </Collapse>
           </TableCell>
         </TableRow>
