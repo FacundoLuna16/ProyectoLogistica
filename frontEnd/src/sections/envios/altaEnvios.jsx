@@ -11,6 +11,7 @@ import {
   DialogActions,
   Button,
   CircularProgress,
+  Checkbox,
 } from "@mui/material";
 import EnvioService from "src/service/enviosService";
 import ClientesService from "src/service/clientesService";
@@ -23,12 +24,38 @@ import IconButton from "@mui/material/IconButton";
 import AgregarClienteDialog from "src/sections/clientes/altaClientes";
 import { isValid } from "date-fns";
 import { is } from "date-fns/locale";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { styled } from '@mui/material/styles';
+
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
+
 
 const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
   const authContext = useAuth();
   const enviosService = new EnvioService(authContext);
   const clientesService = new ClientesService(authContext);
 
+  // {
+  //   "numeroFactura": "string",
+  //   "idCliente": 0,
+  //   "idZona": 4,
+  //   "direccionEnvio": "string",
+  //   "entreCalles": "string",
+  //   "ultimosDigitosTarjeta": "string",
+  //   "descripcion": "string",
+  //   "tipoEnvio": 3,
+  //   "envioExterno": true
+  // }
   const [newEnvio, setNewEnvio] = useState({
     numeroFactura: "",
     idCliente: "",
@@ -36,7 +63,9 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
     direccionEnvio: "",
     entreCalles: "",
     ultimosDigitosTarjeta: "",
-    detalleEnvio: []
+    descripcion: "",
+    tipoEnvio: "",
+    envioExterno: false,
   });
 
   const [isFormValid, setIsFormValid] = useState(false);
@@ -85,37 +114,37 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
     setNewEnvio({ ...newEnvio, idZona: event.target.value });
   };
 
-  // Agregar un nuevo detalle de envío
-  const agregarDetalleEnvio = () => {
-    setNewEnvio({ ...newEnvio, detalleEnvio: [...newEnvio.detalleEnvio, ""] });
-  };
+  // // Agregar un nuevo detalle de envío
+  // const agregarDetalleEnvio = () => {
+  //   setNewEnvio({ ...newEnvio, detalleEnvio: [...newEnvio.detalleEnvio, ""] });
+  // };
 
-  const eliminarDetalleEnvio = (index) => {
-    const updatedDetalles = newEnvio.detalleEnvio.filter((_, i) => i !== index);
-    setNewEnvio({ ...newEnvio, detalleEnvio: updatedDetalles });
-  };
+  // const eliminarDetalleEnvio = (index) => {
+  //   const updatedDetalles = newEnvio.detalleEnvio.filter((_, i) => i !== index);
+  //   setNewEnvio({ ...newEnvio, detalleEnvio: updatedDetalles });
+  // };
 
   // Manejar el cambio en los detalles de envío
-  const handleDetalleEnvioChange = (index, value) => {
-    const updatedDetalles = newEnvio.detalleEnvio.map((detalle, i) => {
-      if (i === index) {
-        return value;
-      }
-      return detalle;
-    });
-    setNewEnvio({ ...newEnvio, detalleEnvio: updatedDetalles });
-  };
+  // const handleDetalleEnvioChange = (index, value) => {
+  //   const updatedDetalles = newEnvio.detalleEnvio.map((detalle, i) => {
+  //     if (i === index) {
+  //       return value;
+  //     }
+  //     return detalle;
+  //   });
+  //   setNewEnvio({ ...newEnvio, detalleEnvio: updatedDetalles });
+  // };
 
   // Esto sirve para los manejos de cambios globales
   const handleChange = (event) => {
     const { name, value } = event.target;
-  
+
     let formattedValue = value;
 
-    if (name === 'numeroFactura') {
+    if (name === "numeroFactura") {
       // Formatear el número de factura con el formato A-1234-12345678
-      formattedValue = value.replace(/[^A-Za-z0-9]/g, ''); // Eliminar caracteres no alfanuméricos
-  
+      formattedValue = value.replace(/[^A-Za-z0-9]/g, ""); // Eliminar caracteres no alfanuméricos
+
       if (formattedValue.length > 1) {
         // Agregar guión después del primer carácter
         formattedValue = `${formattedValue.slice(0, 1)}-${formattedValue.slice(1)}`;
@@ -125,12 +154,12 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
         formattedValue = `${formattedValue.slice(0, 6)}-${formattedValue.slice(6)}`;
       }
       formattedValue = formattedValue.slice(0, 15);
-  
+
       setValidation((prevValidation) => ({
         ...prevValidation,
         [name]: formattedValue.length === 15, // Validar si tiene la longitud correcta
       }));
-  
+
       setNewEnvio((prevEnvio) => ({
         ...prevEnvio,
         [name]: formattedValue,
@@ -142,18 +171,23 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
       }));
     }
   };
+
   
-  const [tipoEnvio, setTipoEnvio] = useState('');
 
   const [validation, setValidation] = useState({
     numeroFactura: true,
     ultimosDigitosTarjeta: true,
   });
 
-  
-
   useEffect(() => {
-    const requiredFields = ["numeroFactura", "idCliente", "idZona", "direccionEnvio", "entreCalles"];
+    const requiredFields = [
+      "numeroFactura",
+      "idCliente",
+      "idZona",
+      "direccionEnvio",
+      "entreCalles",
+      "tipoEnvio"
+    ];
     const areRequiredFieldsComplete = requiredFields.every((field) => !!newEnvio[field]);
     const isValidForm = Object.values(validation).every((isValid) => isValid);
     setIsFormValid(areRequiredFieldsComplete && isValidForm);
@@ -173,38 +207,32 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
     return newEnvio.ultimosDigitosTarjeta.length === 4;
   };
 
-  //vERIFICACION DEL FORMULARIO CARGADO COMPLETO VER POR LAS DUDAS QUE QUEDE BIEN
-  // const esFormularioValido = () => {
-  //   return (
-  //     newEnvio.numeroFactura.trim() &&
-  //     newEnvio.idCliente &&
-  //     newEnvio.idZona.trim() &&
-  //     newEnvio.direccionEnvio.trim() &&
-  //     newEnvio.entreCalles.trim() &&
-  //     validarUltimosDigitosTarjeta() &&
-  //     newEnvio.detalleEnvio.every((detalle) => detalle.trim())
-  //   );
-  // };
-
   const handleClienteSeleccionadoChange = (event) => {
     const cliente = event.target.value;
     setClienteSeleccionado(cliente);
     setNewEnvio({ ...newEnvio, idCliente: cliente.idCliente });
   };
 
+  //const [tipoEnvio, setTipoEnvio] = useState("");
+  const handleTipoEnvioChange = (event) => {
+    const tipoEnvio = event.target.value;
+    //setTipoEnvio(tipoEnvio);
+    setNewEnvio({ ...newEnvio, tipoEnvio: tipoEnvio });
+  };
+
   const handleOnEnvioAdded = async () => {
     if (isFormValid) {
       try {
-        const envioPost = {
-          ...newEnvio,
-          idCliente: parseInt(newEnvio.idCliente),
-          idZona: parseInt(newEnvio.idZona),
-          detalleEnvio: newEnvio.detalleEnvio.map(nombre => ({ nombre })),
-          ultimosDigitosTarjeta: newEnvio.ultimosDigitosTarjeta // Asumiendo que este campo es un string
-        };
-        alert(JSON.stringify(envioPost, null, 2));
-        await enviosService.create(envioPost);
-        
+        // const envioPost = {
+        //   ...newEnvio,
+        //   idCliente: parseInt(newEnvio.idCliente),
+        //   idZona: parseInt(newEnvio.idZona),
+        //   detalleEnvio: newEnvio.detalleEnvio.map(nombre => ({ nombre })),
+        //   ultimosDigitosTarjeta: newEnvio.ultimosDigitosTarjeta // Asumiendo que este campo es un string
+        // };
+        alert(JSON.stringify(newEnvio, null, 2));
+        await enviosService.create(newEnvio);
+
         alert("Envío agregado exitosamente");
         onClose();
         onEnvioAdded();
@@ -236,14 +264,13 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
       const data = await fetchClientes();
 
       setClientes(data); // Actualiza la lista completa de clientes
-      filtrarPorTipoDocumento(tipoDocumentoFiltro); 
+      filtrarPorTipoDocumento(tipoDocumentoFiltro);
 
       setLoading(false); // Finaliza la carga
       alert("Clientes cargados correctamente");
     };
     fetchData(); // Llama a la función interna
   };
-
 
   useEffect(() => {
     // Restablecer el estado cuando se cierre el diálogo
@@ -255,13 +282,14 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
         direccionEnvio: "",
         entreCalles: "",
         ultimosDigitosTarjeta: "",
-        detalleEnvio: [""],
+        descripcion: "",
+        tipoEnvio: "",
+        envioExterno: false,
       });
     }
   }, [open]);
 
- useEffect(() => {
- 
+  useEffect(() => {
     const fetchData = async () => {
       setLoading(true); // Inicia la carga
 
@@ -269,12 +297,12 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
       const data = await fetchClientes();
 
       setClientes(data); // Actualiza la lista completa de clientes
-      filtrarPorTipoDocumento(tipoDocumentoFiltro); 
+      filtrarPorTipoDocumento(tipoDocumentoFiltro);
 
       setLoading(false); // Finaliza la carga
     };
     fetchData(); // Llama a la función interna
-  }, [open]); 
+  }, [open]);
 
   // Mostrar la rueda de carga mientras se están recuperando los datos
   if (loading) {
@@ -301,36 +329,51 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
         }}
       >
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          <Box size="small" display="flex" flexDirection={{ xs: "column", sm: "row" }} alignItems="center" gap={2}>
-              <TextField
-                autoFocus
-                id="numeroFactura"
-                label="Nro Factura"
-                type="text"
-                fullWidth
-                required
-                name="numeroFactura"
-                error={!validation.numeroFactura}
-                value={newEnvio.numeroFactura}
-                onChange={handleChange}
-                size="small"
-              />
-              {/* Select para el tipo de envío */}
-            <FormControl size="small" sx={{ width: '20%' }}>
-              <InputLabel id="tipo-envio-label">Tipo de Envío</InputLabel>
+          <Box
+            size="small"
+            display="flex"
+            flexDirection={{ xs: "column", sm: "row" }}
+            alignItems="center"
+            gap={2}
+          >
+            <TextField
+              autoFocus
+              id="numeroFactura"
+              label="Nro Factura"
+              type="text"
+              fullWidth
+              required
+              name="numeroFactura"
+              error={!validation.numeroFactura}
+              value={newEnvio.numeroFactura}
+              onChange={handleChange}
+              size="small"
+            />
+            {/* Select para el tipo de envío */}
+            <FormControl size="small" sx={{ width: "30%" }}>
+              <InputLabel id="tipo-envio-label">Tipo de Envío*</InputLabel>
               <Select
                 labelId="tipo-envio-label"
                 id="tipo-envio-select"
-                value={tipoEnvio}
+                value={newEnvio.tipoEnvio}
                 label="Tipo de Envío"
-                onChange={(e) => setTipoEnvio(e.target.value)}
+                onChange={handleTipoEnvioChange}
               >
-                <MenuItem value="envioWeb">Envío Web</MenuItem>
-                <MenuItem value="envioPago">Envío Pago</MenuItem>
-                <MenuItem value="otro">Otro</MenuItem>
+                <MenuItem value="1">Envío Web</MenuItem>
+                <MenuItem value="2">Salsep</MenuItem>
+                <MenuItem value="3">Empresa</MenuItem>
               </Select>
             </FormControl>
-            </Box>
+            {/* Check box para saleccionar si es envio a Correo Particular o entrega de cliente true o false */}
+            <Checkbox
+              checked={newEnvio.envioExterno}
+              onChange={(e) => {
+                setNewEnvio({ ...newEnvio, envioExterno: e.target.checked });
+              }}
+              color="primary"
+            />
+            Envío a Correo Particular
+          </Box>
           <Typography variant="subtitle1" gutterBottom>
             Cliente *
           </Typography>
@@ -421,23 +464,48 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
               MenuProps={{
                 PaperProps: {
                   sx: {
-                    '.MuiMenuItem-root': {
-                      whiteSpace: 'normal', // Permite que el texto se ajuste en varias líneas
-                      wordWrap: 'break-word' // Asegura que el texto se ajuste correctamente
-                    }
-                  }
-                }
+                    ".MuiMenuItem-root": {
+                      whiteSpace: "normal", // Permite que el texto se ajuste en varias líneas
+                      wordWrap: "break-word", // Asegura que el texto se ajuste correctamente
+                      maxWidth: "100%", // Limita el ancho de la lista
+                    },
+                  },
+                },
               }}
             >
-              <MenuItem value={"1"}>1(EZFUERZO, HIBEPA, CUENCA XV, GRAN NEUQUEN NORTE, GRAN NEUQUEN SUR, SAN LORENZO NORTE, SAN LORENZO SUR, VALNTINA NORTE URBANA, HUILLICHEZ, UNION DE MAYO, MELIPAL, GREGORIO ALVAREZ, EL PROGRESO, VILLA CEFERINO, BARDAS SOLEADAS, CUMELEN, ISLA MALVINAS, CIUDAD INDUSTRIAL, COLONIA NUEVA ESPERANZA, ALMA FUERTE, PARQUE INDUSTRIAL)</MenuItem>
-              <MenuItem value={"2"}>2(TERRAZA DEL NEUQUEN, 14 DE OCUTBRE COPOL, RINCON DE EMILIO, ALTA BARDA, AREA CENTRO OESTE, RINCON DE EMILIO,  ALTA BARDA, AREA CENTRO OESTE, AREA CENTRO ESTE, SANTA GENOVEVA, VILLA FARREL, PROVINCIAS UNIDAS, SAPERE, CENTENARIO, VISTA ALEGRE, CINCO SALTOS, BARDA DEL MEDIO, C.CORDERO)</MenuItem>
-              <MenuItem value={"3"}>3(BOUQUET ROLDAN, MILITAR, VALENTINA SUR RURAL, BALSA LAS PERLAS, TERMINAL NEUQUEN, CANAL V, LA SIRENA, PLOTTIER, CHINA MUERTA, SENILLOSA)</MenuItem>
-              <MenuItem value={"4"}>4(AREA CENTRO SUR, NUEVO, VILLA FLORENCIA, RIO GRANDE, DON BOSCO II, VILLA MARIA, BELGRANO, MARIANO MORENO, CONFLUENCIA URBANO, CONFLUENCIA RURAL, DON BOSCO III, LIMAY, CIPOLLETTI, FERNANDEZ ORO, ALLEN, ROCA, MAINQUE)</MenuItem>
+              <MenuItem value={"1"}>
+                1(EZFUERZO, HIBEPA, CUENCA XV, GRAN NEUQUEN NORTE, GRAN NEUQUEN SUR, SAN LORENZO
+                NORTE, SAN LORENZO SUR, VALNTINA NORTE URBANA, HUILLICHEZ, UNION DE MAYO, MELIPAL,
+                GREGORIO ALVAREZ, EL PROGRESO, VILLA CEFERINO, BARDAS SOLEADAS, CUMELEN, ISLA
+                MALVINAS, CIUDAD INDUSTRIAL, COLONIA NUEVA ESPERANZA, ALMA FUERTE, PARQUE
+                INDUSTRIAL)
+              </MenuItem>
+              <MenuItem value={"2"}>
+                2(TERRAZA DEL NEUQUEN, 14 DE OCUTBRE COPOL, RINCON DE EMILIO, ALTA BARDA, AREA
+                CENTRO OESTE, RINCON DE EMILIO, ALTA BARDA, AREA CENTRO OESTE, AREA CENTRO ESTE,
+                SANTA GENOVEVA, VILLA FARREL, PROVINCIAS UNIDAS, SAPERE, CENTENARIO, VISTA ALEGRE,
+                CINCO SALTOS, BARDA DEL MEDIO, C.CORDERO)
+              </MenuItem>
+              <MenuItem value={"3"}>
+                3(BOUQUET ROLDAN, MILITAR, VALENTINA SUR RURAL, BALSA LAS PERLAS, TERMINAL NEUQUEN,
+                CANAL V, LA SIRENA, PLOTTIER, CHINA MUERTA, SENILLOSA)
+              </MenuItem>
+              <MenuItem value={"4"}>
+                4(AREA CENTRO SUR, NUEVO, VILLA FLORENCIA, RIO GRANDE, DON BOSCO II, VILLA MARIA,
+                BELGRANO, MARIANO MORENO, CONFLUENCIA URBANO, CONFLUENCIA RURAL, DON BOSCO III,
+                LIMAY, CIPOLLETTI, FERNANDEZ ORO, ALLEN, ROCA, MAINQUE)
+              </MenuItem>
             </Select>
           </FormControl>
+          {/* Componente para subir arrastrando o algo un pdf */}
+
           <Typography variant="subtitle1" gutterBottom>
             Espacio para pdf *
           </Typography>
+          <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+            Upload file
+            <VisuallyHiddenInput type="file" />
+          </Button>
           <Box display="flex" flexDirection={{ xs: "column", sm: "row" }} gap={2}>
             <TextField
               label="Dirección de Envío"
