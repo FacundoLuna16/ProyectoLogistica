@@ -3,6 +3,7 @@ package com.siglo21.swiftlogix.application.controller;
 import com.siglo21.swiftlogix.application.Response.ClienteResponse;
 import com.siglo21.swiftlogix.application.request.ClienteRequestDto;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.ClienteService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/v1/clientes")
+@SecurityRequirement(name = "bearerAuth")
 public class ClienteController {
 
     private final ClienteService clienteService;

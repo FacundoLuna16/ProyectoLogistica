@@ -3,6 +3,7 @@ package com.siglo21.swiftlogix.application.controller;
 import com.siglo21.swiftlogix.application.Response.RepartidorResponse;
 import com.siglo21.swiftlogix.application.request.RepartidorRequestDto;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.RepartidorService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/v1/repartidores")
+@SecurityRequirement(name = "bearerAuth")
 public class RepartidorController {
 
     private final RepartidorService repartidorService;

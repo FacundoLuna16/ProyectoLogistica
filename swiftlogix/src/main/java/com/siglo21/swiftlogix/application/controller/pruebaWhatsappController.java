@@ -1,6 +1,7 @@
 package com.siglo21.swiftlogix.application.controller;
 
 import com.siglo21.swiftlogix.domain.Service.Interfaz.HojaDelDiaService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/v1/whatsapp")
+@SecurityRequirement(name = "bearerAuth")
 public class pruebaWhatsappController {
 
     private final HojaDelDiaService hojaDelDiaService;

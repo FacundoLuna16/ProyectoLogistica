@@ -1,30 +1,22 @@
 package com.siglo21.swiftlogix.application.controller;
 
 import com.siglo21.swiftlogix.application.Response.CamionResponse;
-import com.siglo21.swiftlogix.application.Response.ClienteResponse;
-import com.siglo21.swiftlogix.application.Response.EnvioResponse;
 import com.siglo21.swiftlogix.application.request.CamionCrearRequestDto;
 import com.siglo21.swiftlogix.application.request.CamionRequestDto;
-import com.siglo21.swiftlogix.application.request.CrearEnvioRequestDto;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.CamionService;
-import org.springframework.security.access.prepost.PreAuthorize;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/api/v1/camiones")
+@SecurityRequirement(name = "bearerAuth")
 public class CamionController {
 
     private final CamionService camionService;

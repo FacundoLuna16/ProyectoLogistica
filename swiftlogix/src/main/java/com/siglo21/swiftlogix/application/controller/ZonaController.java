@@ -2,6 +2,7 @@ package com.siglo21.swiftlogix.application.controller;
 
 import com.siglo21.swiftlogix.application.Response.ZonaResponse;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.ZonaService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/v1/zona")
+@SecurityRequirement(name = "bearerAuth")
 public class ZonaController {
 
     private final ZonaService zonaService;

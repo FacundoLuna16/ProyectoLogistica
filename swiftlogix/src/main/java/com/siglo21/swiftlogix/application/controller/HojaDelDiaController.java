@@ -4,6 +4,7 @@ package com.siglo21.swiftlogix.application.controller;
 import com.siglo21.swiftlogix.application.Response.HojaDelDiaResponse;
 import com.siglo21.swiftlogix.application.Response.HojaDelDiaResponsePorDia;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.HojaDelDiaService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/v1/hojas")
+@SecurityRequirement(name = "bearerAuth")
 public class HojaDelDiaController {
 
     private final HojaDelDiaService hojaDelDiaService;

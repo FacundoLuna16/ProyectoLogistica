@@ -4,6 +4,7 @@ import com.siglo21.swiftlogix.application.Response.EnvioResponse;
 import com.siglo21.swiftlogix.application.request.ActualizarEnviorRequestDto;
 import com.siglo21.swiftlogix.application.request.CrearEnvioRequestDto;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.EnvioService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/v1/envios")
+@SecurityRequirement(name = "bearerAuth")
 public class EnvioController {
 
     private final EnvioService envioService;
