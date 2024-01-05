@@ -196,9 +196,9 @@ const HojaDelDia = () => {
                 <Typography variant="h6" gutterBottom>
                   Estado: {hojaSelecionada.estadoHojaDelDia}
                 </Typography>
-                <Typography variant="h6" gutterBottom>
-                  Observaciones: dasdaadd {hojaSelecionada.observaciones}
-                </Typography>
+                {/* <Typography variant="h6" gutterBottom>
+                  Observaciones: {hojaSelecionada.observaciones}
+                </Typography> */}
               </Box>
               <Paper sx={{ width: "100%", overflowX: "auto", maxHeight: "60vh", mb: 4 }}>
                 {hojaSelecionada && hojaSelecionada.envios && (

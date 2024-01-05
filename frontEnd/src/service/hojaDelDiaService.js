@@ -51,13 +51,12 @@ class HojaDelDiaService {
             // Asegúrate de que estás utilizando bien las cadenas de plantilla (backticks `)
             const url = `${this.API_URL}/iniciarEntrega`;
     
-            const response = await axios.put(url, null, { 
+            const response = await axios.put(url, {}, { 
                 params: params,
                 headers: {
                     Authorization: `Bearer ${this.authContext.keycloak.token}`,
-                  },
+                  },    
             });
-    
             return response.data;
         } catch (error) {
             throw error;

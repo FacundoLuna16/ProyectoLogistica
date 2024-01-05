@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect , useState } from "react";
 import {
   Dialog,
   Typography,
@@ -45,7 +45,31 @@ const getColorForEstado = (estado) => {
   }
 };
 
+
+
+
+
 const ConsultarEnvioDialog = ({ open, onClose, envio }) => {
+  const [tipoEnvio, setTipoEnvio] = useState("");
+
+  useEffect(() => {
+    switch (envio.tipoEnvio) {
+      case 1:
+        setTipoEnvio("Web");
+        break;
+      case 2:
+        setTipoEnvio("Salsep");
+        break;
+      case 3:
+        setTipoEnvio("Empresa");
+        break;
+      default:
+        break;
+    }
+  }, [envio]);
+
+
+  
   // Verifica si el envío es falsy (undefined o vacío)
   if (!envio || !envio.numeroFactura) {
     return null; // No renderizar el componente si el envío no está presente o es vacío
@@ -56,6 +80,7 @@ const ConsultarEnvioDialog = ({ open, onClose, envio }) => {
         <DialogTitle>Datos del Envío</DialogTitle>
         <DialogContent>
           {/* Numero factura */}
+          <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
           <TextField
             margin="dense"
             id="numeroFactura"
@@ -65,6 +90,18 @@ const ConsultarEnvioDialog = ({ open, onClose, envio }) => {
             value={envio.numeroFactura}
             InputProps={{ readOnly: true }}
           />
+          {/* Tipo de envio */}
+          <TextField
+            margin="dense"
+            id="tipoEnvio"
+            label="Tipo de Envío"
+            type="text"
+            fullWidth
+            value={tipoEnvio}
+            InputProps={{ readOnly: true }}
+          />
+          </Box>
+
           {/* Cliente */}
           <Typography variant="subtitle1" gutterBottom>
             Cliente
@@ -153,62 +190,7 @@ const ConsultarEnvioDialog = ({ open, onClose, envio }) => {
             >
               {envio.estadoActual}
             </Button>
-            {/* <TextField
-              margin="dense"
-              id="estadoActual"
-              color={getColorForEstado(envio.estadoActual)}
-              label="Estado Actual"
-              type="text"
-              fullWidth
-              value={envio.estadoActual}
-              InputProps={{ readOnly: true }}
-            /> */}
-            {/* ULTIMOS DIGITOS */}
-            {/* <TextField
-              margin="dense"
-              id="ultimosDigitos"
-              label="Ultimos Digitos"
-              type="text"
-              fullWidth
-              value={envio.ultimosDigitosTarjeta}
-              InputProps={{ readOnly: true }}
-            /> */}
           </Box>
-          {/* <Scrollbar>
-            <Box>
-              <Typography variant="subtitle1" gutterBottom>
-                Productos
-              </Typography>
-              <TableContainer sx={{ maxHeight: 150 }}>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell
-                        align="center"
-                        style={{ position: "sticky", top: 0, backgroundColor: "#fff", zIndex: 1 }}
-                      >
-                        Producto
-                      </TableCell>
-                      <TableCell
-                        align="center"
-                        style={{ position: "sticky", top: 0, backgroundColor: "#fff", zIndex: 1 }}
-                      >
-                        Cantidad
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {envio.detalleEnvio.map((detalle) => (
-                      <TableRow key={detalle.id}>
-                        <TableCell align="center">{detalle.nombre}</TableCell>
-                        <TableCell align="center">{1}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Box>
-          </Scrollbar> */}
           <Scrollbar>
             <Box>
               <Typography variant="subtitle1" gutterBottom>
