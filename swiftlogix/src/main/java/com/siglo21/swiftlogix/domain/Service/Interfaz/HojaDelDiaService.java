@@ -20,6 +20,8 @@ public interface HojaDelDiaService {
 
     List<HojaDelDia> getHojaDelDiaSemanal(LocalDate fechaReparto);
 
+    void enviarMensaje(List<String> numeros);
+
 
 
 

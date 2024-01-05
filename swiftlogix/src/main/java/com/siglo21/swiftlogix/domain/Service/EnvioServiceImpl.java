@@ -6,6 +6,7 @@ import com.siglo21.swiftlogix.domain.Model.*;
 import com.siglo21.swiftlogix.domain.Model.EstadosEnvio.Pendiente;
 import com.siglo21.swiftlogix.domain.Repository.*;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.EnvioService;
+import com.siglo21.swiftlogix.domain.exchangePort.WhatsappService;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
@@ -18,11 +19,14 @@ public class EnvioServiceImpl implements EnvioService {
     private final EstadoEnvioRepository estadoEnvioRepository;
     private final ZonaRepository zonaRepository;
 
-    public EnvioServiceImpl(EnvioRepository envioRepository, ClienteRepository clienteRepository, EstadoEnvioRepository estadoEnvioRepository, ZonaRepository zonaRepository) {
+    private final WhatsappService whatsappService;
+
+    public EnvioServiceImpl(EnvioRepository envioRepository, ClienteRepository clienteRepository, EstadoEnvioRepository estadoEnvioRepository, ZonaRepository zonaRepository, WhatsappService whatsappService) {
         this.envioRepository = envioRepository;
         this.clienteRepository = clienteRepository;
         this.estadoEnvioRepository = estadoEnvioRepository;
         this.zonaRepository = zonaRepository;
+        this.whatsappService = whatsappService;
     }
 
 
@@ -42,9 +46,15 @@ public class EnvioServiceImpl implements EnvioService {
     @Override
     public Optional<Envio> save(CrearEnvioRequestDto crearEnvioRequestDto) {
         validarEnvioNoExistente(crearEnvioRequestDto.getNumeroFactura());
-
         Envio envio = crearEnvioDesdeRequest(crearEnvioRequestDto);
-        return envioRepository.save(envio);
+        Optional<Envio> envioGuardado = envioRepository.save(envio);
+
+        //manejo de whatsapp
+        String numero = envio.getCliente().getNumeroTelefono();
+        String numeroFactura = envio.getNumeroFactura();
+        whatsappService.enviarMensaje(numero, numeroFactura,2);
+
+        return envioGuardado;
     }
 
     @Transactional

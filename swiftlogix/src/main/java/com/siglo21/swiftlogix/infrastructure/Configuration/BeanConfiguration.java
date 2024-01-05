@@ -3,6 +3,7 @@ package com.siglo21.swiftlogix.infrastructure.Configuration;
 import com.siglo21.swiftlogix.domain.Repository.*;
 import com.siglo21.swiftlogix.domain.Service.*;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.*;
+import com.siglo21.swiftlogix.domain.exchangePort.WhatsappService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -41,8 +42,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public EnvioService envioService(EnvioRepository envioRepository, ClienteRepository clienteRepository, EstadoEnvioRepository estadoEnvioRepository, ZonaRepository zonaRepository) {
-        return new EnvioServiceImpl(envioRepository, clienteRepository,estadoEnvioRepository , zonaRepository);
+    public EnvioService envioService(EnvioRepository envioRepository, ClienteRepository clienteRepository, EstadoEnvioRepository estadoEnvioRepository, ZonaRepository zonaRepository, WhatsappService whatsappService) {
+        return new EnvioServiceImpl(envioRepository, clienteRepository,estadoEnvioRepository , zonaRepository, whatsappService);
     }
 
     @Bean
@@ -51,8 +52,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public HojaDelDiaService hojaDelDiaService(EnvioRepository envioRepository, HojaDelDiaRepository hojaDelDiaRepository, EstadoHojaRepository estadoHojaRepository, EstadoEnvioRepository estadoEnvioRepository){
-        return new HojaDelDiaServiceImpl(envioRepository,hojaDelDiaRepository,estadoHojaRepository, estadoEnvioRepository);
+    public HojaDelDiaService hojaDelDiaService(EnvioRepository envioRepository, HojaDelDiaRepository hojaDelDiaRepository, EstadoHojaRepository estadoHojaRepository, EstadoEnvioRepository estadoEnvioRepository, WhatsappService whatsappService){
+        return new HojaDelDiaServiceImpl(envioRepository,hojaDelDiaRepository,estadoHojaRepository, estadoEnvioRepository,whatsappService);
     }
 
 }

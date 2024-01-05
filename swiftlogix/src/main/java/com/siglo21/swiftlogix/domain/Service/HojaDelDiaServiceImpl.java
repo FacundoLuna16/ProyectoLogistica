@@ -8,6 +8,7 @@ import com.siglo21.swiftlogix.domain.Repository.EstadoEnvioRepository;
 import com.siglo21.swiftlogix.domain.Repository.EstadoHojaRepository;
 import com.siglo21.swiftlogix.domain.Repository.HojaDelDiaRepository;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.HojaDelDiaService;
+import com.siglo21.swiftlogix.domain.exchangePort.WhatsappService;
 import jakarta.persistence.EntityNotFoundException;
 import java.time.temporal.TemporalAdjusters;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,9 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 public class HojaDelDiaServiceImpl implements HojaDelDiaService {
 
@@ -31,11 +30,14 @@ public class HojaDelDiaServiceImpl implements HojaDelDiaService {
 
     private final EstadoEnvioRepository estadoEnvioRepository;
 
-    public HojaDelDiaServiceImpl(EnvioRepository envioRepository, HojaDelDiaRepository hojaDelDiaRepository, EstadoHojaRepository estadoHojaRepository, EstadoEnvioRepository estadoEnvioRepository) {
+    private final WhatsappService whatsappService;
+
+    public HojaDelDiaServiceImpl(EnvioRepository envioRepository, HojaDelDiaRepository hojaDelDiaRepository, EstadoHojaRepository estadoHojaRepository, EstadoEnvioRepository estadoEnvioRepository, WhatsappService whatsappService) {
         this.envioRepository = envioRepository;
         this.hojaDelDiaRepository = hojaDelDiaRepository;
         this.estadoHojaRepository = estadoHojaRepository;
         this.estadoEnvioRepository = estadoEnvioRepository;
+        this.whatsappService = whatsappService;
     }
 
 
@@ -151,6 +153,10 @@ public class HojaDelDiaServiceImpl implements HojaDelDiaService {
             //List<Envio> enviosDeLaHoja = hojaDelDia.getEnvios();
             for (Envio envio : hojaDelDia.getEnvios()) {
                 envio.enCamino(enCamino);
+
+                String numero = envio.getCliente().getNumeroTelefono();
+                String numeroFactura = envio.getNumeroFactura();
+                whatsappService.enviarMensaje(numero, numeroFactura, 1);
                 //guardar envios uno por uno cada vez que actualiza uno
                 //envioRepository.save(envio);
             }
@@ -184,6 +190,19 @@ public class HojaDelDiaServiceImpl implements HojaDelDiaService {
 
         // Llamar al método en el repositorio para obtener las hojas del día de esa semana
         return hojaDelDiaRepository.getHojaDelDiaBetween(startDate, endDate);
+    }
+
+    @Override
+    public void enviarMensaje(List<String> numeros) {
+        try {
+            //recorro los numeros y envico cada uno a enviarMensaje
+            for (String numero : numeros) {
+                whatsappService.enviarMensaje(numero,"A-1234-12345566",1);
+            }
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 
