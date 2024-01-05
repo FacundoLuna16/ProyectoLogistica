@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class NumeroFacturaValidator implements ConstraintValidator<NumeroFacturaValid, String> {
 
-    private static final String PATRON_FACTURA = "^[A-Ba-b]-\\d{4}-\\d{8}$";
+    private static final String PATRON_FACTURA = "^[A-B]-\\d{4}-\\d{8}$";
 
     @Override
     public void initialize(NumeroFacturaValid constraintAnnotation) {

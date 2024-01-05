@@ -2,6 +2,7 @@ package com.siglo21.swiftlogix.domain.Model;
 
 import com.siglo21.swiftlogix.domain.Model.EstadosEnvio.Pendiente;
 import com.siglo21.swiftlogix.infrastructure.entity.*;
+import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -17,23 +18,35 @@ public class Envio {
     private String numeroFactura;
     private Cliente cliente;
     private Zona zona;
-    private List<DetalleEnvio> detalleEnvio;
     private String direccionEnvio;
     private String entreCalles;
     private ArrayList<CambioEstado> cambiosEstado;
     private EstadoEnvio estadoActual;
     private String ultimosDigitosTarjeta;
+    private String descripcion;
+    private Integer tipoEnvio; //1-Web 2-salsep 3-empresa
+    private Integer intentos; //intentos que se han hecho para entregar el envio
+    private Boolean envioExterno; //Los envios externos se generan en la hoja del dia automaticamente idependiente de la zona
+    private Boolean fueraDeCiclo; //si esta fuera del ciclo no se genera en la hoja del dia automaticamente
 
-    public Envio(String numeroFactura, Cliente cliente, Zona zona, List<DetalleEnvio> detallesEnvio, Pendiente pendiente, String direccionEnvio, String entreCalles, String ultimosDigitosTarjeta) {
+    public Envio(String numeroFactura, Cliente cliente, Zona zona, Pendiente pendiente, String direccionEnvio, String entreCalles, String ultimosDigitosTarjeta, String descripcion, Integer tipoEnvio, Boolean envioExterno) {
         this.numeroFactura = numeroFactura;
         this.cliente = cliente;
         this.zona = zona;
-        this.detalleEnvio = detallesEnvio;
         this.direccionEnvio = direccionEnvio;
         this.entreCalles = entreCalles;
         this.cambiosEstado = new ArrayList<>(List.of(new CambioEstado(pendiente)));
         this.estadoActual = pendiente;
         this.ultimosDigitosTarjeta = ultimosDigitosTarjeta;
+        this.descripcion = descripcion;
+        this.tipoEnvio = tipoEnvio;
+        if (tipoEnvio == 1) {
+            this.intentos = 1;
+        } else {
+            this.intentos = 3;
+        }
+        this.envioExterno = envioExterno;
+        this.fueraDeCiclo = false;
     }
 
 
@@ -42,12 +55,16 @@ public class Envio {
         envioEntity.setNumeroFactura(this.numeroFactura);
         envioEntity.setCliente(this.cliente != null ? this.cliente.toEntity() : null);
         envioEntity.setZona(this.zona != null ? this.zona.toEntity() : null);
-        envioEntity.setDetalleEnvio(this.detalleEnvio.stream().map(DetalleEnvio::toEntity).toList());
         envioEntity.setDireccionEnvio(this.direccionEnvio);
         envioEntity.setEntreCalles(this.entreCalles);
         envioEntity.setCambiosEstado(this.cambiosEstado != null ? this.cambiosEstado.stream().map(CambioEstado::toEntity).collect(Collectors.toList()) : null);
         envioEntity.setEstadoActual(this.estadoActual != null ? this.estadoActual.toEntity() : null);
         envioEntity.setUltimosDigitosTarjeta(this.ultimosDigitosTarjeta);
+        envioEntity.setDescripcion(this.descripcion);
+        envioEntity.setTipoEnvio(this.tipoEnvio);
+        envioEntity.setIntentos(this.intentos);
+        envioEntity.setEnvioExterno(this.envioExterno);
+        envioEntity.setFueraDeCiclo(this.fueraDeCiclo);
         return envioEntity;
     }
 

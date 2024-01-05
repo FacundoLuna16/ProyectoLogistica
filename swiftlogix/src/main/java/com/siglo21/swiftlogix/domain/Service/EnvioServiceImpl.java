@@ -52,7 +52,8 @@ public class EnvioServiceImpl implements EnvioService {
         //manejo de whatsapp
         String numero = envio.getCliente().getNumeroTelefono();
         String numeroFactura = envio.getNumeroFactura();
-        whatsappService.enviarMensaje(numero, numeroFactura,2);
+        //TODO: DESCOMENTAR ENVIO DE WHATSAPP
+//        whatsappService.enviarMensaje(numero, numeroFactura,2);
 
         return envioGuardado;
     }
@@ -81,14 +82,13 @@ public class EnvioServiceImpl implements EnvioService {
         Cliente cliente = obtenerClienteDesdeRequest(requestDto.getIdCliente());
         Zona zona = obtenerZonaDesdeRequest(requestDto.getIdZona());
 
-        List<DetalleEnvio> detallesEnvio = requestDto.getDetalleEnvio().stream()
-                .map(detalleEnvioRequestDto -> new DetalleEnvio(detalleEnvioRequestDto.getNombre()))
-                .toList();
 
         Pendiente pendiente = (Pendiente) estadoEnvioRepository.getById(1).orElseThrow(() -> new RuntimeException("Estado Pendiente no encontrado"));
 
-        return new Envio(requestDto.getNumeroFactura(), cliente, zona, detallesEnvio, pendiente,
-                requestDto.getDireccionEnvio(), requestDto.getEntreCalles(), requestDto.getUltimosDigitosTarjeta());
+        return new Envio(requestDto.getNumeroFactura(), cliente, zona, pendiente,
+                requestDto.getDireccionEnvio(), requestDto.getEntreCalles(),
+                requestDto.getUltimosDigitosTarjeta(),requestDto.getDescripcion(),
+                requestDto.getTipoEnvio(),requestDto.getEnvioExterno());
     }
 
     private Envio actualizarEnvioDesdeRequest(Envio envio, ActualizarEnviorRequestDto requestDto) {

@@ -6,6 +6,7 @@ import com.siglo21.swiftlogix.domain.Model.TipoDocumento;
 import com.siglo21.swiftlogix.domain.Repository.ClienteRepository;
 import com.siglo21.swiftlogix.domain.Repository.TipoDocumentoRepository;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.ClienteService;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +35,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
+    @Transactional
     public Optional<Cliente> save(ClienteRequestDto clienteRequestDto) {
         TipoDocumento tipoDocumento = tipoDocumentoRepository.getById(clienteRequestDto.getIdTipoDocumento()).get();
         Cliente cliente = new Cliente(tipoDocumento,clienteRequestDto);
