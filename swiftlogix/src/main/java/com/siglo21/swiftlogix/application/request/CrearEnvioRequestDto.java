@@ -5,8 +5,6 @@ import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 public class CrearEnvioRequestDto {
@@ -25,16 +23,20 @@ public class CrearEnvioRequestDto {
     @Max(value = 4, message = "El tipo de documento no es valido")
     private Integer idZona;
 
-    //TODO verificar si debajo afecta algo pasarlo vacio
-    private List<DetalleEnvioRequestDto> detalleEnvio;
-
     @NotBlank(message = "La direccion de envio no puede estar vacia")
     @NotNull(message = "La direccion de envio no puede ser nula")
     private String direccionEnvio;
 
-
     private String entreCalles;
 
-    @Size(min = 4, max = 4, message = "Ingrese 4 digitos.")
     private String ultimosDigitosTarjeta;
+
+    private String descripcion;
+
+    @Min(value = 1, message = "El tipo de envio debe ser al menos 1")
+    @Max(value = 3, message = "El tipo de envio no puede ser mayor que 3")
+    private Integer tipoEnvio;
+
+    private Boolean envioExterno = false; // Default value changed to false
+
 }

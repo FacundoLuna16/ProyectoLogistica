@@ -156,7 +156,8 @@ public class HojaDelDiaServiceImpl implements HojaDelDiaService {
 
                 String numero = envio.getCliente().getNumeroTelefono();
                 String numeroFactura = envio.getNumeroFactura();
-                whatsappService.enviarMensaje(numero, numeroFactura, 1);
+                //TODO: DESCOMENTAR ENVIO DE WHATSAPP
+//                whatsappService.enviarMensaje(numero, numeroFactura, 1);
                 //guardar envios uno por uno cada vez que actualiza uno
                 //envioRepository.save(envio);
             }
