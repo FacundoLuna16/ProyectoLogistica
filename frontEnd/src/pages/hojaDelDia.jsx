@@ -114,49 +114,58 @@ const HojaDelDia = () => {
   }
   
   async function generarPDF(hojaSeleccionada) {
-    const pdf = new jsPDF();
+    const pdf = new jsPDF({
+      orientation: 'landscape',
+    });
   
     try {
-      const img = await cargarLogo(); // Cargar el logo
-      pdf.addImage(img, 'PNG', 20, 10, 50, 20); // Ajusta según el tamaño y posición del logo
+      const img = await cargarLogo();
+      pdf.addImage(img, 'PNG', 20, 10, 50, 20);
   
-      // Encabezado
       pdf.setFontSize(16);
       pdf.text('      Hoja Del día', 80, 20);
       pdf.text(`Fecha Reparto: ${hojaSeleccionada.fechaReparto}`, 20, 40);
       pdf.text(`Repartidor: ${hojaSeleccionada.repartidor}`, 20, 50);
-      pdf.text(`Zona: ${hojaSeleccionada.zona}`, 20, 60);
+      pdf.text(`Zona: ${hojaSeleccionada.envios[0].zona}`, 20, 60);
       pdf.text(`Camion: ${hojaSeleccionada.camion}`, 100, 40);
   
-      // Cuerpo (Tabla)
-      const columnas = ['     ', 'Número de Factura', 'Direccion', 'Productos', 'Telefono 1', 'Telefono 2', 'Cliente', 'Zona'];
+      const columnas = ['     ', 'Factura', 'Direccion Entrega', 'Entre Calle', 'Telefono 1', 'Telefono 2', 'Cliente', 'Firma'];
       const filas = hojaSeleccionada.envios.map(envio => [
         '[ ]',
         envio.numeroFactura,
         envio.direccionEnvio,
-        envio.detalleEnvio.map(detalle => detalle.nombre).join('\n'),
-        envio.cliente.telefono1,
-        envio.cliente.telefono2,
-        `${envio.cliente.nombre} ${envio.cliente.apellido}`,
-        envio.zona,
+        envio.entreCalles,
+        envio.cliente.numeroTelefono,
+        envio.cliente.numeroAltTelefono,
+        `${envio.cliente.nombre} ${envio.cliente.apellido} ${envio.cliente.numeroDocumento}`,
+        '          '
       ]);
   
+      // Ajusta la altura de las filas según tus necesidades
+      const rowHeight = 15;
+      
       pdf.autoTable({
         head: [columnas],
         body: filas,
         startY: 70,
+        rowPageBreak: 'avoid',
         didDrawPage: function(data) {
           let str = 'Página ' + pdf.internal.getNumberOfPages();
           pdf.text(str, data.settings.margin.left, pdf.internal.pageSize.height - 10);
         },
-        // Otros estilos y configuraciones aquí...
+        styles: {
+          rowHeight: rowHeight,
+          fontSize: 12,
+          cellWidth: 'wrap', // Permitir que el contenido de la celda se divida en varias líneas
+        },
+        columnStyles: {
+          // Establecer estilos específicos para columnas si es necesario
+          2: { cellWidth: 'auto' }, // Por ejemplo, si la tercera columna es la de Dirección Entrega
+        },
       });
   
-      // Pie
       pdf.text('Firma: ........................', 20, pdf.internal.pageSize.height - 30);
   
-      // Visualizar o guardar el PDF
-      pdf.autoPrint();
       window.open(pdf.output('bloburl'), '_blank');
     } catch (error) {
       console.error('Error al generar el PDF:', error);
@@ -169,16 +178,18 @@ const HojaDelDia = () => {
         <title>Hoja del Día | Sistema de Gestión de Envíos</title>
       </Head>
       <Box component="main" sx={{ flexGrow: 1, py: 8 }}>
-        <Container maxWidth={false}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} lg={4}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DateCalendar onChange={handleDateChange} />
-              </LocalizationProvider>
-            </Grid>
-            <Grid item xs={12} lg={8}>
-              <Typography variant="h3">Hoja del día</Typography>
-              <Box sx={{ mb: 2 }}>
+      <Container maxWidth={false}>
+        <Grid container spacing={5} direction={isXSmall ? "column" : "row"}>
+          {/* Calendario arriba */}
+          <Grid item xs={12} lg={2} sx={{ paddingRight: isXSmall ? "0" : "300px" }}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DateCalendar onChange={handleDateChange} />
+            </LocalizationProvider>
+          </Grid>
+            {/* Contenido principal (Hoja del día) */}
+          <Grid item xs={12} lg={9}>
+            <Typography variant="h3">Hoja del día</Typography>
+              <Box sx={{ mb: 2, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Typography variant="h6" gutterBottom>
                   Fecha de reparto: {hojaSelecionada.fechaReparto}
                 </Typography>
@@ -186,7 +197,7 @@ const HojaDelDia = () => {
                   Estado: {hojaSelecionada.estadoHojaDelDia}
                 </Typography>
                 <Typography variant="h6" gutterBottom>
-                  Observaciones: {hojaSelecionada.observaciones}
+                  Observaciones: dasdaadd {hojaSelecionada.observaciones}
                 </Typography>
               </Box>
               <Paper sx={{ width: "100%", overflowX: "auto", maxHeight: "60vh", mb: 4 }}>

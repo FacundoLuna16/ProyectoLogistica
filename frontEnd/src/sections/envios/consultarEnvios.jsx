@@ -174,7 +174,7 @@ const ConsultarEnvioDialog = ({ open, onClose, envio }) => {
               InputProps={{ readOnly: true }}
             /> */}
           </Box>
-          <Scrollbar>
+          {/* <Scrollbar>
             <Box>
               <Typography variant="subtitle1" gutterBottom>
                 Productos
@@ -208,7 +208,7 @@ const ConsultarEnvioDialog = ({ open, onClose, envio }) => {
                 </Table>
               </TableContainer>
             </Box>
-          </Scrollbar>
+          </Scrollbar> */}
           <Scrollbar>
             <Box>
               <Typography variant="subtitle1" gutterBottom>
