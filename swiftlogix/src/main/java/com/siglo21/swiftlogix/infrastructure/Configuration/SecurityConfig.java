@@ -26,6 +26,7 @@ public class SecurityConfig {
             "/swagger-ui.html",
             "/v3/api-docs/**",
             "/api-docs/**",
+            "/api/v1/keycloak/**",
             "api-docs" };
 
     @Bean

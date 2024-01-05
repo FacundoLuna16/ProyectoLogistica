@@ -1,4 +1,4 @@
-package com.siglo21.swiftlogix.application.controller;
+package com.siglo21.swiftlogix.application.controller.soporte;
 
 import com.siglo21.swiftlogix.domain.Service.Interfaz.HojaDelDiaService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
