@@ -13,8 +13,10 @@ public class HojaDelDiaResponsePorDia {
     private Integer idHojaDelDia;
     private String fechaReparto;
     private String fechaCreacion;
-    private List<EnvioResponseHojaDelDia> envios;
     private String estadoHojaDelDia;
+    private RepartidorResponse repartidor;
+    private CamionResponse camionResponse;
+    private List<EnvioResponseHojaDelDia> envios;
 
 
     public HojaDelDiaResponsePorDia(HojaDelDia hojaDelDia) {
@@ -23,6 +25,8 @@ public class HojaDelDiaResponsePorDia {
         this.fechaCreacion = hojaDelDia.getFechaCreacion() != null ? hojaDelDia.getFechaCreacion().toString() : null;
         this.envios = hojaDelDia.getEnvios() != null ? hojaDelDia.getEnvios().stream().map(envio -> new EnvioResponseHojaDelDia(envio,this.fechaReparto)).toList() : null;
         this.estadoHojaDelDia = hojaDelDia.getEstadoHojaDelDia() != null ? hojaDelDia.getEstadoHojaDelDia().getNombre() : null;
+        this.repartidor = hojaDelDia.getRepartidor() != null ? new RepartidorResponse(hojaDelDia.getRepartidor()) : null;
+        this.camionResponse = hojaDelDia.getCamion() != null ? new CamionResponse(hojaDelDia.getCamion()) : null;
     }
 
 }
