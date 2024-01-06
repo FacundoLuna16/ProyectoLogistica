@@ -53,26 +53,24 @@ public class HojaDelDiaServiceImpl implements HojaDelDiaService {
     public void generarHojaDelDia() {
 
         DayOfWeek diaDeLaSemana = LocalDateTime.now().getDayOfWeek();
-
+        HojaDelDia hojaDelDia = new HojaDelDia();
        Integer idZona = diaDeLaSemana.getValue();
         if (idZona > 0 && idZona < 5) {
 
             try {
-                envioRepository.getAllFiltrado(1, idZona, null);
-            }
-            catch (Exception e){
-                System.out.println(e.getMessage());
-            }
 
             //Buscar todos los envios pendientes de la zona correspondiente
-            List<Envio> enviosPendientesPorZona = envioRepository.getAllFiltrado(1, idZona, null);
+            List<Envio> enviosPendientesPorZona = envioRepository.getAllFiltradoGenerarHoja(1, idZona, null);
             //List<Envio> enviosPendientesPorZona = envioRepository.getAllFiltrado(1, idZona, null);
 
             //Crear una hoja del dia con los envios pendientes
             //Busco el estado de hoja del dia en preparacion
             EstadoHoja estadoInicial = estadoHojaRepository.getById(1).get();
-            HojaDelDia hojaDelDia = new HojaDelDia(enviosPendientesPorZona,estadoInicial);
-
+            hojaDelDia = new HojaDelDia(enviosPendientesPorZona,estadoInicial);
+            }
+            catch (Exception e){
+                System.out.println(e.getMessage());
+            }
             //Guardar la hoja del dia
             hojaDelDiaRepository.save(hojaDelDia);
         }else {

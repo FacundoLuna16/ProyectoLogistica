@@ -26,6 +26,11 @@ public class JpaEnvioRepository implements EnvioRepository {
     }
 
     @Override
+    public List<Envio> getAllFiltradoGenerarHoja(Integer idEstado, Integer idZona, Integer idCliente) {
+        return jpaEnvioDao.findAllFiltered2(idEstado,idZona,idCliente).stream().map(EnvioEntity::toDomain).toList();
+    }
+
+    @Override
     public Optional<Envio> getById(String envioId) {
         Optional<EnvioEntity> envioEntity = jpaEnvioDao.findById(envioId);
         if (envioEntity.isEmpty()) {

@@ -9,6 +9,8 @@ public interface EnvioRepository {
 
     List<Envio> getAllFiltrado(Integer idEstado, Integer idZona, Integer idCliente);
 
+    List<Envio> getAllFiltradoGenerarHoja(Integer idEstado, Integer idZona, Integer idCliente);
+
     Optional<Envio> getById(String envioId);
 
     Optional<Envio> getByNroFactura(String nroFactura);

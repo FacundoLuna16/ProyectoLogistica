@@ -28,10 +28,6 @@ public class EnvioEntity {
     @JoinColumn(name = "id_zona")
     private ZonaEntity zona;
 
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
-    @JoinColumn(name = "numero_factura")
-    private List<DetalleEnvioEntity> detalleEnvio;
-
     @Column(name = "direccion_envio")
     private String direccionEnvio;
 
