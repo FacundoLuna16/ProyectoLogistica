@@ -6,8 +6,10 @@ import com.siglo21.swiftlogix.infrastructure.dao.JpaEnvioDao;
 import com.siglo21.swiftlogix.infrastructure.entity.EnvioEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Component
 public class JpaEnvioRepository implements EnvioRepository {
@@ -27,8 +29,17 @@ public class JpaEnvioRepository implements EnvioRepository {
 
     @Override
     public List<Envio> getAllFiltradoGenerarHoja(Integer idEstado, Integer idZona) {
-        return jpaEnvioDao.findAllFiltered2(1,idZona).stream().map(EnvioEntity::toDomain).toList();
+        List<EnvioEntity> envioDeZonaEntities = jpaEnvioDao.findAllFilteredWithIntentos(idEstado, idZona);
+        List<EnvioEntity> envioExternosEntities = jpaEnvioDao.findAllEnviosExternos();
+
+        Set<EnvioEntity> enviosSet = new HashSet<>(envioDeZonaEntities);
+        enviosSet.addAll(envioExternosEntities);
+
+        return enviosSet.stream()
+                .map(EnvioEntity::toDomain)
+                .toList();
     }
+
 
     @Override
     public Optional<Envio> getById(String envioId) {

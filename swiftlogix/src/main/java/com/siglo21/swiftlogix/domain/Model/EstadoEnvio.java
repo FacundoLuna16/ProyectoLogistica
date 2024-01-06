@@ -25,7 +25,6 @@ public abstract class EstadoEnvio {
     public void noEntregado(Envio envio, EstadoEnvio nuevoEstado) {
 
     }
-    //TODO no olvidar
     public void pendiente(Envio envio, EstadoEnvio nuevoEstado){
 
     }

@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface JpaEnvioDao extends JpaRepository<EnvioEntity, String> {
 
@@ -21,9 +20,13 @@ List<EnvioEntity> findAllFiltered(Integer idEstado, Integer idZona, Integer idCl
             "WHERE \n" +
             "  (:idEstado IS NULL OR e.estadoActual.id = :idEstado) AND\n" +
             "  (:idZona IS NULL OR e.zona.idZona = :idZona) AND\n" +
-            "  (e.envioExterno = true) AND\n" +
             "  (e.intentos > 0)")
-    List<EnvioEntity> findAllFiltered2(Integer idEstado, Integer idZona);
+    List<EnvioEntity> findAllFilteredWithIntentos(Integer idEstado, Integer idZona);
 
-
+    @Query("SELECT e FROM EnvioEntity e\n" +
+            "WHERE \n" +
+            "  (e.envioExterno = true) AND\n" +
+            "  (e.intentos > 0)"
+    )
+    List<EnvioEntity> findAllEnviosExternos();
 }
