@@ -232,9 +232,7 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
         //   detalleEnvio: newEnvio.detalleEnvio.map(nombre => ({ nombre })),
         //   ultimosDigitosTarjeta: newEnvio.ultimosDigitosTarjeta // Asumiendo que este campo es un string
         // };
-        alert(JSON.stringify(newEnvio, null, 2));
         await enviosService.create(newEnvio);
-
         alert("Envío agregado exitosamente");
         onClose();
         onEnvioAdded();

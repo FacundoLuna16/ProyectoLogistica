@@ -25,6 +25,7 @@ const HojaDelDia = () => {
   const [dialogIniciarEntregaOpen, setDialogIniciarEntregaOpen] = useState(false);
   const [dialogCerrarHojaOpen, setDialogCerrarHojaOpen] = useState(false);
   const [enviosSeleccionados, setEnviosSeleccionados] = useState([]);
+  const [fechaSeleccionada,setFechaSeleccionada] = useState({});
 
   //Estilos
   const theme = useTheme();
@@ -33,18 +34,6 @@ const HojaDelDia = () => {
 
   const handleEnviosSeleccionadosChange = (selectedEnvios) => {
     setEnviosSeleccionados(selectedEnvios);
-  };
-
-  const getAllHojasDelDia = async () => {
-    try {
-      const data = await hojasService.getAll();
-      setHojasDelDia(data);
-      //alert de data pasado a json
-      setHojaSelecionada(data[1]);
-      // alert(JSON.stringify(data[1]));
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const getByFechaReparto = async (fechaReparto) => {
@@ -59,6 +48,7 @@ const HojaDelDia = () => {
 
   const handleDateChange = (date) => {
     getByFechaReparto(date);
+    setFechaSeleccionada(date);
   };
 
 
@@ -75,11 +65,11 @@ const HojaDelDia = () => {
 
   const cerrarHoja = async () => {
     try {
-      alert("Se esta por cerrar la hoja" + hojaSelecionada.idHojaDelDia);
+      //alert("Se esta por cerrar la hoja" + hojaSelecionada.idHojaDelDia);
       // muestra por json los envios seleccionados
-      alert(JSON.stringify(enviosSeleccionados));
       await hojasService.cerrarHojaDelDia(hojaSelecionada.idHojaDelDia, enviosSeleccionados);
       alert("Se cerro la hoja");
+      getByFechaReparto(fechaSeleccionada);
     } catch (error) {
       alert(error.response.data.message);
     }
@@ -90,13 +80,15 @@ const HojaDelDia = () => {
     setDialogIniciarEntregaOpen(true);
   };
 
-  const iniciarEntrega = async () => {
+  const iniciarEntrega = async (idRepartidor,patenteCamion) => {
     try {
-      alert("Se esta por iniciar la hoja" + hojaSelecionada.idHojaDelDia);
-      await hojasService.iniciarEntrega(hojaSelecionada.idHojaDelDia);
+      //alert("Se esta por iniciar la hoja" + hojaSelecionada.idHojaDelDia + ", Repartidor: " + idRepartidor + "Camion: " + patenteCamion);
+      await hojasService.iniciarEntrega(hojaSelecionada.idHojaDelDia,idRepartidor,patenteCamion);
       alert("Se inicio la entrega");
+      getByFechaReparto(fechaSeleccionada);
+
     } catch (error) {
-      alert(error.response.data.message);
+      alert(error.data);
     }
   };
   const handleImprimir = () => {
@@ -114,6 +106,7 @@ const HojaDelDia = () => {
   }
   
   async function generarPDF(hojaSeleccionada) {
+    alert(JSON.stringify(hojaSeleccionada));
     const pdf = new jsPDF({
       orientation: 'landscape',
     });
@@ -123,27 +116,38 @@ const HojaDelDia = () => {
       pdf.addImage(img, 'PNG', 20, 10, 50, 20);
   
       pdf.setFontSize(16);
-      pdf.text('      Hoja Del día', 80, 20);
+      pdf.text('Hoja Del día', 80, 20);
       pdf.text(`Fecha Reparto: ${hojaSeleccionada.fechaReparto}`, 20, 40);
       pdf.text(`Repartidor: ${hojaSeleccionada.repartidor}`, 20, 50);
-      pdf.text(`Zona: ${hojaSeleccionada.envios[0].zona}`, 20, 60);
+  
+      // Modificar aquí para manejar el caso de no envíos
+      let zonaTexto = hojaSeleccionada.envios.length > 0 ? hojaSeleccionada.envios[0].zona : 'No hay envíos';
+      pdf.text(`Zona: ${zonaTexto}`, 20, 60);
+  
       pdf.text(`Camion: ${hojaSeleccionada.camion}`, 100, 40);
   
       const columnas = ['     ', 'Factura', 'Direccion Entrega', 'Entre Calle', 'Telefono 1', 'Telefono 2', 'Cliente', 'Firma'];
-      const filas = hojaSeleccionada.envios.map(envio => [
-        '[ ]',
-        envio.numeroFactura,
-        envio.direccionEnvio,
-        envio.entreCalles,
-        envio.cliente.numeroTelefono,
-        envio.cliente.numeroAltTelefono,
-        `${envio.cliente.nombre} ${envio.cliente.apellido} ${envio.cliente.numeroDocumento}`,
-        '          '
-      ]);
+      let filas = [];
   
-      // Ajusta la altura de las filas según tus necesidades
+      // Verificar si hay envíos
+      if (hojaSeleccionada.envios.length > 0) {
+        filas = hojaSeleccionada.envios.map(envio => [
+          '[ ]',
+          envio.numeroFactura,
+          envio.direccionEnvio,
+          envio.entreCalles,
+          envio.cliente.numeroTelefono,
+          envio.cliente.numeroAltTelefono,
+          `${envio.cliente.nombre} ${envio.cliente.apellido} ${envio.cliente.numeroDocumento}`,
+          '          '
+        ]);
+      } else {
+        // Fila predeterminada cuando no hay envíos
+        filas.push(['', 'No hay envíos', '', '', '', '', '', '']);
+      }
+  
       const rowHeight = 15;
-      
+  
       pdf.autoTable({
         head: [columnas],
         body: filas,
@@ -156,11 +160,10 @@ const HojaDelDia = () => {
         styles: {
           rowHeight: rowHeight,
           fontSize: 12,
-          cellWidth: 'wrap', // Permitir que el contenido de la celda se divida en varias líneas
+          cellWidth: 'wrap',
         },
         columnStyles: {
-          // Establecer estilos específicos para columnas si es necesario
-          2: { cellWidth: 'auto' }, // Por ejemplo, si la tercera columna es la de Dirección Entrega
+          2: { cellWidth: 'auto' },
         },
       });
   
@@ -171,6 +174,7 @@ const HojaDelDia = () => {
       console.error('Error al generar el PDF:', error);
     }
   }
+  
 
   return (
     <>

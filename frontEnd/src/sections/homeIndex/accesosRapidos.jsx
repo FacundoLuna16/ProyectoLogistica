@@ -9,7 +9,7 @@ const QuickAccess = () => {
           Accesos Directos
         </Typography>
         <Stack direction="column" spacing={2}>
-          <Link href="/hojaRuta" passHref>
+          <Link href="/hojaDelDia" passHref>
             <Button variant="contained" component="a" fullWidth>Hoja de Ruta</Button>
           </Link>
           <Link href="/envios" passHref>

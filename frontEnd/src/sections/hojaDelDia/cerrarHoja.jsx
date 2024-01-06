@@ -16,7 +16,7 @@ const CerrarHoja = ({ cerrarHoja, open, onClose, enviosSeleccionados }) => {
   const [noEntregadoChecked, setNoEntregadoChecked] = useState(false);
 
   const handleConfirmar = () => {
-    if (!noEntregadoChecked) {
+    if (noEntregadoChecked) {
       cerrarHoja();
     }
     onClose();

@@ -30,7 +30,7 @@ const App = (props) => {
     const initializeKeycloak = async () => {
       const keycloak = await initKeycloak();
       setKeycloak(keycloak);
-      console.log(keycloak);
+      //console.log(keycloak);
     };
     initializeKeycloak();
   }, []);

@@ -39,29 +39,29 @@ class HojaDelDiaService {
         }
     };
 
-
-
-
-    iniciarEntrega = async (idHoja) => {
+    iniciarEntrega = async (idHoja, idRepartidor, patenteCamion) => {
         try {
-            const params = {
-                idHojaDelDia: parseInt(idHoja),
-            };
+            // Convertir los valores a números si es necesario
+            const idHojaInt = parseInt(idHoja);
+            const idRepartidorInt = parseInt(idRepartidor);
     
-            // Asegúrate de que estás utilizando bien las cadenas de plantilla (backticks `)
-            const url = `${this.API_URL}/iniciarEntrega`;
+            //alert(idHoja + idRepartidor + patenteCamion) 
+            // Construir la URL con los parámetros
+            const url = `${this.API_URL}/iniciarEntrega?idHojaDelDia=${idHojaInt}&Patente=${patenteCamion}&idRepartidor=${idRepartidorInt}`;
     
             const response = await axios.put(url, {}, { 
-                params: params,
                 headers: {
                     Authorization: `Bearer ${this.authContext.keycloak.token}`,
-                  },    
+                }
             });
+            
             return response.data;
         } catch (error) {
             throw error;
         }
     };
+    
+    
 
     cerrarHojaDelDia = async (idHojaDelDia, arregloStrings) => {
         try {
