@@ -148,7 +148,8 @@ public class HojaDelDiaServiceImpl implements HojaDelDiaService {
         //Buscamos el camion y el repartidor
         Camion camion = camionRepository.getById(Patente).orElseThrow(() -> new EntityNotFoundException("No se encontró el Camion"));
         Repartidor repartidor = repartidorRepository.getById(idRepartidor).orElseThrow(() -> new EntityNotFoundException("No se encontró el Repartidor"));
-
+        hojaDelDia.setCamion(camion);
+        hojaDelDia.setRepartidor(repartidor);
         //Buscamos los envios de la hoja y les cambiamos el estado a en camino
         try {
             EstadoEnvio enCamino = estadoEnvioRepository.getById(2)
