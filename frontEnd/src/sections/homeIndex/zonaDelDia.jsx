@@ -48,7 +48,7 @@ const ZoneOfTheDay = () => {
       </Card>
     );
   }
-
+  
   if (!zonaDelDia) { // Verificar si zonaDelDia está definido antes de intentar renderizar
     return (
       <Card>
