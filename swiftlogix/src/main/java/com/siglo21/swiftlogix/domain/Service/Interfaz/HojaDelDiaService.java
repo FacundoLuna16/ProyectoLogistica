@@ -14,7 +14,7 @@ public interface HojaDelDiaService {
 
     void cerrarHojaDelDia(Integer idHojaDelDia, List<String> idsEnviosEntregados);
 
-    void iniciarEntrega(Integer idHojaDelDia);
+    void iniciarEntrega(Integer idHojaDelDia, String Patente, Integer idRepartidor);
 
     HojaDelDia getHojaDelDia(LocalDate idHojaDelDia);
 

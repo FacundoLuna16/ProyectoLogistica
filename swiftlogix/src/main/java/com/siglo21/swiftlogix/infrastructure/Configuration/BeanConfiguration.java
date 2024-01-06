@@ -52,8 +52,15 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public HojaDelDiaService hojaDelDiaService(EnvioRepository envioRepository, HojaDelDiaRepository hojaDelDiaRepository, EstadoHojaRepository estadoHojaRepository, EstadoEnvioRepository estadoEnvioRepository, WhatsappService whatsappService){
-        return new HojaDelDiaServiceImpl(envioRepository,hojaDelDiaRepository,estadoHojaRepository, estadoEnvioRepository,whatsappService);
+    public HojaDelDiaService hojaDelDiaService(EnvioRepository envioRepository, HojaDelDiaRepository hojaDelDiaRepository,
+                                               EstadoHojaRepository estadoHojaRepository,
+                                               EstadoEnvioRepository estadoEnvioRepository,
+                                               WhatsappService whatsappService,
+                                               CamionRepository camionRepository,
+                                               RepartidorRepository repartidorRepository
+
+    ){
+        return new HojaDelDiaServiceImpl(envioRepository,hojaDelDiaRepository,estadoHojaRepository, estadoEnvioRepository,whatsappService,camionRepository,repartidorRepository);
     }
 
 }

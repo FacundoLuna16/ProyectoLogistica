@@ -72,7 +72,7 @@ public class EnvioServiceImpl implements EnvioService {
     }
 
     private void validarEnvioNoExistente(String numeroFactura) {
-        Optional<Envio> envioExistente = envioRepository.getByNroFactura(numeroFactura);
+        Optional<Envio> envioExistente = envioRepository.getByNroFacturaNoExiste(numeroFactura);
         if (envioExistente.isPresent()) {
             throw new RuntimeException("Envío ya existe");
         }
@@ -133,6 +133,26 @@ public class EnvioServiceImpl implements EnvioService {
 
         List<Envio> envios = envioRepository.getAllFiltrado(idEstado,idZona, null);
         return envios.size();
+    }
+
+    @Override
+    public void cerrarEnvio(String nroFactura, String descripcion) {
+        //Buscar el envio por el numero de factura
+        Envio envio = envioRepository.getByNroFactura(nroFactura).get();
+        if (!envio.estaPendiente()) throw new RuntimeException("El envio no enPendiente");
+        //Lo marca en camino
+        EstadoEnvio enCamino = estadoEnvioRepository.getById(2).get();
+        envio.enCamino(enCamino);
+        //Buscar el estado de envio entregado
+        EstadoEnvio entregado = estadoEnvioRepository.getById(4).get();
+
+        //Cambiar el estado del envio a entregado
+        envio.entregado(entregado);
+        envio.setDescripcion(descripcion);
+        envio.setIntentos(0);
+
+        //Guardar el envio
+        envioRepository.save(envio);
     }
 
 

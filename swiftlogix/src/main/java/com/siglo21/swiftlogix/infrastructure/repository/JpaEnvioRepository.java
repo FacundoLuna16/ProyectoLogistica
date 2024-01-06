@@ -26,8 +26,8 @@ public class JpaEnvioRepository implements EnvioRepository {
     }
 
     @Override
-    public List<Envio> getAllFiltradoGenerarHoja(Integer idEstado, Integer idZona, Integer idCliente) {
-        return jpaEnvioDao.findAllFiltered2(idEstado,idZona,idCliente).stream().map(EnvioEntity::toDomain).toList();
+    public List<Envio> getAllFiltradoGenerarHoja(Integer idEstado, Integer idZona) {
+        return jpaEnvioDao.findAllFiltered2(1,idZona).stream().map(EnvioEntity::toDomain).toList();
     }
 
     @Override
@@ -40,7 +40,7 @@ public class JpaEnvioRepository implements EnvioRepository {
     }
 
     @Override
-    public Optional<Envio> getByNroFactura(String nroFactura) {
+    public Optional<Envio> getByNroFacturaNoExiste(String nroFactura) {
         // Buscar un EnvioEntity por el número de factura utilizando el JPA repository
         Optional<EnvioEntity> envioEntity = jpaEnvioDao.findById(nroFactura);
 
@@ -68,5 +68,14 @@ public class JpaEnvioRepository implements EnvioRepository {
         List<EnvioEntity> envioEntities = envios.stream().map(Envio::toEntity).toList();
         List<EnvioEntity> envioEntities1 = jpaEnvioDao.saveAll(envioEntities);
         return envioEntities1.stream().map(EnvioEntity::toDomain).toList();
+    }
+
+    @Override
+    public Optional<Envio> getByNroFactura(String nroFactura) {
+        Optional<EnvioEntity> envioEntity = jpaEnvioDao.findById(nroFactura);
+        if (envioEntity.isEmpty()) {
+            throw new RuntimeException("Envío no encontrado");
+        }
+        return envioEntity.map(EnvioEntity::toDomain);
     }
 }

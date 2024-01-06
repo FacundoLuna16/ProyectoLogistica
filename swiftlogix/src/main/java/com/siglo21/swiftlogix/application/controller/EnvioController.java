@@ -83,6 +83,18 @@ public class EnvioController {
         }
     }
 
-
+    @PutMapping("/cerrarEnvio")
+    public ResponseEntity<?> cerrarEnvio(@RequestParam String nroFactura, @RequestParam String descripcion){
+        if (descripcion.isEmpty()) {
+            return ResponseEntity.badRequest().body("La descripcion no puede estar vacia");
+        }
+        try {
+            envioService.cerrarEnvio(nroFactura,descripcion);
+            return ResponseEntity.status(200).body(null);
+        }
+        catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
 }

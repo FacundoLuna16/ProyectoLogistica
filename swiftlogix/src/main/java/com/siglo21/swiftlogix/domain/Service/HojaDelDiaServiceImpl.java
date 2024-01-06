@@ -1,18 +1,12 @@
 package com.siglo21.swiftlogix.domain.Service;
 
-import com.siglo21.swiftlogix.domain.Model.EstadoEnvio;
-import com.siglo21.swiftlogix.domain.Model.EstadoHoja;
-import com.siglo21.swiftlogix.domain.Model.HojaDelDia;
-import com.siglo21.swiftlogix.domain.Repository.EnvioRepository;
-import com.siglo21.swiftlogix.domain.Repository.EstadoEnvioRepository;
-import com.siglo21.swiftlogix.domain.Repository.EstadoHojaRepository;
-import com.siglo21.swiftlogix.domain.Repository.HojaDelDiaRepository;
+import com.siglo21.swiftlogix.domain.Model.*;
+import com.siglo21.swiftlogix.domain.Repository.*;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.HojaDelDiaService;
 import com.siglo21.swiftlogix.domain.exchangePort.WhatsappService;
 import jakarta.persistence.EntityNotFoundException;
 import java.time.temporal.TemporalAdjusters;
 import org.springframework.scheduling.annotation.Scheduled;
-import com.siglo21.swiftlogix.domain.Model.Envio;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
@@ -32,12 +26,18 @@ public class HojaDelDiaServiceImpl implements HojaDelDiaService {
 
     private final WhatsappService whatsappService;
 
-    public HojaDelDiaServiceImpl(EnvioRepository envioRepository, HojaDelDiaRepository hojaDelDiaRepository, EstadoHojaRepository estadoHojaRepository, EstadoEnvioRepository estadoEnvioRepository, WhatsappService whatsappService) {
+    private final CamionRepository camionRepository;
+
+    private final RepartidorRepository repartidorRepository;
+
+    public HojaDelDiaServiceImpl(EnvioRepository envioRepository, HojaDelDiaRepository hojaDelDiaRepository, EstadoHojaRepository estadoHojaRepository, EstadoEnvioRepository estadoEnvioRepository, WhatsappService whatsappService, CamionRepository camionRepository, RepartidorRepository repartidorRepository) {
         this.envioRepository = envioRepository;
         this.hojaDelDiaRepository = hojaDelDiaRepository;
         this.estadoHojaRepository = estadoHojaRepository;
         this.estadoEnvioRepository = estadoEnvioRepository;
         this.whatsappService = whatsappService;
+        this.camionRepository = camionRepository;
+        this.repartidorRepository = repartidorRepository;
     }
 
 
@@ -59,8 +59,8 @@ public class HojaDelDiaServiceImpl implements HojaDelDiaService {
 
             try {
 
-            //Buscar todos los envios pendientes de la zona correspondiente
-            List<Envio> enviosPendientesPorZona = envioRepository.getAllFiltradoGenerarHoja(1, idZona, null);
+            //Buscar todos los envios pendientes de la zona correspondiente y los envios que son de envios externos
+            List<Envio> enviosPendientesPorZona = envioRepository.getAllFiltradoGenerarHoja(1, idZona);
             //List<Envio> enviosPendientesPorZona = envioRepository.getAllFiltrado(1, idZona, null);
 
             //Crear una hoja del dia con los envios pendientes
@@ -101,6 +101,8 @@ public class HojaDelDiaServiceImpl implements HojaDelDiaService {
             EstadoEnvio pendiente = estadoEnvioRepository.getById(1).get();
 
             for (Envio envio : hojaDelDia.getEnvios()) {
+                //disminuir el contador de intentos
+                envio.disminuirIntentos();
                 if (nroDeEnviosEntregados.contains(envio.getNumeroFactura())){
                     envio.entregado(entregado);
                 }else {
@@ -138,11 +140,16 @@ public class HojaDelDiaServiceImpl implements HojaDelDiaService {
 
     @Override
     @Transactional
-    public void iniciarEntrega(Integer idHojaDelDia) {
+    public void iniciarEntrega(Integer idHojaDelDia, String Patente, Integer idRepartidor) {
         //Busco la hoja del dia
         HojaDelDia hojaDelDia = hojaDelDiaRepository.getById(idHojaDelDia).get();
         if (!hojaDelDia.estaEnPreparacion()) throw new RuntimeException("La hoja del dia no esta en preparacion");
 
+        //Buscamos el camion y el repartidor
+        Camion camion = camionRepository.getById(Patente).orElseThrow(() -> new EntityNotFoundException("No se encontró el Camion"));
+        Repartidor repartidor = repartidorRepository.getById(idRepartidor).orElseThrow(() -> new EntityNotFoundException("No se encontró el Repartidor"));
+        hojaDelDia.setCamion(camion);
+        hojaDelDia.setRepartidor(repartidor);
         //Buscamos los envios de la hoja y les cambiamos el estado a en camino
         try {
             EstadoEnvio enCamino = estadoEnvioRepository.getById(2)
