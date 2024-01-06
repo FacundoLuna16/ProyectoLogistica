@@ -1,26 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Typography, Paper } from '@mui/material';
-import { getCantidadEnviosPorZona } from 'src/service/reportesService';
+import ReportesServices from 'src/service/reportesService';
+import {useAuth} from 'src/contexts/AuthContext'; // Asegúrate de importar correctamente useAuth
 
 const EstadisticasEnviosPorZona = () => {
+  const authContext = useAuth();
+  const reportesService = new ReportesServices(authContext);
   const [datosEnvios, setDatosEnvios] = useState([]);
 
   useEffect(() => {
     const cargarDatos = async () => {
       try {
-        // Realiza las solicitudes de forma simultánea y espera a todas
-        const resultados = await Promise.all([
-          getCantidadEnviosPorZona(1),
-          getCantidadEnviosPorZona(2),
-          getCantidadEnviosPorZona(3),
-          getCantidadEnviosPorZona(4)
-        ]);
+        const zonas = [1, 2, 3, 4]; // Asumiendo que estas son las zonas
+        const promesas = zonas.map(zona =>
+          reportesService.getCantidadEnviosPorZona(zona)
+        );
 
-        // Transforma los resultados en el formato deseado para el gráfico
-        const nuevosDatos = resultados.map((cantidad, index) => ({
-          zona: `Zona ${index + 1}`,
-          envios: cantidad
+        const resultados = await Promise.all(promesas);
+
+        const nuevosDatos = zonas.map((zona, index) => ({
+          zona: `Zona ${zona}`,
+          envios: resultados[index]
         }));
 
         setDatosEnvios(nuevosDatos);
@@ -30,7 +31,7 @@ const EstadisticasEnviosPorZona = () => {
     };
 
     cargarDatos();
-  }, []);
+  }, [reportesService]);
 
   return (
     <Paper style={{ padding: '20px', margin: '20px' }}>

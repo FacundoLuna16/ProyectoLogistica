@@ -1,25 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { Paper, Typography, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { getCantidadEnviosPorEstadoYZona } from 'src/service/reportesService';
+import ReportesServices from 'src/service/reportesService';
+import { useAuth } from "src/contexts/AuthContext";
 
 const SelectorDeZonaConGrafica = () => {
+  const authContext = useAuth();
   const [selectedZone, setSelectedZone] = useState(1);
   const [datosGrafica, setDatosGrafica] = useState([]);
+  const reportesService = new ReportesServices(authContext);
 
   useEffect(() => {
     const cargarDatos = async () => {
       try {
-        const resultados = await Promise.all([
-          getCantidadEnviosPorEstadoYZona(1, selectedZone),
-          getCantidadEnviosPorEstadoYZona(2, selectedZone),
-          getCantidadEnviosPorEstadoYZona(3, selectedZone),
-          getCantidadEnviosPorEstadoYZona(4, selectedZone)
-        ]);
+        const nombresEstados = [1, 2, 3, 4]; // Asumiendo que estos son los ID de los estados
+        const promesas = nombresEstados.map(idEstado =>
+          reportesService.getCantidadEnviosPorEstadoYZona(idEstado, selectedZone)
+        );
 
-        const nombresEstados = ["Pendiente", "Entregado", "No entregado", "Rechazado"];
+        const resultados = await Promise.all(promesas);
+
+        const etiquetasEstados = ["Pendiente", "Entregado", "No entregado", "Rechazado"]; // Etiquetas para los estados
         const datosParaGrafica = resultados.map((cantidad, index) => ({
-          estado: nombresEstados[index],
+          estado: etiquetasEstados[index],
           cantidad
         }));
 
@@ -30,7 +33,7 @@ const SelectorDeZonaConGrafica = () => {
     };
 
     cargarDatos();
-  }, [selectedZone]);
+  }, [selectedZone, reportesService]);
 
 
   return (

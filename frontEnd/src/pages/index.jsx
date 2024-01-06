@@ -9,7 +9,6 @@ import ZoneOfTheDay from 'src/sections/homeIndex/zonaDelDia';
 
 const getZoneByDay = () => {
   const dayOfWeek = new Date().getDay();
-  console.log(dayOfWeek);
   const zoneMapping = { 2: 1, 3: 2, 4: 3, 5: 4 };
   return zoneMapping[dayOfWeek] || 'Hoy no se realizan entregas'; 
 };
@@ -35,7 +34,7 @@ const Page = () => (
             <WeatherStatus />
           </Grid>
           <Grid xs={12} md={6} lg={4} item>
-            <ZoneOfTheDay zone={getZoneByDay()} />
+            <ZoneOfTheDay/>
           </Grid>
         </Grid>
       </Container>

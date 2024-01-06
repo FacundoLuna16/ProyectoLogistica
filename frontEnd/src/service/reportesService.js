@@ -3,9 +3,10 @@ import axios from 'axios';
 const API_URL = 'http://localhost:8080/api/v1/envios/cantidadEnviosPorZona';
 
 // Asumiendo que tienes un contexto de autenticación similar al de tu clase RepartidoresService
-class EnviosService {
+class ReportesServices {
   constructor(authContext) {
     this.authContext = authContext;
+    const API_URL = 'http://localhost:8080/api/v1/envios/cantidadEnviosPorZona';
   }
 
   async getCantidadEnviosPorZona(idZona) {
@@ -37,4 +38,4 @@ class EnviosService {
   }
 }
 
-export default EnviosService;
+export default ReportesServices;

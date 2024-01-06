@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
-import { zoneService } from 'src/service/zonaService';
+import ZoneService from 'src/service/zonaService'; // Asegúrate de que esta ruta sea correcta
+import { useAuth } from "src/contexts/AuthContext";
 
 const ZoneOfTheDay = () => {
+  const authContext = useAuth(); // Obtén tu contexto de autenticación
   const [todasLasZonas, setTodasLasZonas] = useState(null);
+  const zonaService = new ZoneService(authContext)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await zoneService.getAll();
-        setTodasLasZonas(response);
-      } catch (error) {
-        console.error('Error al obtener las zonas', error);
-      }
-    };
+  const fetchZonas = async () => {
+    try{
+      const data = await zonaService.getAll()
+      setTodasLasZonas(data);
+    } catch (error){
+      console.error("Error al obtener Zonas:", error)
+    }
+  }
 
-    fetchData();
-  }, []);
+  useEffect (() => {
+    fetchZonas();
+  },[]);
+
 
   // Obtener el día actual
   const diaActual = new Date().toLocaleDateString('es-ES', { weekday: 'long' });
@@ -59,4 +63,4 @@ const ZoneOfTheDay = () => {
   );
 };
 
-export default ZoneOfTheDay;
+export default ZoneOfTheDay;
