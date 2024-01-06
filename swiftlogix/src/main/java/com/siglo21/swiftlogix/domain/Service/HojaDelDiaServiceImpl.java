@@ -59,8 +59,8 @@ public class HojaDelDiaServiceImpl implements HojaDelDiaService {
 
             try {
 
-            //Buscar todos los envios pendientes de la zona correspondiente
-            List<Envio> enviosPendientesPorZona = envioRepository.getAllFiltradoGenerarHoja(1, idZona, null);
+            //Buscar todos los envios pendientes de la zona correspondiente y los envios que son de envios externos
+            List<Envio> enviosPendientesPorZona = envioRepository.getAllFiltradoGenerarHoja(1, idZona);
             //List<Envio> enviosPendientesPorZona = envioRepository.getAllFiltrado(1, idZona, null);
 
             //Crear una hoja del dia con los envios pendientes
@@ -101,6 +101,8 @@ public class HojaDelDiaServiceImpl implements HojaDelDiaService {
             EstadoEnvio pendiente = estadoEnvioRepository.getById(1).get();
 
             for (Envio envio : hojaDelDia.getEnvios()) {
+                //disminuir el contador de intentos
+                envio.disminuirIntentos();
                 if (nroDeEnviosEntregados.contains(envio.getNumeroFactura())){
                     envio.entregado(entregado);
                 }else {

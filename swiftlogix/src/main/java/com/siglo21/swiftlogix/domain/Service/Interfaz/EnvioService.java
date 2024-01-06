@@ -18,4 +18,5 @@ public interface EnvioService {
 
     Integer cantidadEnviosPorZona(Integer idEstado, Integer idZona);
 
+    void cerrarEnvio(String nroFactura, String descripcion);
 }

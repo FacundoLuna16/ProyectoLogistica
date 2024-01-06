@@ -21,8 +21,9 @@ List<EnvioEntity> findAllFiltered(Integer idEstado, Integer idZona, Integer idCl
             "WHERE \n" +
             "  (:idEstado IS NULL OR e.estadoActual.id = :idEstado) AND\n" +
             "  (:idZona IS NULL OR e.zona.idZona = :idZona) AND\n" +
-            "  (:idCliente IS NULL OR e.cliente.idCliente = :idCliente) AND\n" +
-            "  (e.envioExterno = true)")
-    List<EnvioEntity> findAllFiltered2(Integer idEstado, Integer idZona, Integer idCliente);
+            "  (e.envioExterno = true) AND\n" +
+            "  (e.intentos > 0)")
+    List<EnvioEntity> findAllFiltered2(Integer idEstado, Integer idZona);
+
 
 }

@@ -89,4 +89,16 @@ public class Envio {
     public void addCambioEstado(CambioEstado cambioEstado) {
         this.cambiosEstado.add(cambioEstado);
     }
+
+    public void disminuirIntentos() {
+        this.intentos--;
+    }
+
+    public boolean estaEnCamino() {
+        return this.estadoActual.getId() == 2;
+    }
+
+    public boolean estaPendiente() {
+        return this.estadoActual.getId() == 1;
+    }
 }

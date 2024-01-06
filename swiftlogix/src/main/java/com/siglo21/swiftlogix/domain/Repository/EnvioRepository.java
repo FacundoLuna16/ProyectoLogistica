@@ -9,14 +9,16 @@ public interface EnvioRepository {
 
     List<Envio> getAllFiltrado(Integer idEstado, Integer idZona, Integer idCliente);
 
-    List<Envio> getAllFiltradoGenerarHoja(Integer idEstado, Integer idZona, Integer idCliente);
+    List<Envio> getAllFiltradoGenerarHoja(Integer idEstado, Integer idZona);
 
     Optional<Envio> getById(String envioId);
 
-    Optional<Envio> getByNroFactura(String nroFactura);
+    Optional<Envio> getByNroFacturaNoExiste(String nroFactura);
 
     Optional<Envio> save(Envio envio);
 
     List<Envio> saveAll(List<Envio> envios);
+
+    Optional<Envio> getByNroFactura(String nroFactura);
 
 }
