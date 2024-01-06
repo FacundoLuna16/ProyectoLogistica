@@ -106,7 +106,7 @@ const HojaDelDia = () => {
   }
   
   async function generarPDF(hojaSeleccionada) {
-    alert(JSON.stringify(hojaSeleccionada));
+    //alert(JSON.stringify(hojaSeleccionada));
     const pdf = new jsPDF({
       orientation: 'landscape',
     });

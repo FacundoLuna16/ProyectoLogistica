@@ -34,6 +34,7 @@ const Envios = () => {
   const [envios, setEnvios] = useState([]);
   const [enviosFiltrados, setEnviosFiltrados] = useState([]); // Nuevo estado para los clientes filtrados
   const [envioSeleccionado, setEnvioSeleccionado] = useState({}); // Nuevo estado para el cliente seleccionado
+  const [resetDialog, setResetDialog] = useState(false);
 
   const [page, setPage] = useState(0);
 
@@ -54,8 +55,10 @@ const Envios = () => {
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
+
   const handleDialogClose = () => {
     setDialogOpen(false);
+    setResetDialog(prev => !prev);
   };
 
   const handlePageChange = useCallback((event, value) => {
@@ -228,9 +231,10 @@ const Envios = () => {
                   Agregar
                 </Button>
                 <AgregarEnvioDialog
-                  open={dialogOpen}
-                  onClose={handleDialogClose}
-                  onEnvioAdded={fetchEnvios}
+                    open={dialogOpen}
+                    onClose={handleDialogClose}
+                    onEnvioAdded={fetchEnvios}
+                    reset={resetDialog}
                 />
                 <Button
                   startIcon={<UserCircleIcon />}

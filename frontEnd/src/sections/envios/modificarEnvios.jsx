@@ -117,15 +117,15 @@ const ModificarEnvioDialog = ({ open, onClose, envio, refrescar }) => {
     try {
 
       //mostrar el body antes de hacer el update
-      alert(
-        JSON.stringify({
-          idCliente: cliente.idCliente,
-          zona: idZona,
-          direccionEnvio,
-          entreCalles,
-          ultimosDigitosTarjeta,
-        })
-      )
+      // alert(
+      //   JSON.stringify({
+      //     idCliente: cliente.idCliente,
+      //     zona: idZona,
+      //     direccionEnvio,
+      //     entreCalles,
+      //     ultimosDigitosTarjeta,
+      //   })
+      // )
       await enviosService.update(numeroFactura, {
         idCliente: cliente.idCliente,
         idZona,

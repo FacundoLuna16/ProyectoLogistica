@@ -26,7 +26,6 @@ import { isValid } from "date-fns";
 import { is } from "date-fns/locale";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
-import { set } from "nprogress";
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -102,13 +101,12 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
     });
     setClientesFiltrados(clientesFiltrados);
     setClienteSeleccionado({
-      idCliente: null,
+      idCliente: "",
       tipoDocumento: "",
       numeroDocumento: "",
       nombre: "",
       apellido: "",
     });
-    setNewEnvio({ ...newEnvio, idCliente: "" });
   };
 
   //Logica de zona
@@ -193,7 +191,7 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
     const areRequiredFieldsComplete = requiredFields.every((field) => !!newEnvio[field]);
     const isValidForm = Object.values(validation).every((isValid) => isValid);
     setIsFormValid(areRequiredFieldsComplete && isValidForm);
-  }, [newEnvio, validation,tipoDocumentoFiltro]);
+  }, [newEnvio, validation]);
 
   // Manejo de cambios de la tarjeta con 4 digitos
   const handleUltimosDigitosTarjetaChange = (event) => {
@@ -233,6 +231,7 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
         //   ultimosDigitosTarjeta: newEnvio.ultimosDigitosTarjeta // Asumiendo que este campo es un string
         // };
         await enviosService.create(newEnvio);
+
         alert("Envío agregado exitosamente");
         onClose();
         onEnvioAdded();

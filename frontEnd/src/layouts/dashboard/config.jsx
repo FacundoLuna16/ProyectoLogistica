@@ -1,7 +1,6 @@
 import UsersIcon from "@heroicons/react/24/solid/UsersIcon";
 import { SvgIcon } from "@mui/material";
 import { HomeIcon } from "@heroicons/react/24/outline";
-
 import React from "react";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import { TruckIcon } from "@heroicons/react/24/outline";
@@ -76,22 +75,22 @@ export const items = [
       </SvgIcon>
     ),
   },
-  {
-    title: "Notificaciones al cliente",
-    path: "/notificacionesCliente",
-    icon: (
-      <SvgIcon fontSize="small">
-        <BellAlertIcon className="h-6 w-6 text-gray-500" />
-      </SvgIcon>
-    ),
-  },
-  {
-    title: "Envios no realizados a tiempo",
-    path: "/notificacionesEnvio",
-    icon: (
-      <SvgIcon fontSize="small">
-        <ExclamationTriangleIcon className="h-6 w-6 text-gray-500" />
-      </SvgIcon>
-    ),
-  },
+  // {
+  //   title: "Notificaciones al cliente",
+  //   path: "/notificacionesCliente",
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <BellAlertIcon className="h-6 w-6 text-gray-500" />
+  //     </SvgIcon>
+  //   ),
+  // },
+  // {
+  //   title: "Envios no realizados a tiempo",
+  //   path: "/notificacionesEnvio",
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <ExclamationTriangleIcon className="h-6 w-6 text-gray-500" />
+  //     </SvgIcon>
+  //   ),
+  // },
 ];
