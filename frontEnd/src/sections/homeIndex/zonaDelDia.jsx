@@ -1,35 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
-import ZoneService from 'src/service/zonaService'; // Asegúrate de que esta ruta sea correcta
+import ZoneService from 'src/service/zonaService';
 import { useAuth } from "src/contexts/AuthContext";
 
 const ZoneOfTheDay = () => {
-  const authContext = useAuth(); // Obtén tu contexto de autenticación
-  const [todasLasZonas, setTodasLasZonas] = useState(null);
-  const zonaService = new ZoneService(authContext)
+  const authContext = useAuth();
+  const [todasLasZonas, setTodasLasZonas] = useState([]);
+  const [zonaDelDia, setZonaDelDia] = useState(null); // Estado para la zona del día
+  const [isLoading, setIsLoading] = useState(true); // Estado para la carga
+  const zonaService = new ZoneService(authContext);
 
   const fetchZonas = async () => {
-    try{
-      const data = await zonaService.getAll()
+    setIsLoading(true);
+    try {
+      const data = await zonaService.getAll();
       setTodasLasZonas(data);
-    } catch (error){
-      console.error("Error al obtener Zonas:", error)
+    } catch (error) {
+      console.error("Error al obtener Zonas:", error);
     }
-  }
+    setIsLoading(false);
+  };
 
-  useEffect (() => {
+  useEffect(() => {
     fetchZonas();
-  },[]);
+  }, []);
 
+  useEffect(() => {
+    if (todasLasZonas.length > 0) {
+      const diaActual = new Date().toLocaleDateString('es-ES', { weekday: 'long' });
+      const diaCapitalizado = diaActual.charAt(0).toUpperCase() + diaActual.slice(1).toLowerCase();
+      const zonaEncontrada = todasLasZonas.find(zona => zona.dia === diaCapitalizado);
+      setZonaDelDia(zonaEncontrada);
+    }
+  }, [todasLasZonas]); // Este useEffect depende de todasLasZonas
 
-  // Obtener el día actual
-  const diaActual = new Date().toLocaleDateString('es-ES', { weekday: 'long' });
-  const diaCapitalizado = diaActual.charAt(0).toUpperCase() + diaActual.slice(1);
-
-  // Encontrar la zona para el día actual
-  const zonaDelDia = todasLasZonas?.find(zona => zona.dia === diaCapitalizado);
-
-  if (!todasLasZonas || !zonaDelDia) {
+  if (isLoading) {
     return (
       <Card>
         <CardContent>
@@ -38,6 +43,21 @@ const ZoneOfTheDay = () => {
           </Typography>
           <Typography variant="body2">
             Cargando...
+          </Typography>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (!zonaDelDia) { // Verificar si zonaDelDia está definido antes de intentar renderizar
+    return (
+      <Card>
+        <CardContent>
+          <Typography gutterBottom variant="h4">
+            Zona del Día
+          </Typography>
+          <Typography variant="body2">
+            No se encontró la zona para el día actual.
           </Typography>
         </CardContent>
       </Card>

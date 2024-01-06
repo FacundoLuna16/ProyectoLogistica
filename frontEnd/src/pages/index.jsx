@@ -7,11 +7,11 @@ import QuickAccess from 'src/sections/homeIndex/accesosRapidos';
 import WeatherStatus from 'src/sections/homeIndex/clima';
 import ZoneOfTheDay from 'src/sections/homeIndex/zonaDelDia';
 
-const getZoneByDay = () => {
-  const dayOfWeek = new Date().getDay();
-  const zoneMapping = { 2: 1, 3: 2, 4: 3, 5: 4 };
-  return zoneMapping[dayOfWeek] || 'Hoy no se realizan entregas'; 
-};
+// const getZoneByDay = () => {
+//   const dayOfWeek = new Date().getDay();
+//   const zoneMapping = { 2: 1, 3: 2, 4: 3, 5: 4 };
+//   return zoneMapping[dayOfWeek] || 'Hoy no se realizan entregas'; 
+// };
 
 const Page = () => (
   <>

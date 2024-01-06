@@ -13,7 +13,6 @@ class ZoneService {
           Authorization: `Bearer ${this.authContext.keycloak.token}`,
         },
       });
-      console.log("Peticion:", response.data)
       return response.data;
     } catch (error) {
       throw error;
