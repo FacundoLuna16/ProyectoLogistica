@@ -120,7 +120,7 @@ public class HojaDelDiaServiceImpl implements HojaDelDiaService {
                  ya que los que esten en pendientes no van a hacer nada.
                 */
 
-                //TODO CAMBIAR PARA QUE SE HAGA AL FINAL DEL DIA el cambio a pendiente
+                //TODO CAMBIAR PARA QUE SE HAGA AL FINAL DEL DIA el cambio a pendiente (OPCIONAL)
                 envio.pendiente(pendiente);
             }
             envioRepository.saveAll(hojaDelDia.getEnvios());

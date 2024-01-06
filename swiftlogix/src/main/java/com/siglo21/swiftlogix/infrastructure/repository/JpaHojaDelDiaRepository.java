@@ -4,6 +4,7 @@ import com.siglo21.swiftlogix.domain.Model.HojaDelDia;
 import com.siglo21.swiftlogix.domain.Repository.HojaDelDiaRepository;
 import com.siglo21.swiftlogix.infrastructure.dao.JpaHojaDelDiaDao;
 import com.siglo21.swiftlogix.infrastructure.entity.HojaDelDiaEntity;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -31,6 +32,7 @@ public class JpaHojaDelDiaRepository implements HojaDelDiaRepository {
     }
 
     @Override
+    @Transactional
     public Optional<HojaDelDia> save(HojaDelDia hojaDelDia) {
         HojaDelDiaEntity prueba = hojaDelDia.toEntity();
         HojaDelDiaEntity hojaDelDiaEntity = jpaHojaDelDiaDao.saveAndFlush(prueba);
