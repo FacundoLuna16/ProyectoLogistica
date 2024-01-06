@@ -1,18 +1,12 @@
 package com.siglo21.swiftlogix.domain.Service;
 
-import com.siglo21.swiftlogix.domain.Model.EstadoEnvio;
-import com.siglo21.swiftlogix.domain.Model.EstadoHoja;
-import com.siglo21.swiftlogix.domain.Model.HojaDelDia;
-import com.siglo21.swiftlogix.domain.Repository.EnvioRepository;
-import com.siglo21.swiftlogix.domain.Repository.EstadoEnvioRepository;
-import com.siglo21.swiftlogix.domain.Repository.EstadoHojaRepository;
-import com.siglo21.swiftlogix.domain.Repository.HojaDelDiaRepository;
+import com.siglo21.swiftlogix.domain.Model.*;
+import com.siglo21.swiftlogix.domain.Repository.*;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.HojaDelDiaService;
 import com.siglo21.swiftlogix.domain.exchangePort.WhatsappService;
 import jakarta.persistence.EntityNotFoundException;
 import java.time.temporal.TemporalAdjusters;
 import org.springframework.scheduling.annotation.Scheduled;
-import com.siglo21.swiftlogix.domain.Model.Envio;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
@@ -32,12 +26,18 @@ public class HojaDelDiaServiceImpl implements HojaDelDiaService {
 
     private final WhatsappService whatsappService;
 
-    public HojaDelDiaServiceImpl(EnvioRepository envioRepository, HojaDelDiaRepository hojaDelDiaRepository, EstadoHojaRepository estadoHojaRepository, EstadoEnvioRepository estadoEnvioRepository, WhatsappService whatsappService) {
+    private final CamionRepository camionRepository;
+
+    private final RepartidorRepository repartidorRepository;
+
+    public HojaDelDiaServiceImpl(EnvioRepository envioRepository, HojaDelDiaRepository hojaDelDiaRepository, EstadoHojaRepository estadoHojaRepository, EstadoEnvioRepository estadoEnvioRepository, WhatsappService whatsappService, CamionRepository camionRepository, RepartidorRepository repartidorRepository) {
         this.envioRepository = envioRepository;
         this.hojaDelDiaRepository = hojaDelDiaRepository;
         this.estadoHojaRepository = estadoHojaRepository;
         this.estadoEnvioRepository = estadoEnvioRepository;
         this.whatsappService = whatsappService;
+        this.camionRepository = camionRepository;
+        this.repartidorRepository = repartidorRepository;
     }
 
 
@@ -140,10 +140,14 @@ public class HojaDelDiaServiceImpl implements HojaDelDiaService {
 
     @Override
     @Transactional
-    public void iniciarEntrega(Integer idHojaDelDia) {
+    public void iniciarEntrega(Integer idHojaDelDia, String Patente, Integer idRepartidor) {
         //Busco la hoja del dia
         HojaDelDia hojaDelDia = hojaDelDiaRepository.getById(idHojaDelDia).get();
         if (!hojaDelDia.estaEnPreparacion()) throw new RuntimeException("La hoja del dia no esta en preparacion");
+
+        //Buscamos el camion y el repartidor
+        Camion camion = camionRepository.getById(Patente).orElseThrow(() -> new EntityNotFoundException("No se encontró el Camion"));
+        Repartidor repartidor = repartidorRepository.getById(idRepartidor).orElseThrow(() -> new EntityNotFoundException("No se encontró el Repartidor"));
 
         //Buscamos los envios de la hoja y les cambiamos el estado a en camino
         try {
