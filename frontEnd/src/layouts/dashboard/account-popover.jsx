@@ -46,7 +46,6 @@ export const AccountPopover = (props) => {
           },
         }}
       >
-        <MenuItem onClick={handleSignOut}>Cerrar sesion</MenuItem>
       </MenuList>
     </Popover>
   );
