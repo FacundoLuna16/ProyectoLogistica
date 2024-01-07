@@ -10,10 +10,14 @@ public class CamionResponse {
 
     private String patente;
     private String modelo;
+    private String color;
+    private String descripcion;
 
     public CamionResponse(Camion camion) {
         this.patente = camion.getPatente();
         this.modelo = camion.getModelo();
+        this.color = camion.getColor();
+        this.descripcion = camion.getDescripcion();
     }
 
 }

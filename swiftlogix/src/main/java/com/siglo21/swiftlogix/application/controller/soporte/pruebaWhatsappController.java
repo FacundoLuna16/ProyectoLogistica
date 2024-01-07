@@ -11,7 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/whatsapp")
 @SecurityRequirement(name = "bearerAuth")
-@Hidden
+//@Hidden
 public class pruebaWhatsappController {
 
     private final HojaDelDiaService hojaDelDiaService;
