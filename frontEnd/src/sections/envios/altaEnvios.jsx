@@ -235,9 +235,11 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
   const handleOpenAgregarCliente = () => {
     setOpenAgregarCliente(true);
   };
+  const [recargarClientes, setRecargarClientes] = useState(false);
 
   const handleCloseAgregarCliente = () => {
     setOpenAgregarCliente(false);
+    setRecargarClientes(!recargarClientes);
   };
 
   const handleClienteAdded = () => {
@@ -251,7 +253,7 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
       filtrarPorTipoDocumento(tipoDocumentoFiltro);
 
       setLoading(false); // Finaliza la carga
-      alert("Clientes cargados correctamente");
+      // alert("Clientes cargados correctamente");
     };
     fetchData(); // Llama a la función interna
   };
@@ -281,12 +283,14 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
       const data = await fetchClientes();
 
       setClientes(data); // Actualiza la lista completa de clientes
-      filtrarPorTipoDocumento(tipoDocumentoFiltro);
+      //filtrarPorTipoDocumento(tipoDocumentoFiltro);
 
       setLoading(false); // Finaliza la carga
     };
     fetchData(); // Llama a la función interna
-  }, [open]);
+    filtrarPorTipoDocumento(tipoDocumentoFiltro);
+    
+  }, [open, setRecargarClientes]);
 
   // Mostrar la rueda de carga mientras se están recuperando los datos
   if (loading) {
@@ -459,6 +463,7 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
                 open={openAgregarCliente}
                 onClose={handleCloseAgregarCliente}
                 onClienteAdded={handleClienteAdded}
+
               />
             </Box>
           </Box>
