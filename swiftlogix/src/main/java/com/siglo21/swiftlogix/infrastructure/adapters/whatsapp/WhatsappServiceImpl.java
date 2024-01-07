@@ -3,7 +3,7 @@ package com.siglo21.swiftlogix.infrastructure.adapters.whatsapp;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.siglo21.swiftlogix.domain.exchangePort.WhatsappService;
-import lombok.Value;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -17,8 +17,11 @@ import java.net.http.HttpRequest.BodyPublishers;
 @Service
 public class WhatsappServiceImpl implements WhatsappService {
 
-    private final static String WHATSAPP_API_URL = "https://graph.facebook.com/v17.0/213596218498853/messages";
-    private final static String ACCESS_TOKEN = "EAAWBi86JZAKYBOzXy77D4cwQrZAV9YZCTarHMBDXd085N3Jghuh3z9sgJzeZB3KNJnuZCI5NhvkgJ5OTFpYC61nvuoGMYZAEcEoc12iplW0IR0xWyfZBZBvj6mf7QrEzXZCbigqnHKxPX7GwOeSZByOpfHIAaeRdyo86eootPZCIYeOrEezj24Og2ogpQOmXY96qGjr"; // Replace with your access token
+    @Value("${whatsapp.api.url}")
+    private String whatsappApiUrl;
+
+    @Value("${whatsapp.access.token}")
+    private String whatsappAccessToken;
     String mensajePlantilla;
 
 
@@ -40,6 +43,7 @@ public class WhatsappServiceImpl implements WhatsappService {
             String requestBody = String.format(
                     "{ " +
                             "  \"messaging_product\": \"whatsapp\", " +
+                            "  \"recipient_type\": \"individual\", " +
                             "  \"to\": \"%s\", " +
                             "  \"type\": \"template\", " +
                             "  \"template\": { " +
@@ -51,7 +55,7 @@ public class WhatsappServiceImpl implements WhatsappService {
                             "      \"type\": \"body\", " +
                             "      \"parameters\": [{ " +
                             "        \"type\": \"text\", " +
-                            "        \"text\": \"%s\" " + // Inserta aquí la variable del número de factura
+                            "        \"text\": \"%s\" " +
                             "      }] " +
                             "    }] " +
                             "  } " +
@@ -60,8 +64,8 @@ public class WhatsappServiceImpl implements WhatsappService {
             );
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI(WHATSAPP_API_URL))
-                    .header("Authorization", "Bearer " + ACCESS_TOKEN)
+                    .uri(new URI(whatsappApiUrl))
+                    .header("Authorization", "Bearer " + whatsappAccessToken)
                     .header("Content-Type", "application/json")
                     .POST(BodyPublishers.ofString(requestBody))
                     .build();
