@@ -106,30 +106,33 @@ const HojaDelDia = () => {
   }
   
   async function generarPDF(hojaSeleccionada) {
-    //alert(JSON.stringify(hojaSeleccionada));
     const pdf = new jsPDF({
       orientation: 'landscape',
     });
-  
+
     try {
       const img = await cargarLogo();
+      const margenDerecho = 10; // Margen derecho en mm
+      const anchoPagina = pdf.internal.pageSize.width;
+      const anchoUtilizable = anchoPagina - margenDerecho;
+
+      // Ajustar la posición y el tamaño de la imagen
       pdf.addImage(img, 'PNG', 20, 10, 50, 20);
-  
+
       pdf.setFontSize(16);
-      pdf.text('Hoja Del día', 80, 20);
-      pdf.text(`Fecha Reparto: ${hojaSeleccionada.fechaReparto}`, 20, 40);
-      pdf.text(`Repartidor: ${hojaSeleccionada.repartidor}`, 20, 50);
-  
-      // Modificar aquí para manejar el caso de no envíos
+      // Ajustar la posición del texto
+      pdf.text('Hoja Del día', 80, 20, { maxWidth: anchoUtilizable - 80 });
+      pdf.text(`Fecha Reparto: ${hojaSeleccionada.fechaReparto}`, 20, 40, { maxWidth: anchoUtilizable - 20 });
+      pdf.text(`Repartidor: ${hojaSeleccionada.repartidor}`, 20, 50, { maxWidth: anchoUtilizable - 20 });
+
       let zonaTexto = hojaSeleccionada.envios.length > 0 ? hojaSeleccionada.envios[0].zona : 'No hay envíos';
-      pdf.text(`Zona: ${zonaTexto}`, 20, 60);
-  
-      pdf.text(`Camion: ${hojaSeleccionada.camion}`, 100, 40);
-  
+      pdf.text(`Zona: ${zonaTexto}`, 20, 60, { maxWidth: anchoUtilizable - 20 });
+
+      pdf.text(`Camion: ${hojaSeleccionada.camion}`, 100, 40, { maxWidth: anchoUtilizable - 100 });
+
       const columnas = ['     ', 'Factura', 'Direccion Entrega', 'Entre Calle', 'Telefono 1', 'Telefono 2', 'Cliente', 'Firma'];
       let filas = [];
-  
-      // Verificar si hay envíos
+
       if (hojaSeleccionada.envios.length > 0) {
         filas = hojaSeleccionada.envios.map(envio => [
           '[ ]',
@@ -142,12 +145,11 @@ const HojaDelDia = () => {
           '          '
         ]);
       } else {
-        // Fila predeterminada cuando no hay envíos
         filas.push(['', 'No hay envíos', '', '', '', '', '', '']);
       }
-  
+
       const rowHeight = 15;
-  
+
       pdf.autoTable({
         head: [columnas],
         body: filas,
@@ -163,17 +165,18 @@ const HojaDelDia = () => {
           cellWidth: 'wrap',
         },
         columnStyles: {
-          2: { cellWidth: 'auto' },
+          2: { cellWidth: anchoUtilizable / columnas.length }, // Ajustar el ancho de la columna
         },
       });
-  
-      pdf.text('Firma: ........................', 20, pdf.internal.pageSize.height - 30);
-  
+
+      pdf.text('Firma: ........................', 20, pdf.internal.pageSize.height - 30, { maxWidth: anchoUtilizable - 20 });
+
       window.open(pdf.output('bloburl'), '_blank');
     } catch (error) {
       console.error('Error al generar el PDF:', error);
     }
   }
+
   
 
   return (
