@@ -79,7 +79,6 @@ const ModificarRepartidorDialog = ({ open, onClose, repartidor, refrescar }) => 
       <DialogTitle>Modificar Repartidor</DialogTitle>
       <DialogContent>
         <TextField
-          disabled
           margin="dense"
           id="id"
           label="ID del Repartidor"
@@ -115,7 +114,10 @@ const ModificarRepartidorDialog = ({ open, onClose, repartidor, refrescar }) => 
         <Button onClick={handleCancelar} color="primary">
           Cancelar
         </Button>
-        <Button onClick={handleModificar} color="primary" disabled={!nombre && !apellido}>
+        <Button 
+        onClick={handleModificar} c
+        olor="primary" 
+        disabled={!nombre || !apellido}>
           Modificar
         </Button>
       </DialogActions>

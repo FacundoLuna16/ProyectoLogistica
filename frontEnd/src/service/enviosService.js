@@ -71,6 +71,28 @@ class EnvioService {
       throw error;
     }
   };
+
+  cerrarEnvio = async (numeroFactura,motivo) => {
+    try {
+      const params = {
+        nroFactura : numeroFactura,
+        descripcion : motivo
+      }
+      await axios.put(`${this.API_URL}/cerrarEnvio`, {},{
+        params: params,
+        headers: {
+          Authorization: `Bearer ${this.authContext.keycloak.token}`,
+        },
+      });
+    }
+    catch
+    (error) {
+      throw error;
+    }
+
+  }
+
+
 }
 
 export default EnvioService;

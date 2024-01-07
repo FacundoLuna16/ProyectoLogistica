@@ -218,6 +218,22 @@ const ConsultarEnvioDialog = ({ open, onClose, envio }) => {
               </TableContainer>
             </Box>
           </Scrollbar>
+          {/* Motivo */}
+          {envio.descripcion && (
+            <Box>
+              <TextField
+                id="motivo"
+                label="Motivo"
+                variant="outlined"
+                fullWidth
+                value={envio.descripcion}
+                multiline
+                rows={4}
+                sx={{ mb: 3 }}
+                InputProps={{ readOnly: true }}
+              />
+            </Box>
+          )}
         </DialogContent>
 
         <DialogActions>
