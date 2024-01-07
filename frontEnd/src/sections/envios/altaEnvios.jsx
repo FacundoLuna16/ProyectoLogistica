@@ -24,38 +24,27 @@ import IconButton from "@mui/material/IconButton";
 import AgregarClienteDialog from "src/sections/clientes/altaClientes";
 import { isValid } from "date-fns";
 import { is } from "date-fns/locale";
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { styled } from '@mui/material/styles';
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { styled } from "@mui/material/styles";
+import Autocomplete from "@mui/material/Autocomplete";
 
-const VisuallyHiddenInput = styled('input')({
-  clip: 'rect(0 0 0 0)',
-  clipPath: 'inset(50%)',
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
   height: 1,
-  overflow: 'hidden',
-  position: 'absolute',
+  overflow: "hidden",
+  position: "absolute",
   bottom: 0,
   left: 0,
-  whiteSpace: 'nowrap',
+  whiteSpace: "nowrap",
   width: 1,
 });
-
 
 const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
   const authContext = useAuth();
   const enviosService = new EnvioService(authContext);
   const clientesService = new ClientesService(authContext);
 
-  // {
-  //   "numeroFactura": "string",
-  //   "idCliente": 0,
-  //   "idZona": 4,
-  //   "direccionEnvio": "string",
-  //   "entreCalles": "string",
-  //   "ultimosDigitosTarjeta": "string",
-  //   "descripcion": "string",
-  //   "tipoEnvio": 3,
-  //   "envioExterno": true
-  // }
   const [newEnvio, setNewEnvio] = useState({
     numeroFactura: "",
     idCliente: "",
@@ -114,27 +103,6 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
     setNewEnvio({ ...newEnvio, idZona: event.target.value });
   };
 
-  // // Agregar un nuevo detalle de envío
-  // const agregarDetalleEnvio = () => {
-  //   setNewEnvio({ ...newEnvio, detalleEnvio: [...newEnvio.detalleEnvio, ""] });
-  // };
-
-  // const eliminarDetalleEnvio = (index) => {
-  //   const updatedDetalles = newEnvio.detalleEnvio.filter((_, i) => i !== index);
-  //   setNewEnvio({ ...newEnvio, detalleEnvio: updatedDetalles });
-  // };
-
-  // Manejar el cambio en los detalles de envío
-  // const handleDetalleEnvioChange = (index, value) => {
-  //   const updatedDetalles = newEnvio.detalleEnvio.map((detalle, i) => {
-  //     if (i === index) {
-  //       return value;
-  //     }
-  //     return detalle;
-  //   });
-  //   setNewEnvio({ ...newEnvio, detalleEnvio: updatedDetalles });
-  // };
-
   // Esto sirve para los manejos de cambios globales
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -172,8 +140,6 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
     }
   };
 
-  
-
   const [validation, setValidation] = useState({
     numeroFactura: true,
     ultimosDigitosTarjeta: true,
@@ -186,7 +152,7 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
       "idZona",
       "direccionEnvio",
       "entreCalles",
-      "tipoEnvio"
+      "tipoEnvio",
     ];
     const areRequiredFieldsComplete = requiredFields.every((field) => !!newEnvio[field]);
     const isValidForm = Object.values(validation).every((isValid) => isValid);
@@ -207,10 +173,36 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
     return newEnvio.ultimosDigitosTarjeta.length === 4;
   };
 
-  const handleClienteSeleccionadoChange = (event) => {
-    const cliente = event.target.value;
-    setClienteSeleccionado(cliente);
-    setNewEnvio({ ...newEnvio, idCliente: cliente.idCliente });
+  // const handleClienteSeleccionadoChange = (event) => {
+  //   const cliente = event.target.value;
+  //   setClienteSeleccionado(cliente);
+  //   setNewEnvio({ ...newEnvio, idCliente: cliente.idCliente });
+  // };
+
+  const handleClienteSeleccionadoChange = (_, selectedOption) => {
+    if (selectedOption) {
+      setClienteSeleccionado(selectedOption);
+      setNewEnvio({ ...newEnvio, idCliente: selectedOption.idCliente });
+    } else {
+      setClienteSeleccionado({
+        idCliente: "",
+        tipoDocumento: "",
+        numeroDocumento: "",
+        nombre: "",
+        apellido: "",
+      });
+      setNewEnvio({ ...newEnvio, idCliente: "" });
+    }
+  };
+
+  const filterClientes = (options, { inputValue }) => {
+    const inputValueLowerCase = inputValue.trim().toLowerCase();
+    return options.filter(
+      (cliente) =>
+        cliente.numeroDocumento.toLowerCase().startsWith(inputValueLowerCase) ||
+        cliente.nombre.toLowerCase().includes(inputValueLowerCase) ||
+        cliente.apellido.toLowerCase().includes(inputValueLowerCase)
+    );
   };
 
   //const [tipoEnvio, setTipoEnvio] = useState("");
@@ -223,13 +215,6 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
   const handleOnEnvioAdded = async () => {
     if (isFormValid) {
       try {
-        // const envioPost = {
-        //   ...newEnvio,
-        //   idCliente: parseInt(newEnvio.idCliente),
-        //   idZona: parseInt(newEnvio.idZona),
-        //   detalleEnvio: newEnvio.detalleEnvio.map(nombre => ({ nombre })),
-        //   ultimosDigitosTarjeta: newEnvio.ultimosDigitosTarjeta // Asumiendo que este campo es un string
-        // };
         await enviosService.create(newEnvio);
 
         alert("Envío agregado exitosamente");
@@ -250,9 +235,11 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
   const handleOpenAgregarCliente = () => {
     setOpenAgregarCliente(true);
   };
+  const [recargarClientes, setRecargarClientes] = useState(false);
 
   const handleCloseAgregarCliente = () => {
     setOpenAgregarCliente(false);
+    setRecargarClientes(!recargarClientes);
   };
 
   const handleClienteAdded = () => {
@@ -266,7 +253,7 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
       filtrarPorTipoDocumento(tipoDocumentoFiltro);
 
       setLoading(false); // Finaliza la carga
-      alert("Clientes cargados correctamente");
+      // alert("Clientes cargados correctamente");
     };
     fetchData(); // Llama a la función interna
   };
@@ -296,12 +283,14 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
       const data = await fetchClientes();
 
       setClientes(data); // Actualiza la lista completa de clientes
-      filtrarPorTipoDocumento(tipoDocumentoFiltro);
+      //filtrarPorTipoDocumento(tipoDocumentoFiltro);
 
       setLoading(false); // Finaliza la carga
     };
     fetchData(); // Llama a la función interna
-  }, [open]);
+    filtrarPorTipoDocumento(tipoDocumentoFiltro);
+    
+  }, [open, setRecargarClientes]);
 
   // Mostrar la rueda de carga mientras se están recuperando los datos
   if (loading) {
@@ -404,6 +393,20 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
               </FormControl>
             </Box>
             <Box flex={2}>
+              <Autocomplete
+                options={clientesFiltrados
+                  .slice()
+                  .sort((a, b) => a.numeroDocumento - b.numeroDocumento)}
+                getOptionLabel={(cliente) => cliente.numeroDocumento}
+                value={clienteSeleccionado}
+                onChange={handleClienteSeleccionadoChange}
+                filterOptions={filterClientes} // Aplicar el nuevo filtro
+                renderInput={(params) => (
+                  <TextField {...params} label="Numero Documento" size="small" fullWidth />
+                )}
+              />
+            </Box>
+            {/* <Box flex={2}>
               <FormControl fullWidth>
                 <InputLabel id="numeroDocumento-label">Numero Documento</InputLabel>
                 <Select
@@ -412,15 +415,27 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
                   value={clienteSeleccionado}
                   onChange={handleClienteSeleccionadoChange}
                   size="small"
+                  style={{ width: "100%" }}
+                  MenuProps={{
+                    PaperProps: {
+                      style: {
+                        maxHeight: 200, // Ajusta la altura máxima del menú según tus necesidades
+                      },
+                    },
+                  }}
                 >
-                  {clientesFiltrados.map((cliente) => (
-                    <MenuItem key={cliente.id} value={cliente}>
-                      {cliente.numeroDocumento}
-                    </MenuItem>
-                  ))}
+                  {clientesFiltrados
+                    .slice()
+                    .sort((a, b) => a.numeroDocumento - b.numeroDocumento)
+                    .map((cliente) => (
+                      <MenuItem key={cliente.id} value={cliente}>
+                        {cliente.numeroDocumento}
+                      </MenuItem>
+                    ))}
                 </Select>
               </FormControl>
-            </Box>
+            </Box> */}
+
             <Box flex={3}>
               <TextField
                 id="nombre"
@@ -448,6 +463,7 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
                 open={openAgregarCliente}
                 onClose={handleCloseAgregarCliente}
                 onClienteAdded={handleClienteAdded}
+
               />
             </Box>
           </Box>

@@ -15,7 +15,6 @@ const ConsultarRepartidorDialog = ({ open, onClose, repartidor }) => {
           fullWidth
           value={repartidor.nombre}
           InputProps={{ readOnly: true }}
-          disabled
         />
         <TextField
           margin="dense"
@@ -25,7 +24,6 @@ const ConsultarRepartidorDialog = ({ open, onClose, repartidor }) => {
           fullWidth
           value={repartidor.apellido}
           InputProps={{ readOnly: true }}
-          disabled
         />
       </DialogContent>
       <DialogActions>

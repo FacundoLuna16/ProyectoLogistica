@@ -195,6 +195,7 @@ const Repartidores = () => {
                   onClick={() =>
                     handleOnClickConSeleccionado(repartidorSeleccionado.idRepartidor, "M")
                   }
+                  disabled={!repartidorSeleccionado.idRepartidor}
                 >
                   Modificar
                 </Button>
@@ -212,6 +213,7 @@ const Repartidores = () => {
                   onClick={() =>
                     handleOnClickConSeleccionado(repartidorSeleccionado.idRepartidor, "C")
                   }
+                  disabled={!repartidorSeleccionado.idRepartidor}
                 >
                   Ver
                 </Button>
@@ -223,7 +225,7 @@ const Repartidores = () => {
               </Stack>
             </Stack>
             <CustomersTable
-              count={repartidores.length}
+              count={repartidoresFiltrados.length}
               items={paginatedRepartidores}
               onDeselectAll={repartidoresSelection.handleDeselectAll}
               onDeselectOne={repartidoresSelection.handleDeselectOne}

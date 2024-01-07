@@ -1,6 +1,5 @@
 import { useTheme } from "@mui/material/styles";
 import { Box } from "@mui/system";
-import logo from "public/assets/logo.jpeg";
 
 export const Logo = () => {
   const theme = useTheme();
@@ -20,7 +19,7 @@ export const Logo = () => {
     >
       <Box
         component="img"
-        src="https://siglo21myh.com.ar/wp-content/uploads/2023/01/logo-ACTUALIZADO.png"
+        src="/assets/logo.png"
         alt="logoSiglo21"
         sx={{
           height: 50,

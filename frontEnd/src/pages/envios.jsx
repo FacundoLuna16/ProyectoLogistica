@@ -26,6 +26,7 @@ import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
 import ModificarEnvioDialog from "src/sections/envios/modificarEnvios";
 import AgregarEnvioDialog from "src/sections/envios/altaEnvios";
 import ConsultarEnvioDialog from "src/sections/envios/consultarEnvios";
+import CerrarEnvioDialog from "src/sections/envios/cerrarEnvio";
 import { useAuth } from "src/contexts/AuthContext";
 
 const Envios = () => {
@@ -40,24 +41,25 @@ const Envios = () => {
 
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const [filtroTexto, setFiltroTexto] = useState("1");
+  const [filtroTexto, setFiltroTexto] = useState("");
 
   const [filtroAtributo, setFiltroAtributo] = useState("numeroFactura");
 
-  const [filtroZonaEstado, setFiltroZonaEstado] = useState("1");
+  const [filtroZonaEstado, setFiltroZonaEstado] = useState("");
 
   const [tipoEntrada, setTipoEntrada] = useState("text");
 
   const [dialogConsultaOpen, setDialogConsultaOpen] = useState(false);
   const [dialogModificacionOpen, setDialogModificacionOpen] = useState(false);
+  const [dialogCerrarEnvioOpen, setDialogCerrarEnvioOpen] = useState(false);
   const theme = useTheme();
   const isXSmall = useMediaQuery(theme.breakpoints.down("xs"));
 
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogAgregarOpen, setDialogAgregarOpen] = useState(false);
 
 
   const handleDialogClose = () => {
-    setDialogOpen(false);
+    setDialogAgregarOpen(false);
     setResetDialog(prev => !prev);
   };
 
@@ -121,6 +123,10 @@ const Envios = () => {
         case "M":
           setDialogModificacionOpen(true);
           break;
+        case "CE":
+          //cerrar envio
+          setDialogCerrarEnvioOpen(true);
+          break;
         default:
           break;
       }
@@ -146,6 +152,7 @@ const Envios = () => {
     // Actualizar el estado de filtroTexto al cambiar la opción en el Select
     setFiltroTexto(e.target.value);
   };
+
 
   return (
     <>
@@ -226,12 +233,12 @@ const Envios = () => {
                   startIcon={<TruckIcon />}
                   variant="contained"
                   color="success"
-                  onClick={() => setDialogOpen(true)}
+                  onClick={() => setDialogAgregarOpen(true)}
                 >
                   Agregar
                 </Button>
                 <AgregarEnvioDialog
-                    open={dialogOpen}
+                    open={dialogAgregarOpen}
                     onClose={handleDialogClose}
                     onEnvioAdded={fetchEnvios}
                     reset={resetDialog}
@@ -242,6 +249,7 @@ const Envios = () => {
                   color="warning"
                   sx={{ mb: isXSmall ? 1 : 0 }}
                   onClick={() => handleOnClickConSeleccionado("M")}
+                  disabled={!envioSeleccionado.numeroFactura}
                 >
                   Modificar
                 </Button>
@@ -265,6 +273,23 @@ const Envios = () => {
                   open={dialogConsultaOpen}
                   onClose={() => setDialogConsultaOpen(false)}
                   envio={envioSeleccionado}
+                />
+                {/* Botton para cerrar un envio especial */}
+                <Button
+                  startIcon={<ArrowPathIcon />}
+                  variant="contained"
+                  color="error"
+                  sx={{ mb: isXSmall ? 1 : 0 }}
+                  onClick={() => handleOnClickConSeleccionado("CE")}
+                  disabled={!envioSeleccionado.numeroFactura || envioSeleccionado.estadoActual !== "Pendiente"}
+                >
+                  Cerrar Envio
+                </Button>
+                <CerrarEnvioDialog
+                  open={dialogCerrarEnvioOpen}
+                  onClose={() => setDialogCerrarEnvioOpen(false)}
+                  envio={envioSeleccionado}
+                  refrescar={fetchEnvios}
                 />
               </Stack>
             </Stack>

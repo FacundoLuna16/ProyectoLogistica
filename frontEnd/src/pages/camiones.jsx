@@ -190,6 +190,7 @@ const Camiones = () => {
                   sx={{ mb: isXSmall ? 1 : 0 }}
                   onClick={() => handleOnClickConSeleccionado(camionSeleccionado.patente, "M")}
                   //onClick={() => setDialogModificacionOpen(true)}
+                  disabled={!camionSeleccionado.patente}
                 >
                   Modificar
                 </Button>
@@ -205,6 +206,7 @@ const Camiones = () => {
                   color="info"
                   sx={{ mb: isXSmall ? 1 : 0 }}
                   onClick={() => handleOnClickConSeleccionado(camionSeleccionado.patente, "C")}
+                  disabled={!camionSeleccionado.patente}
                 >
                   Ver
                 </Button>
@@ -216,7 +218,7 @@ const Camiones = () => {
               </Stack>
             </Stack>
             <CamionTable
-              count={camiones.length}
+              count={camionesFiltrados.length}
               items={paginatedCamiones}
               onDeselectAll={camionesSelection.handleDeselectAll}
               onDeselectOne={camionesSelection.handleDeselectOne}
