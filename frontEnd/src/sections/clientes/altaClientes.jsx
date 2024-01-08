@@ -145,10 +145,9 @@ const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
     if (isFormValid) {
       try {
         const addedCliente = await clientesService.create(newCliente);
-        
         alert('Cliente agregado correctamente');
-        onClose();
         onClienteAdded();
+        onClose();
         setNewCliente({
           idTipoDocumento: 0,
           numeroDocumento: '',
@@ -159,6 +158,7 @@ const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
           numeroTelefonoAlternativo: '',
           email: '',
         });
+        console.log('Cliente agregado:', addedCliente);
       } catch (error) {
         alert(error.response.data);
       }
@@ -187,8 +187,8 @@ const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
           >
             <MenuItem value={0}>Seleccionar</MenuItem>
             <MenuItem value={1}>DNI</MenuItem>
-            <MenuItem value={2}>CUIT</MenuItem>
-            <MenuItem value={3}>CUIL</MenuItem>
+            <MenuItem value={2}>CUIL</MenuItem>
+            <MenuItem value={3}>CUIT</MenuItem>
           </Select>
         </FormControl>
         <TextField

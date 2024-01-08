@@ -75,6 +75,8 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
   const fetchClientes = async () => {
     try {
       const data = await clientesService.getAll();
+      setClientes(data);
+      filtrarPorTipoDocumento(tipoDocumentoFiltro);
       return data; // Retorna la data en lugar de hacer setClientes
     } catch (error) {
       console.error("Error al obtener clientes:", error);
@@ -275,6 +277,7 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
     }
   }, [open]);
 
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true); // Inicia la carga
@@ -288,8 +291,9 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
       setLoading(false); // Finaliza la carga
     };
     fetchData(); // Llama a la función interna
+    fetchClientes();
     filtrarPorTipoDocumento(tipoDocumentoFiltro);
-    
+    console.log("Filtrado y cargado")
   }, [open, setRecargarClientes]);
 
   // Mostrar la rueda de carga mientras se están recuperando los datos
