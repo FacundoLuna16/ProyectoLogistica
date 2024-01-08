@@ -115,41 +115,41 @@ const HojaDelDia = () => {
       const margenDerecho = 10; // Margen derecho en mm
       const anchoPagina = pdf.internal.pageSize.width;
       const anchoUtilizable = anchoPagina - margenDerecho;
-
+    
       // Ajustar la posición y el tamaño de la imagen
       pdf.addImage(img, 'PNG', 20, 10, 50, 20);
-
+    
       pdf.setFontSize(16);
       // Ajustar la posición del texto
       pdf.text('Hoja Del día', 80, 20, { maxWidth: anchoUtilizable - 80 });
       pdf.text(`Fecha Reparto: ${hojaSeleccionada.fechaReparto}`, 20, 40, { maxWidth: anchoUtilizable - 20 });
-      pdf.text(`Repartidor: ${hojaSeleccionada.repartidor}`, 20, 50, { maxWidth: anchoUtilizable - 20 });
-
+      pdf.text(`Repartidor: ${hojaSeleccionada.repartidor.nombre} ${hojaSeleccionada.repartidor.apellido}`, 20, 50, { maxWidth: anchoUtilizable - 20 });
+    
       let zonaTexto = hojaSeleccionada.envios.length > 0 ? hojaSeleccionada.envios[0].zona : 'No hay envíos';
       pdf.text(`Zona: ${zonaTexto}`, 20, 60, { maxWidth: anchoUtilizable - 20 });
-
-      pdf.text(`Camion: ${hojaSeleccionada.camion}`, 100, 40, { maxWidth: anchoUtilizable - 100 });
-
+    
+      pdf.text(`Camion: ${hojaSeleccionada.camionResponse.patente}`, 100, 40, { maxWidth: anchoUtilizable - 100 });
+    
       const columnas = ['     ', 'Factura', 'Direccion Entrega', 'Entre Calle', 'Telefono 1', 'Telefono 2', 'Cliente', 'Firma'];
       let filas = [];
-
+    
       if (hojaSeleccionada.envios.length > 0) {
         filas = hojaSeleccionada.envios.map(envio => [
           '[ ]',
-          envio.numeroFactura,
-          envio.direccionEnvio,
-          envio.entreCalles,
-          envio.cliente.numeroTelefono,
-          envio.cliente.numeroAltTelefono,
-          `${envio.cliente.nombre} ${envio.cliente.apellido} ${envio.cliente.numeroDocumento}`,
+          { content: envio.numeroFactura, styles: { cellWidth: 45 } },
+          { content: envio.direccionEnvio, styles: { cellWidth: 50, cellPadding: { top: 2, bottom: 2 } } },
+          { content: envio.entreCalles, styles: { cellWidth: 30, cellPadding: { top: 2, bottom: 2 } } },
+          { content: envio.cliente.numeroTelefono, styles: { cellWidth: 40 } },
+          { content: envio.cliente.numeroAltTelefono, styles: { cellWidth: 40 } },
+          { content: `${envio.cliente.nombre} ${envio.cliente.apellido} ${envio.cliente.numeroDocumento}`, styles: { cellWidth: 40, cellPadding: { top: 2, bottom: 2 } } },
           '          '
         ]);
       } else {
         filas.push(['', 'No hay envíos', '', '', '', '', '', '']);
       }
-
+    
       const rowHeight = 15;
-
+    
       pdf.autoTable({
         head: [columnas],
         body: filas,
@@ -165,17 +165,21 @@ const HojaDelDia = () => {
           cellWidth: 'wrap',
         },
         columnStyles: {
-          2: { cellWidth: anchoUtilizable / columnas.length }, // Ajustar el ancho de la columna
+          2: { cellWidth: 20 }, // Ajustar el ancho de la columna
+          3: { cellWidth: 30 },
+          4: { cellWidth: 20 },
+          5: { cellWidth: 20 },
+          6: { cellWidth: 50 },
         },
       });
-
+    
       pdf.text('Firma: ........................', 20, pdf.internal.pageSize.height - 30, { maxWidth: anchoUtilizable - 20 });
-
+    
       window.open(pdf.output('bloburl'), '_blank');
     } catch (error) {
       console.error('Error al generar el PDF:', error);
     }
-  }
+  }    
 
   
 
