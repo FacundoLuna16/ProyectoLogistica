@@ -255,7 +255,7 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
       filtrarPorTipoDocumento(tipoDocumentoFiltro);
 
       setLoading(false); // Finaliza la carga
-      // alert("Clientes cargados correctamente");
+      setRecargarClientes(prev => !prev);
     };
     fetchData(); // Llama a la función interna
   };
@@ -281,20 +281,13 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true); // Inicia la carga
-
-      // Espera a que fetchClientes complete y obtiene la data
       const data = await fetchClientes();
+      setLoading(false);
 
-      setClientes(data); // Actualiza la lista completa de clientes
-      //filtrarPorTipoDocumento(tipoDocumentoFiltro);
-
-      setLoading(false); // Finaliza la carga
     };
     fetchData(); // Llama a la función interna
-    fetchClientes();
-    filtrarPorTipoDocumento(tipoDocumentoFiltro);
-    console.log("Filtrado y cargado")
-  }, [open, setRecargarClientes]);
+
+  }, [recargarClientes]);
 
   // Mostrar la rueda de carga mientras se están recuperando los datos
   if (loading) {

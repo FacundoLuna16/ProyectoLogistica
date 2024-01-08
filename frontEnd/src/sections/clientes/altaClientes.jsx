@@ -139,7 +139,6 @@ const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
         return true;
     }
   };
-  
 
   const handleAgregar = async () => {
     if (isFormValid) {
@@ -158,7 +157,6 @@ const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
           numeroTelefonoAlternativo: '',
           email: '',
         });
-        console.log('Cliente agregado:', addedCliente);
       } catch (error) {
         alert(error.response.data);
       }
