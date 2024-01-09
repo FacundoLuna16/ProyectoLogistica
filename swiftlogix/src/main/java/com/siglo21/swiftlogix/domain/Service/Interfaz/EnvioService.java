@@ -1,7 +1,7 @@
 package com.siglo21.swiftlogix.domain.Service.Interfaz;
 
-import com.siglo21.swiftlogix.application.request.ActualizarEnviorRequestDto;
-import com.siglo21.swiftlogix.application.request.CrearEnvioRequestDto;
+import com.siglo21.swiftlogix.application.request.Envios.ActualizarEnviorRequestDto;
+import com.siglo21.swiftlogix.application.request.Envios.CrearEnvioRequestDto;
 import com.siglo21.swiftlogix.domain.Model.Envio;
 
 import java.util.List;

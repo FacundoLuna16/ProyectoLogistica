@@ -1,5 +1,8 @@
-package com.siglo21.swiftlogix.application.Response;
+package com.siglo21.swiftlogix.application.Response.hojaDelDia;
 
+import com.siglo21.swiftlogix.application.Response.CamionResponse;
+import com.siglo21.swiftlogix.application.Response.RepartidorResponse;
+import com.siglo21.swiftlogix.application.Response.envio.EnvioResponseHojaDelDia;
 import com.siglo21.swiftlogix.domain.Model.HojaDelDia;
 import lombok.Getter;
 import lombok.Setter;

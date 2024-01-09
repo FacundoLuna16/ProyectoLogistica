@@ -1,7 +1,7 @@
 package com.siglo21.swiftlogix.domain.Service;
 
-import com.siglo21.swiftlogix.application.request.ActualizarEnviorRequestDto;
-import com.siglo21.swiftlogix.application.request.CrearEnvioRequestDto;
+import com.siglo21.swiftlogix.application.request.Envios.ActualizarEnviorRequestDto;
+import com.siglo21.swiftlogix.application.request.Envios.CrearEnvioRequestDto;
 import com.siglo21.swiftlogix.domain.Model.*;
 import com.siglo21.swiftlogix.domain.Model.EstadosEnvio.Pendiente;
 import com.siglo21.swiftlogix.domain.Repository.*;

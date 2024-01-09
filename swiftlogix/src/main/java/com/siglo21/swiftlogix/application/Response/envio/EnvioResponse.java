@@ -1,11 +1,12 @@
-package com.siglo21.swiftlogix.application.Response;
+package com.siglo21.swiftlogix.application.Response.envio;
 
+import com.siglo21.swiftlogix.application.Response.CambioEstadoResponse;
+import com.siglo21.swiftlogix.application.Response.cliente.ClienteDelEnvioDto;
 import com.siglo21.swiftlogix.domain.Model.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Setter
 @Getter

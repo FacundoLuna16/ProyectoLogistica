@@ -1,5 +1,6 @@
-package com.siglo21.swiftlogix.application.Response;
+package com.siglo21.swiftlogix.application.Response.envio;
 
+import com.siglo21.swiftlogix.application.Response.cliente.ClienteDelEnvioDto;
 import com.siglo21.swiftlogix.domain.Model.CambioEstado;
 import com.siglo21.swiftlogix.domain.Model.Envio;
 import lombok.Getter;

@@ -1,13 +1,12 @@
 package com.siglo21.swiftlogix.application.controller;
 
-import com.siglo21.swiftlogix.application.Response.ClienteResponse;
+import com.siglo21.swiftlogix.application.Response.cliente.ClienteResponse;
 import com.siglo21.swiftlogix.application.request.ClienteRequestDto;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.ClienteService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;

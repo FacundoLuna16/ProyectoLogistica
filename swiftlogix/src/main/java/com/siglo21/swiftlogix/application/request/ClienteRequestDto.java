@@ -18,12 +18,10 @@ public class ClienteRequestDto {
     @NotBlank(message = "El numero de documento no puede estar vacio")
     private String numeroDocumento;
 
-    @NotNull(message = "El nombre no puede ser nulo")
-    @NotBlank(message = "El nombre no puede estar vacio")
+    @NotNull(message = "El nombre/razon social no puede ser nulo")
+    @NotBlank(message = "El nombre/razon social no puede vacio")
     private String nombre;
 
-    @NotNull(message = "El apellido no puede ser nulo")
-    @NotBlank(message = "El apellido no puede estar vacio")
     private String apellido;
 
     @NotNull(message = "La direccion no puede ser nula")
@@ -35,7 +33,6 @@ public class ClienteRequestDto {
     private String numeroTelefono;
     private String numeroTelefonoAlternativo;
 
-    @Email(message = "El email no es valido")
     private String email;
 
 }

@@ -1,12 +1,13 @@
-package com.siglo21.swiftlogix.application.Response;
+package com.siglo21.swiftlogix.application.Response.hojaDelDia;
 
 
+import com.siglo21.swiftlogix.application.Response.CamionResponse;
+import com.siglo21.swiftlogix.application.Response.RepartidorResponse;
+import com.siglo21.swiftlogix.application.Response.envio.EnvioResponse;
 import com.siglo21.swiftlogix.domain.Model.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
