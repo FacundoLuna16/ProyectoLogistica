@@ -101,14 +101,9 @@ public class EnvioServiceImpl implements EnvioService {
     private Envio actualizarEnvioDesdeRequest(Envio envio, ActualizarEnviorRequestDto requestDto) {
         Cliente cliente = obtenerClienteDesdeRequest(requestDto.getIdCliente());
         Zona zona = obtenerZonaDesdeRequest(requestDto.getIdZona());
-
-
-        Pendiente pendiente = (Pendiente) estadoEnvioRepository.getById(1).orElseThrow(() -> new RuntimeException("Estado Pendiente no encontrado"));
-
+        
         envio.setCliente(cliente);
         envio.setZona(zona);
-        envio.setCambiosEstado(new ArrayList<>(Collections.singletonList(new CambioEstado(pendiente))));
-        envio.setEstadoActual(pendiente);
         envio.setDireccionEnvio(requestDto.getDireccionEnvio());
         envio.setEntreCalles(requestDto.getEntreCalles());
         envio.setUltimosDigitosTarjeta(requestDto.getUltimosDigitosTarjeta());
