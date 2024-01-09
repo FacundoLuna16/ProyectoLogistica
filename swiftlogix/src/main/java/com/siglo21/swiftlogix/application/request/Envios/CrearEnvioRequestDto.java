@@ -11,7 +11,6 @@ public class CrearEnvioRequestDto {
 
     @NotNull(message = "El numero de factura no puede ser nulo")
     @NotBlank(message = "El numero de factura no puede estar vacio")
-    @NumeroFacturaValid
     private String numeroFactura;
 
     @Positive(message = "El id del cliente no puede ser negativo")

@@ -3,6 +3,7 @@ package com.siglo21.swiftlogix.domain.Service.Interfaz;
 import com.siglo21.swiftlogix.application.request.Envios.ActualizarEnviorRequestDto;
 import com.siglo21.swiftlogix.application.request.Envios.CrearEnvioRequestDto;
 import com.siglo21.swiftlogix.domain.Model.Envio;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,4 +20,8 @@ public interface EnvioService {
     Integer cantidadEnviosPorZona(Integer idEstado, Integer idZona);
 
     void cerrarEnvio(String nroFactura, String descripcion);
+
+    String subirImagen(String nroFactura,MultipartFile file);
+
+
 }

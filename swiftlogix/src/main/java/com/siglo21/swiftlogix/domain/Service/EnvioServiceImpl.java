@@ -8,7 +8,14 @@ import com.siglo21.swiftlogix.domain.Repository.*;
 import com.siglo21.swiftlogix.domain.Service.Interfaz.EnvioService;
 import com.siglo21.swiftlogix.domain.exchangePort.WhatsappService;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.*;
 
 public class EnvioServiceImpl implements EnvioService {
@@ -154,6 +161,43 @@ public class EnvioServiceImpl implements EnvioService {
         //Guardar el envio
         envioRepository.save(envio);
     }
+
+    @Override
+    public String subirImagen(String nroFactura, MultipartFile file) {
+        try {
+            String nombreArchivo = nroFactura;
+            byte[] bytes = file.getBytes();
+
+            String fileOriginalName = file.getOriginalFilename();
+
+            long fileSize = file.getSize();
+            long maximoDeFoto = 5 * 1024 * 1024; // para 5MB
+
+            if (fileSize > maximoDeFoto) {
+                throw new RuntimeException("El tamaño de la imagen no puede ser mayor a 5MB");
+            }
+
+            // Siempre utilizar la extensión ".jpg" al guardar
+            String extension = ".jpg";
+
+            String nuevoArchivoNombre = nombreArchivo + extension;
+
+            File carpeta = new File("src/main/resources/fotosEnviosNoEntregado");
+            if (!carpeta.exists()){
+                carpeta.mkdirs();
+            }
+
+            Path path = Paths.get("src/main/resources/fotosEnviosNoEntregado/" + nuevoArchivoNombre);
+            Files.write(path, bytes);
+
+            return "cargado con éxito";
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 
 
 }

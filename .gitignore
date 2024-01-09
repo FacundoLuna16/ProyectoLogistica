@@ -15,3 +15,6 @@ db/mysql_data/*
 /FrontEnd/.env
 
 .vscode
+
+#Carpeta de fotos 
+/swiftlogix/src/main/resources/fotosFactura/*
