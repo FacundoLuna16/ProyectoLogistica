@@ -123,7 +123,7 @@ public class EnvioController {
             value = "/obtenerImagen/{nroFactura}",
             produces = MediaType.IMAGE_JPEG_VALUE
     )
-    public @ResponseBody byte[] obtenerImagen(@PathVariable("nroFactura") String nroFactura) throws Exception {
+    public ResponseEntity<?> obtenerImagen(@PathVariable("nroFactura") String nroFactura) {
         try {
             // Construir la ruta completa del archivo
             String nombreArchivo = nroFactura + ".jpg";
@@ -131,13 +131,20 @@ public class EnvioController {
             File archivo = new File(carpeta, nombreArchivo);
 
             if (!archivo.exists()) {
-                throw new FileNotFoundException("No se encontró la imagen para la factura con número: " + nroFactura);
+                // Devolver una respuesta HTTP 404 si el archivo no se encuentra y agregar un comentario
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("No se encontró la imagen para la factura con número: " + nroFactura);
             }
 
-            // Leer bytes desde el archivo
-            return Files.readAllBytes(archivo.toPath());
+            // Leer bytes desde el archivo y devolver en la respuesta
+            byte[] imagenBytes = Files.readAllBytes(archivo.toPath());
+            return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imagenBytes);
         } catch (IOException e) {
-            throw new RuntimeException("Error al obtener la imagen para la factura con número: " + nroFactura, e);
+            // Manejar otros errores y devolver una respuesta HTTP 500
+            e.printStackTrace();  // Considera loguear el error
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al obtener la imagen para la factura con número: " + nroFactura);
+
         }
     }
 
