@@ -40,7 +40,7 @@ const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
 
   useEffect(() => {
     // Campos obligatorios
-    const requiredFields = ['idTipoDocumento', 'numeroDocumento', 'nombre', 'apellido', 'direccion', 'numeroTelefono', 'email'];
+    const requiredFields = ['idTipoDocumento', 'numeroDocumento', 'nombre', 'direccion', 'numeroTelefono'];
     
     // Verificar si todos los campos obligatorios tienen un valor
     const areRequiredFieldsComplete = requiredFields.every((field) => !!newCliente[field]);
@@ -50,7 +50,13 @@ const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
 
     // Habilitar el botón "Agregar" solo si todos los campos obligatorios están completos y el formulario es válido
     setIsFormValid(areRequiredFieldsComplete && isValidForm);
-  }, [newCliente, validation]);
+
+    if (tipoDocumentoSeleccionado === 3) {
+      setValidation({ ...validation, apellido: true });
+    }
+
+
+  }, [newCliente, validation, tipoDocumentoSeleccionado]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -205,7 +211,7 @@ const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
         <TextField
           margin="dense"
           id="nombre"
-          label="Nombre"
+          label={tipoDocumentoSeleccionado === 3 ? "Razón Social" : "Nombre"}
           required
           type="text"
           fullWidth
@@ -214,18 +220,19 @@ const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
           onChange={handleInputChange}
           error={!validation.nombre}
         />
-        <TextField
-          required
-          margin="dense"
-          id="apellido"
-          label="Apellido"
-          type="text"
-          fullWidth
-          name="apellido"
-          value={newCliente.apellido}
-          onChange={handleInputChange}
-          error={!validation.apellido}
-        />
+        {tipoDocumentoSeleccionado !== 3 && (
+          <TextField
+            margin="dense"
+            id="apellido"
+            label="Apellido"
+            type="text"
+            fullWidth
+            name="apellido"
+            value={newCliente.apellido}
+            onChange={handleInputChange}
+            error={!validation.apellido}
+          />
+        )}
         <TextField
           margin="dense"
           id="direccion"
@@ -267,7 +274,6 @@ const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
           label="Email"
           type="text"
           fullWidth
-          required
           name="email"
           value={newCliente.email}
           onChange={handleInputChange}

@@ -27,6 +27,9 @@ import { is } from "date-fns/locale";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
 import Autocomplete from "@mui/material/Autocomplete";
+import { AutocompleteGoogle, useLoadScript, StandaloneSearchBox } from '@react-google-maps/api';
+
+const libraries = ["places"];
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -44,7 +47,40 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
   const authContext = useAuth();
   const enviosService = new EnvioService(authContext);
   const clientesService = new ClientesService(authContext);
+  const [tipoDocumento, setTipoDocumento] = useState('factura'); // Valores posibles: 'factura', 'remito'
+  const [autocomplete, setAutocomplete] = useState(null);
 
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: "AIzaSyCEbdZKx7Dy3tmUJ6Z-cAvOqvH7P74hN1k", // Reemplaza con tu clave API
+    libraries, // Usa la constante definida fuera del componente
+  });
+
+  const searchBoxContainerStyle = {
+    position: "relative", // Posición relativa para el contenedor
+    width: "100%", // Asegúrate de que coincida con el ancho deseado
+  };
+
+  const autocompleteContainerStyle = {
+    zIndex: 10000, // Ajusta este valor según sea necesario
+    position: "absolute",
+    width: "100%", // Asegúrate de que coincida con el ancho del TextField
+  };
+
+  const [searchBox, setSearchBox] = useState(null);
+  
+  const onLoad = (autocomplete) => {
+    setAutocomplete(autocomplete);
+  };
+  
+  const onPlacesChanged = () => {
+    if (searchBox) {
+      const places = searchBox.getPlaces();
+      const address = places[0]?.formatted_address;
+      if (address) {
+        setNewEnvio({ ...newEnvio, direccionEnvio: address });
+      }
+    }
+  };
   const [newEnvio, setNewEnvio] = useState({
     numeroFactura: "",
     idCliente: "",
@@ -108,32 +144,36 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
   // Esto sirve para los manejos de cambios globales
   const handleChange = (event) => {
     const { name, value } = event.target;
-
-    let formattedValue = value;
-
+  
     if (name === "numeroFactura") {
-      // Formatear el número de factura con el formato A-1234-12345678
-      formattedValue = value.replace(/[^A-Za-z0-9]/g, ""); // Eliminar caracteres no alfanuméricos
+      let formattedValue = value.replace(/[^A-Za-z0-9]/g, ""); // Elimina caracteres no alfanuméricos
+  let isValidFormat = false;
 
-      if (formattedValue.length > 1) {
-        // Agregar guión después del primer carácter
-        formattedValue = `${formattedValue.slice(0, 1)}-${formattedValue.slice(1)}`;
-      }
+  if (tipoDocumento === 'factura') {
+    // Intenta aplicar formato A-1234-12345678
+    if (formattedValue.length > 1 && /^[A-Za-z]\d{0,12}$/.test(formattedValue)) {
+      // Si el primer carácter es una letra y los demás son dígitos (hasta 12 dígitos)
+      formattedValue = formattedValue[0] + "-" + formattedValue.substring(1);
       if (formattedValue.length > 6) {
-        // Agregar guión después del quinto carácter
-        formattedValue = `${formattedValue.slice(0, 6)}-${formattedValue.slice(6)}`;
+        // Agrega el segundo guión después del cuarto dígito
+        formattedValue = formattedValue.substring(0, 6) + "-" + formattedValue.substring(6);
       }
-      formattedValue = formattedValue.slice(0, 15);
+      isValidFormat = /^[A-Za-z]-\d{4}-\d{8}$/.test(formattedValue); // Verifica el formato completo
+    }
+    } else if (tipoDocumento === 'remito') {
+      // Validación estricta de 8 dígitos para remito
+      isValidFormat = /^\d{8}$/.test(formattedValue);
+    }
 
-      setValidation((prevValidation) => ({
-        ...prevValidation,
-        [name]: formattedValue.length === 15, // Validar si tiene la longitud correcta
-      }));
+    setValidation((prevValidation) => ({
+      ...prevValidation,
+      [name]: isValidFormat,
+    }));
 
-      setNewEnvio((prevEnvio) => ({
-        ...prevEnvio,
-        [name]: formattedValue,
-      }));
+    setNewEnvio((prevEnvio) => ({
+      ...prevEnvio,
+      [name]: formattedValue,
+    }));
     } else {
       setNewEnvio((prevEnvio) => ({
         ...prevEnvio,
@@ -153,7 +193,6 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
       "idCliente",
       "idZona",
       "direccionEnvio",
-      "entreCalles",
       "tipoEnvio",
     ];
     const areRequiredFieldsComplete = requiredFields.every((field) => !!newEnvio[field]);
@@ -321,21 +360,38 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
             alignItems="center"
             gap={2}
           >
+            <FormControl size="small" sx={{ width: "55%" }}>
+            <InputLabel id="tipo-documento-label">Tipo Documento</InputLabel>
+            <Select
+              labelId="tipo-documento-label"
+              id="tipo-documento-select"
+              value={tipoDocumento}
+              label="Tipo Documento"
+              onChange={(e) => setTipoDocumento(e.target.value)}
+            >
+              <MenuItem value="factura">Número de Factura</MenuItem>
+              <MenuItem value="remito">Remito</MenuItem>
+            </Select>
+            </FormControl>
             <TextField
-              autoFocus
-              id="numeroFactura"
-              label="Nro Factura"
-              type="text"
-              fullWidth
-              required
-              name="numeroFactura"
-              error={!validation.numeroFactura}
-              value={newEnvio.numeroFactura}
-              onChange={handleChange}
-              size="small"
-            />
+                autoFocus
+                id="numeroFactura"
+                label={tipoDocumento === 'factura' ? "Nro Factura" : "Nro Remito"}
+                type="text"
+                fullWidth
+                required
+                name="numeroFactura"
+                error={!validation.numeroFactura}
+                value={newEnvio.numeroFactura}
+                onChange={handleChange}
+                size="small"
+                helperText={!validation.numeroFactura ? "Formato incorrecto" : ""}
+                inputProps={{
+                  maxLength: tipoDocumento === 'factura' ? 15 : 8
+                }}
+              />
             {/* Select para el tipo de envío */}
-            <FormControl size="small" sx={{ width: "30%" }}>
+            <FormControl size="small" sx={{ width: "40%" }}>
               <InputLabel id="tipo-envio-label">Tipo de Envío*</InputLabel>
               <Select
                 labelId="tipo-envio-label"
@@ -519,21 +575,28 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
             <VisuallyHiddenInput type="file" />
           </Button>
           <Box display="flex" flexDirection={{ xs: "column", sm: "row" }} gap={2}>
-            <TextField
-              label="Dirección de Envío"
-              type="text"
-              fullWidth
-              required
-              name="direccionEnvio"
-              value={newEnvio.direccionEnvio}
-              onChange={handleChange}
-              size="small"
-            />
+          <Box style={searchBoxContainerStyle}>
+            {isLoaded && (
+              <div style={autocompleteContainerStyle}>
+                <StandaloneSearchBox onLoad={onLoad} onPlacesChanged={onPlacesChanged}>
+                  <TextField
+                    label="Dirección de Envío"
+                    type="text"
+                    fullWidth
+                    required
+                    name="direccionEnvio"
+                    value={newEnvio.direccionEnvio}
+                    onChange={handleChange}
+                    size="small"
+                  />
+                </StandaloneSearchBox>
+              </div>
+            )}
+          </Box>
             <TextField
               label="Entre Calles"
               type="text"
               fullWidth
-              required
               name="entreCalles"
               value={newEnvio.entreCalles}
               onChange={handleChange}

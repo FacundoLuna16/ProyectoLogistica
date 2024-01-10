@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useTheme } from "@mui/material/styles";
 import { Paper, Button, Typography, Box, Grid, Container, useMediaQuery } from "@mui/material";
 import Head from "next/head";
@@ -15,6 +15,11 @@ import IniciarEntregaDialog from "src/sections/hojaDelDia/iniciarEntrega";
 import CerrarHoja from "src/sections/hojaDelDia/cerrarHoja";
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import MapComponent from "src/sections/hojaDelDia/mapa"
+import Script from 'next/script';
+
+const apikey = 'badYMfSApv2j335f69Vd5zFB5wEqAFK-KdLQnbkG-eo'
+
 
 const HojaDelDia = () => {
   const authContext = useAuth();
@@ -26,7 +31,7 @@ const HojaDelDia = () => {
   const [dialogCerrarHojaOpen, setDialogCerrarHojaOpen] = useState(false);
   const [enviosSeleccionados, setEnviosSeleccionados] = useState([]);
   const [fechaSeleccionada,setFechaSeleccionada] = useState({});
-
+  // const [enviosDirecciones, setEnviosDirecciones] = useState([]);
   //Estilos
   const theme = useTheme();
   const isXSmall = useMediaQuery(theme.breakpoints.down("xs"));
@@ -50,7 +55,6 @@ const HojaDelDia = () => {
     getByFechaReparto(date);
     setFechaSeleccionada(date);
   };
-
 
   const apiRef = useRef(null);
 
@@ -181,7 +185,15 @@ const HojaDelDia = () => {
     }
   }    
 
-  
+  // useEffect(() => {
+  //   if (hojaSelecionada && hojaSelecionada.envios && hojaSelecionada.envios.length > 0) {
+  //     const direcciones = hojaSelecionada.envios.map(envio => envio.direccionEnvio);
+  //     setEnviosDirecciones(direcciones);
+  //   }
+  // }, [hojaSelecionada]);
+  const enviosDirecciones = [ "Avenida Olascoagas 58", "Entre rios 600", "Rio Desaguadero 735 Neuquen"];
+
+  console.log(enviosDirecciones)
 
   return (
     <>
@@ -269,9 +281,9 @@ const HojaDelDia = () => {
               </Box>
             </Grid>
           </Grid>
+          <MapComponent addresses={enviosDirecciones} />
         </Container>
       </Box>
-      {/* ... cualquier otro componente o retorno que necesites aquí */}
     </>
   );
 };
