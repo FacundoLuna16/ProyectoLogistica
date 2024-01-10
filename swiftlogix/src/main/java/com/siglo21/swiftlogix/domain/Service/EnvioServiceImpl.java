@@ -101,14 +101,9 @@ public class EnvioServiceImpl implements EnvioService {
     private Envio actualizarEnvioDesdeRequest(Envio envio, ActualizarEnviorRequestDto requestDto) {
         Cliente cliente = obtenerClienteDesdeRequest(requestDto.getIdCliente());
         Zona zona = obtenerZonaDesdeRequest(requestDto.getIdZona());
-
-
-        Pendiente pendiente = (Pendiente) estadoEnvioRepository.getById(1).orElseThrow(() -> new RuntimeException("Estado Pendiente no encontrado"));
-
+        
         envio.setCliente(cliente);
         envio.setZona(zona);
-        envio.setCambiosEstado(new ArrayList<>(Collections.singletonList(new CambioEstado(pendiente))));
-        envio.setEstadoActual(pendiente);
         envio.setDireccionEnvio(requestDto.getDireccionEnvio());
         envio.setEntreCalles(requestDto.getEntreCalles());
         envio.setUltimosDigitosTarjeta(requestDto.getUltimosDigitosTarjeta());
@@ -182,15 +177,16 @@ public class EnvioServiceImpl implements EnvioService {
 
             String nuevoArchivoNombre = nombreArchivo + extension;
 
-            File carpeta = new File("src/main/resources/fotosEnviosNoEntregado");
+            File carpeta = new File("swiftlogix/src/main/resources/fotosEnviosNoEntregado");
             if (!carpeta.exists()){
                 carpeta.mkdirs();
             }
 
-            Path path = Paths.get("src/main/resources/fotosEnviosNoEntregado/" + nuevoArchivoNombre);
+            Path path = Paths.get("swiftlogix/src/main/resources/fotosEnviosNoEntregado/" + nuevoArchivoNombre);
             Files.write(path, bytes);
 
-            return "cargado con éxito";
+
+            return "cargado con éxito,Archivo guardado en: " + path.toAbsolutePath().toString();
 
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -1,4 +1,4 @@
-import React, { useEffect , useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import {
   Dialog,
   Typography,
@@ -8,7 +8,6 @@ import {
   TableCell,
   Table,
   TableBody,
-
   Accordion,
   AccordionSummary,
   AccordionDetails,
@@ -25,14 +24,22 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Scrollbar } from "src/components/scrollbar";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { styled } from "@mui/system";
+import EnvioService from "src/service/enviosService";
+import { useAuth } from "src/contexts/AuthContext";
+import CircularProgress from "@mui/material/CircularProgress";
+
+
+const LargeImageDialog = styled(DialogContent)({
+  textAlign: "center",
+});
 
 const theme = createTheme({
   typography: {
     fontSize: 13, // Tamaño de fuente general
   },
 });
-
 
 const getColorForEstado = (estado) => {
   switch (estado) {
@@ -45,12 +52,38 @@ const getColorForEstado = (estado) => {
   }
 };
 
-
-
-
-
 const ConsultarEnvioDialog = ({ open, onClose, envio }) => {
+  const authContext = useAuth();
+  const enviosService = new EnvioService(authContext);
+  const [showLargeImage, setShowLargeImage] = useState(false);
   const [tipoEnvio, setTipoEnvio] = useState("");
+  const [imagen, setImagen] = useState(null);
+  const [loadingImagen, setLoadingImagen] = useState(false);
+
+  const getImagen = async () => {
+    try {
+      setLoadingImagen(true);
+      const imagen = await enviosService.obtenerImagen(envio.numeroFactura);
+      setImagen(imagen);
+    } catch (error) {
+      console.error("Error al obtener la imagen:", error);
+    } finally {
+      setLoadingImagen(false);
+    }
+  };
+
+  const handleVerImagen = () => {
+    handleShowLargeImage();
+    getImagen();
+  };
+
+  const handleShowLargeImage = () => {
+    setShowLargeImage(true);
+  };
+
+  const handleCloseLargeImage = () => {
+    setShowLargeImage(false);
+  };
 
   useEffect(() => {
     switch (envio.tipoEnvio) {
@@ -66,10 +99,19 @@ const ConsultarEnvioDialog = ({ open, onClose, envio }) => {
       default:
         break;
     }
+    setImagen(null);
   }, [envio]);
 
+  const handleDownloadImage = () => {
+    const link = document.createElement("a");
+    link.href = imagen;
+    //setea el link.download para que el archivo se descargue con el nombre DEL NUMERO DE FACTURA .jpg
+    link.download = envio.numeroFactura + ".jpg";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
-  
   // Verifica si el envío es falsy (undefined o vacío)
   if (!envio || !envio.numeroFactura) {
     return null; // No renderizar el componente si el envío no está presente o es vacío
@@ -81,25 +123,25 @@ const ConsultarEnvioDialog = ({ open, onClose, envio }) => {
         <DialogContent>
           {/* Numero factura */}
           <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
-          <TextField
-            margin="dense"
-            id="numeroFactura"
-            label="Numero Factura"
-            type="text"
-            fullWidth
-            value={envio.numeroFactura}
-            InputProps={{ readOnly: true }}
-          />
-          {/* Tipo de envio */}
-          <TextField
-            margin="dense"
-            id="tipoEnvio"
-            label="Tipo de Envío"
-            type="text"
-            fullWidth
-            value={tipoEnvio}
-            InputProps={{ readOnly: true }}
-          />
+            <TextField
+              margin="dense"
+              id="numeroFactura"
+              label="Numero Factura"
+              type="text"
+              fullWidth
+              value={envio.numeroFactura}
+              InputProps={{ readOnly: true }}
+            />
+            {/* Tipo de envio */}
+            <TextField
+              margin="dense"
+              id="tipoEnvio"
+              label="Tipo de Envío"
+              type="text"
+              fullWidth
+              value={tipoEnvio}
+              InputProps={{ readOnly: true }}
+            />
           </Box>
 
           {/* Cliente */}
@@ -183,7 +225,7 @@ const ConsultarEnvioDialog = ({ open, onClose, envio }) => {
                 boxShadow: "none",
                 border: "none",
                 cursor: "default",
-                '&:hover': {
+                "&:hover": {
                   backgroundColor: "transparent",
                 },
               }}
@@ -238,6 +280,37 @@ const ConsultarEnvioDialog = ({ open, onClose, envio }) => {
 
         <DialogActions>
           <Button onClick={onClose}>Cerrar</Button>
+          <Button onClick={handleVerImagen}>Ver Imagen</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Agrega un nuevo Dialog para la imagen en grande */}
+      <Dialog open={showLargeImage} onClose={handleCloseLargeImage} maxWidth="md" fullWidth>
+        <DialogTitle>Imagen en Grande</DialogTitle>
+        <LargeImageDialog>
+          {/* Condición para mostrar la imagen, spinner o un mensaje */}
+          {loadingImagen ? (
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <CircularProgress />
+            </Box>
+          ) : imagen ? (
+            <div>
+              <img src={imagen} alt="Imagen en grande" style={{ maxWidth: "100%" }} />
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleDownloadImage}
+                style={{ marginTop: "10px" }}
+              >
+                Descargar Imagen
+              </Button>
+            </div>
+          ) : (
+            <p>No hay una foto cargada para este envío.</p>
+          )}
+        </LargeImageDialog>
+        <DialogActions>
+          <Button onClick={handleCloseLargeImage}>Cerrar</Button>
         </DialogActions>
       </Dialog>
     </ThemeProvider>
