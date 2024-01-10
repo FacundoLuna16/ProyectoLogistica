@@ -177,15 +177,16 @@ public class EnvioServiceImpl implements EnvioService {
 
             String nuevoArchivoNombre = nombreArchivo + extension;
 
-            File carpeta = new File("src/main/resources/fotosEnviosNoEntregado");
+            File carpeta = new File("swiftlogix/src/main/resources/fotosEnviosNoEntregado");
             if (!carpeta.exists()){
                 carpeta.mkdirs();
             }
 
-            Path path = Paths.get("src/main/resources/fotosEnviosNoEntregado/" + nuevoArchivoNombre);
+            Path path = Paths.get("swiftlogix/src/main/resources/fotosEnviosNoEntregado/" + nuevoArchivoNombre);
             Files.write(path, bytes);
 
-            return "cargado con éxito";
+
+            return "cargado con éxito,Archivo guardado en: " + path.toAbsolutePath().toString();
 
         } catch (IOException e) {
             throw new RuntimeException(e);

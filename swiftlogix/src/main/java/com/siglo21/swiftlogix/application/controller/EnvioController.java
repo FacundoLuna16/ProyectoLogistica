@@ -127,7 +127,7 @@ public class EnvioController {
         try {
             // Construir la ruta completa del archivo
             String nombreArchivo = nroFactura + ".jpg";
-            File carpeta = new File("src/main/resources/fotosFactura");
+            File carpeta = new File("swiftlogix/src/main/resources/fotosEnviosNoEntregado");
             File archivo = new File(carpeta, nombreArchivo);
 
             if (!archivo.exists()) {

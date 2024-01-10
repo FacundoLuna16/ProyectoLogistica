@@ -49,6 +49,7 @@ class EnvioService {
 
   update = async (numeroFactura, envioData) => {
     try {
+      alert(JSON.stringify(envioData))
       const response = await axios.put(`${this.API_URL}/${numeroFactura}`, envioData, {
         headers: {
           Authorization: `Bearer ${this.authContext.keycloak.token}`,
@@ -89,8 +90,50 @@ class EnvioService {
     (error) {
       throw error;
     }
-
   }
+
+  subirImagen = async (numeroFactura, imagen) => {
+    try {
+      const formData = new FormData();
+      formData.append("imagen", imagen);
+
+      const response = await axios.put(
+        `${this.API_URL}/subirImagen/${numeroFactura}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${this.authContext.keycloak.token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  obtenerImagen = async (numeroFactura) => {
+    try {
+      const response = await axios.get(`${this.API_URL}/obtenerImagen/${numeroFactura}`, {
+        headers: {
+          Authorization: `Bearer ${this.authContext.keycloak.token}`,
+        },
+        responseType: 'arraybuffer',
+      });
+      //valida que la respuesta no sea vacia
+      if (response.data.byteLength === 0) {
+        return null;
+      }
+      
+      // Convierte la respuesta (array de bytes) a un blob y crea una URL para la imagen
+      const blob = new Blob([response.data], { type: response.headers['content-type'] });
+      const imageUrl = URL.createObjectURL(blob)
+      return imageUrl;
+    } catch (error) {
+      throw error;
+    }
+  };
 
 
 }

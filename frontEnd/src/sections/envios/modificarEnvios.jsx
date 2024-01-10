@@ -15,6 +15,21 @@ import {
 } from "@mui/material";
 import EnvioService from "src/service/enviosService";
 import { useAuth } from "src/contexts/AuthContext";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { styled } from "@mui/material/styles";
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+}).withComponent("input"); // Agrega esta línea para permitir la propagación del evento onChange
+
+// ...
 
 const ModificarEnvioDialog = ({ open, onClose, envio, refrescar }) => {
   const authContext = useAuth();
@@ -22,23 +37,26 @@ const ModificarEnvioDialog = ({ open, onClose, envio, refrescar }) => {
   const [numeroFactura, setNumeroFactura] = useState("");
   const [cliente, setCliente] = useState({});
   const [idZona, setIdZona] = useState(0);
-  const [detalleEnvio, setDetalleEnvio] = useState([]);
+  //const [detalleEnvio, setDetalleEnvio] = useState([]);
   const [direccionEnvio, setDireccionEnvio] = useState("");
   const [entreCalles, setEntreCalles] = useState("");
-  const [cambiosEstado, setCambiosEstado] = useState([]);
-  const [estadoActual, setEstadoActual] = useState("");
+  //const [cambiosEstado, setCambiosEstado] = useState([]);
+  //const [estadoActual, setEstadoActual] = useState("");
   const [ultimosDigitosTarjeta, setUltimosDigitosTarjeta] = useState("");
+  const [imagen, setImagen] = useState(null);
+  const [isImagenSelected, setIsImagenSelected] = useState(false);
+
 
   const [isFormValid, setIsFormValid] = useState(false);
+  const [initialValues, setInitialValues] = useState({});
+  const [isFormModified, setIsFormModified] = useState(false);
 
   const [validation, setValidation] = useState({
     direccionEnvio: true,
-    entreCalles: true,
-    ultimosDigitosTarjeta: true,
   });
 
   useEffect(() => {
-    const requiredFields = ["direccionEnvio", "entreCalles", "ultimosDigitosTarjeta"];
+    const requiredFields = ["direccionEnvio"];
 
     const areRequiredFieldsComplete = requiredFields.every((field) => !!field);
 
@@ -49,32 +67,38 @@ const ModificarEnvioDialog = ({ open, onClose, envio, refrescar }) => {
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-  
+
     // Limitar la longitud del valor a 4 caracteres solo para el campo de tarjeta
     const truncatedValue = id === "ultimosDigitosTarjeta" ? value.slice(0, 4) : value;
-  
+
+    // Verificar si el valor actual es diferente al valor inicial
+    const isFieldModified = truncatedValue !== initialValues[id];
+
+    // Actualizar el estado de modificación
+    setIsFormModified(isFieldModified || isFormModified);
+
     let isValid = true;
-  
+
     switch (id) {
       case "direccionEnvio":
         isValid = truncatedValue.length > 0;
         break;
-      case "entreCalles":
-        isValid = truncatedValue.length > 0;
-        break;
+      // case "entreCalles":
+      //   isValid = truncatedValue.length > 0;
+      //   break;
       case "ultimosDigitosTarjeta":
         // Verificar que contiene exactamente 4 números
-        isValid = /^\d{4}$/.test(truncatedValue);
+        isValid = /^(?:\d{4})?$/.test(truncatedValue);
         break;
       default:
         break;
     }
-  
+
     setValidation((prevState) => ({
       ...prevState,
       [id]: isValid,
     }));
-  
+
     switch (id) {
       case "direccionEnvio":
         setDireccionEnvio(truncatedValue);
@@ -91,22 +115,32 @@ const ModificarEnvioDialog = ({ open, onClose, envio, refrescar }) => {
         break;
     }
   };
-  
-  
 
   useEffect(() => {
+    setInitialValues({
+      numeroFactura: envio.numeroFactura || "",
+      cliente: envio.cliente || {},
+      idZona: envio.zona || "",
+      //detalleEnvio: envio.detalleEnvio || [],
+      direccionEnvio: envio.direccionEnvio || "",
+      entreCalles: envio.entreCalles || "",
+      //cambiosEstado: envio.cambiosEstado || [],
+      //estadoActual: envio.estadoActual || "",
+      ultimosDigitosTarjeta: envio.ultimosDigitosTarjeta || "",
+    });
     setNumeroFactura(envio.numeroFactura || "");
     setCliente(envio.cliente || {});
     setIdZona(envio.zona || "");
-    setDetalleEnvio(envio.detalleEnvio || []);
+    //setDetalleEnvio(envio.detalleEnvio || []);
     setDireccionEnvio(envio.direccionEnvio || "");
     setEntreCalles(envio.entreCalles || "");
-    setCambiosEstado(envio.cambiosEstado || []);
-    setEstadoActual(envio.estadoActual || "");
+    //setCambiosEstado(envio.cambiosEstado || []);
+    //setEstadoActual(envio.estadoActual || "");
     setUltimosDigitosTarjeta(envio.ultimosDigitosTarjeta || "");
 
-    //validar los campos iniciales
-
+    setIsFormModified(false);
+    setIsImagenSelected(false);
+    setImagen(null);
   }, [envio, onClose]);
 
   const handleCancelar = () => {
@@ -115,25 +149,15 @@ const ModificarEnvioDialog = ({ open, onClose, envio, refrescar }) => {
 
   const handleModificar = async () => {
     try {
-
-      //mostrar el body antes de hacer el update
-      // alert(
-      //   JSON.stringify({
-      //     idCliente: cliente.idCliente,
-      //     zona: idZona,
-      //     direccionEnvio,
-      //     entreCalles,
-      //     ultimosDigitosTarjeta,
-      //   })
-      // )
-      await enviosService.update(numeroFactura, {
+      const datosNuevos = {
         idCliente: cliente.idCliente,
         idZona,
         direccionEnvio,
         entreCalles,
         ultimosDigitosTarjeta,
-      });
-      // mostrar el body de 
+      };
+      await enviosService.update(numeroFactura, datosNuevos);
+      // mostrar el body de
       alert("Envio modificado con exito");
 
       refrescar();
@@ -143,6 +167,21 @@ const ModificarEnvioDialog = ({ open, onClose, envio, refrescar }) => {
     }
   };
 
+  const handleUpload = async () => {
+    try {
+      if (imagen) {
+        const response = await enviosService.subirImagen(numeroFactura, imagen);
+        // mostrar el cuerpo de éxito
+        alert("Imagen subida con éxito");
+        alert(response)
+        onClose();
+      } else {
+        alert("Selecciona una imagen antes de subirla.");
+      }
+    } catch (error) {
+      alert(error.response.data);
+    }
+  }
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle>Modificar Envio</DialogTitle>
@@ -164,7 +203,7 @@ const ModificarEnvioDialog = ({ open, onClose, envio, refrescar }) => {
           <TextField
             margin="dense"
             id="clienteNombre"
-            label="Nombre y apellido"
+            label="Nombre"
             type="text"
             fullWidth
             value={cliente.nombre + " " + cliente.apellido}
@@ -218,7 +257,6 @@ const ModificarEnvioDialog = ({ open, onClose, envio, refrescar }) => {
           error={!validation.direccionEnvio}
         />
         <TextField
-          required
           margin="dense"
           id="entreCalles"
           label="Entre calles"
@@ -226,10 +264,8 @@ const ModificarEnvioDialog = ({ open, onClose, envio, refrescar }) => {
           fullWidth
           value={entreCalles}
           onChange={handleInputChange}
-          error={!validation.entreCalles}
         />
         <TextField
-          required
           margin="dense"
           id="ultimosDigitosTarjeta"
           label="Ultimos digitos tarjeta"
@@ -237,14 +273,40 @@ const ModificarEnvioDialog = ({ open, onClose, envio, refrescar }) => {
           fullWidth
           value={ultimosDigitosTarjeta}
           onChange={handleInputChange}
-          error={!validation.ultimosDigitosTarjeta}
+          //error={!validation.ultimosDigitosTarjeta}
         />
-
+        <Typography variant="subtitle1" gutterBottom>
+          Imagen para registro de no entrega
+        </Typography>
+        <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+          Upload file
+          <VisuallyHiddenInput
+            type="file"
+            onChange={(e) => {
+              setImagen(e.target.files[0]);
+              //mostrar el nombre del archivo
+              alert(e.target.files[0].name);
+              setIsImagenSelected(true);
+            }}
+          />
+        </Button>
+        <Typography variant="subtitle1" gutterBottom>
+          {imagen?.name}
+        </Typography>
+        <Button
+          variant="contained"
+          onClick={handleUpload}
+          disabled={!isImagenSelected}
+        >
+          Subir Imagen
+        </Button>
+        </Box>
         {/* Puedes seguir agregando más campos de esta manera */}
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancelar}>Cancelar</Button>
-        <Button onClick={handleModificar} color="primary" disabled={!isFormValid}>
+        <Button onClick={handleModificar} color="primary" disabled={!isFormModified}>
           Modificar
         </Button>
       </DialogActions>
