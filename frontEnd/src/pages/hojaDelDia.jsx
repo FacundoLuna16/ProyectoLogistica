@@ -126,27 +126,53 @@ const HojaDelDia = () => {
       // Ajustar la posición del texto
       pdf.text('Hoja Del día', 80, 20, { maxWidth: anchoUtilizable - 80 });
       pdf.text(`Fecha Reparto: ${hojaSeleccionada.fechaReparto}`, 20, 40, { maxWidth: anchoUtilizable - 20 });
-      pdf.text(`Repartidor: ${hojaSeleccionada.repartidor.nombre} ${hojaSeleccionada.repartidor.apellido}`, 20, 50, { maxWidth: anchoUtilizable - 20 });
+      let repartidorTexto;
+
+      if (hojaSeleccionada.repartidor && hojaSeleccionada.repartidor.nombre && hojaSeleccionada.repartidor.apellido) {
+          // Si 'repartidor' existe y tiene 'nombre' y 'apellido', se usa este texto
+          repartidorTexto = `Repartidor: ${hojaSeleccionada.repartidor.nombre} ${hojaSeleccionada.repartidor.apellido}`;
+      } else {
+          // Si 'repartidor' es nulo o no tiene 'nombre' o 'apellido', se deja en blanco o se pone un texto por defecto
+          repartidorTexto = "Repartidor: No definido";
+      }
+
+      pdf.text(repartidorTexto, 20, 50, { maxWidth: anchoUtilizable - 20 });
     
       let zonaTexto = hojaSeleccionada.envios.length > 0 ? hojaSeleccionada.envios[0].zona : 'No hay envíos';
       pdf.text(`Zona: ${zonaTexto}`, 20, 60, { maxWidth: anchoUtilizable - 20 });
     
-      pdf.text(`Camion: ${hojaSeleccionada.camionResponse.patente}`, 100, 40, { maxWidth: anchoUtilizable - 100 });
+      let camionTexto;
+
+      if (hojaSeleccionada.camionResponse && hojaSeleccionada.camionResponse.patente) {
+          // Si 'camionResponse' existe y tiene 'patente', se usa este texto
+          camionTexto = `Camion: ${hojaSeleccionada.camionResponse.patente}`;
+      } else {
+          // Si 'camionResponse' es nulo o no tiene 'patente', se deja en blanco o se pone un texto por defecto
+          camionTexto = "Camion: No definido";
+      }
+
+      pdf.text(camionTexto, 100, 40, { maxWidth: anchoUtilizable - 100 });
+
     
       const columnas = ['     ', 'Factura', 'Direccion Entrega', 'Entre Calle', 'Telefono 1', 'Telefono 2', 'Cliente', 'Firma'];
       let filas = [];
     
       if (hojaSeleccionada.envios.length > 0) {
-        filas = hojaSeleccionada.envios.map(envio => [
-          '[ ]',
-          { content: envio.numeroFactura, styles: { cellWidth: 45 } },
-          { content: envio.direccionEnvio, styles: { cellWidth: 50, cellPadding: { top: 2, bottom: 2 } } },
-          { content: envio.entreCalles, styles: { cellWidth: 30, cellPadding: { top: 2, bottom: 2 } } },
+        filas = hojaSeleccionada.envios.map(envio => {
+          // Ajusta la dirección de envío
+          let direccionCortada = envio.direccionEnvio.split(',').slice(0, 2).join(', ');
+      
+          return [
+            '[ ]',
+            { content: envio.numeroFactura, styles: { cellWidth: 45 } },
+            { content: direccionCortada, styles: { cellWidth: 50, cellPadding: { top: 2, bottom: 2 } } },
+            { content: envio.entreCalles, styles: { cellWidth: 30, cellPadding: { top: 2, bottom: 2 } } },
           { content: envio.cliente.numeroTelefono, styles: { cellWidth: 40 } },
           { content: envio.cliente.numeroAltTelefono, styles: { cellWidth: 40 } },
-          { content: `${envio.cliente.nombre} ${envio.cliente.apellido} ${envio.cliente.numeroDocumento}`, styles: { cellWidth: 40, cellPadding: { top: 2, bottom: 2 } } },
-          '          '
-        ]);
+          { content: `${envio.cliente.nombre} ${envio.cliente.apellido} ${envio.cliente.numeroDocumento}`, styles: { cellWidth: 40, cellPadding: { top: 2, bottom: 2 } } }
+          ,'          '  
+        ];
+        });
       } else {
         filas.push(['', 'No hay envíos', '', '', '', '', '', '']);
       }
@@ -279,7 +305,7 @@ const HojaDelDia = () => {
               </Box>
             </Grid>
           </Grid>
-          <MapComponent addresses={enviosDirecciones} />
+          <MapComponent direcciones={enviosDirecciones} />
         </Container>
       </Box>
     </>

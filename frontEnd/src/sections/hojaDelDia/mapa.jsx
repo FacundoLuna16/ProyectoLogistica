@@ -1,52 +1,61 @@
-import { GoogleMap, LoadScript, DirectionsRenderer, DirectionsService } from "@react-google-maps/api";
-import PlacesAutocomplete, { geocodeByAddress, getLatLng } from "react-places-autocomplete";
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from 'react';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
-const MapComponent = ({ directions }) => {
-  const mapContainerStyle = {
-    height: "400px",
-    width: "800px"
-  };
-  const center = { lat: 40.416775, lng: -3.703790 }; // Coordenadas de ejemplo (Madrid, España)
+// Define las bibliotecas fuera del componente
+const libraries = ["places"];
 
-  const [currentDirections, setCurrentDirections] = useState(null);
+const MapComponent = ({ direcciones }) => {
+    const [markers, setMarkers] = useState([]);
 
-  const handleDirectionsResponse = (response) => {
-    if (response.status === 'OK') {
-      setCurrentDirections(response);
-    } else {
-      console.error(`error fetching directions ${response}`);
+    const mapStyles = {        
+        height: "400px",
+        width: "100%"};
+
+    const defaultCenter = {
+        lat: -38.9517, 
+        lng: -68.0592
     }
-  };
 
-  useEffect(() => {
-    if (directions) {
-          // Asegúrate de que hay al menos dos direcciones para trazar una ruta.
-    const waypoints = directions.slice(1, -1).map(location => ({ location, stopover: false }));
-    const origin = directions[0];
-    const destination = directions[directions.length - 1];
+    const geocodeAddress = (direccion) => {
+        const geocoder = new window.google.maps.Geocoder();
 
-    const request = {
-      origin,
-      destination,
-      waypoints,
-      travelMode: 'DRIVING',
+        geocoder.geocode({ 'address': direccion }, (results, status) => {
+            if (status === 'OK') {
+                const location = results[0].geometry.location;
+                setMarkers(prevMarkers => [
+                    ...prevMarkers,
+                    { lat: location.lat(), lng: location.lng() }
+                ]);
+            } else {
+                console.error('Geocode no fue exitoso por la siguiente razón: ' + status);
+            }
+        });
     }
-  }
-  }, [directions]);
 
-  return (
-    <LoadScript googleMapsApiKey="AIzaSyCEbdZKx7Dy3tmUJ6Z-cAvOqvH7P74hN1k">
-      <GoogleMap
-        mapContainerStyle={mapContainerStyle}
-        center={center}
-        zoom={15}
-      >
-        {currentDirections && <DirectionsRenderer directions={currentDirections} />}
-        {/* Aquí puedes agregar más componentes de Google Maps si lo necesitas */}
-      </GoogleMap>
-    </LoadScript>
-  );
-};
+    useEffect(() => {
+        direcciones.forEach(direccion => {
+            geocodeAddress(direccion);
+        });
+    }, [direcciones]);
+
+    return (
+        <LoadScript
+            googleMapsApiKey="AIzaSyCEbdZKx7Dy3tmUJ6Z-cAvOqvH7P74hN1k"
+            libraries={libraries}
+        >
+            <GoogleMap
+                mapContainerStyle={mapStyles}
+                zoom={13}
+                center={defaultCenter}
+            >
+                {
+                    markers.map((marker, index) => (
+                        <Marker key={index} position={marker} />
+                    ))
+                }
+            </GoogleMap>
+        </LoadScript>
+    )
+}
 
 export default MapComponent;

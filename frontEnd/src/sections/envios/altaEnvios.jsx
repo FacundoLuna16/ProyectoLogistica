@@ -345,7 +345,7 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
               labelId="tipo-documento-label"
               id="tipo-documento-select"
               value={tipoDocumento}
-              label="Tipo Documento"
+              label="Tipo"
               onChange={(e) => setTipoDocumento(e.target.value)}
             >
               <MenuItem value="factura">Número de Factura</MenuItem>
