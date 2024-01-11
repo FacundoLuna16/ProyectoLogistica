@@ -1,56 +1,49 @@
-import { GoogleMap, LoadScript, DirectionsService, DirectionsRenderer } from '@react-google-maps/api';
-import React, { useRef, useState, useEffect } from "react";
+import { GoogleMap, LoadScript, DirectionsRenderer, DirectionsService } from "@react-google-maps/api";
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from "react-places-autocomplete";
+import { useState, useEffect } from "react";
 
-const MapComponent = ({ addresses }) => {
-  const [currentDirections, setCurrentDirections] = useState(null);
-
-  useEffect(() => {
-    if (window.google && addresses && addresses.length > 1) {
-      const directionsService = new window.google.maps.DirectionsService();
-      if (addresses.length > 1) {
-        const waypoints = addresses.slice(1).map(address => ({
-          location: address,
-          stopover: true,
-        }));
-
-        const origin = addresses[0];
-        const destination = addresses[addresses.length - 1];
-
-        const directionsService = new google.maps.DirectionsService();
-        directionsService.route(
-          {
-            origin: origin,
-            destination: destination,
-            waypoints: waypoints,
-            travelMode: google.maps.TravelMode.DRIVING,
-          },
-          (result, status) => {
-            if (status === google.maps.DirectionsStatus.OK) {
-              setCurrentDirections(result);
-            } else {
-              console.error(`error fetching directions ${result}`);
-            }
-          }
-        );
-      }
-    }
-  }, [addresses]);
-
+const MapComponent = ({ directions }) => {
   const mapContainerStyle = {
     height: "400px",
     width: "800px"
   };
+  const center = { lat: 40.416775, lng: -3.703790 }; // Coordenadas de ejemplo (Madrid, España)
 
-  const center = { lat: -38.9517, lng: -68.0592 }; // Neuquén Capital
+  const [currentDirections, setCurrentDirections] = useState(null);
+
+  const handleDirectionsResponse = (response) => {
+    if (response.status === 'OK') {
+      setCurrentDirections(response);
+    } else {
+      console.error(`error fetching directions ${response}`);
+    }
+  };
+
+  useEffect(() => {
+    if (directions) {
+          // Asegúrate de que hay al menos dos direcciones para trazar una ruta.
+    const waypoints = directions.slice(1, -1).map(location => ({ location, stopover: false }));
+    const origin = directions[0];
+    const destination = directions[directions.length - 1];
+
+    const request = {
+      origin,
+      destination,
+      waypoints,
+      travelMode: 'DRIVING',
+    }
+  }
+  }, [directions]);
 
   return (
     <LoadScript googleMapsApiKey="AIzaSyCEbdZKx7Dy3tmUJ6Z-cAvOqvH7P74hN1k">
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         center={center}
-        zoom={12}
+        zoom={15}
       >
         {currentDirections && <DirectionsRenderer directions={currentDirections} />}
+        {/* Aquí puedes agregar más componentes de Google Maps si lo necesitas */}
       </GoogleMap>
     </LoadScript>
   );

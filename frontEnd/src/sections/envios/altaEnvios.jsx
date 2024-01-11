@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef} from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
 import {
   Dialog,
   DialogContent,
@@ -27,9 +28,7 @@ import { is } from "date-fns/locale";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
 import Autocomplete from "@mui/material/Autocomplete";
-import { AutocompleteGoogle, useLoadScript, StandaloneSearchBox } from '@react-google-maps/api';
-
-const libraries = ["places"];
+import { StandaloneSearchBox, LoadScript } from "@react-google-maps/api";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -48,39 +47,7 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
   const enviosService = new EnvioService(authContext);
   const clientesService = new ClientesService(authContext);
   const [tipoDocumento, setTipoDocumento] = useState('factura'); // Valores posibles: 'factura', 'remito'
-  const [autocomplete, setAutocomplete] = useState(null);
 
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyCEbdZKx7Dy3tmUJ6Z-cAvOqvH7P74hN1k", // Reemplaza con tu clave API
-    libraries, // Usa la constante definida fuera del componente
-  });
-
-  const searchBoxContainerStyle = {
-    position: "relative", // Posición relativa para el contenedor
-    width: "100%", // Asegúrate de que coincida con el ancho deseado
-  };
-
-  const autocompleteContainerStyle = {
-    zIndex: 10000, // Ajusta este valor según sea necesario
-    position: "absolute",
-    width: "100%", // Asegúrate de que coincida con el ancho del TextField
-  };
-
-  const [searchBox, setSearchBox] = useState(null);
-  
-  const onLoad = (autocomplete) => {
-    setAutocomplete(autocomplete);
-  };
-  
-  const onPlacesChanged = () => {
-    if (searchBox) {
-      const places = searchBox.getPlaces();
-      const address = places[0]?.formatted_address;
-      if (address) {
-        setNewEnvio({ ...newEnvio, direccionEnvio: address });
-      }
-    }
-  };
   const [newEnvio, setNewEnvio] = useState({
     numeroFactura: "",
     idCliente: "",
@@ -118,6 +85,13 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
       console.error("Error al obtener clientes:", error);
       return [];
     }
+  };
+
+
+  const inputRef = useRef(null);
+
+  const handlePlaceChanged = () => {
+    const [place] = inputRef.current.getPlaces();
   };
 
   const filtrarPorTipoDocumento = (tipoDocumento) => {
@@ -331,7 +305,7 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
   // Mostrar la rueda de carga mientras se están recuperando los datos
   if (loading) {
     return (
-      <Dialog open={open} onClose={onClose}>
+      <Dialog open={open} onClose={onClose} >
         <DialogTitle>Cargando...</DialogTitle>
         <DialogContent>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -343,7 +317,7 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
   }
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
+    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth zIndex="7">
       <DialogTitle>Agregar Envío</DialogTitle>
       <DialogContent
         sx={{
@@ -352,6 +326,11 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
           overflowY: "auto",
         }}
       >
+        <style jsx global>{`
+        .pac-container {
+          z-index: 1500 !important;
+        }
+      `}</style>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <Box
             size="small"
@@ -566,7 +545,6 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
             </Select>
           </FormControl>
           {/* Componente para subir arrastrando o algo un pdf */}
-
           <Typography variant="subtitle1" gutterBottom>
             Espacio para pdf *
           </Typography>
@@ -574,25 +552,23 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
             Upload file
             <VisuallyHiddenInput type="file" />
           </Button>
-          <Box display="flex" flexDirection={{ xs: "column", sm: "row" }} gap={2}>
-          <Box style={searchBoxContainerStyle}>
-            {isLoaded && (
-              <div style={autocompleteContainerStyle}>
-                <StandaloneSearchBox onLoad={onLoad} onPlacesChanged={onPlacesChanged}>
-                  <TextField
-                    label="Dirección de Envío"
-                    type="text"
-                    fullWidth
-                    required
-                    name="direccionEnvio"
-                    value={newEnvio.direccionEnvio}
-                    onChange={handleChange}
-                    size="small"
-                  />
-                </StandaloneSearchBox>
-              </div>
-            )}
-          </Box>
+          <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <StandaloneSearchBox onLoad={ref => {inputRef.current = ref}} onPlacesChanged={handlePlaceChanged}>
+            <TextField
+              label="Dirección de Envío"
+              type="text"
+              fullWidth
+              required
+              name="direccionEnvio"
+              value={newEnvio.direccionEnvio}
+              onChange={handleChange}
+              size="small"
+              sx={70}
+            />
+            </StandaloneSearchBox>
+          </Grid>
+          <Grid item xs={12} sm={6}>
             <TextField
               label="Entre Calles"
               type="text"
@@ -602,7 +578,8 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
               onChange={handleChange}
               size="small"
             />
-          </Box>
+          </Grid>
+        </Grid>
           <TextField
             label="Últimos Dígitos de la Tarjeta"
             type="text"

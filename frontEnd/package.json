@@ -30,6 +30,7 @@
     "axios": "^1.6.3",
     "date-fns": "2.29.3",
     "dayjs": "^1.11.10",
+    "google-maps": "^4.3.3",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.1",
     "keycloak-js": "^23.0.3",
@@ -40,8 +41,11 @@
     "react": "18.2.0",
     "react-apexcharts": "1.4.0",
     "react-dom": "18.2.0",
+    "react-google-autocomplete": "^2.7.3",
+    "react-places-autocomplete": "^7.3.0",
     "recharts": "^2.10.3",
-    "simplebar-react": "^3.2.1"
+    "simplebar-react": "^3.2.1",
+    "use-places-autocomplete": "^4.0.1"
   },
   "devDependencies": {
     "@types/node": "18.13.0",

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Dialog,
   Typography,
@@ -17,6 +17,8 @@ import EnvioService from "src/service/enviosService";
 import { useAuth } from "src/contexts/AuthContext";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
+import { StandaloneSearchBox, LoadScript } from "@react-google-maps/api";
+
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -54,6 +56,16 @@ const ModificarEnvioDialog = ({ open, onClose, envio, refrescar }) => {
   const [validation, setValidation] = useState({
     direccionEnvio: true,
   });
+
+  const inputRef = useRef(null);
+
+  const handlePlaceChanged = () => {
+    const place = inputRef.current.getPlaces()[0];
+    if (place && place.formatted_address) {
+      setDireccionEnvio(place.formatted_address);
+      setValidation(prevState => ({ ...prevState, direccionEnvio: true }));
+    }
+  };
 
   useEffect(() => {
     const requiredFields = ["direccionEnvio"];
@@ -186,6 +198,11 @@ const ModificarEnvioDialog = ({ open, onClose, envio, refrescar }) => {
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle>Modificar Envio</DialogTitle>
       <DialogContent sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+                <style jsx global>{`
+        .pac-container {
+          z-index: 1500 !important;
+        }
+      `}</style>
         <TextField
           margin="dense"
           id="numeroFactura"
@@ -244,6 +261,7 @@ const ModificarEnvioDialog = ({ open, onClose, envio, refrescar }) => {
             <MenuItem value={4}>4</MenuItem>
           </Select>
         </FormControl>
+        <StandaloneSearchBox onLoad={ref => {inputRef.current = ref}} onPlacesChanged={handlePlaceChanged}>
         <TextField
           required
           margin="dense"
@@ -256,6 +274,7 @@ const ModificarEnvioDialog = ({ open, onClose, envio, refrescar }) => {
           onChange={handleInputChange}
           error={!validation.direccionEnvio}
         />
+        </StandaloneSearchBox>
         <TextField
           margin="dense"
           id="entreCalles"

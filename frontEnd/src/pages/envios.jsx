@@ -28,6 +28,7 @@ import AgregarEnvioDialog from "src/sections/envios/altaEnvios";
 import ConsultarEnvioDialog from "src/sections/envios/consultarEnvios";
 import CerrarEnvioDialog from "src/sections/envios/cerrarEnvio";
 import { useAuth } from "src/contexts/AuthContext";
+import { LoadScript } from "@react-google-maps/api";
 
 const Envios = () => {
   const authContext = useAuth();
@@ -156,6 +157,10 @@ const Envios = () => {
 
   return (
     <>
+        <LoadScript
+      googleMapsApiKey="AIzaSyCEbdZKx7Dy3tmUJ6Z-cAvOqvH7P74hN1k"
+      libraries={["places"]}
+    >
       <Head>
         <title>Envíos | Sistema de Gestión de Envíos</title>
       </Head>
@@ -310,6 +315,7 @@ const Envios = () => {
           </Stack>
         </Container>
       </Box>
+      </LoadScript>
     </>
   );
 };

@@ -49,7 +49,6 @@ class EnvioService {
 
   update = async (numeroFactura, envioData) => {
     try {
-      alert(JSON.stringify(envioData))
       const response = await axios.put(`${this.API_URL}/${numeroFactura}`, envioData, {
         headers: {
           Authorization: `Bearer ${this.authContext.keycloak.token}`,

@@ -16,7 +16,6 @@ import CerrarHoja from "src/sections/hojaDelDia/cerrarHoja";
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import MapComponent from "src/sections/hojaDelDia/mapa"
-import Script from 'next/script';
 
 const apikey = 'badYMfSApv2j335f69Vd5zFB5wEqAFK-KdLQnbkG-eo'
 
@@ -31,7 +30,7 @@ const HojaDelDia = () => {
   const [dialogCerrarHojaOpen, setDialogCerrarHojaOpen] = useState(false);
   const [enviosSeleccionados, setEnviosSeleccionados] = useState([]);
   const [fechaSeleccionada,setFechaSeleccionada] = useState({});
-  // const [enviosDirecciones, setEnviosDirecciones] = useState([]);
+  const [enviosDirecciones, setEnviosDirecciones] = useState([]);
   //Estilos
   const theme = useTheme();
   const isXSmall = useMediaQuery(theme.breakpoints.down("xs"));
@@ -185,13 +184,12 @@ const HojaDelDia = () => {
     }
   }    
 
-  // useEffect(() => {
-  //   if (hojaSelecionada && hojaSelecionada.envios && hojaSelecionada.envios.length > 0) {
-  //     const direcciones = hojaSelecionada.envios.map(envio => envio.direccionEnvio);
-  //     setEnviosDirecciones(direcciones);
-  //   }
-  // }, [hojaSelecionada]);
-  const enviosDirecciones = [ "Avenida Olascoagas 58", "Entre rios 600", "Rio Desaguadero 735 Neuquen"];
+  useEffect(() => {
+    if (hojaSelecionada && hojaSelecionada.envios && hojaSelecionada.envios.length > 0) {
+      const direcciones = hojaSelecionada.envios.map(envio => envio.direccionEnvio);
+      setEnviosDirecciones(direcciones);
+    }
+  }, [hojaSelecionada]);
 
   console.log(enviosDirecciones)
 
