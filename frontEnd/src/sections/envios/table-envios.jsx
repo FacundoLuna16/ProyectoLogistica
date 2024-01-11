@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -16,6 +17,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { Card, TablePagination, Checkbox } from "@mui/material";
 import { Scrollbar } from "src/components/scrollbar";
+import { ArchiveBoxXMarkIcon } from "@heroicons/react/24/outline";
 
 export const EnviosTable = (props) => {
   const {
@@ -40,7 +42,6 @@ export const EnviosTable = (props) => {
     onEnvioSelected(envioSeleccionado);
   }, [envioSeleccionado, onEnvioSelected]);
 
-
   const handleCheckboxChange = (event, numeroFactura) => {
     const { checked } = event.target;
 
@@ -55,7 +56,6 @@ export const EnviosTable = (props) => {
       setEnvioSeleccionado({});
     }
   };
-
 
   function Row(props) {
     const { row } = props;
@@ -76,11 +76,21 @@ export const EnviosTable = (props) => {
               onChange={(event) => handleCheckboxChange(event, row.numeroFactura)}
             />
           </TableCell>
-          <TableCell align="center" component="th" scope="row">{row.numeroFactura}</TableCell>
+          <TableCell align="center" component="th" scope="row">
+            {row.numeroFactura}
+          </TableCell>
           <TableCell align="center">{row.zona}</TableCell>
           <TableCell align="center">{row.cliente.nombre + " " + row.cliente.apellido}</TableCell>
           <TableCell align="center">{row.direccionEnvio}</TableCell>
           <TableCell align="center">{row.estadoActual}</TableCell>
+          <TableCell align="center">
+            <Button>
+              <ArchiveBoxXMarkIcon
+                style={{ height: "2rem", width: "2rem" }}
+                className="text-gray-500"
+              />
+            </Button>
+          </TableCell>
         </TableRow>
         <TableRow>
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -130,6 +140,7 @@ export const EnviosTable = (props) => {
                     <TableCell align="center">Cliente</TableCell>
                     <TableCell align="center">Direccion de Envio</TableCell>
                     <TableCell align="center">Estado Actual</TableCell>
+                    <TableCell align="center"></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -153,7 +164,6 @@ export const EnviosTable = (props) => {
       />
     </Card>
   );
-  
 };
 EnviosTable.propTypes = {
   count: PropTypes.number,

@@ -94,8 +94,7 @@ export const ClientsTable = (props) => {
                       <TableCell></TableCell>
                       <TableCell>TipoDoc</TableCell>
                       <TableCell>NumeroDoc</TableCell>
-                      <TableCell>Nombre</TableCell>
-                      <TableCell>Apellido</TableCell>
+                      <TableCell>Nombre/Razon Social</TableCell>
                       <TableCell>Direccion</TableCell>
                       <TableCell>Telefono</TableCell>
                       {/* Columna eliminada: <TableCell>Email</TableCell> */}
@@ -115,8 +114,7 @@ export const ClientsTable = (props) => {
                           </TableCell>
                           <TableCell>{client.tipoDocumento}</TableCell>
                           <TableCell>{client.numeroDocumento}</TableCell>
-                          <TableCell>{client.nombre}</TableCell>
-                          <TableCell>{client.apellido}</TableCell>
+                          <TableCell>{client.nombre + " " + client.apellido}</TableCell>
                           <TableCell>{client.direccion}</TableCell>
                           <TableCell>{client.numeroTelefono}</TableCell>
                           {/* Columna eliminada: <TableCell>{client.email}</TableCell> */}

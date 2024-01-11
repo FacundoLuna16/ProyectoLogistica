@@ -24,11 +24,8 @@ import {
 } from "@mui/material";
 import EnvioService from "src/service/enviosService";
 import { useAuth } from "src/contexts/AuthContext";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Scrollbar } from "src/components/scrollbar";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-const CerrarEnvioDialog = ({ open, onClose, envio, refrescar}) => {
+const EntregaIndividualDialog = ({ open, onClose, envio, refrescar}) => {
   const authContext = useAuth();
   const enviosService = new EnvioService(authContext);
   const [motivo, setMotivo] = useState("");
@@ -55,7 +52,7 @@ const CerrarEnvioDialog = ({ open, onClose, envio, refrescar}) => {
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth scroll="paper">
       <DialogTitle>
         <Typography variant="h4" sx={{ mb: 3 }}>
-          Cerrar Envio
+          Realizar entrega individual
         </Typography>
       </DialogTitle>
       <DialogContent>
@@ -122,11 +119,11 @@ const CerrarEnvioDialog = ({ open, onClose, envio, refrescar}) => {
           // desactiva el boton si no se ha ingresado un motivo
           disabled={!motivo}
         >
-          Cerrar Envio
+          Entregar
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-export default CerrarEnvioDialog;
+export default EntregaIndividualDialog;

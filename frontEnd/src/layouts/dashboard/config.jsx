@@ -10,6 +10,9 @@ import { UserIcon } from "@heroicons/react/24/outline";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { DocumentIcon } from "@heroicons/react/24/outline";
 
+
+
+
 export const items = [
   {
     title: "Inicio",
@@ -38,7 +41,15 @@ export const items = [
       </SvgIcon>
     ),
   },
-
+  {
+    title: "Clientes",
+    path: "/clientes",
+    icon: (
+      <SvgIcon fontSize="small">
+        <UserIcon className="h-6 w-6 text-gray-500" />
+      </SvgIcon>
+    ),
+  },
   {
     title: "Repartidores",
     path: "/repartidores",
@@ -54,15 +65,6 @@ export const items = [
     icon: (
       <SvgIcon fontSize="small">
         <TruckIcon className="h-6 w-6 text-gray-500" />
-      </SvgIcon>
-    ),
-  },
-  {
-    title: "Clientes",
-    path: "/clientes",
-    icon: (
-      <SvgIcon fontSize="small">
-        <UserIcon className="h-6 w-6 text-gray-500" />
       </SvgIcon>
     ),
   },

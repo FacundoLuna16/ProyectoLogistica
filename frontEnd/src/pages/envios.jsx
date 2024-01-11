@@ -26,7 +26,7 @@ import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
 import ModificarEnvioDialog from "src/sections/envios/modificarEnvios";
 import AgregarEnvioDialog from "src/sections/envios/altaEnvios";
 import ConsultarEnvioDialog from "src/sections/envios/consultarEnvios";
-import CerrarEnvioDialog from "src/sections/envios/cerrarEnvio";
+import EntregaIndividualDialog from "src/sections/envios/cerrarEnvio";
 import { useAuth } from "src/contexts/AuthContext";
 import { LoadScript } from "@react-google-maps/api";
 
@@ -288,9 +288,9 @@ const Envios = () => {
                   onClick={() => handleOnClickConSeleccionado("CE")}
                   disabled={!envioSeleccionado.numeroFactura || envioSeleccionado.estadoActual !== "Pendiente"}
                 >
-                  Cerrar Envio
+                  Entrega individual
                 </Button>
-                <CerrarEnvioDialog
+                <EntregaIndividualDialog
                   open={dialogCerrarEnvioOpen}
                   onClose={() => setDialogCerrarEnvioOpen(false)}
                   envio={envioSeleccionado}

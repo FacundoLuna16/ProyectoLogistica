@@ -23,7 +23,26 @@ const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
     email: '',
   });
 
-  const [tipoDocumentoSeleccionado, setTipoDocumentoSeleccionado] = useState(0);
+  //limpia los campos del formulario al cerrar
+  useEffect(() => {
+    if (!open) {
+      setNewCliente({
+        idTipoDocumento: 0,
+        numeroDocumento: '',
+        nombre: '',
+        apellido: '',
+        direccion: '',
+        numeroTelefono: '',
+        numeroTelefonoAlternativo: '',
+        email: '',
+      });
+    }
+  }, [open]);
+
+
+
+
+  const [tipoDocumentoSeleccionado, setTipoDocumentoSeleccionado] = useState(1);
 
   const [validation, setValidation] = useState({
     idTipoDocumento: true,
@@ -128,19 +147,22 @@ const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
 
   const validateField = (name, value) => {
     switch (name) {
-      case 'numeroDocumento':
-        if (tipoDocumentoSeleccionado === 1) { // DNI
+      case "numeroDocumento":
+        if (tipoDocumentoSeleccionado === 1) {
+          // DNI
           // Verificar que el valor tenga exactamente 8 dígitos
           return /^\d{8}$/.test(value);
-        } else if (tipoDocumentoSeleccionado === 2 || tipoDocumentoSeleccionado === 3) { // CUIT o CUIL
+        } else if (tipoDocumentoSeleccionado === 2 || tipoDocumentoSeleccionado === 3) {
+          // CUIT o CUIL
           // Validación existente para CUIT o CUIL
           const cuitCuilRegex = /^\d{2}-\d{8}-\d{1}$/;
           return cuitCuilRegex.test(value);
         }
         return true;
-      case 'email':
+      case "email":
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(value);
+        // Permitir que el campo sea válido si está vacío o si el formato del email es correcto
+        return value === "" || emailRegex.test(value);
       default:
         return true;
     }
@@ -176,7 +198,7 @@ const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
       <DialogTitle>Agregar Nuevo Cliente</DialogTitle>
       <DialogContent>
         <FormControl sx={{ m: 1, minWidth: 150 }} size="medium">
-          <InputLabel id="demo-simple-select-standard-label">TipoDocumento</InputLabel>
+          <InputLabel id="demo-simple-select-standard-label" required>TipoDocumento </InputLabel>
           <Select
             variant="standard"
             labelId="demo-select-medium-label"
@@ -207,6 +229,9 @@ const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
           value={newCliente.numeroDocumento}
           onChange={handleInputChange}
           error={!validation.numeroDocumento}
+          //desabilitado={tipoDocumentoSeleccionado === 0}
+          disabled={tipoDocumentoSeleccionado === 0}
+
         />
         <TextField
           margin="dense"
@@ -277,7 +302,7 @@ const AgregarClienteDialog = ({ open, onClose, onClienteAdded }) => {
           name="email"
           value={newCliente.email}
           onChange={handleInputChange}
-          error={!validation.email}
+          //error={!validation.email}
         />
       </DialogContent>
       <DialogActions>

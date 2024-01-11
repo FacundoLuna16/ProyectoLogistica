@@ -16,6 +16,7 @@ import TextField from "@mui/material/TextField";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { useAuth } from "src/contexts/AuthContext";
+import { set } from "nprogress";
 
 const Clientes = () => {
   const authContext = useAuth();
@@ -40,6 +41,7 @@ const Clientes = () => {
   };
 
   useEffect(() => {
+
     handleFiltrar();
   }, [filtroTexto, filtroAtributo]);
 
@@ -152,12 +154,15 @@ const Clientes = () => {
                 />
                 <Select
                   value={filtroAtributo}
-                  onChange={(e) => setFiltroAtributo(e.target.value)}
+                  onChange={(e) => {
+                    setFiltroAtributo(e.target.value);
+                    setFiltroTexto("");
+                  }}
                   variant="outlined"
                   size="small"
                 >
                   <MenuItem value="numeroDocumento">Numero Documento</MenuItem>
-                  <MenuItem value="nombre">Nombre</MenuItem>
+                  <MenuItem value="nombre">Nombre/Razon Social</MenuItem>
                 </Select>
               </Stack>
               <Stack direction={isXSmall ? "column" : "row"} spacing={2} alignItems="center">
@@ -180,6 +185,7 @@ const Clientes = () => {
                   color="warning"
                   sx={{ mb: isXSmall ? 1 : 0 }}
                   onClick={() => handleOnClickConSeleccionado("M")}
+                  disabled={!clienteSeleccionado.idCliente}
                   //onClick={() => setDialogModificacionOpen(true)}
                 >
                   Modificar
@@ -196,6 +202,7 @@ const Clientes = () => {
                   color="info"
                   sx={{ mb: isXSmall ? 1 : 0 }}
                   onClick={() => handleOnClickConSeleccionado("C")}
+                  disabled={!clienteSeleccionado.idCliente}
                 >
                   Ver
                 </Button>
