@@ -17,4 +17,4 @@ db/mysql_data/*
 .vscode
 
 #Carpeta de fotos 
-/swiftlogix/src/main/resources/fotosFactura/*
+/swiftlogix/src/main/resources/fotosEnviosNoEntregado/*

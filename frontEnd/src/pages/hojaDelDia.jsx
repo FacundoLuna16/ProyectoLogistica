@@ -36,6 +36,9 @@ const HojaDelDia = () => {
   const isXSmall = useMediaQuery(theme.breakpoints.down("xs"));
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const [showMap, setShowMap] = useState(false);
+
+
   const handleEnviosSeleccionadosChange = (selectedEnvios) => {
     setEnviosSeleccionados(selectedEnvios);
   };
@@ -152,8 +155,7 @@ const HojaDelDia = () => {
       }
 
       pdf.text(camionTexto, 100, 40, { maxWidth: anchoUtilizable - 100 });
-
-    
+      
       const columnas = ['     ', 'Factura', 'Direccion Entrega', 'Entre Calle', 'Telefono 1', 'Telefono 2', 'Cliente', 'Firma'];
       let filas = [];
     
@@ -209,6 +211,10 @@ const HojaDelDia = () => {
       console.error('Error al generar el PDF:', error);
     }
   }    
+
+  const handleShowMap = () => {
+    setShowMap(true);
+  };
 
   useEffect(() => {
     if (hojaSelecionada && hojaSelecionada.envios && hojaSelecionada.envios.length > 0) {
@@ -302,10 +308,24 @@ const HojaDelDia = () => {
                   onClose={() => setDialogIniciarEntregaOpen(false)}
                   iniciar={iniciarEntrega}
                 />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleShowMap}
+                  disabled={!hojaSelecionada.idHojaDelDia}
+                  sx={{ mb: 2, mr: 2 }}
+                >
+                  ConsultarMapa
+                </Button>
               </Box>
             </Grid>
           </Grid>
-          {/* <MapComponent direcciones={enviosDirecciones} /> */}
+          <MapComponent
+                  open={showMap}
+                  onClose={() => setShowMap(false)}
+                  enviosDirecciones={enviosDirecciones}
+                  apiKey={'badYMfSApv2j335f69Vd5zFB5wEqAFK-KdLQnbkG-eo'}
+                />
         </Container>
       </Box>
     </>
