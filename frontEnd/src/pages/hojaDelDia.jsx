@@ -167,9 +167,9 @@ const HojaDelDia = () => {
             { content: envio.numeroFactura, styles: { cellWidth: 45 } },
             { content: direccionCortada, styles: { cellWidth: 50, cellPadding: { top: 2, bottom: 2 } } },
             { content: envio.entreCalles, styles: { cellWidth: 30, cellPadding: { top: 2, bottom: 2 } } },
-          { content: envio.cliente.numeroTelefono, styles: { cellWidth: 40 } },
-          { content: envio.cliente.numeroAltTelefono, styles: { cellWidth: 40 } },
-          { content: `${envio.cliente.nombre} ${envio.cliente.apellido} ${envio.cliente.numeroDocumento}`, styles: { cellWidth: 40, cellPadding: { top: 2, bottom: 2 } } }
+            { content: envio.cliente.numeroTelefono, styles: { cellWidth: 40 } },
+            { content: envio.cliente.numeroAltTelefono, styles: { cellWidth: 40 } },
+            { content: `${envio.cliente.nombre} ${envio.cliente.apellido} ${envio.cliente.numeroDocumento}`, styles: { cellWidth: 40, cellPadding: { top: 2, bottom: 2 } } }
           ,'          '  
         ];
         });
@@ -305,7 +305,7 @@ const HojaDelDia = () => {
               </Box>
             </Grid>
           </Grid>
-          <MapComponent direcciones={enviosDirecciones} />
+          {/* <MapComponent direcciones={enviosDirecciones} /> */}
         </Container>
       </Box>
     </>
