@@ -91,9 +91,11 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
   const inputRef = useRef(null);
 
   const handlePlaceChanged = () => {
-    const [place] = inputRef.current.getPlaces();
+    const place = inputRef.current.getPlaces()[0];
+    if (place && place.formatted_address) {
+      setNewEnvio({ ...newEnvio, direccionEnvio: place.formatted_address });
+    }
   };
-
   const filtrarPorTipoDocumento = (tipoDocumento) => {
     const clientesFiltrados = clientes.filter((cliente) => {
       const valorAtributo = cliente.tipoDocumento.toLowerCase();

@@ -39,7 +39,6 @@ const MapComponent = ({ open, onClose, enviosDirecciones, apiKey }) => {
           mapRef.current.addObject(marker);
         }
       });
-      
     };
     console.log("Direcciones recibidas",enviosDirecciones)
 
