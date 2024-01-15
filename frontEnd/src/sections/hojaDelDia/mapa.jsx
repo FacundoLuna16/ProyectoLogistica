@@ -40,6 +40,7 @@ const MapComponent = ({ open, onClose, enviosDirecciones, apiKey }) => {
         }
       });
     };
+    console.log("Direcciones recibidas",enviosDirecciones)
 
     useEffect(() => {
         if (!open || mapRef.current) return;
@@ -104,7 +105,7 @@ const MapComponent = ({ open, onClose, enviosDirecciones, apiKey }) => {
                 document.getElementById('mapContainer'),
                 defaultLayers.vector.normal.map,
                 {
-                    zoom: 14,
+                    zoom: 10,
                     center: { lat: -38.9517, lng: -68.0592 }
                 }
             );
