@@ -3,17 +3,19 @@ import React, { useEffect, useState , useRef} from 'react';
 import Box from '@mui/material/Box';
 
 const geocodeAddress = async (address, apiKey) => {
+  const apiKeyGoogle = 'AIzaSyCEbdZKx7Dy3tmUJ6Z-cAvOqvH7P74hN1k';
+
   try {
-    const response = await axios.get(`https://geocode.search.hereapi.com/v1/geocode`, {
+    const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json`, {
       params: {
-        q: address,
-        apiKey: apiKey
+        address: address,
+        key: apiKeyGoogle
       }
     });
 
-    if (response.data.items && response.data.items.length > 0) {
-      const location = response.data.items[0].position;
-      console.log(location)
+    if (response.data.status === 'OK') {
+      const location = response.data.results[0].geometry.location;
+      console.log(location);
       return { lat: location.lat, lng: location.lng };
     } else {
       throw new Error('No se encontraron resultados');
@@ -23,6 +25,7 @@ const geocodeAddress = async (address, apiKey) => {
     throw error;
   }
 };
+
 const MapComponent = ({ open, onClose, enviosDirecciones, apiKey }) => {
     const mapRef = useRef(null);
 

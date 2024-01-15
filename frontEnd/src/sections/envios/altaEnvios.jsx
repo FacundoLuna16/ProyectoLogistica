@@ -277,12 +277,6 @@ const AgregarEnvioDialog = ({ open, onClose, onEnvioAdded }) => {
 
   useEffect(() => {
     // Restablecer el estado cuando se cierre el diálogo
-    if (open) {
-      fetchClientes().then(() => {
-        setTipoDocumentoFiltro("DNI");
-        filtrarPorTipoDocumento("DNI");
-      });
-    }
     if (!open) {
       setNewEnvio({
         numeroFactura: "",
