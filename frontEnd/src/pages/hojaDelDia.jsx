@@ -223,8 +223,6 @@ const HojaDelDia = () => {
     }
   }, [hojaSelecionada]);
 
-  console.log(enviosDirecciones)
-
   return (
     <>
       <Head>
