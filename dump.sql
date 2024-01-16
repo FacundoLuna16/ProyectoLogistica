@@ -267,7 +267,7 @@ CREATE TABLE `cambios_estado` (
   KEY `FK8h9x56jl6m7mj7i5qdhjwpj0l` (`numero_factura`),
   CONSTRAINT `FK8h9x56jl6m7mj7i5qdhjwpj0l` FOREIGN KEY (`numero_factura`) REFERENCES `envios` (`numero_factura`),
   CONSTRAINT `FKo1m78rq0x6h37ehdhougr9m9t` FOREIGN KEY (`estado_id`) REFERENCES `estados_envio` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -276,7 +276,7 @@ CREATE TABLE `cambios_estado` (
 
 LOCK TABLES `cambios_estado` WRITE;
 /*!40000 ALTER TABLE `cambios_estado` DISABLE KEYS */;
-INSERT INTO `cambios_estado` VALUES (1,'2024-01-05 21:04:45.043763','2023-12-04 10:08:50.130152',1,'A-2321-21312312'),(2,'2024-01-04 21:31:40.365544','2023-12-06 16:00:23.683040',1,'HOY'),(3,'2024-01-05 21:04:45.043763','2023-12-08 11:42:25.756484',1,'FAC123'),(4,'2024-01-05 21:04:45.043763','2023-12-08 11:42:32.964051',1,'FAC456'),(5,'2024-01-05 21:04:45.043763','2023-12-08 11:43:12.678711',1,'FAC789'),(6,NULL,'2023-12-08 11:44:17.930616',1,NULL),(7,NULL,'2023-12-08 11:45:35.981018',1,'FAC987'),(8,NULL,'2023-12-08 11:46:10.827096',1,NULL),(9,NULL,'2023-12-08 11:46:29.524061',1,NULL),(10,NULL,'2023-12-08 11:46:32.093274',1,NULL),(11,NULL,'2023-12-08 11:46:34.923147',1,NULL),(12,NULL,'2023-12-08 11:47:04.557998',1,NULL),(13,NULL,'2023-12-08 11:47:14.041132',1,NULL),(14,NULL,'2023-12-08 11:47:21.005400',1,'FAC321'),(15,NULL,'2023-12-08 11:50:20.618614',1,'FAC111'),(16,NULL,'2023-12-08 11:50:26.291225',1,'FAC222'),(17,NULL,'2023-12-08 11:50:41.721242',1,'FAC333'),(18,'2024-01-04 21:31:38.615017','2023-12-08 11:51:14.284150',1,'FAC444'),(19,'2024-01-04 21:31:38.980584','2023-12-08 11:51:22.326333',1,'FAC555'),(20,'2024-01-04 21:31:39.497580','2023-12-08 11:51:31.907768',1,'FAC666'),(21,'2024-01-04 21:31:39.934115','2023-12-08 11:51:40.406291',1,'FAC777'),(22,'2024-01-04 21:31:28.397226','2024-01-04 21:04:18.346555',1,'A-1234-12345678'),(23,'2024-01-04 21:31:35.153786','2024-01-04 21:07:16.090903',1,'A-1235-12345678'),(24,'2024-01-04 21:31:36.262279','2024-01-04 21:07:25.553566',1,'A-1236-12345678'),(25,'2024-01-04 21:31:37.265692','2024-01-04 21:07:32.155360',1,'A-1237-12345678'),(26,'2024-01-04 21:31:37.929467','2024-01-04 21:09:20.350964',1,'A-2237-12345678'),(27,'2024-01-05 21:33:29.576505','2024-01-04 21:31:28.397226',2,'A-1234-12345678'),(28,'2024-01-05 21:33:29.576505','2024-01-04 21:31:35.153786',2,'A-1235-12345678'),(29,'2024-01-05 21:33:29.576505','2024-01-04 21:31:36.262279',2,'A-1236-12345678'),(30,'2024-01-05 21:33:29.576505','2024-01-04 21:31:37.265692',2,'A-1237-12345678'),(31,'2024-01-05 21:33:29.576505','2024-01-04 21:31:37.929467',2,'A-2237-12345678'),(32,'2024-01-05 21:33:29.576505','2024-01-04 21:31:38.615017',2,'FAC444'),(33,'2024-01-05 21:33:29.576505','2024-01-04 21:31:38.980584',2,'FAC555'),(34,'2024-01-05 21:33:29.576505','2024-01-04 21:31:39.497580',2,'FAC666'),(35,'2024-01-05 21:33:29.576505','2024-01-04 21:31:39.934115',2,'FAC777'),(36,'2024-01-05 21:33:29.576505','2024-01-04 21:31:40.366554',2,'HOY'),(37,'2024-01-05 21:04:45.043763','2024-01-05 13:47:42.422831',1,'A-2133-23214421'),(38,'2024-01-05 21:04:45.043763','2024-01-05 14:07:12.579261',1,'A-1233-21322313'),(51,'2024-01-05 21:09:27.638629','2024-01-05 21:04:45.043763',2,'A-1233-21322313'),(52,'2024-01-05 21:09:27.638629','2024-01-05 21:04:45.043763',2,'A-2133-23214421'),(53,'2024-01-05 21:09:27.638629','2024-01-05 21:04:45.043763',2,'A-2321-21312312'),(54,'2024-01-05 21:09:27.638629','2024-01-05 21:04:45.043763',2,'FAC123'),(55,'2024-01-05 21:09:27.638629','2024-01-05 21:04:45.043763',2,'FAC456'),(56,'2024-01-05 21:09:27.638629','2024-01-05 21:04:45.043763',2,'FAC789'),(57,NULL,'2024-01-05 21:09:27.638629',4,'A-1233-21322313'),(58,NULL,'2024-01-05 21:09:27.638629',4,'A-2133-23214421'),(59,NULL,'2024-01-05 21:09:27.638629',4,'A-2321-21312312'),(60,NULL,'2024-01-05 21:09:27.638629',4,'FAC123'),(61,NULL,'2024-01-05 21:09:27.638629',4,'FAC456'),(62,NULL,'2024-01-05 21:09:27.638629',4,'FAC789'),(63,NULL,'2024-01-05 21:26:29.385882',1,'A-1234-54432324'),(64,NULL,'2024-01-05 21:27:40.108219',1,'A-1234-43242345'),(65,NULL,'2024-01-05 21:28:47.145189',1,'A-4321-21321333'),(66,NULL,'2024-01-05 21:29:24.369391',1,'A-1231-23123123'),(67,NULL,'2024-01-05 21:33:29.576505',4,'A-1234-12345678'),(68,NULL,'2024-01-05 21:33:29.576505',4,'A-1235-12345678'),(69,NULL,'2024-01-05 21:33:29.576505',4,'A-1236-12345678'),(70,NULL,'2024-01-05 21:33:29.576505',4,'A-1237-12345678'),(71,NULL,'2024-01-05 21:33:29.576505',4,'A-2237-12345678'),(72,NULL,'2024-01-05 21:33:29.576505',4,'FAC444'),(73,NULL,'2024-01-05 21:33:29.576505',4,'FAC555'),(74,NULL,'2024-01-05 21:33:29.576505',4,'FAC666'),(75,NULL,'2024-01-05 21:33:29.576505',4,'FAC777'),(76,NULL,'2024-01-05 21:33:29.576505',4,'HOY');
+INSERT INTO `cambios_estado` VALUES (1,'2024-01-05 21:04:45.043763','2023-12-04 10:08:50.130152',1,'A-2321-21312312'),(2,'2024-01-04 21:31:40.365544','2023-12-06 16:00:23.683040',1,'HOY'),(3,'2024-01-05 21:04:45.043763','2023-12-08 11:42:25.756484',1,'FAC123'),(4,'2024-01-05 21:04:45.043763','2023-12-08 11:42:32.964051',1,'FAC456'),(5,'2024-01-05 21:04:45.043763','2023-12-08 11:43:12.678711',1,'FAC789'),(6,NULL,'2023-12-08 11:44:17.930616',1,NULL),(7,NULL,'2023-12-08 11:45:35.981018',1,'FAC987'),(8,NULL,'2023-12-08 11:46:10.827096',1,NULL),(9,NULL,'2023-12-08 11:46:29.524061',1,NULL),(10,NULL,'2023-12-08 11:46:32.093274',1,NULL),(11,NULL,'2023-12-08 11:46:34.923147',1,NULL),(12,NULL,'2023-12-08 11:47:04.557998',1,NULL),(13,NULL,'2023-12-08 11:47:14.041132',1,NULL),(14,NULL,'2023-12-08 11:47:21.005400',1,'FAC321'),(15,NULL,'2023-12-08 11:50:20.618614',1,'FAC111'),(16,NULL,'2023-12-08 11:50:26.291225',1,'FAC222'),(17,NULL,'2023-12-08 11:50:41.721242',1,'FAC333'),(18,'2024-01-04 21:31:38.615017','2023-12-08 11:51:14.284150',1,'FAC444'),(19,'2024-01-04 21:31:38.980584','2023-12-08 11:51:22.326333',1,'FAC555'),(20,'2024-01-04 21:31:39.497580','2023-12-08 11:51:31.907768',1,'FAC666'),(21,'2024-01-04 21:31:39.934115','2023-12-08 11:51:40.406291',1,'FAC777'),(22,'2024-01-04 21:31:28.397226','2024-01-04 21:04:18.346555',1,'A-1234-12345678'),(23,'2024-01-04 21:31:35.153786','2024-01-04 21:07:16.090903',1,'A-1235-12345678'),(24,'2024-01-04 21:31:36.262279','2024-01-04 21:07:25.553566',1,'A-1236-12345678'),(25,'2024-01-04 21:31:37.265692','2024-01-04 21:07:32.155360',1,'A-1237-12345678'),(26,'2024-01-04 21:31:37.929467','2024-01-04 21:09:20.350964',1,'A-2237-12345678'),(27,'2024-01-05 21:33:29.576505','2024-01-04 21:31:28.397226',2,'A-1234-12345678'),(28,'2024-01-05 21:33:29.576505','2024-01-04 21:31:35.153786',2,'A-1235-12345678'),(29,'2024-01-05 21:33:29.576505','2024-01-04 21:31:36.262279',2,'A-1236-12345678'),(30,'2024-01-05 21:33:29.576505','2024-01-04 21:31:37.265692',2,'A-1237-12345678'),(31,'2024-01-05 21:33:29.576505','2024-01-04 21:31:37.929467',2,'A-2237-12345678'),(32,'2024-01-05 21:33:29.576505','2024-01-04 21:31:38.615017',2,'FAC444'),(33,'2024-01-05 21:33:29.576505','2024-01-04 21:31:38.980584',2,'FAC555'),(34,'2024-01-05 21:33:29.576505','2024-01-04 21:31:39.497580',2,'FAC666'),(35,'2024-01-05 21:33:29.576505','2024-01-04 21:31:39.934115',2,'FAC777'),(36,'2024-01-05 21:33:29.576505','2024-01-04 21:31:40.366554',2,'HOY'),(37,'2024-01-05 21:04:45.043763','2024-01-05 13:47:42.422831',1,'A-2133-23214421'),(38,'2024-01-05 21:04:45.043763','2024-01-05 14:07:12.579261',1,'A-1233-21322313'),(51,'2024-01-05 21:09:27.638629','2024-01-05 21:04:45.043763',2,'A-1233-21322313'),(52,'2024-01-05 21:09:27.638629','2024-01-05 21:04:45.043763',2,'A-2133-23214421'),(53,'2024-01-05 21:09:27.638629','2024-01-05 21:04:45.043763',2,'A-2321-21312312'),(54,'2024-01-05 21:09:27.638629','2024-01-05 21:04:45.043763',2,'FAC123'),(55,'2024-01-05 21:09:27.638629','2024-01-05 21:04:45.043763',2,'FAC456'),(56,'2024-01-05 21:09:27.638629','2024-01-05 21:04:45.043763',2,'FAC789'),(57,NULL,'2024-01-05 21:09:27.638629',4,'A-1233-21322313'),(58,NULL,'2024-01-05 21:09:27.638629',4,'A-2133-23214421'),(59,NULL,'2024-01-05 21:09:27.638629',4,'A-2321-21312312'),(60,NULL,'2024-01-05 21:09:27.638629',4,'FAC123'),(61,NULL,'2024-01-05 21:09:27.638629',4,'FAC456'),(62,NULL,'2024-01-05 21:09:27.638629',4,'FAC789'),(63,'2024-01-09 20:06:01.487510','2024-01-05 21:26:29.385882',1,'A-1234-54432324'),(64,'2024-01-09 20:06:01.488052','2024-01-05 21:27:40.108219',1,NULL),(65,'2024-01-09 20:06:01.488052','2024-01-05 21:28:47.145189',1,'A-4321-21321333'),(66,'2024-01-07 16:36:28.619165','2024-01-05 21:29:24.369391',1,'A-1231-23123123'),(67,NULL,'2024-01-05 21:33:29.576505',4,'A-1234-12345678'),(68,NULL,'2024-01-05 21:33:29.576505',4,'A-1235-12345678'),(69,NULL,'2024-01-05 21:33:29.576505',4,'A-1236-12345678'),(70,NULL,'2024-01-05 21:33:29.576505',4,'A-1237-12345678'),(71,NULL,'2024-01-05 21:33:29.576505',4,'A-2237-12345678'),(72,NULL,'2024-01-05 21:33:29.576505',4,'FAC444'),(73,NULL,'2024-01-05 21:33:29.576505',4,'FAC555'),(74,NULL,'2024-01-05 21:33:29.576505',4,'FAC666'),(75,NULL,'2024-01-05 21:33:29.576505',4,'FAC777'),(76,NULL,'2024-01-05 21:33:29.576505',4,'HOY'),(77,'2024-01-07 16:36:28.633885','2024-01-07 16:36:28.619165',2,'A-1231-23123123'),(78,NULL,'2024-01-07 16:36:28.633885',4,'A-1231-23123123'),(79,NULL,'2024-01-09 20:06:01.487510',2,'A-1234-54432324'),(80,NULL,'2024-01-09 20:06:01.488052',2,NULL),(81,NULL,'2024-01-09 20:06:01.488052',2,'A-4321-21321333'),(82,'2024-01-16 09:17:49.907742','2024-01-09 20:07:35.928672',1,'A-1234-43242345'),(83,NULL,'2024-01-16 09:17:49.907742',5,'A-1234-43242345');
 /*!40000 ALTER TABLE `cambios_estado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1147,7 +1147,7 @@ CREATE TABLE `envios` (
 
 LOCK TABLES `envios` WRITE;
 /*!40000 ALTER TABLE `envios` DISABLE KEYS */;
-INSERT INTO `envios` VALUES ('A-1231-23123123','sdfe','sdfdsf','1233',14,1,2,'',_binary '',_binary '\0',1,1),('A-1233-21322313','string','string','',13,4,1,'',_binary '\0',_binary '\0',3,2),('A-1234-12345678','string','string','1233',9,4,4,NULL,NULL,NULL,NULL,NULL),('A-1234-43242345','asdasd','sadsad','',7,1,2,'',_binary '',_binary '\0',3,2),('A-1234-54432324','unaDire1232','una','',14,1,1,'',_binary '',_binary '\0',3,3),('A-1235-12345678','string','string','1233',10,4,4,NULL,NULL,NULL,NULL,NULL),('A-1236-12345678','string','string','1233',11,4,4,NULL,NULL,NULL,NULL,NULL),('A-1237-12345678','string','string','1233',12,4,4,NULL,NULL,NULL,NULL,NULL),('A-2133-23214421','string','string','',14,4,1,NULL,_binary '\0',_binary '\0',3,2),('A-2237-12345678','string','string','1233',13,4,4,NULL,NULL,NULL,NULL,NULL),('A-2321-21312312','direccion de envio','una calle y otra','2333',1,4,1,NULL,NULL,NULL,NULL,NULL),('A-4321-21321333','edsfew','fewfew','1233',14,1,2,'',_binary '',_binary '\0',1,1),('FAC111','Avenida Terciaria 111','Avenida U y Avenida V','5678',7,1,3,NULL,NULL,NULL,NULL,NULL),('FAC123','Calle Principal 123','Calle A y Calle B','1234',1,4,1,NULL,NULL,NULL,NULL,NULL),('FAC222','Calle Terciaria 222','Calle W y Calle X','9012',8,1,3,NULL,NULL,NULL,NULL,NULL),('FAC321','Avenida Secundaria 321','Avenida M y Avenida N','3456',4,1,2,NULL,NULL,NULL,NULL,NULL),('FAC333','Plaza Terciaria 333','Plaza E y Plaza F','2345',2,1,3,NULL,NULL,NULL,NULL,NULL),('FAC444','Avenida Cuarta 444','Avenida Y y Avenida Z','3456',1,4,4,NULL,NULL,NULL,NULL,NULL),('FAC456','Avenida Central 456','Avenida X y Avenida Y','5678',2,4,1,NULL,NULL,NULL,NULL,NULL),('FAC555','Calle Cuarta 555','Calle A y Calle B','7890',2,4,4,NULL,NULL,NULL,NULL,NULL),('FAC666','Plaza Cuarta 666','Plaza M y Plaza N','1234',3,4,4,NULL,NULL,NULL,NULL,NULL),('FAC777','Avenida Cuarta 777','Avenida C y Avenida D','5678',4,4,4,NULL,NULL,NULL,NULL,NULL),('FAC789','Plaza Principal 789','Plaza A y Plaza B','9012',3,4,1,NULL,NULL,NULL,NULL,NULL),('FAC987','Plaza Secundaria 987','Plaza C y Plaza D','1234',6,1,2,NULL,NULL,NULL,NULL,NULL),('HOY','string','string','stri',1,4,4,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `envios` VALUES ('A-1231-23123123','sdfe','sdfdsf','1233',14,4,2,'entregado en local por juancito',_binary '',_binary '\0',0,1),('A-1233-21322313','string','string','',13,4,1,'',_binary '\0',_binary '\0',3,2),('A-1234-12345678','string','string','1233',9,4,4,NULL,NULL,NULL,NULL,NULL),('A-1234-43242345','string','string','string',1,5,4,'entregado en local por -------',_binary '',_binary '\0',0,2),('A-1234-54432324','string','string','string',1,2,4,'',_binary '',_binary '\0',3,3),('A-1235-12345678','string','string','1233',10,4,4,NULL,NULL,NULL,NULL,NULL),('A-1236-12345678','string','string','1233',11,4,4,NULL,NULL,NULL,NULL,NULL),('A-1237-12345678','string','string','1233',12,4,4,NULL,NULL,NULL,NULL,NULL),('A-2133-23214421','string','string','',14,4,1,NULL,_binary '\0',_binary '\0',3,2),('A-2237-12345678','string','string','1233',13,4,4,NULL,NULL,NULL,NULL,NULL),('A-2321-21312312','direccion de envio','una calle y otra','2333',1,4,1,NULL,NULL,NULL,NULL,NULL),('A-4321-21321333','edsfew','fewfew','1233',14,2,2,'',_binary '',_binary '\0',1,1),('FAC111','Avenida Terciaria 111','Avenida U y Avenida V','5678',7,1,3,NULL,NULL,NULL,NULL,NULL),('FAC123','Calle Principal 123','Calle A y Calle B','1234',1,4,1,NULL,NULL,NULL,NULL,NULL),('FAC222','Calle Terciaria 222','Calle W y Calle X','9012',8,1,3,NULL,NULL,NULL,NULL,NULL),('FAC321','Avenida Secundaria 321','Avenida M y Avenida N','3456',4,1,2,NULL,NULL,NULL,NULL,NULL),('FAC333','Plaza Terciaria 333','Plaza E y Plaza F','2345',2,1,3,NULL,NULL,NULL,NULL,NULL),('FAC444','Avenida Cuarta 444','Avenida Y y Avenida Z','3456',1,4,4,NULL,NULL,NULL,NULL,NULL),('FAC456','Avenida Central 456','Avenida X y Avenida Y','5678',2,4,1,NULL,NULL,NULL,NULL,NULL),('FAC555','Calle Cuarta 555','Calle A y Calle B','7890',2,4,4,NULL,NULL,NULL,NULL,NULL),('FAC666','Plaza Cuarta 666','Plaza M y Plaza N','1234',3,4,4,NULL,NULL,NULL,NULL,NULL),('FAC777','Avenida Cuarta 777','Avenida C y Avenida D','5678',4,4,4,NULL,NULL,NULL,NULL,NULL),('FAC789','Plaza Principal 789','Plaza A y Plaza B','9012',3,4,1,NULL,NULL,NULL,NULL,NULL),('FAC987','Plaza Secundaria 987','Plaza C y Plaza D','1234',6,1,2,NULL,NULL,NULL,NULL,NULL),('HOY','string','string','stri',1,4,4,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `envios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1162,7 +1162,7 @@ CREATE TABLE `estados_envio` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1171,7 +1171,7 @@ CREATE TABLE `estados_envio` (
 
 LOCK TABLES `estados_envio` WRITE;
 /*!40000 ALTER TABLE `estados_envio` DISABLE KEYS */;
-INSERT INTO `estados_envio` VALUES (1,'Pendiente'),(2,'EnCamino'),(3,'NoEntregado'),(4,'Entregado');
+INSERT INTO `estados_envio` VALUES (1,'Pendiente'),(2,'EnCamino'),(3,'NoEntregado'),(4,'Entregado'),(5,'Cancelado');
 /*!40000 ALTER TABLE `estados_envio` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1584,7 +1584,7 @@ CREATE TABLE `hojas_del_dia` (
   CONSTRAINT `FKe6eco77tsnvrw7yx0gf0oau4g` FOREIGN KEY (`patente_camion`) REFERENCES `camiones` (`patente`),
   CONSTRAINT `FKidvjfl3e6fynbwk8hfmukruu5` FOREIGN KEY (`estado_hoja_del_dia_id`) REFERENCES `estados_hoja` (`id`),
   CONSTRAINT `FKjeqvbe4vny1oi9b9h32i8j3l6` FOREIGN KEY (`repartidor_id_repartidor`) REFERENCES `repartidores` (`id_repartidor`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1593,7 +1593,7 @@ CREATE TABLE `hojas_del_dia` (
 
 LOCK TABLES `hojas_del_dia` WRITE;
 /*!40000 ALTER TABLE `hojas_del_dia` DISABLE KEYS */;
-INSERT INTO `hojas_del_dia` VALUES (1,'2023-12-06 20:23:30.084204','2023-12-07',NULL,1,NULL),(22,'2024-01-04 21:12:30.879569','2024-01-05',NULL,3,NULL),(23,'2024-01-05 20:43:14.843576','2024-01-06',NULL,3,NULL);
+INSERT INTO `hojas_del_dia` VALUES (1,'2023-12-06 20:23:30.084204','2023-12-07',NULL,1,NULL),(22,'2024-01-04 21:12:30.879569','2024-01-05',NULL,3,NULL),(23,'2024-01-05 20:43:14.843576','2024-01-06',NULL,3,NULL),(26,'2024-01-09 20:05:18.791964','2024-01-10','LOG123',2,1);
 /*!40000 ALTER TABLE `hojas_del_dia` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1620,8 +1620,70 @@ CREATE TABLE `hojas_del_dia_envios` (
 
 LOCK TABLES `hojas_del_dia_envios` WRITE;
 /*!40000 ALTER TABLE `hojas_del_dia_envios` DISABLE KEYS */;
-INSERT INTO `hojas_del_dia_envios` VALUES (23,'A-1233-21322313'),(23,'A-2133-23214421'),(23,'A-2321-21312312'),(23,'FAC123'),(23,'FAC456'),(23,'FAC789'),(22,'A-1234-12345678'),(22,'A-1235-12345678'),(22,'A-1236-12345678'),(22,'A-1237-12345678'),(22,'A-2237-12345678'),(22,'FAC444'),(22,'FAC555'),(22,'FAC666'),(22,'FAC777'),(22,'HOY');
+INSERT INTO `hojas_del_dia_envios` VALUES (23,'A-1233-21322313'),(23,'A-2133-23214421'),(23,'A-2321-21312312'),(23,'FAC123'),(23,'FAC456'),(23,'FAC789'),(22,'A-1234-12345678'),(22,'A-1235-12345678'),(22,'A-1236-12345678'),(22,'A-1237-12345678'),(22,'A-2237-12345678'),(22,'FAC444'),(22,'FAC555'),(22,'FAC666'),(22,'FAC777'),(22,'HOY'),(26,'A-1234-54432324'),(26,'A-1234-43242345'),(26,'A-4321-21321333');
 /*!40000 ALTER TABLE `hojas_del_dia_envios` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `hojas_del_dia_exepcionales`
+--
+
+DROP TABLE IF EXISTS `hojas_del_dia_exepcionales`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `hojas_del_dia_exepcionales` (
+  `id_hoja_del_dia` int NOT NULL AUTO_INCREMENT,
+  `fecha_creacion` datetime(6) DEFAULT NULL,
+  `fecha_reparto` date DEFAULT NULL,
+  `patente_camion` varchar(255) DEFAULT NULL,
+  `estado_hoja_del_dia_id` int DEFAULT NULL,
+  `repartidor_id_repartidor` int DEFAULT NULL,
+  PRIMARY KEY (`id_hoja_del_dia`),
+  UNIQUE KEY `UK_ote7b25nkgrsqgnsuhb38d6jo` (`fecha_reparto`),
+  KEY `FKlh8aahqc38e4ypnbbtg5d7c6x` (`patente_camion`),
+  KEY `FKn00svguhc7pmpyfoi3smauokg` (`estado_hoja_del_dia_id`),
+  KEY `FKfl6qjlcj15v9a03a66gc50msv` (`repartidor_id_repartidor`),
+  CONSTRAINT `FKfl6qjlcj15v9a03a66gc50msv` FOREIGN KEY (`repartidor_id_repartidor`) REFERENCES `repartidores` (`id_repartidor`),
+  CONSTRAINT `FKlh8aahqc38e4ypnbbtg5d7c6x` FOREIGN KEY (`patente_camion`) REFERENCES `camiones` (`patente`),
+  CONSTRAINT `FKn00svguhc7pmpyfoi3smauokg` FOREIGN KEY (`estado_hoja_del_dia_id`) REFERENCES `estados_hoja` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hojas_del_dia_exepcionales`
+--
+
+LOCK TABLES `hojas_del_dia_exepcionales` WRITE;
+/*!40000 ALTER TABLE `hojas_del_dia_exepcionales` DISABLE KEYS */;
+INSERT INTO `hojas_del_dia_exepcionales` VALUES (1,NULL,'2024-01-16','log123',1,1),(3,NULL,'2024-01-17','log123',1,1);
+/*!40000 ALTER TABLE `hojas_del_dia_exepcionales` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `hojas_del_dia_exepcionales_envios`
+--
+
+DROP TABLE IF EXISTS `hojas_del_dia_exepcionales_envios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `hojas_del_dia_exepcionales_envios` (
+  `hoja_del_dia_exepcional_entity_id_hoja_del_dia` int NOT NULL,
+  `envios_numero_factura` varchar(255) NOT NULL,
+  KEY `FK386uppesir8stj05x7tffrgt` (`envios_numero_factura`),
+  KEY `FKoc4snkgo3vxcm9pxxlw5rps56` (`hoja_del_dia_exepcional_entity_id_hoja_del_dia`),
+  CONSTRAINT `FK386uppesir8stj05x7tffrgt` FOREIGN KEY (`envios_numero_factura`) REFERENCES `envios` (`numero_factura`),
+  CONSTRAINT `FKoc4snkgo3vxcm9pxxlw5rps56` FOREIGN KEY (`hoja_del_dia_exepcional_entity_id_hoja_del_dia`) REFERENCES `hojas_del_dia_exepcionales` (`id_hoja_del_dia`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hojas_del_dia_exepcionales_envios`
+--
+
+LOCK TABLES `hojas_del_dia_exepcionales_envios` WRITE;
+/*!40000 ALTER TABLE `hojas_del_dia_exepcionales_envios` DISABLE KEYS */;
+INSERT INTO `hojas_del_dia_exepcionales_envios` VALUES (1,'FAC111'),(1,'FAC222');
+/*!40000 ALTER TABLE `hojas_del_dia_exepcionales_envios` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -2070,7 +2132,7 @@ CREATE TABLE `REALM_ATTRIBUTE` (
 
 LOCK TABLES `REALM_ATTRIBUTE` WRITE;
 /*!40000 ALTER TABLE `REALM_ATTRIBUTE` DISABLE KEYS */;
-INSERT INTO `REALM_ATTRIBUTE` VALUES ('_browser_header.contentSecurityPolicy','master','frame-src \'self\'; frame-ancestors \'self\'; object-src \'none\';'),('_browser_header.contentSecurityPolicy','siglo21','frame-src \'self\'; frame-ancestors \'self\'; object-src \'none\';'),('_browser_header.contentSecurityPolicyReportOnly','master',''),('_browser_header.contentSecurityPolicyReportOnly','siglo21',''),('_browser_header.strictTransportSecurity','master','max-age=31536000; includeSubDomains'),('_browser_header.strictTransportSecurity','siglo21','max-age=31536000; includeSubDomains'),('_browser_header.xContentTypeOptions','master','nosniff'),('_browser_header.xContentTypeOptions','siglo21','nosniff'),('_browser_header.xFrameOptions','master','SAMEORIGIN'),('_browser_header.xFrameOptions','siglo21','SAMEORIGIN'),('_browser_header.xRobotsTag','master','none'),('_browser_header.xRobotsTag','siglo21','none'),('_browser_header.xXSSProtection','master','1; mode=block'),('_browser_header.xXSSProtection','siglo21','1; mode=block'),('actionTokenGeneratedByAdminLifespan','siglo21','43200'),('actionTokenGeneratedByUserLifespan','siglo21','300'),('bruteForceProtected','master','false'),('bruteForceProtected','siglo21','false'),('cibaAuthRequestedUserHint','siglo21','login_hint'),('cibaBackchannelTokenDeliveryMode','siglo21','poll'),('cibaExpiresIn','siglo21','120'),('cibaInterval','siglo21','5'),('client-policies.policies','siglo21','{\"policies\":[]}'),('client-policies.profiles','siglo21','{\"profiles\":[]}'),('clientOfflineSessionIdleTimeout','siglo21','0'),('clientOfflineSessionMaxLifespan','siglo21','0'),('clientSessionIdleTimeout','siglo21','0'),('clientSessionMaxLifespan','siglo21','0'),('defaultSignatureAlgorithm','master','RS256'),('defaultSignatureAlgorithm','siglo21','RS256'),('displayName','master','Keycloak'),('displayName','siglo21','Siglo21 Logistica'),('displayNameHtml','master','<div class=\"kc-logo-text\"><span>Keycloak</span></div>'),('failureFactor','master','30'),('failureFactor','siglo21','30'),('maxDeltaTimeSeconds','master','43200'),('maxDeltaTimeSeconds','siglo21','43200'),('maxFailureWaitSeconds','master','900'),('maxFailureWaitSeconds','siglo21','900'),('minimumQuickLoginWaitSeconds','master','60'),('minimumQuickLoginWaitSeconds','siglo21','60'),('oauth2DeviceCodeLifespan','siglo21','600'),('oauth2DevicePollingInterval','siglo21','5'),('offlineSessionMaxLifespan','master','5184000'),('offlineSessionMaxLifespan','siglo21','5184000'),('offlineSessionMaxLifespanEnabled','master','false'),('offlineSessionMaxLifespanEnabled','siglo21','false'),('parRequestUriLifespan','siglo21','60'),('permanentLockout','master','false'),('permanentLockout','siglo21','false'),('quickLoginCheckMilliSeconds','master','1000'),('quickLoginCheckMilliSeconds','siglo21','1000'),('userProfileEnabled','siglo21','false'),('waitIncrementSeconds','master','60'),('waitIncrementSeconds','siglo21','60'),('webAuthnPolicyAttestationConveyancePreference','siglo21','not specified'),('webAuthnPolicyAttestationConveyancePreferencePasswordless','siglo21','not specified'),('webAuthnPolicyAuthenticatorAttachment','siglo21','not specified'),('webAuthnPolicyAuthenticatorAttachmentPasswordless','siglo21','not specified'),('webAuthnPolicyAvoidSameAuthenticatorRegister','siglo21','false'),('webAuthnPolicyAvoidSameAuthenticatorRegisterPasswordless','siglo21','false'),('webAuthnPolicyCreateTimeout','siglo21','0'),('webAuthnPolicyCreateTimeoutPasswordless','siglo21','0'),('webAuthnPolicyRequireResidentKey','siglo21','not specified'),('webAuthnPolicyRequireResidentKeyPasswordless','siglo21','not specified'),('webAuthnPolicyRpEntityName','siglo21','keycloak'),('webAuthnPolicyRpEntityNamePasswordless','siglo21','keycloak'),('webAuthnPolicyRpId','siglo21',''),('webAuthnPolicyRpIdPasswordless','siglo21',''),('webAuthnPolicySignatureAlgorithms','siglo21','ES256'),('webAuthnPolicySignatureAlgorithmsPasswordless','siglo21','ES256'),('webAuthnPolicyUserVerificationRequirement','siglo21','not specified'),('webAuthnPolicyUserVerificationRequirementPasswordless','siglo21','not specified');
+INSERT INTO `REALM_ATTRIBUTE` VALUES ('_browser_header.contentSecurityPolicy','master','frame-src \'self\'; frame-ancestors \'self\'; object-src \'none\';'),('_browser_header.contentSecurityPolicy','siglo21','frame-src \'self\'; frame-ancestors \'self\'; object-src \'none\';'),('_browser_header.contentSecurityPolicyReportOnly','master',''),('_browser_header.contentSecurityPolicyReportOnly','siglo21',''),('_browser_header.strictTransportSecurity','master','max-age=31536000; includeSubDomains'),('_browser_header.strictTransportSecurity','siglo21','max-age=31536000; includeSubDomains'),('_browser_header.xContentTypeOptions','master','nosniff'),('_browser_header.xContentTypeOptions','siglo21','nosniff'),('_browser_header.xFrameOptions','master','SAMEORIGIN'),('_browser_header.xFrameOptions','siglo21','SAMEORIGIN'),('_browser_header.xRobotsTag','master','none'),('_browser_header.xRobotsTag','siglo21','none'),('_browser_header.xXSSProtection','master','1; mode=block'),('_browser_header.xXSSProtection','siglo21','1; mode=block'),('actionTokenGeneratedByAdminLifespan','siglo21','43200'),('actionTokenGeneratedByUserLifespan','siglo21','300'),('bruteForceProtected','master','false'),('bruteForceProtected','siglo21','true'),('cibaAuthRequestedUserHint','siglo21','login_hint'),('cibaBackchannelTokenDeliveryMode','siglo21','poll'),('cibaExpiresIn','siglo21','120'),('cibaInterval','siglo21','5'),('client-policies.policies','siglo21','{\"policies\":[]}'),('client-policies.profiles','siglo21','{\"profiles\":[]}'),('clientOfflineSessionIdleTimeout','siglo21','0'),('clientOfflineSessionMaxLifespan','siglo21','0'),('clientSessionIdleTimeout','siglo21','0'),('clientSessionMaxLifespan','siglo21','0'),('defaultSignatureAlgorithm','master','RS256'),('defaultSignatureAlgorithm','siglo21','RS256'),('displayName','master','Keycloak'),('displayName','siglo21','Siglo21 Logistica'),('displayNameHtml','master','<div class=\"kc-logo-text\"><span>Keycloak</span></div>'),('failureFactor','master','30'),('failureFactor','siglo21','3'),('maxDeltaTimeSeconds','master','43200'),('maxDeltaTimeSeconds','siglo21','43200'),('maxFailureWaitSeconds','master','900'),('maxFailureWaitSeconds','siglo21','900'),('minimumQuickLoginWaitSeconds','master','60'),('minimumQuickLoginWaitSeconds','siglo21','60'),('oauth2DeviceCodeLifespan','siglo21','600'),('oauth2DevicePollingInterval','siglo21','5'),('offlineSessionMaxLifespan','master','5184000'),('offlineSessionMaxLifespan','siglo21','5184000'),('offlineSessionMaxLifespanEnabled','master','false'),('offlineSessionMaxLifespanEnabled','siglo21','false'),('parRequestUriLifespan','siglo21','60'),('permanentLockout','master','false'),('permanentLockout','siglo21','true'),('quickLoginCheckMilliSeconds','master','1000'),('quickLoginCheckMilliSeconds','siglo21','1000'),('userProfileEnabled','siglo21','false'),('waitIncrementSeconds','master','60'),('waitIncrementSeconds','siglo21','120'),('webAuthnPolicyAttestationConveyancePreference','siglo21','not specified'),('webAuthnPolicyAttestationConveyancePreferencePasswordless','siglo21','not specified'),('webAuthnPolicyAuthenticatorAttachment','siglo21','not specified'),('webAuthnPolicyAuthenticatorAttachmentPasswordless','siglo21','not specified'),('webAuthnPolicyAvoidSameAuthenticatorRegister','siglo21','false'),('webAuthnPolicyAvoidSameAuthenticatorRegisterPasswordless','siglo21','false'),('webAuthnPolicyCreateTimeout','siglo21','0'),('webAuthnPolicyCreateTimeoutPasswordless','siglo21','0'),('webAuthnPolicyRequireResidentKey','siglo21','not specified'),('webAuthnPolicyRequireResidentKeyPasswordless','siglo21','not specified'),('webAuthnPolicyRpEntityName','siglo21','keycloak'),('webAuthnPolicyRpEntityNamePasswordless','siglo21','keycloak'),('webAuthnPolicyRpId','siglo21',''),('webAuthnPolicyRpIdPasswordless','siglo21',''),('webAuthnPolicySignatureAlgorithms','siglo21','ES256'),('webAuthnPolicySignatureAlgorithmsPasswordless','siglo21','ES256'),('webAuthnPolicyUserVerificationRequirement','siglo21','not specified'),('webAuthnPolicyUserVerificationRequirementPasswordless','siglo21','not specified');
 /*!40000 ALTER TABLE `REALM_ATTRIBUTE` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3321,4 +3383,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-06  0:36:17
+-- Dump completed on 2024-01-16 13:48:54
