@@ -86,6 +86,10 @@ public class Envio {
         this.estadoActual.pendiente(this,pendiente);
     }
 
+    public void cancelado(EstadoEnvio cancelado){
+        this.estadoActual.cancelar(this,cancelado);
+    }
+
     public void addCambioEstado(CambioEstado cambioEstado) {
         this.cambiosEstado.add(cambioEstado);
     }

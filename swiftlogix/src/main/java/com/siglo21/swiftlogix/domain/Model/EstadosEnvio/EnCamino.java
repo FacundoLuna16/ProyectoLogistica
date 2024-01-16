@@ -55,8 +55,10 @@ public class EnCamino extends EstadoEnvio{
 
     }
 
+    @Override
+    public void cancelar(Envio envio, EstadoEnvio cancelado) {
 
-
+    }
 
 
 }

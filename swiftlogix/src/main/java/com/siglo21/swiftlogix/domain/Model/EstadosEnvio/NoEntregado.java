@@ -38,4 +38,9 @@ public class NoEntregado extends EstadoEnvio {
         envio.setEstadoActual(pendiente);
     }
 
+    @Override
+    public void cancelar(Envio envio, EstadoEnvio cancelado) {
+
+    }
+
 }

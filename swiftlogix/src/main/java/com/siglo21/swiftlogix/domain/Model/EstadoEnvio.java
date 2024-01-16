@@ -38,4 +38,5 @@ public abstract class EstadoEnvio {
         return cambioEstados.stream().filter(cambioEstado -> cambioEstado.getFechaHoraFin() == null).findFirst().orElse(null);
     }
 
+    public abstract void cancelar(Envio envio, EstadoEnvio cancelado);
 }

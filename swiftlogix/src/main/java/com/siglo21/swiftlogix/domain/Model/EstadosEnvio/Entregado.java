@@ -1,5 +1,6 @@
 package com.siglo21.swiftlogix.domain.Model.EstadosEnvio;
 
+import com.siglo21.swiftlogix.domain.Model.Envio;
 import com.siglo21.swiftlogix.domain.Model.EstadoEnvio;
 import com.siglo21.swiftlogix.infrastructure.entity.EstadoEnvioEntity;
 import lombok.Getter;
@@ -19,6 +20,11 @@ public class Entregado extends EstadoEnvio {
     @Override
     public EstadoEnvioEntity toEntity() {
         return new EstadoEnvioEntity(this.id, this.nombre);
+    }
+
+    @Override
+    public void cancelar(Envio envio, EstadoEnvio cancelado) {
+
     }
 
 

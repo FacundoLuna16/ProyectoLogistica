@@ -143,13 +143,11 @@ public class EnvioServiceImpl implements EnvioService {
         Envio envio = envioRepository.getByNroFactura(nroFactura).get();
         if (!envio.estaPendiente()) throw new RuntimeException("El envio no enPendiente");
         //Lo marca en camino
-        EstadoEnvio enCamino = estadoEnvioRepository.getById(2).get();
-        envio.enCamino(enCamino);
-        //Buscar el estado de envio entregado
-        EstadoEnvio entregado = estadoEnvioRepository.getById(4).get();
+        EstadoEnvio cancelado = estadoEnvioRepository.getById(5).get();
+
 
         //Cambiar el estado del envio a entregado
-        envio.entregado(entregado);
+        envio.cancelado(cancelado);
         envio.setDescripcion(descripcion);
         envio.setIntentos(0);
 

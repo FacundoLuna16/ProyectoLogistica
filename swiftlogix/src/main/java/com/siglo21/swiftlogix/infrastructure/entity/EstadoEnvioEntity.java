@@ -1,10 +1,7 @@
 package com.siglo21.swiftlogix.infrastructure.entity;
 
 import com.siglo21.swiftlogix.domain.Model.EstadoEnvio;
-import com.siglo21.swiftlogix.domain.Model.EstadosEnvio.EnCamino;
-import com.siglo21.swiftlogix.domain.Model.EstadosEnvio.Entregado;
-import com.siglo21.swiftlogix.domain.Model.EstadosEnvio.NoEntregado;
-import com.siglo21.swiftlogix.domain.Model.EstadosEnvio.Pendiente;
+import com.siglo21.swiftlogix.domain.Model.EstadosEnvio.*;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -40,8 +37,10 @@ public class EstadoEnvioEntity {
                 return new EnCamino(this.id, this.nombre);
             case 3:
                 return new NoEntregado(this.id, this.nombre);
-            default:
+            case 4:
                 return new Entregado(this.id, this.nombre);
+            default:
+                return new Cancelado(this.id, this.nombre);
         }
     }
 
