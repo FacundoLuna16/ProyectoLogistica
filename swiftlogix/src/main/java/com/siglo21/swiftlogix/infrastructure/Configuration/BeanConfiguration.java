@@ -63,4 +63,16 @@ public class BeanConfiguration {
         return new HojaDelDiaServiceImpl(envioRepository,hojaDelDiaRepository,estadoHojaRepository, estadoEnvioRepository,whatsappService,camionRepository,repartidorRepository);
     }
 
+    @Bean
+    public HojaDelDiaExepcionalService hojaDelDiaExepcionalService(EnvioRepository envioRepository, HojaDelDiaExepcionalRepository hojaDelDiaExepcionalRepository,
+                                                                   EstadoHojaRepository estadoHojaRepository,
+                                                                   EstadoEnvioRepository estadoEnvioRepository,
+                                                                   CamionRepository camionRepository,
+                                                                   RepartidorRepository repartidorRepository
+
+    ){
+        return new HojaDelDiaExepcionalServiceImpl(envioRepository,hojaDelDiaExepcionalRepository,estadoHojaRepository, estadoEnvioRepository,camionRepository,repartidorRepository);
+    }
+
+
 }

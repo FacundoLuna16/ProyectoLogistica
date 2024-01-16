@@ -89,4 +89,13 @@ public class JpaEnvioRepository implements EnvioRepository {
         }
         return envioEntity.map(EnvioEntity::toDomain);
     }
+
+    @Override
+    public List<Envio> getByNroFacturaList(List<String> nroFactura) {
+        List<EnvioEntity> envioEntities = jpaEnvioDao.findAllById(nroFactura);
+        if (envioEntities.isEmpty()) {
+            throw new RuntimeException("Envios no encontrado");
+        }
+        return envioEntities.stream().map(EnvioEntity::toDomain).toList();
+    }
 }

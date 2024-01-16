@@ -21,4 +21,6 @@ public interface EnvioRepository {
 
     Optional<Envio> getByNroFactura(String nroFactura);
 
+    List<Envio> getByNroFacturaList(List<String> nroFactura);
+
 }
